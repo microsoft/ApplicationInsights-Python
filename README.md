@@ -95,21 +95,5 @@ tc.channel.sender.sendIntervalInMilliseconds = 30 * 1000
 tc.channel.sender.maxQueueItemCount = 10
 ```
 
-## Getting an Application Insights Instrumentation Key ##
-
-To successfully send data to the Application Insights service, you will need an Application Insights resource's instrumentation key. Here is how you get a new one.
-
-1. Log into the [Microsoft Azure portal](https://portal.azure.com/)
-
-2. Create a new Application Insights resource in the by clicking `New -> Application Insights`.
-
-<center><img src="http://i.imgur.com/jieq59h.png" width="300" /></center><br/><br/>
-3. Enter a name for your new Application Insights resource and click create. A new tile will appear on your dashboard. 
-
-<center><img src="http://i.imgur.com/XIMABul.png" width="600" /></center><br/><br/>
-4. Expand your resource by clicking on the tile on your dashboard, then click on the Properties tile to open your resource's properties blade. You can copy the instrumentation key from here.
-
-<center><img src="http://i.imgur.com/i1OzJVP.png" width="700" /></center><br/><br/>
-
 
 
