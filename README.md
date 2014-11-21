@@ -27,7 +27,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 >**Note**: before you can send data to you will need an instrumentation key. Please see the **Getting an Application Insights Instrumentation Key** section for more information.
 
 
-1. **Sending a simple event telemetry item**
+**Sending a simple event telemetry item**
 ```python
 from applicationinsights import TelemetryClient
 tc = TelemetryClient()
@@ -35,7 +35,7 @@ tc.context.instrumentationKey = "<YOUR INSTRUMENTATION KEY GOES HERE>"
 tc.trackEvent("Test event")
 ```
 
-2. **Sending an event telemetry item with custom properties and measurements**
+**Sending an event telemetry item with custom properties and measurements**
 ```python
 from applicationinsights import TelemetryClient
 tc = TelemetryClient()
@@ -43,7 +43,7 @@ tc.context.instrumentationKey = "<YOUR INSTRUMENTATION KEY GOES HERE>"
 tc.trackEvent("Test event", { "foo": "bar" }, { "baz": 42 })
 ```
 
-3. **Sending a trace telemetry item with custom properties**
+**Sending a trace telemetry item with custom properties**
 ```python
 from applicationinsights import TelemetryClient
 tc = TelemetryClient()
@@ -51,7 +51,7 @@ tc.context.instrumentationKey = "<YOUR INSTRUMENTATION KEY GOES HERE>"
 tc.trackTrace("Test trace", { "foo": "bar" })
 ```  
 
-4. **Sending a metric telemetry item**
+**Sending a metric telemetry item**
 ```python
 from applicationinsights import TelemetryClient
 tc = TelemetryClient()
@@ -59,7 +59,7 @@ tc.context.instrumentationKey = "<YOUR INSTRUMENTATION KEY GOES HERE>"
 tc.trackMetric("My Metric", 42)
 ``` 
 
-5. **Sending an exception telemetry item with custom properties and measurements**
+**Sending an exception telemetry item with custom properties and measurements**
 ```python
 from applicationinsights import TelemetryClient
 tc = TelemetryClient()
@@ -70,7 +70,7 @@ except Exception as e:
     tc.trackException(e, { "foo": "bar" }, { "x": 42 })
 ```  
 
-6. **Configuring context for a telemetry client instance**
+**Configuring context for a telemetry client instance**
 ```python
 from applicationinsights import TelemetryClient
 tc = TelemetryClient()
@@ -85,7 +85,7 @@ tc.context.user.id = "santa@northpole.net"
 tc.trackTrace("My trace with context")
 ```  
 
-7. **Configuring channel related properties**
+**Configuring channel related properties**
 ```python
 from applicationinsights import TelemetryClient
 tc = TelemetryClient()
@@ -103,13 +103,13 @@ To successfully send data to the Application Insights service, you will need an 
 
 2. Create a new Application Insights resource in the by clicking `New -> Application Insights`.
 
-<center><img src="http://i.imgur.com/jieq59h.png" width="300" /></center>
+<center><img src="http://i.imgur.com/jieq59h.png" width="300" /></center><br/><br/>
 3. Enter a name for your new Application Insights resource and click create. A new tile will appear on your dashboard. 
 
-<center><img src="http://i.imgur.com/XIMABul.png" width="600" /></center>
+<center><img src="http://i.imgur.com/XIMABul.png" width="600" /></center><br/><br/>
 4. Expand your resource by clicking on the tile on your dashboard, then click on the Properties tile to open your resource's properties blade. You can copy the instrumentation key from here.
 
-<center><img src="http://i.imgur.com/i1OzJVP.png" width="700" /></center>
+<center><img src="http://i.imgur.com/i1OzJVP.png" width="700" /></center><br/><br/>
 
 
 
