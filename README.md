@@ -24,7 +24,7 @@ $ pip install applicationinsights
 
 Once installed, you can send telemetry to Application Insights. Here are a few samples.
 
->**Note**: before you can send data to you will need an instrumentation key. Please see the **Getting an Application Insights Instrumentation Key** section for more information.
+>**Note**: before you can send data to you will need an instrumentation key. Please see the [Getting an Application Insights Instrumentation Key](https://github.com/Microsoft/AppInsights-Home/wiki#getting-an-application-insights-instrumentation-key) section for more information.
 
 
 **Sending a simple event telemetry item**
