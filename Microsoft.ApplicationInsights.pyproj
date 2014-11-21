@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>adc6c556-02c1-4b21-bf8a-403d8bc8bce0</ProjectGuid>
+    <ProjectHome>
+    </ProjectHome>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <Name>Microsoft.ApplicationInsights</Name>
+    <RootNamespace>Microsoft.Telemetry</RootNamespace>
+    <InterpreterId>{2af0f10d-7135-4994-9156-5d01c9c11b7e}</InterpreterId>
+    <InterpreterVersion>3.4</InterpreterVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="applicationinsights\channel\contracts\ApplicationContext.py" />
+    <Compile Include="applicationinsights\channel\contracts\DeviceContext.py" />
+    <Compile Include="applicationinsights\channel\contracts\EventTelemetry.py" />
+    <Compile Include="applicationinsights\channel\contracts\ExceptionTelemetry.py" />
+    <Compile Include="applicationinsights\channel\contracts\ExceptionTelemetryDetails.py" />
+    <Compile Include="applicationinsights\channel\contracts\ExceptionTelemetryStackFrame.py" />
+    <Compile Include="applicationinsights\channel\contracts\LocationContext.py" />
+    <Compile Include="applicationinsights\channel\contracts\MessageTelemetry.py" />
+    <Compile Include="applicationinsights\channel\contracts\MetricTelemetry.py" />
+    <Compile Include="applicationinsights\channel\contracts\MetricTelemetryDataPoint.py" />
+    <Compile Include="applicationinsights\channel\contracts\OperationContext.py" />
+    <Compile Include="applicationinsights\channel\contracts\PageViewTelemetry.py" />
+    <Compile Include="applicationinsights\channel\contracts\PageViewTelemetryPerf.py" />
+    <Compile Include="applicationinsights\channel\contracts\RemoteDependencyTelemetry.py" />
+    <Compile Include="applicationinsights\channel\contracts\RequestTelemetry.py" />
+    <Compile Include="applicationinsights\channel\contracts\SessionContext.py" />
+    <Compile Include="applicationinsights\channel\contracts\TelemetryEnvelope.py" />
+    <Compile Include="applicationinsights\channel\contracts\TelemetryEnvelopeData.py" />
+    <Compile Include="applicationinsights\channel\contracts\UserContext.py" />
+    <Compile Include="applicationinsights\channel\contracts\__init__.py" />
+    <Compile Include="applicationinsights\channel\TelemetryChannel.py" />
+    <Compile Include="applicationinsights\channel\TelemetryContext.py" />
+    <Compile Include="applicationinsights\channel\__init__.py" />
+    <Compile Include="applicationinsights\TelemetryClient.py" />
+    <Compile Include="applicationinsights\__init__.py" />
+    <Compile Include="setup.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestApplicationContext.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestDeviceContext.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestEventTelemetry.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestExceptionTelemetry.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestExceptionTelemetryDetails.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestExceptionTelemetryStackFrame.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestLocationContext.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestMessageTelemetry.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestMetricTelemetry.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestMetricTelemetryDataPoint.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestOperationContext.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestPageViewTelemetry.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestPageViewTelemetryPerf.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestRemoteDependencyTelemetry.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestRequestTelemetry.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestSessionContext.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestTelemetryEnvelope.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestTelemetryEnvelopeData.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestUserContext.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\__init__.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\TestTelemetryChannel.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\TestTelemetryContext.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\TestTelemetrySender.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\__init__.py" />
+    <Compile Include="tests\applicationinsights_tests\__init__.py" />
+    <Compile Include="tests\tests.py" />
+    <Compile Include="tests\applicationinsights_tests\TestTelemetryClient.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="applicationinsights\" />
+    <Folder Include="applicationinsights\channel\" />
+    <Folder Include="applicationinsights\channel\contracts\" />
+    <Folder Include="tests\" />
+    <Folder Include="tests\applicationinsights_tests\" />
+    <Folder Include="tests\applicationinsights_tests\channel_tests\" />
+    <Folder Include="tests\applicationinsights_tests\channel_tests\contracts_tests\" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="{2af0f10d-7135-4994-9156-5d01c9c11b7e}\2.7" />
+    <InterpreterReference Include="{2af0f10d-7135-4994-9156-5d01c9c11b7e}\3.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".gitignore" />
+    <Content Include="DESCRIPTION.rst" />
+    <Content Include="LICENSE.txt" />
+    <Content Include="MANIFEST.in" />
+    <Content Include="README.md" />
+    <Content Include="setup.cfg" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion>12.0</VisualStudioVersion>
+    <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v12.0\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
+  </PropertyGroup>
+  <Import Condition="Exists($(PtvsTargetsFile))" Project="$(PtvsTargetsFile)" />
+  <Import Condition="!Exists($(PtvsTargetsFile))" Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+  <!-- Uncomment the CoreCompile target to enable the Build command in
+       Visual Studio and specify your pre- and post-build commands in
+       the BeforeBuild and AfterBuild targets below. -->
+</Project>

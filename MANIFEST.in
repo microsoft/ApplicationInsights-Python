@@ -1,0 +1,8 @@
+include DESCRIPTION.rst
+include README.md
+include LICENSE.txt
+include Microsoft.ApplicationInsights.pyproj
+include Microsoft.ApplicationInsights.sln
+# Include the test suite
+recursive-include tests *
+global-exclude *.pyc 
