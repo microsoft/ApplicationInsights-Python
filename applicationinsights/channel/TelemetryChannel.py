@@ -181,6 +181,7 @@ class TelemetryChannel(object):
         envelope.data = contracts.TelemetryEnvelopeData()
         envelope.data.type = typeMonikers[1]
         envelope.data.item = data
+        envelope.data.item.properties["SDKVersion"] = "Python;0.1"; 
 
         self.__sender.send(envelope)
 
