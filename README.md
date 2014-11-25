@@ -31,68 +31,74 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 ```python
 from applicationinsights import TelemetryClient
 tc = TelemetryClient()
-tc.context.instrumentationKey = "<YOUR INSTRUMENTATION KEY GOES HERE>"
-tc.trackEvent("Test event")
+tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+tc.track_event('Test event')
 ```
 
 **Sending an event telemetry item with custom properties and measurements**
 ```python
 from applicationinsights import TelemetryClient
 tc = TelemetryClient()
-tc.context.instrumentationKey = "<YOUR INSTRUMENTATION KEY GOES HERE>"
-tc.trackEvent("Test event", { "foo": "bar" }, { "baz": 42 })
+tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+tc.track_event('Test event', { 'foo': 'bar' }, { 'baz': 42 })
 ```
 
 **Sending a trace telemetry item with custom properties**
 ```python
 from applicationinsights import TelemetryClient
 tc = TelemetryClient()
-tc.context.instrumentationKey = "<YOUR INSTRUMENTATION KEY GOES HERE>"
-tc.trackTrace("Test trace", { "foo": "bar" })
+tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+tc.track_trace('Test trace', { 'foo': 'bar' })
 ```  
 
 **Sending a metric telemetry item**
 ```python
 from applicationinsights import TelemetryClient
 tc = TelemetryClient()
-tc.context.instrumentationKey = "<YOUR INSTRUMENTATION KEY GOES HERE>"
-tc.trackMetric("My Metric", 42)
+tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+tc.track_metric('My Metric', 42)
 ``` 
 
 **Sending an exception telemetry item with custom properties and measurements**
 ```python
+import sys
 from applicationinsights import TelemetryClient
 tc = TelemetryClient()
-tc.context.instrumentationKey = "<YOUR INSTRUMENTATION KEY GOES HERE>"
+tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+try:
+    raise Exception('blah')
+except:
+    tc.track_exception()
+
 try:
     raise Exception("blah")
-except Exception as e:
-    tc.trackException(e, { "foo": "bar" }, { "x": 42 })
+except:
+    tc.track_exception(*sys.exc_info(), properties={ 'foo': 'bar' }, measurements={ 'x': 42 })
 ```  
 
 **Configuring context for a telemetry client instance**
 ```python
 from applicationinsights import TelemetryClient
 tc = TelemetryClient()
-tc.context.instrumentationKey = "<YOUR INSTRUMENTATION KEY GOES HERE>"
-tc.context.application.id = "My application"
-tc.context.application.ver = "1.2.3"
-tc.context.device.id = "My current device"
-tc.context.device.oemName = "Asus"
-tc.context.device.model = "X31A"
+tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+tc.context.application.id = 'My application'
+tc.context.application.ver = '1.2.3'
+tc.context.device.id = 'My current device'
+tc.context.device.oemName = 'Asus'
+tc.context.device.model = 'X31A'
 tc.context.device.type = "Other"
-tc.context.user.id = "santa@northpole.net"
-tc.trackTrace("My trace with context")
+tc.context.user.id = 'santa@northpole.net'
+tc.track_trace('My trace with context')
 ```  
 
 **Configuring channel related properties**
 ```python
 from applicationinsights import TelemetryClient
 tc = TelemetryClient()
-# flush telemetry every 30 seconds (assuming we don't hit maxQueueItemCount first)
-tc.channel.sender.sendIntervalInMilliseconds = 30 * 1000
+# flush telemetry every 30 seconds (assuming we don't hit max_queue_item_count first)
+tc.channel.sender.send_interval_in_milliseconds = 30 * 1000
 # flush telemetry if we have 10 or more telemetry items in our queue
-tc.channel.sender.maxQueueItemCount = 10
+tc.channel.sender.max_queue_item_count = 10
 ```
 
 

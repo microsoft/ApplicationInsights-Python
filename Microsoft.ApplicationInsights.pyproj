@@ -24,25 +24,32 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="applicationinsights\channel\contracts\ApplicationContext.py" />
-    <Compile Include="applicationinsights\channel\contracts\DeviceContext.py" />
-    <Compile Include="applicationinsights\channel\contracts\EventTelemetry.py" />
-    <Compile Include="applicationinsights\channel\contracts\ExceptionTelemetry.py" />
-    <Compile Include="applicationinsights\channel\contracts\ExceptionTelemetryDetails.py" />
-    <Compile Include="applicationinsights\channel\contracts\ExceptionTelemetryStackFrame.py" />
-    <Compile Include="applicationinsights\channel\contracts\LocationContext.py" />
-    <Compile Include="applicationinsights\channel\contracts\MessageTelemetry.py" />
-    <Compile Include="applicationinsights\channel\contracts\MetricTelemetry.py" />
-    <Compile Include="applicationinsights\channel\contracts\MetricTelemetryDataPoint.py" />
-    <Compile Include="applicationinsights\channel\contracts\OperationContext.py" />
-    <Compile Include="applicationinsights\channel\contracts\PageViewTelemetry.py" />
-    <Compile Include="applicationinsights\channel\contracts\PageViewTelemetryPerf.py" />
-    <Compile Include="applicationinsights\channel\contracts\RemoteDependencyTelemetry.py" />
-    <Compile Include="applicationinsights\channel\contracts\RequestTelemetry.py" />
-    <Compile Include="applicationinsights\channel\contracts\SessionContext.py" />
-    <Compile Include="applicationinsights\channel\contracts\TelemetryEnvelope.py" />
-    <Compile Include="applicationinsights\channel\contracts\TelemetryEnvelopeData.py" />
-    <Compile Include="applicationinsights\channel\contracts\UserContext.py" />
+    <Compile Include="applicationinsights\channel\contracts\Application.py" />
+    <Compile Include="applicationinsights\channel\contracts\Data.py" />
+    <Compile Include="applicationinsights\channel\contracts\DataPoint.py" />
+    <Compile Include="applicationinsights\channel\contracts\DataPointType.py" />
+    <Compile Include="applicationinsights\channel\contracts\DependencyKind.py" />
+    <Compile Include="applicationinsights\channel\contracts\DependencySourceType.py" />
+    <Compile Include="applicationinsights\channel\contracts\Device.py" />
+    <Compile Include="applicationinsights\channel\contracts\Envelope.py" />
+    <Compile Include="applicationinsights\channel\contracts\EventData.py" />
+    <Compile Include="applicationinsights\channel\contracts\ExceptionData.py" />
+    <Compile Include="applicationinsights\channel\contracts\ExceptionDetails.py" />
+    <Compile Include="applicationinsights\channel\contracts\Internal.py" />
+    <Compile Include="applicationinsights\channel\contracts\Location.py" />
+    <Compile Include="applicationinsights\channel\contracts\MessageData.py" />
+    <Compile Include="applicationinsights\channel\contracts\MetricData.py" />
+    <Compile Include="applicationinsights\channel\contracts\Operation.py" />
+    <Compile Include="applicationinsights\channel\contracts\PageViewData.py" />
+    <Compile Include="applicationinsights\channel\contracts\RemoteDependencyData.py" />
+    <Compile Include="applicationinsights\channel\contracts\RequestData.py" />
+    <Compile Include="applicationinsights\channel\contracts\Session.py" />
+    <Compile Include="applicationinsights\channel\contracts\SeverityLevel.py" />
+    <Compile Include="applicationinsights\channel\contracts\StackFrame.py" />
+    <Compile Include="applicationinsights\channel\contracts\User.py" />
+    <Compile Include="applicationinsights\channel\contracts\Utils.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="applicationinsights\channel\contracts\__init__.py" />
     <Compile Include="applicationinsights\channel\TelemetryChannel.py" />
     <Compile Include="applicationinsights\channel\TelemetryContext.py" />
@@ -52,25 +59,25 @@
     <Compile Include="setup.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestApplicationContext.py" />
-    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestDeviceContext.py" />
-    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestEventTelemetry.py" />
-    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestExceptionTelemetry.py" />
-    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestExceptionTelemetryDetails.py" />
-    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestExceptionTelemetryStackFrame.py" />
-    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestLocationContext.py" />
-    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestMessageTelemetry.py" />
-    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestMetricTelemetry.py" />
-    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestMetricTelemetryDataPoint.py" />
-    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestOperationContext.py" />
-    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestPageViewTelemetry.py" />
-    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestPageViewTelemetryPerf.py" />
-    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestRemoteDependencyTelemetry.py" />
-    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestRequestTelemetry.py" />
-    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestSessionContext.py" />
-    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestTelemetryEnvelope.py" />
-    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestTelemetryEnvelopeData.py" />
-    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestUserContext.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestApplication.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestData.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestDataPoint.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestDevice.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestEnvelope.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestEventData.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestExceptionData.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestExceptionDetails.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestInternal.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestLocation.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestMessageData.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestMetricData.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestOperation.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestPageViewData.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestRemoteDependencyData.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestRequestData.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestSession.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestStackFrame.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestUser.py" />
     <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\__init__.py" />
     <Compile Include="tests\applicationinsights_tests\channel_tests\TestTelemetryChannel.py" />
     <Compile Include="tests\applicationinsights_tests\channel_tests\TestTelemetryContext.py" />

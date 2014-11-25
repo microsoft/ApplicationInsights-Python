@@ -5,14 +5,14 @@ import uuid
 import unittest
 import random
 try:
-    import BaseHTTPServer
+    import BaseHTTPServer as HTTPServer
 except ImportError:
-    import http.server as BaseHTTPServer
+    import http.server as HTTPServer
 
 from test import test_support
 
 import sys, os, os.path
-rootDirectory = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "..", "..")
+rootDirectory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..')
 if rootDirectory not in sys.path:
     sys.path.append(rootDirectory)
 
@@ -27,44 +27,44 @@ class TestTelemetrySender(unittest.TestCase):
         # clean up the telemetry sender type
         del self.TelemetrySender
 
-    def test_constructTelemetrySender(self):
+    def test_construct(self):
         actual = self.TelemetrySender()
-        self.assertEqual("http://dc.services.visualstudio.com/v2/track", actual.serviceEndpointUri)
+        self.assertEqual("http://dc.services.visualstudio.com/v2/track", actual.service_endpoint_uri)
           
-    def test_constructTelemetrySenderWithNoEndpoint(self):
+    def test_construct_with_no_endpoint(self):
         self.assertRaises(Exception, self.TelemetrySender, None)
                   
-    def test_serviceEndpointUriPropertyWorksAsExpected(self):
+    def test_service_endpoint_uri_property_works_as_expected(self):
         actual = self.TelemetrySender()
-        self.assertEqual("http://dc.services.visualstudio.com/v2/track", actual.serviceEndpointUri)
+        self.assertEqual("http://dc.services.visualstudio.com/v2/track", actual.service_endpoint_uri)
         actual = self.TelemetrySender("blah")
-        self.assertEqual("blah", actual.serviceEndpointUri)
+        self.assertEqual("blah", actual.service_endpoint_uri)
 
-    def test_sendIntervalInMillisecondsPropertyWorksAsExpected(self):
+    def test_send_interval_in_milliseconds_property_works_as_expected(self):
         actual = self.TelemetrySender()
-        self.assertEqual(6000, actual.sendIntervalInMilliseconds)
-        actual.sendIntervalInMilliseconds = 12345;
-        self.assertEqual(12345, actual.sendIntervalInMilliseconds)
-        actual.sendIntervalInMilliseconds = -42;
-        self.assertEqual(1000, actual.sendIntervalInMilliseconds)
+        self.assertEqual(6000, actual.send_interval_in_milliseconds)
+        actual.send_interval_in_milliseconds = 12345;
+        self.assertEqual(12345, actual.send_interval_in_milliseconds)
+        actual.send_interval_in_milliseconds = -42;
+        self.assertEqual(1000, actual.send_interval_in_milliseconds)
         
-    def test_maxQueueItemCountPropertyWorksAsExpected(self):
+    def test_max_queue_item_count_property_works_as_expected(self):
         actual = self.TelemetrySender()
-        self.assertEqual(100, actual.maxQueueItemCount)
-        actual.maxQueueItemCount = 12345;
-        self.assertEqual(12345, actual.maxQueueItemCount)
-        actual.maxQueueItemCount = -42;
-        self.assertEqual(1, actual.maxQueueItemCount)
+        self.assertEqual(100, actual.max_queue_item_count)
+        actual.max_queue_item_count = 12345;
+        self.assertEqual(12345, actual.max_queue_item_count)
+        actual.max_queue_item_count = -42;
+        self.assertEqual(1, actual.max_queue_item_count)
 
-    def test_sendWorksAsExpected(self):
+    def test_send_works_as_expected(self):
         port = random.randint(50000, 60000)
         actual = self.TelemetrySender("http://localhost:" + str(port) + "/track")
-        actual.maxQueueItemCount = 3
-        actual.sendIntervalInMilliseconds = 2000
-        MockHTTPRequestHandler.ExpectedContent = "[42,13]"
+        actual.max_queue_item_count = 3
+        actual.send_interval_in_milliseconds = 2000
+        MockHTTPRequestHandler.ExpectedContent = "[42, 13]"
         MockHTTPRequestHandler.TestCase = self # save a reference to the test case in our handler
-        actual.send(MockSerializable("42")) # send the mock item
-        actual.send(MockSerializable("13")) # send the mock item
+        actual.send(MockSerializable(42)) # send the mock item
+        actual.send(MockSerializable(13)) # send the mock item
         runHttpHandlerOnce(handler=MockHTTPRequestHandler, port=port) # run the HTTP request
         time.sleep(1)
         if "failed" in dir(self):
@@ -73,13 +73,13 @@ class TestTelemetrySender(unittest.TestCase):
 
 class MockSerializable(object):
     def __init__(self, data):
-        self.__data = data
+        self._data = data
 
-    def serialize(self):
-        return self.__data
+    def write(self):
+        return self._data
 
 
-class MockHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
+class MockHTTPRequestHandler(HTTPServer.BaseHTTPRequestHandler):
     ExpectedContent = None
     TestCase = None
     def do_POST(self):
@@ -104,7 +104,7 @@ class MockHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         self.wfile.write(response)
         
 
-def runHttpHandlerOnce(server=BaseHTTPServer.HTTPServer, handler=BaseHTTPServer.BaseHTTPRequestHandler, port=8121):
+def runHttpHandlerOnce(server=HTTPServer.HTTPServer, handler=HTTPServer.BaseHTTPRequestHandler, port=8121):
     serverAddress = ('', port)
     httpd = server(serverAddress, handler)
     httpd.handle_request()

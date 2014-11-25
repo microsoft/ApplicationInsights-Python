@@ -44,114 +44,91 @@ Once installed, you can send telemetry to Application Insights. Here are
 a few samples.
 
     **Note**: before you can send data to you will need an
-    instrumentation key. Please see the **Getting an Application
-    Insights Instrumentation Key** section for more information.
+    instrumentation key. Please see the `Getting an Application Insights
+    Instrumentation
+    Key <https://github.com/Microsoft/AppInsights-Home/wiki#getting-an-application-insights-instrumentation-key>`__
+    section for more information.
 
-#. **Sending a simple event telemetry item**
+**Sending a simple event telemetry item**
 
-   .. code:: python
+.. code:: python
 
-       from applicationinsights import TelemetryClient
-       tc = TelemetryClient()
-       tc.context.instrumentationKey = "<YOUR INSTRUMENTATION KEY GOES HERE>"
-       tc.trackEvent("Test event")
+    from applicationinsights import TelemetryClient
+    tc = TelemetryClient()
+    tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+    tc.track_event("Test event")
 
-#. **Sending an event telemetry item with custom properties and
-   measurements**
+**Sending an event telemetry item with custom properties and
+measurements**
 
-   .. code:: python
+.. code:: python
 
-       from applicationinsights import TelemetryClient
-       tc = TelemetryClient()
-       tc.context.instrumentationKey = "<YOUR INSTRUMENTATION KEY GOES HERE>"
-       tc.trackEvent("Test event", { "foo": "bar" }, { "baz": 42 })
+    from applicationinsights import TelemetryClient
+    tc = TelemetryClient()
+    tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+    tc.track_event('Test event', { 'foo': 'bar' }, { 'baz': 42 })
 
-#. **Sending a trace telemetry item with custom properties**
+**Sending a trace telemetry item with custom properties**
 
-   .. code:: python
+.. code:: python
 
-       from applicationinsights import TelemetryClient
-       tc = TelemetryClient()
-       tc.context.instrumentationKey = "<YOUR INSTRUMENTATION KEY GOES HERE>"
-       tc.trackTrace("Test trace", { "foo": "bar" })
+    from applicationinsights import TelemetryClient
+    tc = TelemetryClient()
+    tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+    tc.track_trace('Test trace', { 'foo': 'bar' })
 
-#. **Sending a metric telemetry item**
+**Sending a metric telemetry item**
 
-   .. code:: python
+.. code:: python
 
-       from applicationinsights import TelemetryClient
-       tc = TelemetryClient()
-       tc.context.instrumentationKey = "<YOUR INSTRUMENTATION KEY GOES HERE>"
-       tc.trackMetric("My Metric", 42)
+    from applicationinsights import TelemetryClient
+    tc = TelemetryClient()
+    tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+    tc.track_metric('My Metric', 42)
 
-#. **Sending an exception telemetry item with custom properties and
-   measurements**
+**Sending an exception telemetry item with custom properties and
+measurements**
 
-   .. code:: python
+.. code:: python
 
-       from applicationinsights import TelemetryClient
-       tc = TelemetryClient()
-       tc.context.instrumentationKey = "<YOUR INSTRUMENTATION KEY GOES HERE>"
-       try:
+    import sys
+    from applicationinsights import TelemetryClient
+    tc = TelemetryClient()
+    tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+    try:
+        raise Exception('blah')
+    except:
+        tc.track_exception()
+
+    try:
         raise Exception("blah")
-       except Exception as e:
-        tc.trackException(e, { "foo": "bar" }, { "x": 42 })
+    except:
+        tc.track_exception(*sys.exc_info(), properties={ 'foo': 'bar' }, measurements={ 'x': 42 })
 
-#. **Configuring context for a telemetry client instance**
+**Configuring context for a telemetry client instance**
 
-   .. code:: python
+.. code:: python
 
-       from applicationinsights import TelemetryClient
-       tc = TelemetryClient()
-       tc.context.instrumentationKey = "<YOUR INSTRUMENTATION KEY GOES HERE>"
-       tc.context.application.id = "My application"
-       tc.context.application.ver = "1.2.3"
-       tc.context.device.id = "My current device"
-       tc.context.device.oemName = "Asus"
-       tc.context.device.model = "X31A"
-       tc.context.device.type = "Other"
-       tc.context.user.id = "santa@northpole.net"
-       tc.trackTrace("My trace with context")
+    from applicationinsights import TelemetryClient
+    tc = TelemetryClient()
+    tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+    tc.context.application.id = 'My application'
+    tc.context.application.ver = '1.2.3'
+    tc.context.device.id = 'My current device'
+    tc.context.device.oemName = 'Asus'
+    tc.context.device.model = 'X31A'
+    tc.context.device.type = "Other"
+    tc.context.user.id = 'santa@northpole.net'
+    tc.track_trace('My trace with context')
 
-#. **Configuring channel related properties**
+**Configuring channel related properties**
 
-   .. code:: python
+.. code:: python
 
-       from applicationinsights import TelemetryClient
-       tc = TelemetryClient()
-       # flush telemetry every 30 seconds (assuming we don't hit maxQueueItemCount first)
-       tc.channel.sender.sendIntervalInMilliseconds = 30 * 1000
-       # flush telemetry if we have 10 or more telemetry items in our queue
-       tc.channel.sender.maxQueueItemCount = 10
-
-Getting an Application Insights Instrumentation Key
----------------------------------------------------
-
-To successfully send data to the Application Insights service, you will
-need an Application Insights resource's instrumentation key. Here is how
-you get a new one.
-
-#. Log into the `Microsoft Azure portal <https://portal.azure.com/>`__
-
-#. Create a new Application Insights resource in the by clicking
-   ``New -> Application Insights``.
-
-.. raw:: html
-
-   <center><img src="http://i.imgur.com/jieq59h.png" width="300" /></center>
-
-#. Enter a name for your new Application Insights resource and click
-   create. A new tile will appear on your dashboard.
-
-.. raw:: html
-
-   <center><img src="http://i.imgur.com/XIMABul.png" width="600" /></center>
-
-#. Expand your resource by clicking on the tile on your dashboard, then
-   click on the Properties tile to open your resource's properties
-   blade. You can copy the instrumentation key from here.
-
-.. raw:: html
-
-   <center><img src="http://i.imgur.com/i1OzJVP.png" width="700" /></center>
+    from applicationinsights import TelemetryClient
+    tc = TelemetryClient()
+    # flush telemetry every 30 seconds (assuming we don't hit max_queue_item_count first)
+    tc.channel.sender.send_interval_in_milliseconds = 30 * 1000
+    # flush telemetry if we have 10 or more telemetry items in our queue
+    tc.channel.sender.max_queue_item_count = 10
 

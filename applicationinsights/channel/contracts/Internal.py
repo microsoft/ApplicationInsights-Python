@@ -1,0 +1,53 @@
+import collections
+import copy
+from .Utils import _write_complex_object
+
+class Internal(object):
+    """Data contract class for type Internal."""
+    _defaults = collections.OrderedDict([
+        ('ai.internal.sdkVersion', None),
+        ('ai.internal.agentVersion', None)
+    ])
+    
+    def __init__(self):
+        """Initializes a new instance of the Internal class."""
+        self._values = {
+        }
+        self._initialize()
+        
+    @property
+    def sdk_version(self):
+        """Gets or sets the sdk_version property."""
+        if 'ai.internal.sdkVersion' in self._values:
+            return self._values['ai.internal.sdkVersion']
+        return self._defaults['ai.internal.sdkVersion']
+        
+    @sdk_version.setter
+    def sdk_version(self, value):
+        if value == self._defaults['ai.internal.sdkVersion'] and 'ai.internal.sdkVersion' in self._values:
+            del self._values['ai.internal.sdkVersion']
+        else:
+            self._values['ai.internal.sdkVersion'] = value
+        
+    @property
+    def agent_version(self):
+        """Gets or sets the agent_version property."""
+        if 'ai.internal.agentVersion' in self._values:
+            return self._values['ai.internal.agentVersion']
+        return self._defaults['ai.internal.agentVersion']
+        
+    @agent_version.setter
+    def agent_version(self, value):
+        if value == self._defaults['ai.internal.agentVersion'] and 'ai.internal.agentVersion' in self._values:
+            del self._values['ai.internal.agentVersion']
+        else:
+            self._values['ai.internal.agentVersion'] = value
+        
+    def _initialize(self):
+        """Initializes the current instance of the object (can be overridden)."""
+        pass
+    
+    def write(self):
+        """Writes the contents of this object and returns the content as a dict object."""
+        return _write_complex_object(self._defaults, self._values)
+

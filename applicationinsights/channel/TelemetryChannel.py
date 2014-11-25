@@ -1,110 +1,109 @@
 import datetime
+import json
 import locale
 import platform
 import threading
+
 try:
-    import urllib2
+    import urllib2 as HTTPClient
     from urllib2 import HTTPError
+    platform_moniker = 'py2'
 except ImportError:
-    import urllib.request as urllib2
+    import urllib.request as HTTPClient
     from urllib.error import HTTPError
+    platform_moniker = 'py3'
 
 from applicationinsights.channel import contracts
 
+# set up internal context
+internal_context = contracts.Internal()
+internal_context.sdk_version = platform_moniker + ':0.2.0'
+
 class TelemetrySender(object):
     """The TelemetrySender is responsible for sending buffered telemetry to the server on a timer"""
-
-    def __init__(self, serviceEndpointUri="http://dc.services.visualstudio.com/v2/track"):
+    def __init__(self, service_endpoint_uri = 'http://dc.services.visualstudio.com/v2/track'):
         """Initializes a new instance of the TelemetrySender class."""
-        if serviceEndpointUri == None:
-            raise Exception("Service endpoint URI was required but not provided")
+        if not service_endpoint_uri:
+            raise Exception('Service endpoint URI was required but not provided')
 
-        self.__serviceEndpointUri = serviceEndpointUri
-        self.__sendIntervalInMilliseconds = 6000
-        self.__maxQueueItemCount = 100
-        self.__sendQueue = []
-        self.__timers = []
+        self._service_endpoint_uri = service_endpoint_uri
+        self._send_interval_in_milliseconds = 6000
+        self._max_queue_item_count = 100
+        self._queue = []
+        self._timers = []
 
     @property
-    def serviceEndpointUri(self):
+    def service_endpoint_uri(self):
         """Gets the serivce endpoint URI property. This is where we send data to."""
-        return self.__serviceEndpointUri
+        return self._service_endpoint_uri
 
     @property
-    def sendIntervalInMilliseconds(self):
+    def send_interval_in_milliseconds(self):
         """Gets or sets the send interval after which we will send data to the server. This value is expressed in milliseconds."""
-        return self.__sendIntervalInMilliseconds
+        return self._send_interval_in_milliseconds
 
-    @sendIntervalInMilliseconds.setter
-    def sendIntervalInMilliseconds(self, value):
+    @send_interval_in_milliseconds.setter
+    def send_interval_in_milliseconds(self, value):
         """Gets or sets the send interval after which we will send data to the server. This value is expressed in milliseconds."""
         if value < 1000:
             value = 1000
-        self.__sendIntervalInMilliseconds = value
+        self._send_interval_in_milliseconds = value
 
     @property
-    def maxQueueItemCount(self):
+    def max_queue_item_count(self):
         """Gets or sets the maximum number of items that will be held by the queue before we force a send."""
-        return self.__maxQueueItemCount
+        return self._max_queue_item_count
 
-    @maxQueueItemCount.setter
-    def maxQueueItemCount(self, value):
+    @max_queue_item_count.setter
+    def max_queue_item_count(self, value):
         """Gets or sets the maximum number of items that will be held by the queue before we force a send."""
         if value < 1:
             value = 1
-        self.__maxQueueItemCount = value
+        self._max_queue_item_count = value
 
     def send(self, envelope):
         """Enqueues the specified envelope into our queue. If the queue is full, this function will also trigger a send."""
-        self.__sendQueue.append(envelope)   
-        self.__maybeCreateTimer() 
+        self._queue.append(envelope)   
+        self._maybe_create_timer() 
          
-    def __maybeCreateTimer(self):
-        if len(self.__timers) == 0 or len(self.__sendQueue) >= self.maxQueueItemCount:
-            dueTime = self.__sendIntervalInMilliseconds / 1000.0
-            if len(self.__sendQueue) >= self.maxQueueItemCount:
-                dueTime = 1 / 1000.0
+    def _maybe_create_timer(self):
+        if len(self._timers) == 0 or len(self._queue) >= self.max_queue_item_count:
+            due_time = self._send_interval_in_milliseconds / 1000.0
+            if len(self._queue) >= self.max_queue_item_count:
+                due_time = 1 / 1000.0
 
-            timer = threading.Timer(self.__sendIntervalInMilliseconds / 1000.0, self.__scheduleSend)
+            timer = threading.Timer(self._send_interval_in_milliseconds / 1000.0, self._schedule_send)
             timer.args.append(timer)
-            self.__timers.append(timer)
+            self._timers.append(timer)
             timer.start()   
                             
-    def __scheduleSend(self, timer):
-        self.__send()
-        self.__timers.remove(timer)
-        if len(self.__sendQueue) > 0:
-            self.__maybeCreateTimer()
+    def _schedule_send(self, timer):
+        self._send()
+        self._timers.remove(timer)
+        if len(self._queue) > 0:
+            self._maybe_create_timer()
 
-    def __send(self):
-        dataToSend = []
-        for i in range(len(self.__sendQueue)):
+    def _send(self):
+        data_to_send = []
+        for i in range(len(self._queue)):
             try:
-                dataToSend.append(self.__sendQueue.pop())
+                data_to_send.append(self._queue.pop())
             except IndexError:
                 break
 
-        if len(dataToSend) == 0:
+        if len(data_to_send) == 0:
             return
 
-        dataToSend.reverse()
-        first = True
-        payload = "["
-        for data in dataToSend:
-            if not first:
-                payload += ","
-            first = False
-
-            payload += data.serialize()
-
-        payload += "]"
+        data_to_send.reverse()
+        data_to_send = [ a.write() for a in data_to_send ]
+        request_payload = json.dumps(data_to_send)
         
-        request = urllib2.Request(self.__serviceEndpointUri, bytearray(payload, "utf-8"), { "Accept": "application/json", "Content-Type" : "application/json; charset=utf-8" })
+        request = HTTPClient.Request(self._service_endpoint_uri, bytearray(request_payload, 'utf-8'), { 'Accept': 'application/json', 'Content-Type' : 'application/json; charset=utf-8' })
         try:
-            response = urllib2.urlopen(request)
-            statusCode = response.getcode()
-            responsePayload = response.read()
-            if statusCode >= 200 and statusCode < 300:
+            response = HTTPClient.urlopen(request)
+            status_code = response.getcode()
+            response_payload = response.read()
+            if 200 <= status_code < 300:
                 return
         except HTTPError as e:
             if e.getcode() == 400:
@@ -112,80 +111,67 @@ class TelemetrySender(object):
         except Exception as e:
             pass
 
-        if len(dataToSend) + len(self.__sendQueue) < self.__maxQueueItemCount:
+        if len(data_to_send) + len(self._queue) < self._max_queue_item_count:
             # If the unsent amount will put us over the top of the max queue length, drop the data to prevent infinate loops
             # Otherwise, add our unsent data back on to the queue
-            for data in dataToSend:
-                self.__sendQueue.append(data)
+            for data in data_to_send:
+                self._queue.append(data)
 
 
 class TelemetryChannel(object):
-    # The type moniker map. This will map a type of telemetry to metadata needed to construct the envelope.
-    __typeMonikerMap = { "EventTelemetry": ("Microsoft.ApplicationInsights.Event", "Microsoft.ApplicationInsights.EventData"),
-                         "MetricTelemetry": ("Microsoft.ApplicationInsights.Metric", "Microsoft.ApplicationInsights.MetricData"),
-                         "MessageTelemetry": ("Microsoft.ApplicationInsights.Message", "Microsoft.ApplicationInsights.MessageData"),
-                         "PageViewTelemetry": ("Microsoft.ApplicationInsights.Pageview", "Microsoft.ApplicationInsights.PageviewData"),
-                         "ExceptionTelemetry": ("Microsoft.ApplicationInsights.Exception", "Microsoft.ApplicationInsights.ExceptionData")}
-   
+    """The telemetry channel is responsible for constructing an envelope an sending it."""
     def __init__(self, context=None, sender=None):
         """Initializes a new instance of the telemetry channel class."""
-        self.__context = context
-        self.__sender = sender
-        if not sender or not isinstance(sender, TelemetrySender):
-            self.__sender = TelemetrySender()
+        self._context = context
+        self._sender = sender or TelemetrySender()
 
     @property
     def context(self):
         """Gets the global TelemetryContext associated with this client."""
-        return self.__context
+        return self._context
 
     @property
     def sender(self):
         """Gets the TelemetrySender associated with this client."""
-        return self.__sender
+        return self._sender
     
     def write(self, data, context=None):
         """writes the passed in data to the sending queue."""
-        localContext = context
-        if not localContext:
-            localContext = self.__context
-
-        if not localContext:
-            raise Exception("Context was required but not provided")
+        local_context = context or self._context
+        if not local_context:
+            raise Exception('Context was required but not provided')
                  
         if not data:
-            raise Exception("Data was required but not provided")
+            raise Exception('Data was required but not provided')
 
-        dataType = ""
-        if "__class__" in dir(data):
-            dataType = data.__class__.__name__
-        else:
-            raise Exception("Data must be a class")
+        envelope = contracts.Envelope()
+        envelope.name = data.ENVELOPE_TYPE_NAME
+        envelope.time = datetime.datetime.utcnow().isoformat() + 'Z'
+        envelope.ikey = local_context.instrumentation_key
+        tags = envelope.tags
+        for key, value in self._write_tags(local_context):
+            tags[key] = value
+        envelope.data = contracts.Data()
+        envelope.data.base_type = data.DATA_TYPE_NAME
+        if hasattr(data, 'properties') and local_context.properties:
+            properties = data.properties
+            if not properties:
+                properties = {}
+                data.properties = properties
+            for key, value in local_context.properties:
+                if key not in properties:
+                    properties[key] = value
+        envelope.data.base_data = data
 
-        typeMonikers = None
-        if dataType in self.__typeMonikerMap:
-            typeMonikers = self.__typeMonikerMap[dataType]
-        else:
-            raise Exception("Data is out or range")
+        self._sender.send(envelope)
 
-        envelope = contracts.TelemetryEnvelope()
-        envelope.name = typeMonikers[0]
-        envelope.time = datetime.datetime.utcnow().isoformat() + "Z"
-        envelope.iKey = localContext.instrumentationKey
-        envelope.device = localContext.device
-        envelope.application = localContext.application
-        envelope.user = localContext.user
-        envelope.session = localContext.session
-        envelope.location = localContext.location
-        envelope.operation = localContext.operation
-        envelope.data = contracts.TelemetryEnvelopeData()
-        envelope.data.type = typeMonikers[1]
-        envelope.data.item = data
-        envelope.data.item.properties["SDKVersion"] = "Python;0.1"; 
+    def _write_tags(self, context):
+        for item in [ internal_context, context.device, context.application, context.user, context.session, context.location, context.operation ]:
+            if not item:
+                continue
+            for pair in item.write().items():
+                yield pair
 
-        self.__sender.send(envelope)
-
-    
 
 
 

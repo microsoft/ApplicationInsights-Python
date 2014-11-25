@@ -2,82 +2,81 @@ import unittest
 from test import test_support
 
 import sys, os, os.path
-rootDirectory = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "..", "..")
+rootDirectory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..')
 if rootDirectory not in sys.path:
     sys.path.append(rootDirectory)
 
 from applicationinsights import channel
 
 class TestTelemetryChannel(unittest.TestCase):   
-    def test_constructTelemetryChannel(self):
+    def test_construct(self):
         actual = channel.TelemetryChannel()
         self.assertIsNotNone(actual)
     
-    def test_constructTelemetryChannelWithContextAndSender(self):
-        mockSender = MockTelemetrySender()
-        contextGlobal = channel.TelemetryContext()
-        actual = channel.TelemetryChannel(contextGlobal, mockSender)
-        actual.write(channel.contracts.MessageTelemetry())
-        self.assertIsNotNone(mockSender.data)
-        self.assertEqual(contextGlobal.device, mockSender.data.device)
+    def test_construct_with_context_and_sender(self):
+        mock_sender = MockTelemetrySender()
+        context_global = channel.TelemetryContext()
+        context_global.device.id = "global"
+        actual = channel.TelemetryChannel(context_global, mock_sender)
+        actual.write(channel.contracts.MessageData())
+        self.assertIsNotNone(mock_sender.data)
+        self.assertEqual("global", mock_sender.data.tags["ai.device.id"])
 
-    def test_writeWithNoGlobalOrLocalContextRaisesException(self):
-        mockSender = MockTelemetrySender()
-        actual = channel.TelemetryChannel(None, mockSender)
-        self.assertRaises(Exception, actual.write, channel.contracts.MessageTelemetry(), None)
+    def test_write_with_no_global_or_local_context_raises_exception(self):
+        mock_sender = MockTelemetrySender()
+        actual = channel.TelemetryChannel(None, mock_sender)
+        self.assertRaises(Exception, actual.write, channel.contracts.MessageData(), None)
         
-    def test_writeWithNoDataRaisesException(self):
-        mockSender = MockTelemetrySender()
-        actual = channel.TelemetryChannel(None, mockSender)
+    def test_write_with_no_data_raises_exception(self):
+        mock_sender = MockTelemetrySender()
+        actual = channel.TelemetryChannel(None, mock_sender)
         self.assertRaises(Exception, actual.write, None)
 
-    def test_writeWithNonClassTypeRaisesException(self):
-        mockSender = MockTelemetrySender()
-        actual = channel.TelemetryChannel(None, mockSender)
-        self.assertRaises(Exception, actual.write, 42)
-
-    def test_writeWithBadTypeRaisesException(self):
-        mockSender = MockTelemetrySender()
-        actual = channel.TelemetryChannel(None, mockSender)
-        self.assertRaises(Exception, actual.write, mockSender)
-
-    def test_writeTransfersLocalConvextOverGlobalContext(self):
-        mockSender = MockTelemetrySender()
-        contextGlobal = channel.TelemetryContext()
-        contextLocal = channel.TelemetryContext()
-        actual = channel.TelemetryChannel(contextGlobal, mockSender)
-        actual.write(channel.contracts.MessageTelemetry(), contextLocal)
-        self.assertIsNotNone(mockSender.data)
-        self.assertEqual(contextLocal.device, mockSender.data.device)
+    def test_write_transfers_local_convext_over_global_context(self):
+        mock_sender = MockTelemetrySender()
+        context_global = channel.TelemetryContext()
+        context_global.device.id = "global"
+        context_local = channel.TelemetryContext()
+        context_local.device.id = "local"
+        actual = channel.TelemetryChannel(context_global, mock_sender)
+        actual.write(channel.contracts.MessageData(), context_local)
+        self.assertIsNotNone(mock_sender.data)
+        self.assertEqual("local", mock_sender.data.tags["ai.device.id"])
  
-    def test_writeConstructsValidEnvelope(self):
-        mockSender = MockTelemetrySender()
-        contextGlobal = channel.TelemetryContext()
-        contextGlobal.instrumentationKey = "42"
-        actual = channel.TelemetryChannel(contextGlobal, mockSender)        
+    def test_write_constructs_valid_envelope(self):
+        mock_sender = MockTelemetrySender()
+        context_global = channel.TelemetryContext()
+        context_global.instrumentation_key = "42"
+        actual = channel.TelemetryChannel(context_global, mock_sender)        
         cases = [
-                    (channel.contracts.EventTelemetry(), "Microsoft.ApplicationInsights.Event", "Microsoft.ApplicationInsights.EventData"),
-                    (channel.contracts.MetricTelemetry(), "Microsoft.ApplicationInsights.Metric", "Microsoft.ApplicationInsights.MetricData"),
-                    (channel.contracts.MessageTelemetry(), "Microsoft.ApplicationInsights.Message", "Microsoft.ApplicationInsights.MessageData"),
-                    (channel.contracts.PageViewTelemetry(), "Microsoft.ApplicationInsights.Pageview", "Microsoft.ApplicationInsights.PageviewData"),
-                    (channel.contracts.ExceptionTelemetry(), "Microsoft.ApplicationInsights.Exception", "Microsoft.ApplicationInsights.ExceptionData")
+                    channel.contracts.EventData(),
+                    channel.contracts.MetricData(),
+                    channel.contracts.MessageData(),
+                    channel.contracts.PageViewData(),
+                    channel.contracts.ExceptionData(),
                 ]
-        for message, typeName1, typeName2 in cases:
-            actual.write(message)        
-            self.assertIsNotNone(mockSender.data)
-            self.assertTrue(isinstance(mockSender.data, channel.contracts.TelemetryEnvelope))
-            self.assertEqual(typeName1, mockSender.data.name)
-            self.assertIsNotNone(mockSender.data.time)
-            self.assertEqual("42", mockSender.data.iKey)
-            self.assertEqual(contextGlobal.device, mockSender.data.device)
-            self.assertEqual(contextGlobal.application, mockSender.data.application)
-            self.assertEqual(contextGlobal.user, mockSender.data.user)
-            self.assertEqual(contextGlobal.session, mockSender.data.session)
-            self.assertEqual(contextGlobal.location, mockSender.data.location)
-            self.assertEqual(contextGlobal.operation, mockSender.data.operation)
-            self.assertIsNotNone(mockSender.data.data)
-            self.assertEqual(typeName2, mockSender.data.data.type)
-            self.assertEqual(message, mockSender.data.data.item)
+        for item in cases:
+            actual.write(item)        
+            self.assertIsNotNone(mock_sender.data)
+            self.assertTrue(isinstance(mock_sender.data, channel.contracts.Envelope))
+            self.assertEqual(item.ENVELOPE_TYPE_NAME, mock_sender.data.name)
+            self.assertIsNotNone(mock_sender.data.time)
+            self.assertEqual("42", mock_sender.data.ikey)
+            for key, value in context_global.device.write().items():
+                self.assertEqual(value, mock_sender.data.tags[key])
+            for key, value in context_global.application.write().items():
+                self.assertEqual(value, mock_sender.data.tags[key])
+            for key, value in context_global.user.write().items():
+                self.assertEqual(value, mock_sender.data.tags[key])
+            for key, value in context_global.session.write().items():
+                self.assertEqual(value, mock_sender.data.tags[key])
+            for key, value in context_global.location.write().items():
+                self.assertEqual(value, mock_sender.data.tags[key])
+            for key, value in context_global.operation.write().items():
+                self.assertEqual(value, mock_sender.data.tags[key])
+            self.assertIsNotNone(mock_sender.data.data)
+            self.assertEqual(item.DATA_TYPE_NAME, mock_sender.data.data.base_type)
+            self.assertEqual(item, mock_sender.data.data.base_data)
 
 class MockTelemetrySender(channel.TelemetryChannel().sender.__class__):
     def __init__(self):
