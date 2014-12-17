@@ -21,7 +21,7 @@ internal_context.sdk_version = platform_moniker + ':0.2.0'
 
 class TelemetrySender(object):
     """The TelemetrySender is responsible for sending buffered telemetry to the server on a timer"""
-    def __init__(self, service_endpoint_uri = 'http://dc.services.visualstudio.com/v2/track'):
+    def __init__(self, service_endpoint_uri = 'https://dc.services.visualstudio.com/v2/track'):
         """Initializes a new instance of the TelemetrySender class."""
         if not service_endpoint_uri:
             raise Exception('Service endpoint URI was required but not provided')

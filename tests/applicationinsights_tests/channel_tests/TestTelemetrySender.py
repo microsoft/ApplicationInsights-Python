@@ -29,14 +29,14 @@ class TestTelemetrySender(unittest.TestCase):
 
     def test_construct(self):
         actual = self.TelemetrySender()
-        self.assertEqual("http://dc.services.visualstudio.com/v2/track", actual.service_endpoint_uri)
+        self.assertEqual("https://dc.services.visualstudio.com/v2/track", actual.service_endpoint_uri)
           
     def test_construct_with_no_endpoint(self):
         self.assertRaises(Exception, self.TelemetrySender, None)
                   
     def test_service_endpoint_uri_property_works_as_expected(self):
         actual = self.TelemetrySender()
-        self.assertEqual("http://dc.services.visualstudio.com/v2/track", actual.service_endpoint_uri)
+        self.assertEqual("https://dc.services.visualstudio.com/v2/track", actual.service_endpoint_uri)
         actual = self.TelemetrySender("blah")
         self.assertEqual("blah", actual.service_endpoint_uri)
 

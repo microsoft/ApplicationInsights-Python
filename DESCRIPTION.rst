@@ -115,7 +115,7 @@ measurements**
     tc.context.application.id = 'My application'
     tc.context.application.ver = '1.2.3'
     tc.context.device.id = 'My current device'
-    tc.context.device.oemName = 'Asus'
+    tc.context.device.oem_name = 'Asus'
     tc.context.device.model = 'X31A'
     tc.context.device.type = "Other"
     tc.context.user.id = 'santa@northpole.net'
