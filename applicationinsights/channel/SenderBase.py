@@ -74,7 +74,7 @@ class SenderBase(object):
         """
         return self._send_buffer_size
 
-    @service_endpoint_uri.setter
+    @send_buffer_size.setter
     def send_buffer_size(self, value):
         """The buffer size for a single batch of telemetry. This is the maximum number of items in a single service
         request that this sender is going to send.
@@ -82,6 +82,8 @@ class SenderBase(object):
         Args:
             value (int): the maximum number of items in a telemetry batch.
         """
+        if value < 1:
+            value = 1
         self._send_buffer_size = value
 
     def send(self, data_to_send):

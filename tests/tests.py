@@ -10,6 +10,8 @@ import applicationinsights_tests
 def test_main():
     run_unittest(
             applicationinsights_tests.TestTelemetryClient.TestTelemetryClient,
+            applicationinsights_tests.channel_tests.TestQueueBase.TestQueueBase,
+            applicationinsights_tests.channel_tests.TestSenderBase.TestSenderBase,
             applicationinsights_tests.channel_tests.TestTelemetryChannel.TestTelemetryChannel,
             applicationinsights_tests.channel_tests.TestTelemetryContext.TestTelemetryContext,
             applicationinsights_tests.channel_tests.TestTelemetrySender.TestTelemetrySender,

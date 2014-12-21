@@ -1,9 +1,9 @@
 try:
     # Python 2.x
-    from Queue import Queue
+    from Queue import Queue, Empty
 except ImportError:
     # Python 3.x
-    from queue import Queue
+    from queue import Queue, Empty
 
 class QueueBase(object):
     """The base class for all types of queues for use in conjunction with an implementation of :class:`SenderBase`.
@@ -52,7 +52,7 @@ class QueueBase(object):
         Returns:
             :class:`SenderBase`. the sender object.
         """
-        return self._max_queue_length
+        return self._sender
 
     def put(self, item):
         """Adds the passed in item object to the queue and calls :func:`flush` if the size of the queue is larger
@@ -66,6 +66,17 @@ class QueueBase(object):
         self._queue.put(item)
         if self._queue.qsize() >= self._max_queue_length:
             self.flush()
+
+    def get(self):
+        """Gets a single item from the queue and returns it. If the queue is empty, this method will return None.
+
+        Returns:
+            :class:`contracts.Envelope`. a telemetry envelope object or None if the queue is empty.
+        """
+        try:
+            return self._queue.get_nowait()
+        except Empty:
+            return None
 
     def flush(self):
         """Flushes the current queue by notifying the {#sender}. This method needs to be overridden by a concrete
