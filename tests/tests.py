@@ -14,6 +14,8 @@ def test_main():
             applicationinsights_tests.channel_tests.TestAsynchronousSender.TestAsynchronousSender,
             applicationinsights_tests.channel_tests.TestQueueBase.TestQueueBase,
             applicationinsights_tests.channel_tests.TestSenderBase.TestSenderBase,
+            applicationinsights_tests.channel_tests.TestSynchronousQueue.TestSynchronousQueue,
+            applicationinsights_tests.channel_tests.TestSynchronousSender.TestSynchronousSender,
             applicationinsights_tests.channel_tests.TestTelemetryChannel.TestTelemetryChannel,
             applicationinsights_tests.channel_tests.TestTelemetryContext.TestTelemetryContext,
             applicationinsights_tests.channel_tests.contracts_tests.TestApplication,
