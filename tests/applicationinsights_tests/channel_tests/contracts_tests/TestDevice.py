@@ -5,17 +5,18 @@ import sys
 import json
 
 import sys, os, os.path
-rootDirectory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..')
-if rootDirectory not in sys.path:
-    sys.path.append(rootDirectory)
+root_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..')
+if root_directory not in sys.path:
+    sys.path.append(root_directory)
 
 from applicationinsights.channel.contracts import *
+from .Utils import TestJsonEncoder
 
 class TestDevice(unittest.TestCase):
     def test_construct(self):
         item = Device()
         self.assertNotEqual(item, None)
-
+    
     def test_id_property_works_as_expected(self):
         expected = 'Test string'
         item = Device()
@@ -186,7 +187,7 @@ class TestDevice(unittest.TestCase):
         item.screen_resolution = 'Test string'
         item.type = 'Test string'
         item.vm_name = 'Test string'
-        actual = json.dumps(item.write())
-        expected = '{"ai.device.id": "Test string", "ai.device.ip": "Test string", "ai.device.language": "Test string", "ai.device.locale": "Test string", "ai.device.model": "Test string", "ai.device.network": "Test string", "ai.device.oemName": "Test string", "ai.device.os": "Test string", "ai.device.osVersion": "Test string", "ai.device.roleInstance": "Test string", "ai.device.roleName": "Test string", "ai.device.screenResolution": "Test string", "ai.device.type": "Test string", "ai.device.vmName": "Test string"}'
+        actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)
+        expected = '{"ai.device.id":"Test string","ai.device.ip":"Test string","ai.device.language":"Test string","ai.device.locale":"Test string","ai.device.model":"Test string","ai.device.network":"Test string","ai.device.oemName":"Test string","ai.device.os":"Test string","ai.device.osVersion":"Test string","ai.device.roleInstance":"Test string","ai.device.roleName":"Test string","ai.device.screenResolution":"Test string","ai.device.type":"Test string","ai.device.vmName":"Test string"}'
         self.assertEqual(expected, actual)
 

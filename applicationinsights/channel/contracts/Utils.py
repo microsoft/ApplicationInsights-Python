@@ -2,10 +2,17 @@ import collections
 
 def _write_complex_object(defaults, values):
     output = collections.OrderedDict()
-    for key in [ field for field in defaults.keys() if field in values ]:
-        value = values[key]
-        if value == None:
-            value = defaults[key]
+    for key in defaults.keys():
+        default = defaults[key]
+        if key in values:
+            value = values[key]
+            if value == None:
+                value = default
+        elif default:
+            value = default
+        else:
+            continue
+
         if isinstance(value, list):
             value_copy = []
             for item in value:
@@ -33,4 +40,5 @@ def _write_complex_object(defaults, values):
         else:
             value_copy = value
             output[key] = value_copy        
+
     return output

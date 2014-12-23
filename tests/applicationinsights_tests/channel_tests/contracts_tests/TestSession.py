@@ -5,17 +5,18 @@ import sys
 import json
 
 import sys, os, os.path
-rootDirectory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..')
-if rootDirectory not in sys.path:
-    sys.path.append(rootDirectory)
+root_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..')
+if root_directory not in sys.path:
+    sys.path.append(root_directory)
 
 from applicationinsights.channel.contracts import *
+from .Utils import TestJsonEncoder
 
 class TestSession(unittest.TestCase):
     def test_construct(self):
         item = Session()
         self.assertNotEqual(item, None)
-
+    
     def test_id_property_works_as_expected(self):
         expected = 'Test string'
         item = Session()
@@ -54,7 +55,7 @@ class TestSession(unittest.TestCase):
         item.id = 'Test string'
         item.is_first = 'Test string'
         item.is_new = 'Test string'
-        actual = json.dumps(item.write())
-        expected = '{"ai.session.id": "Test string", "ai.session.isFirst": "Test string", "ai.session.isNew": "Test string"}'
+        actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)
+        expected = '{"ai.session.id":"Test string","ai.session.isFirst":"Test string","ai.session.isNew":"Test string"}'
         self.assertEqual(expected, actual)
 

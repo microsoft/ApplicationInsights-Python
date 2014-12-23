@@ -5,17 +5,18 @@ import sys
 import json
 
 import sys, os, os.path
-rootDirectory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..')
-if rootDirectory not in sys.path:
-    sys.path.append(rootDirectory)
+root_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..')
+if root_directory not in sys.path:
+    sys.path.append(root_directory)
 
 from applicationinsights.channel.contracts import *
+from .Utils import TestJsonEncoder
 
 class TestEnvelope(unittest.TestCase):
     def test_construct(self):
         item = Envelope()
         self.assertNotEqual(item, None)
-
+    
     def test_ver_property_works_as_expected(self):
         expected = 42
         item = Envelope()
@@ -50,12 +51,12 @@ class TestEnvelope(unittest.TestCase):
         self.assertEqual(expected, actual)
     
     def test_sample_rate_property_works_as_expected(self):
-        expected = 3.14159265358979
+        expected = 1.5
         item = Envelope()
         item.sample_rate = expected
         actual = item.sample_rate
         self.assertEqual(expected, actual)
-        expected = 2.71828182845905
+        expected = 4.8
         item.sample_rate = expected
         actual = item.sample_rate
         self.assertEqual(expected, actual)
@@ -165,12 +166,12 @@ class TestEnvelope(unittest.TestCase):
         self.assertNotEqual(actual, None)
     
     def test_data_property_works_as_expected(self):
-        expected = Data()
+        expected = object()
         item = Envelope()
         item.data = expected
         actual = item.data
         self.assertEqual(expected, actual)
-        expected = Device()
+        expected = object()
         item.data = expected
         actual = item.data
         self.assertEqual(expected, actual)
@@ -180,7 +181,7 @@ class TestEnvelope(unittest.TestCase):
         item.ver = 42
         item.name = 'Test string'
         item.time = 'Test string'
-        item.sample_rate = 3.14159265358979
+        item.sample_rate = 1.5
         item.seq = 'Test string'
         item.ikey = 'Test string'
         item.flags = 42
@@ -190,13 +191,10 @@ class TestEnvelope(unittest.TestCase):
         item.app_id = 'Test string'
         item.app_ver = 'Test string'
         item.user_id = 'Test string'
-        myItemDictionary =  { 'key1': 'test value 1', 'key2': 'test value 2' }
-        for key, value in myItemDictionary.items():
+        for key, value in { 'key1': 'test value 1' , 'key2': 'test value 2' }.items():
             item.tags[key] = value
-        
-        item.data = Data()
-        item.data.base_type = 'Test string'
-        actual = json.dumps(item.write())
-        expected = '{"ver": 42, "name": "Test string", "time": "Test string", "sampleRate": 3.14159265358979, "seq": "Test string", "iKey": "Test string", "flags": 42, "deviceId": "Test string", "os": "Test string", "osVer": "Test string", "appId": "Test string", "appVer": "Test string", "userId": "Test string", "tags": {"key1": "test value 1", "key2": "test value 2"}, "data": {"baseType": "Test string", "baseData": null}}'
-        self.assertEqual(actual, expected)
+        item.data = object()
+        actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)
+        expected = '{"ver":42,"name":"Test string","time":"Test string","sampleRate":1.5,"seq":"Test string","iKey":"Test string","flags":42,"deviceId":"Test string","os":"Test string","osVer":"Test string","appId":"Test string","appVer":"Test string","userId":"Test string","tags":{"key1":"test value 1","key2":"test value 2"},"data":{}}'
+        self.assertEqual(expected, actual)
 

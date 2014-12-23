@@ -3,7 +3,8 @@ import copy
 from .Utils import _write_complex_object
 
 class Session(object):
-    """Data contract class for type Session."""
+    """Data contract class for type Session.
+    """
     _defaults = collections.OrderedDict([
         ('ai.session.id', None),
         ('ai.session.isFirst', None),
@@ -11,20 +12,30 @@ class Session(object):
     ])
     
     def __init__(self):
-        """Initializes a new instance of the Session class."""
+        """Initializes a new instance of the class.
+        """
         self._values = {
         }
         self._initialize()
         
     @property
     def id(self):
-        """Gets or sets the id property."""
+        """The id property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
         if 'ai.session.id' in self._values:
             return self._values['ai.session.id']
         return self._defaults['ai.session.id']
         
     @id.setter
     def id(self, value):
+        """The id property.
+        
+        Args:
+            value (string). the property value.
+        """
         if value == self._defaults['ai.session.id'] and 'ai.session.id' in self._values:
             del self._values['ai.session.id']
         else:
@@ -32,13 +43,22 @@ class Session(object):
         
     @property
     def is_first(self):
-        """Gets or sets the is_first property."""
+        """The is_first property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
         if 'ai.session.isFirst' in self._values:
             return self._values['ai.session.isFirst']
         return self._defaults['ai.session.isFirst']
         
     @is_first.setter
     def is_first(self, value):
+        """The is_first property.
+        
+        Args:
+            value (string). the property value.
+        """
         if value == self._defaults['ai.session.isFirst'] and 'ai.session.isFirst' in self._values:
             del self._values['ai.session.isFirst']
         else:
@@ -46,23 +66,37 @@ class Session(object):
         
     @property
     def is_new(self):
-        """Gets or sets the is_new property."""
+        """The is_new property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
         if 'ai.session.isNew' in self._values:
             return self._values['ai.session.isNew']
         return self._defaults['ai.session.isNew']
         
     @is_new.setter
     def is_new(self, value):
+        """The is_new property.
+        
+        Args:
+            value (string). the property value.
+        """
         if value == self._defaults['ai.session.isNew'] and 'ai.session.isNew' in self._values:
             del self._values['ai.session.isNew']
         else:
             self._values['ai.session.isNew'] = value
         
     def _initialize(self):
-        """Initializes the current instance of the object (can be overridden)."""
+        """Initializes the current instance of the object.
+        """
         pass
     
     def write(self):
-        """Writes the contents of this object and returns the content as a dict object."""
+        """Writes the contents of this object and returns the content as a dict object.
+        
+        Returns:
+            (dict). the object that represents the same data as the current instance.
+        """
         return _write_complex_object(self._defaults, self._values)
 

@@ -5,17 +5,18 @@ import sys
 import json
 
 import sys, os, os.path
-rootDirectory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..')
-if rootDirectory not in sys.path:
-    sys.path.append(rootDirectory)
+root_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..')
+if root_directory not in sys.path:
+    sys.path.append(root_directory)
 
 from applicationinsights.channel.contracts import *
+from .Utils import TestJsonEncoder
 
 class TestExceptionDetails(unittest.TestCase):
     def test_construct(self):
         item = ExceptionDetails()
         self.assertNotEqual(item, None)
-
+    
     def test_id_property_works_as_expected(self):
         expected = 42
         item = ExceptionDetails()
@@ -95,10 +96,10 @@ class TestExceptionDetails(unittest.TestCase):
         item.message = 'Test string'
         item.has_full_stack = True
         item.stack = 'Test string'
-        for value in [ StackFrame() ]:
+        for value in [ object() ]:
             item.parsed_stack.append(value)
         
-        actual = json.dumps(item.write())
-        expected = '{"id": 42, "outerId": 42, "typeName": "Test string", "message": "Test string", "stack": "Test string", "parsedStack": [{"level": null, "method": null}]}'
-        self.assertEqual(actual, expected)
+        actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)
+        expected = '{"id":42,"outerId":42,"typeName":"Test string","message":"Test string","hasFullStack":true,"stack":"Test string","parsedStack":[{}]}'
+        self.assertEqual(expected, actual)
 

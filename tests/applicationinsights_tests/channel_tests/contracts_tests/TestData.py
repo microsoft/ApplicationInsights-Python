@@ -5,17 +5,18 @@ import sys
 import json
 
 import sys, os, os.path
-rootDirectory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..')
-if rootDirectory not in sys.path:
-    sys.path.append(rootDirectory)
+root_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..')
+if root_directory not in sys.path:
+    sys.path.append(root_directory)
 
 from applicationinsights.channel.contracts import *
+from .Utils import TestJsonEncoder
 
 class TestData(unittest.TestCase):
     def test_construct(self):
         item = Data()
         self.assertNotEqual(item, None)
-
+    
     def test_base_type_property_works_as_expected(self):
         expected = 'Test string'
         item = Data()
@@ -28,12 +29,12 @@ class TestData(unittest.TestCase):
         self.assertEqual(expected, actual)
     
     def test_base_data_property_works_as_expected(self):
-        expected = Application()
+        expected = object()
         item = Data()
         item.base_data = expected
         actual = item.base_data
         self.assertEqual(expected, actual)
-        expected = Device()
+        expected = object()
         item.base_data = expected
         actual = item.base_data
         self.assertEqual(expected, actual)
@@ -41,8 +42,8 @@ class TestData(unittest.TestCase):
     def test_serialize_works_as_expected(self):
         item = Data()
         item.base_type = 'Test string'
-        item.base_data = Application()
-        actual = json.dumps(item.write())
-        expected = '{"baseType": "Test string"}'
-        self.assertEqual(actual, expected)
+        item.base_data = object()
+        actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)
+        expected = '{"baseType":"Test string","baseData":{}}'
+        self.assertEqual(expected, actual)
 

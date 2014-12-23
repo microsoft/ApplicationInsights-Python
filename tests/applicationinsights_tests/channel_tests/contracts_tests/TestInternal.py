@@ -5,17 +5,18 @@ import sys
 import json
 
 import sys, os, os.path
-rootDirectory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..')
-if rootDirectory not in sys.path:
-    sys.path.append(rootDirectory)
+root_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..')
+if root_directory not in sys.path:
+    sys.path.append(root_directory)
 
 from applicationinsights.channel.contracts import *
+from .Utils import TestJsonEncoder
 
 class TestInternal(unittest.TestCase):
     def test_construct(self):
         item = Internal()
         self.assertNotEqual(item, None)
-
+    
     def test_sdk_version_property_works_as_expected(self):
         expected = 'Test string'
         item = Internal()
@@ -42,7 +43,7 @@ class TestInternal(unittest.TestCase):
         item = Internal()
         item.sdk_version = 'Test string'
         item.agent_version = 'Test string'
-        actual = json.dumps(item.write())
-        expected = '{"ai.internal.sdkVersion": "Test string", "ai.internal.agentVersion": "Test string"}'
+        actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)
+        expected = '{"ai.internal.sdkVersion":"Test string","ai.internal.agentVersion":"Test string"}'
         self.assertEqual(expected, actual)
 

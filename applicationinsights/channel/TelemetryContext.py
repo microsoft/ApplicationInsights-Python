@@ -1,7 +1,5 @@
 import platform
 import locale
-import socket
-import uuid
 
 from applicationinsights.channel import contracts
 
@@ -19,9 +17,22 @@ def device_initialize(self):
 contracts.Device._initialize = device_initialize
 
 class TelemetryContext(object):
-    """Represents a context for sending telemetry to the Application Insights service."""
+    """Represents the context for sending telemetry to the Application Insights service.
+
+        context = TelemetryContext()
+        context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+        context.application.id = 'My application'
+        context.application.ver = '1.2.3'
+        context.device.id = 'My current device'
+        context.device.oem_name = 'Asus'
+        context.device.model = 'X31A'
+        context.device.type = "Other"
+        context.user.id = 'santa@northpole.net'
+        track_trace('My trace with context')
+    """
     def __init__(self):
-        """Initializes a new instance of the TelemetryContext class."""
+        """Initializes a new instance of the class.
+        """
         self.instrumentation_key = None
         self.device = contracts.Device()
         self.application = contracts.Application()
@@ -33,5 +44,9 @@ class TelemetryContext(object):
 
     @property
     def properties(self):
-        """Gets a dictionary of application-defined property values.."""
+        """The property context. This contains free-form properties that you can add to your telemetry.
+
+        Returns:
+            (dict). the context object.
+        """
         return self._properties
