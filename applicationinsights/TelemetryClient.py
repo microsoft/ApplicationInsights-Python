@@ -20,6 +20,9 @@ class TelemetryClient(object):
         """Gets the channel associated with this telemetry client."""
         return self._channel
 
+    def flush(self):
+        self._channel.flush()
+
     def track_pageview(self, name, url, duration=0, properties=None, measurements=None):
         """Send information about the page viewed in the application."""
         data = channel.contracts.PageViewData()

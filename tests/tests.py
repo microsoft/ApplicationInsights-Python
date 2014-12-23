@@ -14,7 +14,6 @@ def test_main():
             applicationinsights_tests.channel_tests.TestSenderBase.TestSenderBase,
             applicationinsights_tests.channel_tests.TestTelemetryChannel.TestTelemetryChannel,
             applicationinsights_tests.channel_tests.TestTelemetryContext.TestTelemetryContext,
-            applicationinsights_tests.channel_tests.TestTelemetrySender.TestTelemetrySender,
             applicationinsights_tests.channel_tests.contracts_tests.TestApplication,
             applicationinsights_tests.channel_tests.contracts_tests.TestData,
             applicationinsights_tests.channel_tests.contracts_tests.TestDataPoint,

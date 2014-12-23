@@ -28,7 +28,7 @@ class SynchronousQueue(QueueBase):
             # get at most send_buffer_size items and send them
             data = []
             while len(data) < local_sender.send_buffer_size:
-                item = self.pop()
+                item = self.get()
                 if not item:
                     break
                 data.append(item)

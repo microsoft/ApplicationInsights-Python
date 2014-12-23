@@ -2,8 +2,6 @@ import unittest
 import platform
 import locale
 
-from test import test_support
-
 import sys, os, os.path
 rootDirectory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..')
 if rootDirectory not in sys.path:
