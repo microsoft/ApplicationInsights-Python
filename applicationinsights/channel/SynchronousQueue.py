@@ -1,4 +1,4 @@
-from QueueBase import QueueBase
+from .QueueBase import QueueBase
 
 class SynchronousQueue(QueueBase):
     """A synchronous queue for use in conjunction with the :class:`SynchronousSender`. The queue will call

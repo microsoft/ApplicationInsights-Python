@@ -5,17 +5,18 @@ import sys
 import json
 
 import sys, os, os.path
-rootDirectory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..')
-if rootDirectory not in sys.path:
-    sys.path.append(rootDirectory)
+root_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..')
+if root_directory not in sys.path:
+    sys.path.append(root_directory)
 
 from applicationinsights.channel.contracts import *
+from .Utils import TestJsonEncoder
 
 class TestRemoteDependencyData(unittest.TestCase):
     def test_construct(self):
         item = RemoteDependencyData()
         self.assertNotEqual(item, None)
-
+    
     def test_ver_property_works_as_expected(self):
         expected = 42
         item = RemoteDependencyData()
@@ -39,23 +40,23 @@ class TestRemoteDependencyData(unittest.TestCase):
         self.assertEqual(expected, actual)
     
     def test_kind_property_works_as_expected(self):
-        expected = DataPointType()
+        expected = object()
         item = RemoteDependencyData()
         item.kind = expected
         actual = item.kind
         self.assertEqual(expected, actual)
-        expected = DataPointType()
+        expected = object()
         item.kind = expected
         actual = item.kind
         self.assertEqual(expected, actual)
     
     def test_value_property_works_as_expected(self):
-        expected = 3.14159265358979
+        expected = 1.5
         item = RemoteDependencyData()
         item.value = expected
         actual = item.value
         self.assertEqual(expected, actual)
-        expected = 2.71828182845905
+        expected = 4.8
         item.value = expected
         actual = item.value
         self.assertEqual(expected, actual)
@@ -72,45 +73,45 @@ class TestRemoteDependencyData(unittest.TestCase):
         self.assertEqual(expected, actual)
     
     def test_min_property_works_as_expected(self):
-        expected = 3.14159265358979
+        expected = 1.5
         item = RemoteDependencyData()
         item.min = expected
         actual = item.min
         self.assertEqual(expected, actual)
-        expected = 2.71828182845905
+        expected = 4.8
         item.min = expected
         actual = item.min
         self.assertEqual(expected, actual)
     
     def test_max_property_works_as_expected(self):
-        expected = 3.14159265358979
+        expected = 1.5
         item = RemoteDependencyData()
         item.max = expected
         actual = item.max
         self.assertEqual(expected, actual)
-        expected = 2.71828182845905
+        expected = 4.8
         item.max = expected
         actual = item.max
         self.assertEqual(expected, actual)
     
     def test_std_dev_property_works_as_expected(self):
-        expected = 3.14159265358979
+        expected = 1.5
         item = RemoteDependencyData()
         item.std_dev = expected
         actual = item.std_dev
         self.assertEqual(expected, actual)
-        expected = 2.71828182845905
+        expected = 4.8
         item.std_dev = expected
         actual = item.std_dev
         self.assertEqual(expected, actual)
     
     def test_dependency_kind_property_works_as_expected(self):
-        expected = DependencyKind()
+        expected = object()
         item = RemoteDependencyData()
         item.dependency_kind = expected
         actual = item.dependency_kind
         self.assertEqual(expected, actual)
-        expected = DependencyKind()
+        expected = object()
         item.dependency_kind = expected
         actual = item.dependency_kind
         self.assertEqual(expected, actual)
@@ -138,12 +139,12 @@ class TestRemoteDependencyData(unittest.TestCase):
         self.assertEqual(expected, actual)
     
     def test_dependency_source_property_works_as_expected(self):
-        expected = DependencySourceType()
+        expected = object()
         item = RemoteDependencyData()
         item.dependency_source = expected
         actual = item.dependency_source
         self.assertEqual(expected, actual)
-        expected = DependencySourceType()
+        expected = object()
         item.dependency_source = expected
         actual = item.dependency_source
         self.assertEqual(expected, actual)
@@ -157,21 +158,19 @@ class TestRemoteDependencyData(unittest.TestCase):
         item = RemoteDependencyData()
         item.ver = 42
         item.name = 'Test string'
-        item.kind = DataPointType.aggregation
-        item.value = 3.14159265358979
+        item.kind = object()
+        item.value = 1.5
         item.count = 42
-        item.min = 3.14159265358979
-        item.max = 3.14159265358979
-        item.std_dev = 3.14159265358979
-        item.dependency_kind = DependencyKind.http_any
+        item.min = 1.5
+        item.max = 1.5
+        item.std_dev = 1.5
+        item.dependency_kind = object()
         item.success = True
         item.async = True
-        item.dependency_source = DependencySourceType.apmc
-        myItemDictionary =  { 'key1': 'test value 1', 'key2': 'test value 2' }
-        for key, value in myItemDictionary.items():
+        item.dependency_source = object()
+        for key, value in { 'key1': 'test value 1' , 'key2': 'test value 2' }.items():
             item.properties[key] = value
-        
-        actual = json.dumps(item.write())
-        expected = '{"ver": 42, "name": "Test string", "kind": 1, "value": 3.14159265358979, "count": 42, "min": 3.14159265358979, "max": 3.14159265358979, "stdDev": 3.14159265358979, "dependencyKind": 2, "async": true, "dependencySource": 2, "properties": {"key1": "test value 1", "key2": "test value 2"}}'
-        self.assertEqual(actual, expected)
+        actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)
+        expected = '{"ver":42,"name":"Test string","kind":{},"value":1.5,"count":42,"min":1.5,"max":1.5,"stdDev":1.5,"dependencyKind":{},"success":true,"async":true,"dependencySource":{},"properties":{"key1":"test value 1","key2":"test value 2"}}'
+        self.assertEqual(expected, actual)
 

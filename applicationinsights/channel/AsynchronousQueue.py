@@ -1,4 +1,4 @@
-from QueueBase import QueueBase
+from .QueueBase import QueueBase
 from threading import Event
 
 class AsynchronousQueue(QueueBase):

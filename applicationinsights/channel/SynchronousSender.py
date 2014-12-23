@@ -1,4 +1,4 @@
-from SenderBase import SenderBase
+from .SenderBase import SenderBase
 
 class SynchronousSender(SenderBase):
     """A synchronous sender that works in conjunction with the :class:`SynchronousQueue`. The queue will call

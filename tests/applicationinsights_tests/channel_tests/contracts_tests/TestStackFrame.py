@@ -5,17 +5,18 @@ import sys
 import json
 
 import sys, os, os.path
-rootDirectory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..')
-if rootDirectory not in sys.path:
-    sys.path.append(rootDirectory)
+root_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..')
+if root_directory not in sys.path:
+    sys.path.append(root_directory)
 
 from applicationinsights.channel.contracts import *
+from .Utils import TestJsonEncoder
 
 class TestStackFrame(unittest.TestCase):
     def test_construct(self):
         item = StackFrame()
         self.assertNotEqual(item, None)
-
+    
     def test_level_property_works_as_expected(self):
         expected = 42
         item = StackFrame()
@@ -78,7 +79,7 @@ class TestStackFrame(unittest.TestCase):
         item.assembly = 'Test string'
         item.file_name = 'Test string'
         item.line = 42
-        actual = json.dumps(item.write())
-        expected = '{"level": 42, "method": "Test string", "assembly": "Test string", "fileName": "Test string", "line": 42}'
+        actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)
+        expected = '{"level":42,"method":"Test string","assembly":"Test string","fileName":"Test string","line":42}'
         self.assertEqual(expected, actual)
 

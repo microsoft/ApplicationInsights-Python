@@ -3,7 +3,8 @@ import copy
 from .Utils import _write_complex_object
 
 class User(object):
-    """Data contract class for type User."""
+    """Data contract class for type User.
+    """
     _defaults = collections.OrderedDict([
         ('ai.user.accountAcquisitionDate', None),
         ('ai.user.accountId', None),
@@ -12,20 +13,30 @@ class User(object):
     ])
     
     def __init__(self):
-        """Initializes a new instance of the User class."""
+        """Initializes a new instance of the class.
+        """
         self._values = {
         }
         self._initialize()
         
     @property
     def account_acquisition_date(self):
-        """Gets or sets the account_acquisition_date property."""
+        """The account_acquisition_date property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
         if 'ai.user.accountAcquisitionDate' in self._values:
             return self._values['ai.user.accountAcquisitionDate']
         return self._defaults['ai.user.accountAcquisitionDate']
         
     @account_acquisition_date.setter
     def account_acquisition_date(self, value):
+        """The account_acquisition_date property.
+        
+        Args:
+            value (string). the property value.
+        """
         if value == self._defaults['ai.user.accountAcquisitionDate'] and 'ai.user.accountAcquisitionDate' in self._values:
             del self._values['ai.user.accountAcquisitionDate']
         else:
@@ -33,13 +44,22 @@ class User(object):
         
     @property
     def account_id(self):
-        """Gets or sets the account_id property."""
+        """The account_id property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
         if 'ai.user.accountId' in self._values:
             return self._values['ai.user.accountId']
         return self._defaults['ai.user.accountId']
         
     @account_id.setter
     def account_id(self, value):
+        """The account_id property.
+        
+        Args:
+            value (string). the property value.
+        """
         if value == self._defaults['ai.user.accountId'] and 'ai.user.accountId' in self._values:
             del self._values['ai.user.accountId']
         else:
@@ -47,13 +67,22 @@ class User(object):
         
     @property
     def user_agent(self):
-        """Gets or sets the user_agent property."""
+        """The user_agent property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
         if 'ai.user.userAgent' in self._values:
             return self._values['ai.user.userAgent']
         return self._defaults['ai.user.userAgent']
         
     @user_agent.setter
     def user_agent(self, value):
+        """The user_agent property.
+        
+        Args:
+            value (string). the property value.
+        """
         if value == self._defaults['ai.user.userAgent'] and 'ai.user.userAgent' in self._values:
             del self._values['ai.user.userAgent']
         else:
@@ -61,23 +90,37 @@ class User(object):
         
     @property
     def id(self):
-        """Gets or sets the id property."""
+        """The id property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
         if 'ai.user.id' in self._values:
             return self._values['ai.user.id']
         return self._defaults['ai.user.id']
         
     @id.setter
     def id(self, value):
+        """The id property.
+        
+        Args:
+            value (string). the property value.
+        """
         if value == self._defaults['ai.user.id'] and 'ai.user.id' in self._values:
             del self._values['ai.user.id']
         else:
             self._values['ai.user.id'] = value
         
     def _initialize(self):
-        """Initializes the current instance of the object (can be overridden)."""
+        """Initializes the current instance of the object.
+        """
         pass
     
     def write(self):
-        """Writes the contents of this object and returns the content as a dict object."""
+        """Writes the contents of this object and returns the content as a dict object.
+        
+        Returns:
+            (dict). the object that represents the same data as the current instance.
+        """
         return _write_complex_object(self._defaults, self._values)
 

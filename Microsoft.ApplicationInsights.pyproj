@@ -24,6 +24,8 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="applicationinsights\channel\AsynchronousQueue.py" />
+    <Compile Include="applicationinsights\channel\AsynchronousSender.py" />
     <Compile Include="applicationinsights\channel\contracts\Application.py" />
     <Compile Include="applicationinsights\channel\contracts\Data.py" />
     <Compile Include="applicationinsights\channel\contracts\DataPoint.py" />
@@ -51,6 +53,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="applicationinsights\channel\contracts\__init__.py" />
+    <Compile Include="applicationinsights\channel\QueueBase.py" />
+    <Compile Include="applicationinsights\channel\SenderBase.py" />
+    <Compile Include="applicationinsights\channel\SynchronousQueue.py" />
+    <Compile Include="applicationinsights\channel\SynchronousSender.py" />
     <Compile Include="applicationinsights\channel\TelemetryChannel.py" />
     <Compile Include="applicationinsights\channel\TelemetryContext.py" />
     <Compile Include="applicationinsights\channel\__init__.py" />
@@ -78,10 +84,16 @@
     <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestSession.py" />
     <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestStackFrame.py" />
     <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\TestUser.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\Utils.py" />
     <Compile Include="tests\applicationinsights_tests\channel_tests\contracts_tests\__init__.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\TestAsynchronousQueue.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\TestAsynchronousSender.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\TestQueueBase.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\TestSenderBase.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\TestSynchronousQueue.py" />
+    <Compile Include="tests\applicationinsights_tests\channel_tests\TestSynchronousSender.py" />
     <Compile Include="tests\applicationinsights_tests\channel_tests\TestTelemetryChannel.py" />
     <Compile Include="tests\applicationinsights_tests\channel_tests\TestTelemetryContext.py" />
-    <Compile Include="tests\applicationinsights_tests\channel_tests\TestTelemetrySender.py" />
     <Compile Include="tests\applicationinsights_tests\channel_tests\__init__.py" />
     <Compile Include="tests\applicationinsights_tests\__init__.py" />
     <Compile Include="tests\tests.py" />

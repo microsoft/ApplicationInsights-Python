@@ -3,7 +3,8 @@ import copy
 from .Utils import _write_complex_object
 
 class ExceptionData(object):
-    """Data contract class for type ExceptionData."""
+    """Data contract class for type ExceptionData.
+    """
     ENVELOPE_TYPE_NAME = 'Microsoft.ApplicationInsights.Exception'
     
     DATA_TYPE_NAME = 'ExceptionData'
@@ -18,7 +19,8 @@ class ExceptionData(object):
     ])
     
     def __init__(self):
-        """Initializes a new instance of the ExceptionData class."""
+        """Initializes a new instance of the class.
+        """
         self._values = {
             'ver': 2,
             'handledAt': None,
@@ -28,40 +30,76 @@ class ExceptionData(object):
         
     @property
     def ver(self):
-        """Gets or sets the ver property."""
+        """The ver property.
+        
+        Returns:
+            (int). the property value. (defaults to: 2)
+        """
         return self._values['ver']
         
     @ver.setter
     def ver(self, value):
+        """The ver property.
+        
+        Args:
+            value (int). the property value.
+        """
         self._values['ver'] = value
         
     @property
     def handled_at(self):
-        """Gets or sets the handled_at property."""
+        """The handled_at property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
         return self._values['handledAt']
         
     @handled_at.setter
     def handled_at(self, value):
+        """The handled_at property.
+        
+        Args:
+            value (string). the property value.
+        """
         self._values['handledAt'] = value
         
     @property
     def exceptions(self):
-        """Gets or sets the exceptions property."""
+        """The exceptions property.
+        
+        Returns:
+            (list). the property value. (defaults to: [])
+        """
         return self._values['exceptions']
         
     @exceptions.setter
     def exceptions(self, value):
+        """The exceptions property.
+        
+        Args:
+            value (list). the property value.
+        """
         self._values['exceptions'] = value
         
     @property
     def severity_level(self):
-        """Gets or sets the severity_level property."""
+        """The severity_level property.
+        
+        Returns:
+            (int). the property value. (defaults to: None)
+        """
         if 'severityLevel' in self._values:
             return self._values['severityLevel']
         return self._defaults['severityLevel']
         
     @severity_level.setter
     def severity_level(self, value):
+        """The severity_level property.
+        
+        Args:
+            value (int). the property value.
+        """
         if value == self._defaults['severityLevel'] and 'severityLevel' in self._values:
             del self._values['severityLevel']
         else:
@@ -69,7 +107,11 @@ class ExceptionData(object):
         
     @property
     def properties(self):
-        """Gets or sets the properties property."""
+        """The properties property.
+        
+        Returns:
+            (hash). the property value. (defaults to: {})
+        """
         if 'properties' in self._values:
             return self._values['properties']
         self._values['properties'] = copy.deepcopy(self._defaults['properties'])
@@ -77,6 +119,11 @@ class ExceptionData(object):
         
     @properties.setter
     def properties(self, value):
+        """The properties property.
+        
+        Args:
+            value (hash). the property value.
+        """
         if value == self._defaults['properties'] and 'properties' in self._values:
             del self._values['properties']
         else:
@@ -84,7 +131,11 @@ class ExceptionData(object):
         
     @property
     def measurements(self):
-        """Gets or sets the measurements property."""
+        """The measurements property.
+        
+        Returns:
+            (hash). the property value. (defaults to: {})
+        """
         if 'measurements' in self._values:
             return self._values['measurements']
         self._values['measurements'] = copy.deepcopy(self._defaults['measurements'])
@@ -92,16 +143,26 @@ class ExceptionData(object):
         
     @measurements.setter
     def measurements(self, value):
+        """The measurements property.
+        
+        Args:
+            value (hash). the property value.
+        """
         if value == self._defaults['measurements'] and 'measurements' in self._values:
             del self._values['measurements']
         else:
             self._values['measurements'] = value
         
     def _initialize(self):
-        """Initializes the current instance of the object (can be overridden)."""
+        """Initializes the current instance of the object.
+        """
         pass
     
     def write(self):
-        """Writes the contents of this object and returns the content as a dict object."""
+        """Writes the contents of this object and returns the content as a dict object.
+        
+        Returns:
+            (dict). the object that represents the same data as the current instance.
+        """
         return _write_complex_object(self._defaults, self._values)
 

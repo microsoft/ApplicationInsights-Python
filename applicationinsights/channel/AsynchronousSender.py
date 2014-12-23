@@ -1,4 +1,4 @@
-from SenderBase import SenderBase
+from .SenderBase import SenderBase
 from threading import Lock, Thread
 
 class AsynchronousSender(SenderBase):

@@ -5,17 +5,18 @@ import sys
 import json
 
 import sys, os, os.path
-rootDirectory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..')
-if rootDirectory not in sys.path:
-    sys.path.append(rootDirectory)
+root_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..')
+if root_directory not in sys.path:
+    sys.path.append(root_directory)
 
 from applicationinsights.channel.contracts import *
+from .Utils import TestJsonEncoder
 
 class TestPageViewData(unittest.TestCase):
     def test_construct(self):
         item = PageViewData()
         self.assertNotEqual(item, None)
-
+    
     def test_ver_property_works_as_expected(self):
         expected = 42
         item = PageViewData()
@@ -76,15 +77,11 @@ class TestPageViewData(unittest.TestCase):
         item.url = 'Test string'
         item.name = 'Test string'
         item.duration = 'Test string'
-        myItemDictionary =  { 'key1': 'test value 1', 'key2': 'test value 2' }
-        for key, value in myItemDictionary.items():
+        for key, value in { 'key1': 'test value 1' , 'key2': 'test value 2' }.items():
             item.properties[key] = value
-        
-        myItemDictionary =  { 'key1': 3.1415, 'key2': 42.2 }
-        for key, value in myItemDictionary.items():
+        for key, value in { 'key1': 3.1415 , 'key2': 42.2 }.items():
             item.measurements[key] = value
-        
-        actual = json.dumps(item.write())
-        expected = '{"ver": 42, "url": "Test string", "name": "Test string", "duration": "Test string", "properties": {"key1": "test value 1", "key2": "test value 2"}, "measurements": {"key1": 3.1415, "key2": 42.2}}'
+        actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)
+        expected = '{"ver":42,"url":"Test string","name":"Test string","duration":"Test string","properties":{"key1":"test value 1","key2":"test value 2"},"measurements":{"key1":3.1415,"key2":42.2}}'
         self.assertEqual(expected, actual)
 

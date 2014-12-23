@@ -5,17 +5,18 @@ import sys
 import json
 
 import sys, os, os.path
-rootDirectory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..')
-if rootDirectory not in sys.path:
-    sys.path.append(rootDirectory)
+root_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..')
+if root_directory not in sys.path:
+    sys.path.append(root_directory)
 
 from applicationinsights.channel.contracts import *
+from .Utils import TestJsonEncoder
 
 class TestExceptionData(unittest.TestCase):
     def test_construct(self):
         item = ExceptionData()
         self.assertNotEqual(item, None)
-
+    
     def test_ver_property_works_as_expected(self):
         expected = 42
         item = ExceptionData()
@@ -44,12 +45,12 @@ class TestExceptionData(unittest.TestCase):
         self.assertNotEqual(actual, None)
     
     def test_severity_level_property_works_as_expected(self):
-        expected = SeverityLevel.warning
+        expected = object()
         item = ExceptionData()
         item.severity_level = expected
         actual = item.severity_level
         self.assertEqual(expected, actual)
-        expected = SeverityLevel.warning
+        expected = object()
         item.severity_level = expected
         actual = item.severity_level
         self.assertEqual(expected, actual)
@@ -68,19 +69,15 @@ class TestExceptionData(unittest.TestCase):
         item = ExceptionData()
         item.ver = 42
         item.handled_at = 'Test string'
-        for value in [ ExceptionDetails() ]:
+        for value in [ object() ]:
             item.exceptions.append(value)
         
-        item.severity_level = SeverityLevel.warning
-        myItemDictionary =  { 'key1': 'test value 1', 'key2': 'test value 2' }
-        for key, value in myItemDictionary.items():
+        item.severity_level = object()
+        for key, value in { 'key1': 'test value 1' , 'key2': 'test value 2' }.items():
             item.properties[key] = value
-        
-        myItemDictionary =  { 'key1': 3.1415, 'key2': 42.2 }
-        for key, value in myItemDictionary.items():
+        for key, value in { 'key1': 3.1415 , 'key2': 42.2 }.items():
             item.measurements[key] = value
-        
-        actual = json.dumps(item.write())
-        expected = '{"ver": 42, "handledAt": "Test string", "exceptions": [{"typeName": null, "message": null, "hasFullStack": true}], "severityLevel": 2, "properties": {"key1": "test value 1", "key2": "test value 2"}, "measurements": {"key1": 3.1415, "key2": 42.2}}'
-        self.assertEqual(actual, expected)
+        actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)
+        expected = '{"ver":42,"handledAt":"Test string","exceptions":[{}],"severityLevel":{},"properties":{"key1":"test value 1","key2":"test value 2"},"measurements":{"key1":3.1415,"key2":42.2}}'
+        self.assertEqual(expected, actual)
 
