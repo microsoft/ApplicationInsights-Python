@@ -48,3 +48,4 @@ target/
 *.user
 *.sln.docstates
 .idea/
+doc/_build/
