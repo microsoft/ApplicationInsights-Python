@@ -91,6 +91,7 @@ tc.context.device.model = 'X31A'
 tc.context.device.type = "Other"
 tc.context.user.id = 'santa@northpole.net'
 tc.track_trace('My trace with context')
+tc.flush()
 ```  
 
 **Configuring channel related properties**
