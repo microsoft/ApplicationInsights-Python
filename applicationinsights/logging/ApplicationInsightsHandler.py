@@ -19,13 +19,13 @@ class ApplicationInsightsHandler(logging.Handler):
             raise Exception('Instrumentation key was required but not provided')
         self.client = applicationinsights.TelemetryClient()
         self.client.context.instrumentation_key = instrumentation_key
-        logging.Handler.__init__(self, *args, **kwargs)
+        super(ApplicationInsightsHandler, self).__init__(*args, **kwargs)
 
     def flush(self):
         """Flushes the queued up telemetry to the service.
         """
         self.client.flush()
-        return super().flush()
+        return super(ApplicationInsightsHandler, self).flush()
 
     def emit(self, record):
         """Emit a record.
