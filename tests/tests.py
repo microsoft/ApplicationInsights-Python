@@ -36,7 +36,8 @@ def test_main():
             applicationinsights_tests.channel_tests.contracts_tests.TestRequestData,
             applicationinsights_tests.channel_tests.contracts_tests.TestSession,
             applicationinsights_tests.channel_tests.contracts_tests.TestStackFrame,
-            applicationinsights_tests.channel_tests.contracts_tests.TestUser)
+            applicationinsights_tests.channel_tests.contracts_tests.TestUser,
+            applicationinsights_tests.logging_tests.TestApplicationInsightsHandler.TestApplicationInsightsHandler)
 
 if __name__ == '__main__':
     test_main()
