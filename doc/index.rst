@@ -1,19 +1,29 @@
-.. Application Insights SDK for Python documentation master file, created by
-   sphinx-quickstart on Mon Dec 22 23:32:45 2014.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 .. toctree::
-   :hidden:
+    :maxdepth: 2
+    :hidden:
 
-   applicationinsights
-   applicationinsights.channel
+    applicationinsights
 
 Application Insights SDK for Python
 ===================================
 
-    | Python is an easy to learn, powerful programming language. It has efficient high-level data structures and a simple but effective approach to object-oriented programming. Python's elegant syntax and dynamic typing, together with its interpreted nature, make it an ideal language for scripting and rapid application development in many areas on most platforms.
-    | -- \ `The Python Tutorial - Introduction <https://docs.python.org/3/tutorial/>`__\ 
+.. sidebar:: Usage
+
+    Once installed, you can send telemetry to Application Insights. Here are a few samples.
+
+    * :ref:`Sending a simple event telemetry item <usage-sample-01>`
+    * :ref:`Sending an event telemetry item with custom properties and measurements <usage-sample-02>`
+    * :ref:`Sending a trace telemetry item with custom properties <usage-sample-03>`
+    * :ref:`Sending a metric telemetry item <usage-sample-04>`
+    * :ref:`Sending an exception telemetry item with custom properties and measurements <usage-sample-05>`
+    * :ref:`Configuring context for a telemetry client instance <usage-sample-06>`
+    * :ref:`Configuring channel related properties <usage-sample-07>`
+    * :ref:`Configuring synchronous (default) channel properties <usage-sample-08>`
+    * :ref:`Configuring an asynchronous channel instead of the synchronous default <usage-sample-09>`
+    * :ref:`Configuring asynchronous channel properties <usage-sample-10>`
+
+| Python is an easy to learn, powerful programming language. It has efficient high-level data structures and a simple but effective approach to object-oriented programming. Python's elegant syntax and dynamic typing, together with its interpreted nature, make it an ideal language for scripting and rapid application development in many areas on most platforms.
+| -- \ `The Python Tutorial - Introduction <https://docs.python.org/3/tutorial/>`__\
 
 This project extends the Application Insights API surface to support Python. `Application
 Insights <http://azure.microsoft.com/en-us/services/application-insights/>`__ is a service that allows developers to keep their application available, performing and succeeding. This Python module will allow you to send telemetry of various kinds (event, trace, exception, etc.) to the Application Insights service where they can be visualized in the Azure Portal.
@@ -43,6 +53,8 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     Instrumentation Key <https://github.com/Microsoft/AppInsights-Home/wiki#getting-an-application-insights-instrumentation-key>`__
     section for more information.
 
+.. _usage-sample-01:
+
 **Sending a simple event telemetry item**
 
 .. code:: python
@@ -52,6 +64,8 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
     tc.track_event("Test event")
     tc.flush()
+
+.. _usage-sample-02:
 
 **Sending an event telemetry item with custom properties and measurements**
 
@@ -63,6 +77,8 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     tc.track_event('Test event', { 'foo': 'bar' }, { 'baz': 42 })
     tc.flush()
 
+.. _usage-sample-03:
+
 **Sending a trace telemetry item with custom properties**
 
 .. code:: python
@@ -73,6 +89,8 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     tc.track_trace('Test trace', { 'foo': 'bar' })
     tc.flush()
 
+.. _usage-sample-04:
+
 **Sending a metric telemetry item**
 
 .. code:: python
@@ -82,6 +100,8 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
     tc.track_metric('My Metric', 42)
     tc.flush()
+
+.. _usage-sample-05:
 
 **Sending an exception telemetry item with custom properties and measurements**
 
@@ -103,6 +123,8 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 
     tc.flush()
 
+.. _usage-sample-06:
+
 **Configuring context for a telemetry client instance**
 
 .. code:: python
@@ -120,6 +142,8 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     tc.track_trace('My trace with context')
     tc.flush()
 
+.. _usage-sample-07:
+
 **Configuring channel related properties**
 
 .. code:: python
@@ -131,6 +155,8 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     # flush telemetry if we have 10 or more telemetry items in our queue
     tc.channel.sender.max_queue_item_count = 10
 
+.. _usage-sample-08:
+
 **Configuring synchronous (default) channel properties**
 
 .. code:: python
@@ -141,6 +167,8 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     tc.channel.queue.max_queue_length = 10
     # send telemetry to the service in batches of 5
     tc.channel.sender.send_buffer_size = 5
+
+.. _usage-sample-09:
 
 **Configuring an asynchronous channel instead of the synchronous default**
 
@@ -154,6 +182,8 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     # Note: the event will be sent on a separate thread; if the app finishes before
     #       the thread finishes, the data is lost
     tc.track_event('My event')
+
+.. _usage-sample-10:
 
 **Configuring asynchronous channel properties**
 
@@ -173,9 +203,3 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     tc.channel.sender.send_time = 5
     # the background worker thread will poll the queue every 0.5 seconds for new items
     tc.channel.sender.send_interval = 0.5
-
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-

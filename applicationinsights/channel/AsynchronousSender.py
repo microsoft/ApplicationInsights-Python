@@ -29,6 +29,9 @@ class AsynchronousSender(SenderBase):
     def send_interval(self):
         """The time span in seconds at which the the worker thread will check the :func:`queue` for items (defaults to: 1.0).
 
+        Args:
+            value (int) the interval in seconds.
+
         Returns:
             int. the interval in seconds.
         """
@@ -40,12 +43,18 @@ class AsynchronousSender(SenderBase):
 
         Args:
             value (int) the interval in seconds.
+
+        Returns:
+            int. the interval in seconds.
         """
         self._send_interval = value
 
     @property
     def send_time(self):
         """The time span in seconds at which the the worker thread will check the :func:`queue` for items (defaults to: 1.0).
+
+        Args:
+            value (int) the interval in seconds.
 
         Returns:
             int. the interval in seconds.
@@ -58,10 +67,15 @@ class AsynchronousSender(SenderBase):
 
         Args:
             value (int) the interval in seconds.
+
+        Returns:
+            int. the interval in seconds.
         """
         self._send_time = value
 
     def start(self):
+        """Starts a new sender thread if none is not already there
+        """
         with self._lock_send_remaining_time:
             if self._send_remaining_time <= 0.0:
                 local_send_interval = self._send_interval
@@ -75,6 +89,8 @@ class AsynchronousSender(SenderBase):
                 thread.start()
 
     def stop(self):
+        """Gracefully stops the sender thread if one is there.
+        """
         with self._lock_send_remaining_time:
             self._send_remaining_time = 0.0
 

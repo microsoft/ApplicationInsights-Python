@@ -1,10 +1,15 @@
 .. toctree::
-   :hidden:
+    :maxdepth: 2
+    :hidden:
 
-   applicationinsights.channel
+    applicationinsights.channel
 
 applicationinsights module
 ==========================
 
-.. automodule:: applicationinsights
-   :members: TelemetryClient
+TelemetryClient class
+----------------------
+.. autoclass:: applicationinsights.TelemetryClient
+    :members:
+    :member-order: groupwise
+    :inherited-members:
