@@ -21,6 +21,8 @@ Application Insights SDK for Python
     * :ref:`Configuring synchronous (default) channel properties <usage-sample-08>`
     * :ref:`Configuring an asynchronous channel instead of the synchronous default <usage-sample-09>`
     * :ref:`Configuring asynchronous channel properties <usage-sample-10>`
+    * :ref:`Basic logging configuration <usage-sample-11>`
+    * :ref:`Advanced logging configuration <usage-sample-12>`
 
 | Python is an easy to learn, powerful programming language. It has efficient high-level data structures and a simple but effective approach to object-oriented programming. Python's elegant syntax and dynamic typing, together with its interpreted nature, make it an ideal language for scripting and rapid application development in many areas on most platforms.
 | -- \ `The Python Tutorial - Introduction <https://docs.python.org/3/tutorial/>`__\
@@ -203,3 +205,51 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     tc.channel.sender.send_time = 5
     # the background worker thread will poll the queue every 0.5 seconds for new items
     tc.channel.sender.send_interval = 0.5
+
+.. _usage-sample-11:
+
+**Basic logging configuration**
+
+.. code:: python
+
+    import logging
+    from applicationinsights.logging import ApplicationInsightsHandler
+
+    # set up logging
+    handler = ApplicationInsightsHandler('<YOUR INSTRUMENTATION KEY GOES HERE>')
+    logging.basicConfig(handlers=[ handler ], format='%(levelname)s: %(message)s', level=logging.DEBUG)
+
+    # log something (this will be sent to the Application Insights service as a trace)
+    logging.debug('This is a message')
+
+    try:
+        raise Exception('Some exception')
+    except:
+        # this will send an exception to the Application Insights service
+        logging.exception('Code went boom!')
+
+    # don't forget to flush send all un-sent telemetry
+    handler.flush()
+
+.. _usage-sample-12:
+
+**Advanced logging configuration**
+
+.. code:: python
+
+    import logging
+    from applicationinsights.logging import ApplicationInsightsHandler
+
+    # set up logging
+    handler = ApplicationInsightsHandler('<YOUR INSTRUMENTATION KEY GOES HERE>')
+    handler.setLevel(logging.DEBUG)
+    handler.setFormatter(logging.Formatter('%(levelname)s: %(message)s'))
+    my_logger = logging.getLogger('simple_logger')
+    my_logger.setLevel(logging.DEBUG)
+    my_logger.addHandler(handler)
+
+    # log something (this will be sent to the Application Insights service as a trace)
+    my_logger.debug('This is a message')
+
+    # don't forget to flush to send all un-sent telemetry
+    handler.flush()
