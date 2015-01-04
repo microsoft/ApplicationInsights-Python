@@ -104,7 +104,22 @@ tc.channel.sender.send_interval_in_milliseconds = 30 * 1000
 tc.channel.sender.max_queue_item_count = 10
 ```
 
-**Basic logging configuration**
+**Basic logging configuration (first option)**
+```python
+import logging
+from applicationinsights.logging import enable
+
+# set up logging
+enable('<YOUR INSTRUMENTATION KEY GOES HERE>')
+
+# log something (this will be sent to the Application Insights service as a trace)
+logging.info('This is a message')
+
+# logging shutdown will cause a flush of all un-sent telemetry items
+# alternatively flush manually via handler.flush()
+```
+
+**Basic logging configuration (second option)**
 ```python
 import logging
 from applicationinsights.logging import ApplicationInsightsHandler
@@ -122,8 +137,8 @@ except:
     # this will send an exception to the Application Insights service
     logging.exception('Code went boom!')
 
-# don't forget to flush send all un-sent telemetry
-handler.flush()
+# logging shutdown will cause a flush of all un-sent telemetry items
+# alternatively flush manually via handler.flush()
 ```
 
 **Advanced logging configuration**
@@ -142,7 +157,7 @@ my_logger.addHandler(handler)
 # log something (this will be sent to the Application Insights service as a trace)
 my_logger.debug('This is a message')
 
-# don't forget to flush to send all un-sent telemetry
-handler.flush()
+# logging shutdown will cause a flush of all un-sent telemetry items
+# alternatively flush manually via handler.flush()
 ```
 
