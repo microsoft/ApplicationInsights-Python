@@ -21,8 +21,9 @@ Application Insights SDK for Python
     * :ref:`Configuring synchronous (default) channel properties <usage-sample-08>`
     * :ref:`Configuring an asynchronous channel instead of the synchronous default <usage-sample-09>`
     * :ref:`Configuring asynchronous channel properties <usage-sample-10>`
-    * :ref:`Basic logging configuration <usage-sample-11>`
-    * :ref:`Advanced logging configuration <usage-sample-12>`
+    * :ref:`Basic logging configuration (first option) <usage-sample-11>`
+    * :ref:`Basic logging configuration (second option) <usage-sample-12>`
+    * :ref:`Advanced logging configuration <usage-sample-13>`
 
 | Python is an easy to learn, powerful programming language. It has efficient high-level data structures and a simple but effective approach to object-oriented programming. Python's elegant syntax and dynamic typing, together with its interpreted nature, make it an ideal language for scripting and rapid application development in many areas on most platforms.
 | -- \ `The Python Tutorial - Introduction <https://docs.python.org/3/tutorial/>`__\
@@ -208,7 +209,25 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 
 .. _usage-sample-11:
 
-**Basic logging configuration**
+**Basic logging configuration (first option)**
+
+.. code:: python
+
+    import logging
+    from applicationinsights.logging import enable
+
+    # set up logging
+    enable('<YOUR INSTRUMENTATION KEY GOES HERE>')
+
+    # log something (this will be sent to the Application Insights service as a trace)
+    logging.info('This is a message')
+
+    # logging shutdown will cause a flush of all un-sent telemetry items
+    # alternatively flush manually via handler.flush()
+
+.. _usage-sample-12:
+
+**Basic logging configuration (second option)**
 
 .. code:: python
 
@@ -228,10 +247,10 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
         # this will send an exception to the Application Insights service
         logging.exception('Code went boom!')
 
-    # don't forget to flush send all un-sent telemetry
-    handler.flush()
+    # logging shutdown will cause a flush of all un-sent telemetry items
+    # alternatively flush manually via handler.flush()
 
-.. _usage-sample-12:
+.. _usage-sample-13:
 
 **Advanced logging configuration**
 
@@ -251,5 +270,5 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     # log something (this will be sent to the Application Insights service as a trace)
     my_logger.debug('This is a message')
 
-    # don't forget to flush to send all un-sent telemetry
-    handler.flush()
+    # logging shutdown will cause a flush of all un-sent telemetry items
+    # alternatively flush manually via handler.flush()

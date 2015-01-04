@@ -8,6 +8,31 @@ if rootDirectory not in sys.path:
 
 from applicationinsights import logging
 
+class TestEnable(unittest.TestCase):
+    def test_enable(self):
+        handler1 = logging.enable('foo')
+        self.assertIsNotNone(handler1)
+        self.assertEqual('ApplicationInsightsHandler', handler1.__class__.__name__)
+        self.assertEqual('foo', handler1.client.context.instrumentation_key)
+        handler2 = logging.enable('foo')
+        self.assertEqual('ApplicationInsightsHandler', handler2.__class__.__name__)
+        self.assertEqual('foo', handler2.client.context.instrumentation_key)
+        channel = MockChannel()
+        handler3 = logging.enable('bar', telemetry_channel=channel)
+        self.assertIsNotNone(handler1)
+        self.assertEqual('ApplicationInsightsHandler', handler3.__class__.__name__)
+        self.assertEqual('bar', handler3.client.context.instrumentation_key)
+        self.assertEqual(channel, handler3.client.channel)
+        all_handlers = pylogging.getLogger().handlers
+        self.assertIn(handler2, all_handlers)
+        self.assertIn(handler3, all_handlers)
+        pylogging.getLogger().removeHandler(handler2)
+        pylogging.getLogger().removeHandler(handler3)
+
+    def test_enable_raises_exception_on_no_instrumentation_key(self):
+        self.assertRaises(Exception, logging.enable, None)
+
+
 class TestApplicationInsightsHandler(unittest.TestCase):
     def test_construct(self):
         handler = logging.ApplicationInsightsHandler('test')
@@ -70,6 +95,11 @@ class TestApplicationInsightsHandler(unittest.TestCase):
         logger.addHandler(handler)
 
         return logger, sender
+
+
+class MockChannel:
+    def flush(self):
+        pass
 
 
 class MockSynchronousSender:
