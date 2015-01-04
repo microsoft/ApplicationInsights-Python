@@ -5,6 +5,8 @@ class SynchronousQueue(QueueBase):
     :func:`send` on :func:`sender` when it reaches :func:`max_queue_length`, or when the consumer calls
     :func:`flush`.
 
+    .. code:: python
+
         from application_insights.channel import SynchronousQueue
         queue = SynchronousQueue(None)
         queue.max_queue_length = 1

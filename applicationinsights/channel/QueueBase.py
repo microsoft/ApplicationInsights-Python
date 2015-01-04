@@ -28,6 +28,9 @@ class QueueBase(object):
         """The maximum number of items that will be held by the queue before the queue will call the :func:`flush`
         method.
 
+        Args:
+            value (int). the maximum queue length. The minimum allowed value is 1.
+
         Returns:
             int. the maximum queue size. (defaults to: 500)
         """
@@ -39,7 +42,10 @@ class QueueBase(object):
         method.
 
         Args:
-            value (int): The value for the maximum queue length. The minimum allowed value is 1.
+            value (int): the maximum queue length. The minimum allowed value is 1.
+
+        Returns:
+            int. the maximum queue size. (defaults to: 500)
         """
         if value < 1:
             value = 1

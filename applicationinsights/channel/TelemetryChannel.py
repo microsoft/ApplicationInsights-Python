@@ -18,6 +18,8 @@ class TelemetryChannel(object):
     """The telemetry channel is responsible for constructing a :class:`contracts.Envelope` object from the passed in
     data and specified telemetry context.
 
+    .. code:: python
+
         from application_insights.channel import TelemetryChannel, contracts
         channel = TelemetryChannel()
         event = contracts.EventData()
@@ -28,7 +30,7 @@ class TelemetryChannel(object):
         """Initializes a new instance of the class.
 
         Args:
-            context (:class:`TelemetryContext') the telemetry context to use when sending telemetry data.
+            context (:class:`TelemetryContext') the telemetry context to use when sending telemetry data.\n
             queue (:class:`QueueBase`) the queue to enqueue the resulting :class:`contracts.Envelope` to.
         """
         self._context = context or TelemetryContext()

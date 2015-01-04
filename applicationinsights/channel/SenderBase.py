@@ -30,6 +30,9 @@ class SenderBase(object):
     def service_endpoint_uri(self):
         """The HTTP or HTTPS endpoint that this sender will send data to.
 
+        Args:
+            value (str). the service endpoint URI.
+
         Returns:
             str. the service endpoint URI.
         """
@@ -40,7 +43,10 @@ class SenderBase(object):
         """The service endpoint URI where this sender will send data to.
 
         Args:
-            value (str): the service endpoint URI.
+            value (str). the service endpoint URI.
+
+        Returns:
+            str. the service endpoint URI.
         """
         self._service_endpoint_uri = value
 
@@ -48,6 +54,9 @@ class SenderBase(object):
     def queue(self):
         """The queue that this sender is draining. While :class:`SenderBase` doesn't implement any means of doing
         so, derivations of this class do.
+
+        Args:
+            value (:class:`QueueBase`). the queue instance that this sender is draining.
 
         Returns:
             :class:`QueueBase`. the queue instance that this sender is draining.
@@ -61,6 +70,9 @@ class SenderBase(object):
 
         Args:
             value (:class:`QueueBase`). the queue instance that this sender is draining.
+
+        Returns:
+            :class:`QueueBase`. the queue instance that this sender is draining.
         """
         self._queue = value
 
@@ -68,6 +80,9 @@ class SenderBase(object):
     def send_buffer_size(self):
         """The buffer size for a single batch of telemetry. This is the maximum number of items in a single service
         request that this sender is going to send.
+
+        Args:
+            value (int). the maximum number of items in a telemetry batch.
 
         Returns:
             int. the maximum number of items in a telemetry batch.
@@ -80,7 +95,10 @@ class SenderBase(object):
         request that this sender is going to send.
 
         Args:
-            value (int): the maximum number of items in a telemetry batch.
+            value (int). the maximum number of items in a telemetry batch.
+
+        Returns:
+            int. the maximum number of items in a telemetry batch.
         """
         if value < 1:
             value = 1

@@ -19,6 +19,8 @@ contracts.Device._initialize = device_initialize
 class TelemetryContext(object):
     """Represents the context for sending telemetry to the Application Insights service.
 
+    .. code:: python
+
         context = TelemetryContext()
         context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
         context.application.id = 'My application'
