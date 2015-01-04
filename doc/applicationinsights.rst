@@ -2,7 +2,7 @@
     :maxdepth: 2
     :hidden:
 
-    applicationinsights.channel
+    applicationinsights.logging
 
 applicationinsights module
 ==========================
