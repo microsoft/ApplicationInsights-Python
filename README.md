@@ -104,5 +104,45 @@ tc.channel.sender.send_interval_in_milliseconds = 30 * 1000
 tc.channel.sender.max_queue_item_count = 10
 ```
 
+**Basic logging configuration**
+```python
+import logging
+from applicationinsights.logging import ApplicationInsightsHandler
 
+# set up logging
+handler = ApplicationInsightsHandler('<YOUR INSTRUMENTATION KEY GOES HERE>')
+logging.basicConfig(handlers=[ handler ], format='%(levelname)s: %(message)s', level=logging.DEBUG)
+
+# log something (this will be sent to the Application Insights service as a trace)
+logging.debug('This is a message')
+
+try:
+    raise Exception('Some exception')
+except:
+    # this will send an exception to the Application Insights service
+    logging.exception('Code went boom!')
+
+# don't forget to flush send all un-sent telemetry
+handler.flush()
+```
+
+**Advanced logging configuration**
+```python
+import logging
+from applicationinsights.logging import ApplicationInsightsHandler
+
+# set up logging
+handler = ApplicationInsightsHandler('<YOUR INSTRUMENTATION KEY GOES HERE>')
+handler.setLevel(logging.DEBUG)
+handler.setFormatter(logging.Formatter('%(levelname)s: %(message)s'))
+my_logger = logging.getLogger('simple_logger')
+my_logger.setLevel(logging.DEBUG)
+my_logger.addHandler(handler)
+
+# log something (this will be sent to the Application Insights service as a trace)
+my_logger.debug('This is a message')
+
+# don't forget to flush to send all un-sent telemetry
+handler.flush()
+```
 
