@@ -24,6 +24,7 @@ Application Insights SDK for Python
     * :ref:`Basic logging configuration (first option) <usage-sample-11>`
     * :ref:`Basic logging configuration (second option) <usage-sample-12>`
     * :ref:`Advanced logging configuration <usage-sample-13>`
+    * :ref:`Logging unhandled exceptions <usage-sample-14>`
 
 | Python is an easy to learn, powerful programming language. It has efficient high-level data structures and a simple but effective approach to object-oriented programming. Python's elegant syntax and dynamic typing, together with its interpreted nature, make it an ideal language for scripting and rapid application development in many areas on most platforms.
 | -- \ `The Python Tutorial - Introduction <https://docs.python.org/3/tutorial/>`__\
@@ -272,3 +273,17 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 
     # logging shutdown will cause a flush of all un-sent telemetry items
     # alternatively flush manually via handler.flush()
+
+.. _usage-sample-14:
+
+**Logging unhandled exceptions**
+
+.. code:: python
+
+    from applicationinsights.exceptions import enable
+
+    # set up exception capture
+    enable('<YOUR INSTRUMENTATION KEY GOES HERE>')
+
+    # raise an exception (this will be sent to the Application Insights service as an exception telemetry object)
+    raise Exception('Boom!')

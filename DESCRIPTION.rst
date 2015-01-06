@@ -191,3 +191,15 @@ measurements**
 
     # logging shutdown will cause a flush of all un-sent telemetry items
     # alternatively flush manually via handler.flush()
+
+**Logging unhandled exceptions**
+
+.. code:: python
+
+    from applicationinsights.exceptions import enable
+
+    # set up exception capture
+    enable('<YOUR INSTRUMENTATION KEY GOES HERE>')
+
+    # raise an exception (this will be sent to the Application Insights service as an exception telemetry object)
+    raise Exception('Boom!')

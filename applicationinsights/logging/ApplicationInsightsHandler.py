@@ -23,7 +23,6 @@ def enable(instrumentation_key, *args, **kwargs):
 
     Args:
         instrumentation_key (str). the instrumentation key to use while sending telemetry to the service.
-        telemetry_channel
 
     Returns:
         :class:`ApplicationInsightsHandler`. the newly created or existing handler.
