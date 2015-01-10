@@ -1,5 +1,7 @@
+import datetime
 import traceback
 import sys
+import uuid
 from applicationinsights import channel
 
 NULL_CONSTANT_STRING = 'Null'
@@ -171,3 +173,34 @@ class TelemetryClient(object):
             data.properties = properties
 
         self._channel.write(data, self._context)
+
+    def track_request(self, name, url, success, start_time=None, duration=None, response_code=None, http_method=None, properties=None, measurements=None):
+        """Sends a single request that was captured for the application.
+
+        Args:
+            name (str). the name for this request. All requests with the same name will be grouped together.\n
+            url (str). the actual URL for this request (to show in individual request instances).\n
+            success (bool). true if the request ended in success, false otherwise.\n
+            start_time (str). the start time of the request. The value should look the same as the one returned by :func:`datetime.isoformat()` (defaults to: None)\n
+            duration (int). the number of milliseconds that this request lasted. (defaults to: None)\n
+            response_code (string). the response code that this request returned. (defaults to: None)\n
+            http_method (string). the HTTP method that triggered this request. (defaults to: None)\n
+            properties (dict). the set of custom properties the client wants attached to this data item. (defaults to: None)\n
+            measurements (dict). the set of custom measurements the client wants to attach to this data item. (defaults to: None)
+        """
+        data = channel.contracts.RequestData()
+        data.id = str(uuid.uuid4())
+        data.name = name
+        data.start_time = start_time or datetime.datetime.utcnow().isoformat() + 'Z'
+        data.duration = duration or 0
+        data.response_code = response_code or '200'
+        data.success = success
+        data.http_method = http_method or 'GET'
+        data.url = url
+        if properties:
+            data.properties = properties
+        if measurements:
+            data.measurements = measurements
+
+        self.channel.write(data, self._context)
+
