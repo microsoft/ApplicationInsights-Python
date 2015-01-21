@@ -36,7 +36,7 @@ def enable(instrumentation_key, *args, **kwargs):
 
 
 def intercept_excepthook(type, value, traceback):
-    client = TelemetryClient(telemetry_channel)
+    client = TelemetryClient('temp_key', telemetry_channel)
     for instrumentation_key in enabled_instrumentation_keys:
         client.context.instrumentation_key = instrumentation_key
         client.track_exception(type, value, traceback)
