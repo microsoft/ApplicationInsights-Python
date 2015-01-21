@@ -1,37 +1,19 @@
 Application Insights for Python
 ===============================
 
-    | Python is an easy to learn, powerful programming language. It has
-    efficient high-level data structures and a simple but effective
-    approach to object-oriented programming. Python's elegant syntax and
-    dynamic typing, together with its interpreted nature, make it an
-    ideal language for scripting and rapid application development in
-    many areas on most platforms.
-    | -- \ `The Python Tutorial -
-    Introduction <https://docs.python.org/3/tutorial/>`__\ 
-
-This project extends the Application Insights API surface to support
-Python. `Application
-Insights <http://azure.microsoft.com/en-us/services/application-insights/>`__
-is a service that allows developers to keep their application available,
-performing and succeeding. This Python module will allow you to send
-telemetry of various kinds (event, trace, exception, etc.) to the
-Application Insights service where they can be visualized in the Azure
-Portal.
+This project extends the Application Insights API surface to support Python. `Application Insights <http://azure.microsoft.com/en-us/services/application-insights/>`_ is a service that allows developers to keep their application available, performing and succeeding. This Python module will allow you to send telemetry of various kinds (event, trace, exception, etc.) to the Application Insights service where they can be visualized in the Azure Portal.
 
 Requirements
 ------------
 
 Python 2.7 and Python 3.4 are currently supported by this module.
 
-For opening the project in Microsoft Visual Studio you will need `Python
-Tools for Visual Studio <http://pytools.codeplex.com/>`__.
+For opening the project in Microsoft Visual Studio you will need `Python Tools for Visual Studio <http://pytools.codeplex.com/>`_.
 
 Installation
 ------------
 
-To install the latest release you can use
-`pip <http://www.pip-installer.org/>`__.
+To install the latest release you can use `pip <http://www.pip-installer.org/>`_.
 
 ::
 
@@ -40,14 +22,9 @@ To install the latest release you can use
 Usage
 -----
 
-Once installed, you can send telemetry to Application Insights. Here are
-a few samples.
+Once installed, you can send telemetry to Application Insights. Here are a few samples.
 
-    **Note**: before you can send data to you will need an
-    instrumentation key. Please see the `Getting an Application Insights
-    Instrumentation
-    Key <https://github.com/Microsoft/AppInsights-Home/wiki#getting-an-application-insights-instrumentation-key>`__
-    section for more information.
+    **Note**: before you can send data to you will need an instrumentation key. Please see the `Getting an Application Insights Instrumentation Key <https://github.com/Microsoft/AppInsights-Home/wiki#getting-an-application-insights-instrumentation-key>`_ section for more information.
 
 **Sending a simple event telemetry item**
 
@@ -57,8 +34,7 @@ a few samples.
     tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
     tc.track_event("Test event")
 
-**Sending an event telemetry item with custom properties and
-measurements**
+**Sending an event telemetry item with custom properties and measurements**
 
 .. code:: python
 
@@ -82,8 +58,7 @@ measurements**
     tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
     tc.track_metric('My Metric', 42)
 
-**Sending an exception telemetry item with custom properties and
-measurements**
+**Sending an exception telemetry item with custom properties and measurements**
 
 .. code:: python
 
