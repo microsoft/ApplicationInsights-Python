@@ -64,8 +64,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 .. code:: python
 
     from applicationinsights import TelemetryClient
-    tc = TelemetryClient()
-    tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+    tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
     tc.track_event("Test event")
     tc.flush()
 
@@ -76,8 +75,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 .. code:: python
 
     from applicationinsights import TelemetryClient
-    tc = TelemetryClient()
-    tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+    tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
     tc.track_event('Test event', { 'foo': 'bar' }, { 'baz': 42 })
     tc.flush()
 
@@ -88,8 +86,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 .. code:: python
 
     from applicationinsights import TelemetryClient
-    tc = TelemetryClient()
-    tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+    tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
     tc.track_trace('Test trace', { 'foo': 'bar' })
     tc.flush()
 
@@ -100,8 +97,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 .. code:: python
 
     from applicationinsights import TelemetryClient
-    tc = TelemetryClient()
-    tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+    tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
     tc.track_metric('My Metric', 42)
     tc.flush()
 
@@ -113,8 +109,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 
     import sys
     from applicationinsights import TelemetryClient
-    tc = TelemetryClient()
-    tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+    tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
     try:
         raise Exception('blah')
     except:
@@ -134,8 +129,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 .. code:: python
 
     from applicationinsights import TelemetryClient
-    tc = TelemetryClient()
-    tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+    tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
     tc.context.application.id = 'My application'
     tc.context.application.ver = '1.2.3'
     tc.context.device.id = 'My current device'
@@ -153,7 +147,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 .. code:: python
 
     from applicationinsights import TelemetryClient
-    tc = TelemetryClient()
+    tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
     # flush telemetry every 30 seconds (assuming we don't hit max_queue_item_count first)
     tc.channel.sender.send_interval_in_milliseconds = 30 * 1000
     # flush telemetry if we have 10 or more telemetry items in our queue
@@ -166,7 +160,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 .. code:: python
 
     from applicationinsights import TelemetryClient
-    tc = TelemetryClient()
+    tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
     # flush telemetry if we have 10 or more telemetry items in our queue
     tc.channel.queue.max_queue_length = 10
     # send telemetry to the service in batches of 5
@@ -182,7 +176,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     sender = channel.AsynchronousSender()
     queue = channel.AsynchronousQueue(sender)
     channel = channel::TelemetryChannel(None, queue)
-    tc = TelemetryClient(channel)
+    tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>', channel)
     # Note: the event will be sent on a separate thread; if the app finishes before
     #       the thread finishes, the data is lost
     tc.track_event('My event')
@@ -197,7 +191,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     sender = channel.AsynchronousSender()
     queue = channel.AsynchronousQueue(sender)
     channel = channel::TelemetryChannel(None, queue)
-    tc = TelemetryClient(channel)
+    tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>', channel)
     # flush telemetry if we have 10 or more telemetry items in our queue
     tc.channel.queue.max_queue_length = 10
     # send telemetry to the service in batches of 5

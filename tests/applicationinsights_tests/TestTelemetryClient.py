@@ -12,20 +12,32 @@ if rootDirectory not in sys.path:
 from applicationinsights import TelemetryClient, channel
 
 class TestTelemetryClient(unittest.TestCase):
+    def test_constructor_throws_with_no_instrumentation_key(self):
+        self.assertRaises(Exception, TelemetryClient, None)
+
+    def test_constructor_sets_instrumentation_key(self):
+        client = TelemetryClient('foo')
+        self.assertEqual('foo', client.context.instrumentation_key)
+
+    def test_constructor_maintains_backwards_compatibility_when_specifying_only_telemetry_channel(self):
+        expected = channel.TelemetryChannel()
+        client = TelemetryClient(expected)
+        self.assertEqual(expected, client.channel)
+        self.assertIsNone(client.context.instrumentation_key)
+
     def test_context_property_works_as_expected(self):
-        client = TelemetryClient()
+        client = TelemetryClient('foo')
         self.assertIsNotNone(client.context)
 
     def test_channel_property_works_as_expected(self):
         expected = channel.TelemetryChannel()
-        client = TelemetryClient(expected)
+        client = TelemetryClient('foo', expected)
         self.assertEqual(expected, client.channel)
 
     def test_track_event_works_as_expected(self):
         sender = MockTelemetrySender()
         queue = channel.SynchronousQueue(sender)
-        client = TelemetryClient(channel.TelemetryChannel(context=None, queue=queue))
-        client.context.instrumentation_key = '99999999-9999-9999-9999-999999999999'
+        client = TelemetryClient('99999999-9999-9999-9999-999999999999', channel.TelemetryChannel(context=None, queue=queue))
         client.context.device = None
         client.track_event('test', { 'foo': 'bar' }, { 'x': 42 })
         client.flush()
@@ -39,8 +51,7 @@ class TestTelemetryClient(unittest.TestCase):
     def test_track_metric_works_as_expected(self):
         sender = MockTelemetrySender()
         queue = channel.SynchronousQueue(sender)
-        client = TelemetryClient(channel.TelemetryChannel(context=None, queue=queue))
-        client.context.instrumentation_key = '99999999-9999-9999-9999-999999999999'
+        client = TelemetryClient('99999999-9999-9999-9999-999999999999', channel.TelemetryChannel(context=None, queue=queue))
         client.context.device = None
         client.track_metric('metric', 42, channel.contracts.DataPointType.aggregation, 13, 1, 123, 111, {'foo': 'bar'})
         client.flush()
@@ -54,8 +65,7 @@ class TestTelemetryClient(unittest.TestCase):
     def test_track_trace_works_as_expected(self):
         sender = MockTelemetrySender()
         queue = channel.SynchronousQueue(sender)
-        client = TelemetryClient(channel.TelemetryChannel(context=None, queue=queue))
-        client.context.instrumentation_key = '99999999-9999-9999-9999-999999999999'
+        client = TelemetryClient('99999999-9999-9999-9999-999999999999', channel.TelemetryChannel(context=None, queue=queue))
         client.context.device = None
         client.track_trace('test', { 'foo': 'bar' })
         client.flush()
@@ -69,8 +79,7 @@ class TestTelemetryClient(unittest.TestCase):
     def test_track_pageview_works_as_expected(self):
         sender = MockTelemetrySender()
         queue = channel.SynchronousQueue(sender)
-        client = TelemetryClient(channel.TelemetryChannel(context=None, queue=queue))
-        client.context.instrumentation_key = '99999999-9999-9999-9999-999999999999'
+        client = TelemetryClient('99999999-9999-9999-9999-999999999999', channel.TelemetryChannel(context=None, queue=queue))
         client.context.device = None
         client.track_pageview('test', 'http://tempuri.org', 13, { 'foo': 'bar' }, { 'x': 42 })
         client.flush()
@@ -84,8 +93,7 @@ class TestTelemetryClient(unittest.TestCase):
     def test_track_exception_works_as_expected(self):
         sender = MockTelemetrySender()
         queue = channel.SynchronousQueue(sender)
-        client = TelemetryClient(channel.TelemetryChannel(context=None, queue=queue))
-        client.context.instrumentation_key = '99999999-9999-9999-9999-999999999999'
+        client = TelemetryClient('99999999-9999-9999-9999-999999999999', channel.TelemetryChannel(context=None, queue=queue))
         client.context.device = None
         try:
             raise Exception("blah")

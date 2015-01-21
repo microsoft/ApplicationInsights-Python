@@ -54,8 +54,7 @@ a few samples.
 .. code:: python
 
     from applicationinsights import TelemetryClient
-    tc = TelemetryClient()
-    tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+    tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
     tc.track_event("Test event")
 
 **Sending an event telemetry item with custom properties and
@@ -64,8 +63,7 @@ measurements**
 .. code:: python
 
     from applicationinsights import TelemetryClient
-    tc = TelemetryClient()
-    tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+    tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
     tc.track_event('Test event', { 'foo': 'bar' }, { 'baz': 42 })
 
 **Sending a trace telemetry item with custom properties**
@@ -73,8 +71,7 @@ measurements**
 .. code:: python
 
     from applicationinsights import TelemetryClient
-    tc = TelemetryClient()
-    tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+    tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
     tc.track_trace('Test trace', { 'foo': 'bar' })
 
 **Sending a metric telemetry item**
@@ -82,8 +79,7 @@ measurements**
 .. code:: python
 
     from applicationinsights import TelemetryClient
-    tc = TelemetryClient()
-    tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+    tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
     tc.track_metric('My Metric', 42)
 
 **Sending an exception telemetry item with custom properties and
@@ -93,8 +89,7 @@ measurements**
 
     import sys
     from applicationinsights import TelemetryClient
-    tc = TelemetryClient()
-    tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+    tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
     try:
         raise Exception('blah')
     except:
@@ -110,8 +105,7 @@ measurements**
 .. code:: python
 
     from applicationinsights import TelemetryClient
-    tc = TelemetryClient()
-    tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+    tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
     tc.context.application.id = 'My application'
     tc.context.application.ver = '1.2.3'
     tc.context.device.id = 'My current device'
@@ -126,7 +120,7 @@ measurements**
 .. code:: python
 
     from applicationinsights import TelemetryClient
-    tc = TelemetryClient()
+    tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
     # flush telemetry every 30 seconds (assuming we don't hit max_queue_item_count first)
     tc.channel.sender.send_interval_in_milliseconds = 30 * 1000
     # flush telemetry if we have 10 or more telemetry items in our queue
