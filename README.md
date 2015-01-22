@@ -2,9 +2,6 @@
 
 [![PyPI version](https://badge.fury.io/py/applicationinsights.svg)](http://badge.fury.io/py/applicationinsights)
 
->Python is an easy to learn, powerful programming language. It has efficient high-level data structures and a simple but effective approach to object-oriented programming. Python's elegant syntax and dynamic typing, together with its interpreted nature, make it an ideal language for scripting and rapid application development in many areas on most platforms.
-> -- <cite>[The Python Tutorial - Introduction](https://docs.python.org/3/tutorial/)</cite>
-
 This project extends the Application Insights API surface to support Python. [Application Insights](http://azure.microsoft.com/en-us/services/application-insights/) is a service that allows developers to keep their application available, performing and succeeding. This Python module will allow you to send telemetry of various kinds (event, trace, exception, etc.) to the Application Insights service where they can be visualized in the Azure Portal. 
 
 
