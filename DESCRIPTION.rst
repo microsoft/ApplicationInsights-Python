@@ -33,6 +33,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     from applicationinsights import TelemetryClient
     tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
     tc.track_event("Test event")
+    tc.flush()
 
 **Sending an event telemetry item with custom properties and measurements**
 
@@ -41,6 +42,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     from applicationinsights import TelemetryClient
     tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
     tc.track_event('Test event', { 'foo': 'bar' }, { 'baz': 42 })
+    tc.flush()
 
 **Sending a trace telemetry item with custom properties**
 
@@ -49,6 +51,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     from applicationinsights import TelemetryClient
     tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
     tc.track_trace('Test trace', { 'foo': 'bar' })
+    tc.flush()
 
 **Sending a metric telemetry item**
 
@@ -57,6 +60,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     from applicationinsights import TelemetryClient
     tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
     tc.track_metric('My Metric', 42)
+    tc.flush()
 
 **Sending an exception telemetry item with custom properties and measurements**
 
@@ -74,6 +78,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
         raise Exception("blah")
     except:
         tc.track_exception(*sys.exc_info(), properties={ 'foo': 'bar' }, measurements={ 'x': 42 })
+    tc.flush()
 
 **Configuring context for a telemetry client instance**
 
@@ -89,6 +94,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     tc.context.device.type = "Other"
     tc.context.user.id = 'santa@northpole.net'
     tc.track_trace('My trace with context')
+    tc.flush()
 
 **Configuring channel related properties**
 
