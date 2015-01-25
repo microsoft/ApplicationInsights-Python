@@ -1,1 +1,1 @@
-from .ApplicationInsightsApplication import ApplicationInsightsApplication
+from .WSGIApplication import WSGIApplication

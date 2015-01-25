@@ -8,16 +8,40 @@ class Closure(object):
     def __init__(self):
         self.status = None
 
-class ApplicationInsightsApplication(object):
+class WSGIApplication(object):
+    """ This class represents a WSGI wrapper that enables request telemetry for existing WSGI applications. The request
+    telemetry will be sent to Application Insights service using the supplied instrumentation key.
+
+    .. code:: python
+
+            from flask import Flask
+            from applicationinsights.requests import WSGIApplication
+
+            # instantiate the Flask application and wrap its WSGI application
+            app = Flask(__name__)
+            app.wsgi_app = WSGIApplication('<YOUR INSTRUMENTATION KEY GOES HERE>', app.wsgi_app)
+
+            # define a simple route
+            @app.route('/')
+            def hello_world():
+                return 'Hello World!'
+
+            # run the application
+            if __name__ == '__main__':
+                app.run()
+    """
     def __init__(self, instrumentation_key, wsgi_application, *args, **kwargs):
         """
         Initialize a new instance of the class.
 
         Args:
-            instrumentation_key (str). the instrumentation key to use while sending telemetry to the service.
+            instrumentation_key (str). the instrumentation key to use while sending telemetry to the service.\n
+            wsgi_application (func). the WSGI application that we're wrapping.
         """
         if not instrumentation_key:
             raise Exception('Instrumentation key was required but not provided')
+        if not wsgi_application:
+            raise Exception('WSGI application was required but not provided')
         telemetry_channel = kwargs.get('telemetry_channel')
         if 'telemetry_channel' in kwargs:
             del kwargs['telemetry_channel']
@@ -34,11 +58,11 @@ class ApplicationInsightsApplication(object):
         """Callable implementation for WSGI middleware.
 
         Args:
-            environ (dict). a dictionary containing all WSGI environment properties for this request.
+            environ (dict). a dictionary containing all WSGI environment properties for this request.\n
             start_response (func). a function used to store the status, HTTP headers to be sent to the client and optional exception information.
 
         Returns:
-            (str). the data to write back to the client.
+            (obj). the response to send back to the client.
         """
         start_time = datetime.datetime.utcnow()
         name = '/'
@@ -47,9 +71,9 @@ class ApplicationInsightsApplication(object):
         closure = Closure()
         closure.status = '200 OK'
 
-        def status_interceptor(status_string, headers_array, exc_info=None):
+        def status_interceptor(status_string, headers_array):
             closure.status = status_string
-            start_response(status_string, headers_array, exc_info)
+            start_response(status_string, headers_array)
 
         response = self._wsgi_application(environ, status_interceptor)
         response_code = re.match('\s*(?P<code>\d+)', closure.status).group('code')
@@ -69,5 +93,3 @@ class ApplicationInsightsApplication(object):
 
         self.client.track_request(name, url, success, start_time.isoformat() + 'Z', duration, response_code, http_method)
         return response
-
-

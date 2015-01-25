@@ -31,14 +31,14 @@ def enable(instrumentation_key, *args, **kwargs):
         raise Exception('Instrumentation key was required but not provided')
     if instrumentation_key in enabled_instrumentation_keys:
         logging.getLogger().removeHandler(enabled_instrumentation_keys[instrumentation_key])
-    handler = ApplicationInsightsHandler(instrumentation_key, *args, **kwargs)
+    handler = LoggingHandler(instrumentation_key, *args, **kwargs)
     handler.setLevel(logging.INFO)
     enabled_instrumentation_keys[instrumentation_key] = handler
     logging.getLogger().addHandler(handler)
     return handler
 
 
-class ApplicationInsightsHandler(logging.Handler):
+class LoggingHandler(logging.Handler):
     """This class represents an integration point between Python's logging framework and the Application Insights
     service.
 
@@ -74,13 +74,13 @@ class ApplicationInsightsHandler(logging.Handler):
             del kwargs['telemetry_channel']
         self.client = applicationinsights.TelemetryClient(telemetry_channel)
         self.client.context.instrumentation_key = instrumentation_key
-        super(ApplicationInsightsHandler, self).__init__(*args, **kwargs)
+        super(LoggingHandler, self).__init__(*args, **kwargs)
 
     def flush(self):
         """Flushes the queued up telemetry to the service.
         """
         self.client.flush()
-        return super(ApplicationInsightsHandler, self).flush()
+        return super(LoggingHandler, self).flush()
 
     def emit(self, record):
         """Emit a record.

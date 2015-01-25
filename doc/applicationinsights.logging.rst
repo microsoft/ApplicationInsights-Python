@@ -11,9 +11,9 @@ enable function
 ---------------
 .. autofunction:: applicationinsights.logging.enable
 
-ApplicationInsightsHandler class
---------------------------------
-.. autoclass:: applicationinsights.logging.ApplicationInsightsHandler
+LoggingHandler class
+--------------------
+.. autoclass:: applicationinsights.logging.LoggingHandler
     :members:
     :member-order: groupwise
     :inherited-members:

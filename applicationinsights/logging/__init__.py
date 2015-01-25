@@ -1,2 +1,2 @@
-from .ApplicationInsightsHandler import enable
-from .ApplicationInsightsHandler import ApplicationInsightsHandler
+from .LoggingHandler import enable
+from .LoggingHandler import LoggingHandler

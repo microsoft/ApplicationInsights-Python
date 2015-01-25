@@ -12,15 +12,15 @@ class TestEnable(unittest.TestCase):
     def test_enable(self):
         handler1 = logging.enable('foo')
         self.assertIsNotNone(handler1)
-        self.assertEqual('ApplicationInsightsHandler', handler1.__class__.__name__)
+        self.assertEqual('LoggingHandler', handler1.__class__.__name__)
         self.assertEqual('foo', handler1.client.context.instrumentation_key)
         handler2 = logging.enable('foo')
-        self.assertEqual('ApplicationInsightsHandler', handler2.__class__.__name__)
+        self.assertEqual('LoggingHandler', handler2.__class__.__name__)
         self.assertEqual('foo', handler2.client.context.instrumentation_key)
         channel = MockChannel()
         handler3 = logging.enable('bar', telemetry_channel=channel)
         self.assertIsNotNone(handler1)
-        self.assertEqual('ApplicationInsightsHandler', handler3.__class__.__name__)
+        self.assertEqual('LoggingHandler', handler3.__class__.__name__)
         self.assertEqual('bar', handler3.client.context.instrumentation_key)
         self.assertEqual(channel, handler3.client.channel)
         all_handlers = pylogging.getLogger().handlers
@@ -33,14 +33,14 @@ class TestEnable(unittest.TestCase):
         self.assertRaises(Exception, logging.enable, None)
 
 
-class TestApplicationInsightsHandler(unittest.TestCase):
+class TestLoggingHandler(unittest.TestCase):
     def test_construct(self):
-        handler = logging.ApplicationInsightsHandler('test')
+        handler = logging.LoggingHandler('test')
         self.assertIsNotNone(handler)
         self.assertEqual('test', handler.client.context.instrumentation_key)
 
     def test_construct_raises_exception_on_no_instrumentation_key(self):
-        self.assertRaises(Exception, logging.ApplicationInsightsHandler, None)
+        self.assertRaises(Exception, logging.LoggingHandler, None)
 
     def test_log_works_as_expected(self):
         logger, sender = self._setup_logger()
@@ -80,7 +80,7 @@ class TestApplicationInsightsHandler(unittest.TestCase):
         logger = pylogging.getLogger('simple_logger')
         logger.setLevel(pylogging.DEBUG)
 
-        handler = logging.ApplicationInsightsHandler('test')
+        handler = logging.LoggingHandler('test')
         handler.setLevel(pylogging.DEBUG)
 
         # mock out the sender

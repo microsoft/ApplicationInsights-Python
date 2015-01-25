@@ -38,8 +38,9 @@ def test_main():
             applicationinsights_tests.channel_tests.contracts_tests.TestStackFrame,
             applicationinsights_tests.channel_tests.contracts_tests.TestUser,
             applicationinsights_tests.exception_tests.TestEnable.TestEnable,
-            applicationinsights_tests.logging_tests.TestApplicationInsightsHandler.TestEnable,
-            applicationinsights_tests.logging_tests.TestApplicationInsightsHandler.TestApplicationInsightsHandler)
+            applicationinsights_tests.logging_tests.TestLoggingHandler.TestEnable,
+            applicationinsights_tests.logging_tests.TestLoggingHandler.TestLoggingHandler,
+            applicationinsights_tests.requests_tests.TestWSGIApplication.TestWSGIApplication)
 
 if __name__ == '__main__':
     test_main()
