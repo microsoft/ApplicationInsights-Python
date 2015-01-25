@@ -10,14 +10,22 @@ class TelemetryClient(object):
     """The telemetry client used for sending all types of telemetry. It serves as the main entry point for
     interacting with the Application Insights service.
     """
-    def __init__(self, telemetry_channel=None):
+    def __init__(self, instrumentation_key, telemetry_channel=None):
         """Initializes a new instance of the class.
 
         Args:
-            telemetry_channel (:class:`channel.TelemetryChannel`) the optional telemetry channel to be used instead of
+            instrumentation_key (str). the instrumentation key to use for this telemetry client.\n
+            telemetry_channel (:class:`channel.TelemetryChannel`). the optional telemetry channel to be used instead of
                 constructing a default one.
         """
+        if instrumentation_key:
+            if isinstance(instrumentation_key, channel.TelemetryChannel):
+                telemetry_channel = instrumentation_key
+                instrumentation_key = None
+        else:
+            raise Exception('Instrumentation key was required but not provided')
         self._context = channel.TelemetryContext()
+        self._context.instrumentation_key = instrumentation_key
         self._channel = telemetry_channel or channel.TelemetryChannel()
 
     @property

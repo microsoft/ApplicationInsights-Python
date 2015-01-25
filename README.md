@@ -2,9 +2,6 @@
 
 [![PyPI version](https://badge.fury.io/py/applicationinsights.svg)](http://badge.fury.io/py/applicationinsights)
 
->Python is an easy to learn, powerful programming language. It has efficient high-level data structures and a simple but effective approach to object-oriented programming. Python's elegant syntax and dynamic typing, together with its interpreted nature, make it an ideal language for scripting and rapid application development in many areas on most platforms.
-> -- <cite>[The Python Tutorial - Introduction](https://docs.python.org/3/tutorial/)</cite>
-
 This project extends the Application Insights API surface to support Python. [Application Insights](http://azure.microsoft.com/en-us/services/application-insights/) is a service that allows developers to keep their application available, performing and succeeding. This Python module will allow you to send telemetry of various kinds (event, trace, exception, etc.) to the Application Insights service where they can be visualized in the Azure Portal. 
 
 
@@ -32,41 +29,40 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 **Sending a simple event telemetry item**
 ```python
 from applicationinsights import TelemetryClient
-tc = TelemetryClient()
-tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
 tc.track_event('Test event')
+tc.flush()
 ```
 
 **Sending an event telemetry item with custom properties and measurements**
 ```python
 from applicationinsights import TelemetryClient
-tc = TelemetryClient()
-tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
 tc.track_event('Test event', { 'foo': 'bar' }, { 'baz': 42 })
+tc.flush()
 ```
 
 **Sending a trace telemetry item with custom properties**
 ```python
 from applicationinsights import TelemetryClient
-tc = TelemetryClient()
-tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
 tc.track_trace('Test trace', { 'foo': 'bar' })
+tc.flush()
 ```  
 
 **Sending a metric telemetry item**
 ```python
 from applicationinsights import TelemetryClient
-tc = TelemetryClient()
-tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
 tc.track_metric('My Metric', 42)
+tc.flush()
 ``` 
 
 **Sending an exception telemetry item with custom properties and measurements**
 ```python
 import sys
 from applicationinsights import TelemetryClient
-tc = TelemetryClient()
-tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
 try:
     raise Exception('blah')
 except:
@@ -76,13 +72,13 @@ try:
     raise Exception("blah")
 except:
     tc.track_exception(*sys.exc_info(), properties={ 'foo': 'bar' }, measurements={ 'x': 42 })
+tc.flush()
 ```  
 
 **Configuring context for a telemetry client instance**
 ```python
 from applicationinsights import TelemetryClient
-tc = TelemetryClient()
-tc.context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
 tc.context.application.id = 'My application'
 tc.context.application.ver = '1.2.3'
 tc.context.device.id = 'My current device'
@@ -97,7 +93,7 @@ tc.flush()
 **Configuring channel related properties**
 ```python
 from applicationinsights import TelemetryClient
-tc = TelemetryClient()
+tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
 # flush telemetry every 30 seconds (assuming we don't hit max_queue_item_count first)
 tc.channel.sender.send_interval_in_milliseconds = 30 * 1000
 # flush telemetry if we have 10 or more telemetry items in our queue
@@ -161,3 +157,13 @@ my_logger.debug('This is a message')
 # alternatively flush manually via handler.flush()
 ```
 
+**Logging unhandled exceptions**
+```python
+from applicationinsights.exceptions import enable
+
+# set up exception capture
+enable('<YOUR INSTRUMENTATION KEY GOES HERE>')
+
+# raise an exception (this will be sent to the Application Insights service as an exception telemetry object)
+raise Exception('Boom!')
+```
