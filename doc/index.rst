@@ -25,6 +25,7 @@ Application Insights SDK for Python
     * :ref:`Basic logging configuration (second option) <usage-sample-12>`
     * :ref:`Advanced logging configuration <usage-sample-13>`
     * :ref:`Logging unhandled exceptions <usage-sample-14>`
+    * :ref:`Logging requests <usage-sample-15>`
 
 This project extends the Application Insights API surface to support Python. `Application
 Insights <http://azure.microsoft.com/en-us/services/application-insights/>`__ is a service that allows developers to keep their application available, performing and succeeding. This Python module will allow you to send telemetry of various kinds (event, trace, exception, etc.) to the Application Insights service where they can be visualized in the Azure Portal.
@@ -278,3 +279,25 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 
     # raise an exception (this will be sent to the Application Insights service as an exception telemetry object)
     raise Exception('Boom!')
+
+.. _usage-sample-15:
+
+**Logging requests**
+
+.. code:: python
+
+    from flask import Flask
+    from applicationinsights.requests import WSGIApplication
+
+    # instantiate the Flask application and wrap its WSGI application
+    app = Flask(__name__)
+    app.wsgi_app = WSGIApplication('<YOUR INSTRUMENTATION KEY GOES HERE>', app.wsgi_app)
+
+    # define a simple route
+    @app.route('/')
+    def hello_world():
+        return 'Hello World!'
+
+    # run the application
+    if __name__ == '__main__':
+        app.run()
