@@ -56,7 +56,7 @@ class TestLoggingHandler(unittest.TestCase):
         for logging_function, logging_parameter, envelope_type, ikey, data_type, message in expected:
             logging_function(logging_parameter)
             data = sender.data[0][0]
-            sender.data.clear()
+            sender.data = []
             self.assertEqual(envelope_type, data.name)
             self.assertEqual(ikey, data.ikey)
             self.assertEqual(data_type, data.data.base_type)
