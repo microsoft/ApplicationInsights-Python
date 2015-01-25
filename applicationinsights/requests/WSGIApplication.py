@@ -45,8 +45,7 @@ class WSGIApplication(object):
         telemetry_channel = kwargs.get('telemetry_channel')
         if 'telemetry_channel' in kwargs:
             del kwargs['telemetry_channel']
-        self.client = applicationinsights.TelemetryClient(telemetry_channel)
-        self.client.context.instrumentation_key = instrumentation_key
+        self.client = applicationinsights.TelemetryClient(instrumentation_key, telemetry_channel)
         self._wsgi_application = wsgi_application
 
     def flush(self):
