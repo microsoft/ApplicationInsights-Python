@@ -1,1 +1,1 @@
-from . import TestApplicationInsightsHandler
+from . import TestLoggingHandler

@@ -167,3 +167,22 @@ enable('<YOUR INSTRUMENTATION KEY GOES HERE>')
 # raise an exception (this will be sent to the Application Insights service as an exception telemetry object)
 raise Exception('Boom!')
 ```
+
+**Logging requests**
+```python
+from flask import Flask
+from applicationinsights.requests import WSGIApplication
+
+# instantiate the Flask application and wrap its WSGI application
+app = Flask(__name__)
+app.wsgi_app = WSGIApplication('<YOUR INSTRUMENTATION KEY GOES HERE>', app.wsgi_app)
+
+# define a simple route
+@app.route('/')
+def hello_world():
+    return 'Hello World!'
+
+# run the application
+if __name__ == '__main__':
+    app.run()
+```

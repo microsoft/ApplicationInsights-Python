@@ -124,6 +124,22 @@ class TestTelemetryClient(unittest.TestCase):
         actual = json.dumps(sender.data.write())
         self.assertEqual(expected, actual)
 
+    def test_track_request_works_as_expected(self):
+        sender = MockTelemetrySender()
+        queue = channel.SynchronousQueue(sender)
+        client = TelemetryClient(channel.TelemetryChannel(context=None, queue=queue))
+        client.context.instrumentation_key = '99999999-9999-9999-9999-999999999999'
+        client.context.device = None
+        client.track_request('test', 'http://tempuri.org', True, 'START_TIME', 13, '42', 'OPTIONS', { 'foo': 'bar' }, { 'x': 42 })
+        client.flush()
+        expected = '{"ver": 1, "name": "Microsoft.ApplicationInsights.Request", "time": "TIME_PLACEHOLDER", "sampleRate": 100.0, "iKey": "99999999-9999-9999-9999-999999999999", "tags": {"ai.internal.sdkVersion": "SDK_VERSION_PLACEHOLDER"}, "data": {"baseType": "RequestData", "baseData": {"ver": 2, "id": "ID_PLACEHOLDER", "name": "test", "startTime": "START_TIME", "duration": 13, "responseCode": "42", "success": true, "httpMethod": "OPTIONS", "url": "http://tempuri.org", "properties": {"foo": "bar"}, "measurements": {"x": 42}}}}'
+        sender.data.time = 'TIME_PLACEHOLDER'
+        sender.data.tags['ai.internal.sdkVersion'] = 'SDK_VERSION_PLACEHOLDER'
+        sender.data.data.base_data.id = 'ID_PLACEHOLDER'
+        actual = json.dumps(sender.data.write())
+        self.maxDiff = None
+        self.assertEqual(expected, actual)
+
 
 class MockTelemetrySender(channel.TelemetryChannel().sender.__class__):
     def __init__(self):
