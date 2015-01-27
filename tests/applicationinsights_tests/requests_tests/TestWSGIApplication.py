@@ -33,6 +33,9 @@ class TestWSGIApplication(unittest.TestCase):
         }
 
         result = wrapper(env, mock_start_response)
+        result_string = None
+        for part in result:
+            result_string = part
 
         data = sender.data[0][0]
         self.assertEqual('Microsoft.ApplicationInsights.Request', data.name)
@@ -44,7 +47,7 @@ class TestWSGIApplication(unittest.TestCase):
         self.assertTrue(data.data.base_data.success)
         self.assertEqual('/foo/bar?a=b', data.data.base_data.url)
         self.assertIsNotNone(data.data.base_data.id)
-        self.assertEqual('Hello World!', result)
+        self.assertEqual(b'Hello World!', result_string)
         self.assertEqual(1, mock_start_response_calls)
         self.assertEqual('201 BLAH', mock_start_response_status)
         self.assertEqual([('Content-type', 'text/plain')], mock_start_response_headers)
@@ -67,7 +70,7 @@ mock_start_response_status = None
 mock_start_response_headers = None
 
 
-def mock_start_response(status, headers):
+def mock_start_response(status, headers, exc_info=None):
     global mock_start_response_calls
     global mock_start_response_status
     global mock_start_response_headers
@@ -80,7 +83,7 @@ def mock_app(environ, start_response):
     status = '201 BLAH'
     headers = [('Content-type', 'text/plain')]
     start_response(status, headers)
-    return "Hello World!"
+    return [b'Hello World!']
 
 
 class MockSynchronousSender:
