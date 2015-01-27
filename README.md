@@ -118,10 +118,10 @@ logging.info('This is a message')
 **Basic logging configuration (second option)**
 ```python
 import logging
-from applicationinsights.logging import ApplicationInsightsHandler
+from applicationinsights.logging import LoggingHandler
 
 # set up logging
-handler = ApplicationInsightsHandler('<YOUR INSTRUMENTATION KEY GOES HERE>')
+handler = LoggingHandler('<YOUR INSTRUMENTATION KEY GOES HERE>')
 logging.basicConfig(handlers=[ handler ], format='%(levelname)s: %(message)s', level=logging.DEBUG)
 
 # log something (this will be sent to the Application Insights service as a trace)
@@ -140,10 +140,10 @@ except:
 **Advanced logging configuration**
 ```python
 import logging
-from applicationinsights.logging import ApplicationInsightsHandler
+from applicationinsights.logging import LoggingHandler
 
 # set up logging
-handler = ApplicationInsightsHandler('<YOUR INSTRUMENTATION KEY GOES HERE>')
+handler = LoggingHandler('<YOUR INSTRUMENTATION KEY GOES HERE>')
 handler.setLevel(logging.DEBUG)
 handler.setFormatter(logging.Formatter('%(levelname)s: %(message)s'))
 my_logger = logging.getLogger('simple_logger')

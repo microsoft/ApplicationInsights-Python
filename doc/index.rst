@@ -225,10 +225,10 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 .. code:: python
 
     import logging
-    from applicationinsights.logging import ApplicationInsightsHandler
+    from applicationinsights.logging import LoggingHandler
 
     # set up logging
-    handler = ApplicationInsightsHandler('<YOUR INSTRUMENTATION KEY GOES HERE>')
+    handler = LoggingHandler('<YOUR INSTRUMENTATION KEY GOES HERE>')
     logging.basicConfig(handlers=[ handler ], format='%(levelname)s: %(message)s', level=logging.DEBUG)
 
     # log something (this will be sent to the Application Insights service as a trace)
@@ -250,10 +250,10 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 .. code:: python
 
     import logging
-    from applicationinsights.logging import ApplicationInsightsHandler
+    from applicationinsights.logging import LoggingHandler
 
     # set up logging
-    handler = ApplicationInsightsHandler('<YOUR INSTRUMENTATION KEY GOES HERE>')
+    handler = LoggingHandler('<YOUR INSTRUMENTATION KEY GOES HERE>')
     handler.setLevel(logging.DEBUG)
     handler.setFormatter(logging.Formatter('%(levelname)s: %(message)s'))
     my_logger = logging.getLogger('simple_logger')

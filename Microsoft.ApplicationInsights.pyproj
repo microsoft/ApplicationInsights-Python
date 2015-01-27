@@ -60,8 +60,15 @@
     <Compile Include="applicationinsights\channel\TelemetryChannel.py" />
     <Compile Include="applicationinsights\channel\TelemetryContext.py" />
     <Compile Include="applicationinsights\channel\__init__.py" />
+    <Compile Include="applicationinsights\exceptions\enable.py" />
+    <Compile Include="applicationinsights\exceptions\__init__.py" />
+    <Compile Include="applicationinsights\logging\LoggingHandler.py" />
+    <Compile Include="applicationinsights\logging\__init__.py" />
+    <Compile Include="applicationinsights\requests\WSGIApplication.py" />
+    <Compile Include="applicationinsights\requests\__init__.py" />
     <Compile Include="applicationinsights\TelemetryClient.py" />
     <Compile Include="applicationinsights\__init__.py" />
+    <Compile Include="doc\conf.py" />
     <Compile Include="setup.py">
       <SubType>Code</SubType>
     </Compile>
@@ -95,6 +102,12 @@
     <Compile Include="tests\applicationinsights_tests\channel_tests\TestTelemetryChannel.py" />
     <Compile Include="tests\applicationinsights_tests\channel_tests\TestTelemetryContext.py" />
     <Compile Include="tests\applicationinsights_tests\channel_tests\__init__.py" />
+    <Compile Include="tests\applicationinsights_tests\exception_tests\TestEnable.py" />
+    <Compile Include="tests\applicationinsights_tests\exception_tests\__init__.py" />
+    <Compile Include="tests\applicationinsights_tests\logging_tests\TestLoggingHandler.py" />
+    <Compile Include="tests\applicationinsights_tests\logging_tests\__init__.py" />
+    <Compile Include="tests\applicationinsights_tests\requests_tests\TestWSGIApplication.py" />
+    <Compile Include="tests\applicationinsights_tests\requests_tests\__init__.py" />
     <Compile Include="tests\applicationinsights_tests\__init__.py" />
     <Compile Include="tests\tests.py" />
     <Compile Include="tests\applicationinsights_tests\TestTelemetryClient.py" />
@@ -103,10 +116,19 @@
     <Folder Include="applicationinsights\" />
     <Folder Include="applicationinsights\channel\" />
     <Folder Include="applicationinsights\channel\contracts\" />
+    <Folder Include="applicationinsights\exceptions\" />
+    <Folder Include="applicationinsights\logging\" />
+    <Folder Include="applicationinsights\requests\" />
+    <Folder Include="doc\" />
+    <Folder Include="doc\static\" />
+    <Folder Include="doc\templates\" />
     <Folder Include="tests\" />
     <Folder Include="tests\applicationinsights_tests\" />
     <Folder Include="tests\applicationinsights_tests\channel_tests\" />
     <Folder Include="tests\applicationinsights_tests\channel_tests\contracts_tests\" />
+    <Folder Include="tests\applicationinsights_tests\exception_tests\" />
+    <Folder Include="tests\applicationinsights_tests\logging_tests\" />
+    <Folder Include="tests\applicationinsights_tests\requests_tests\" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="{2af0f10d-7135-4994-9156-5d01c9c11b7e}\2.7" />
@@ -115,6 +137,17 @@
   <ItemGroup>
     <Content Include=".gitignore" />
     <Content Include="DESCRIPTION.rst" />
+    <Content Include="doc\applicationinsights.channel.contracts.rst" />
+    <Content Include="doc\applicationinsights.channel.rst" />
+    <Content Include="doc\applicationinsights.exceptions.rst" />
+    <Content Include="doc\applicationinsights.logging.rst" />
+    <Content Include="doc\applicationinsights.requests.rst" />
+    <Content Include="doc\applicationinsights.rst" />
+    <Content Include="doc\index.rst" />
+    <Content Include="doc\make.bat" />
+    <Content Include="doc\Makefile" />
+    <Content Include="doc\static\overrides.css" />
+    <Content Include="doc\templates\layout.html" />
     <Content Include="LICENSE.txt" />
     <Content Include="MANIFEST.in" />
     <Content Include="README.md" />
