@@ -98,7 +98,7 @@ class TelemetryClient(object):
         details.id = 1
         details.outer_id = 0
         details.type_name = type.__name__
-        details.message = ''.join(value.args)
+        details.message = str(value)
         details.has_full_stack = True
         counter = 0
         for tb_frame_file, tb_frame_line, tb_frame_function, tb_frame_text in traceback.extract_tb(tb):
