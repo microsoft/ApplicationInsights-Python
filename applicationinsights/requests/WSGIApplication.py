@@ -2,12 +2,6 @@ import datetime
 import re
 import applicationinsights
 
-class Closure(object):
-    """A simple closure object used to transfer context between different scopes.
-    """
-    def __init__(self):
-        self.status = None
-
 class WSGIApplication(object):
     """ This class represents a WSGI wrapper that enables request telemetry for existing WSGI applications. The request
     telemetry will be sent to Application Insights service using the supplied instrumentation key.
@@ -42,9 +36,7 @@ class WSGIApplication(object):
             raise Exception('Instrumentation key was required but not provided')
         if not wsgi_application:
             raise Exception('WSGI application was required but not provided')
-        telemetry_channel = kwargs.get('telemetry_channel')
-        if 'telemetry_channel' in kwargs:
-            del kwargs['telemetry_channel']
+        telemetry_channel = kwargs.pop('telemetry_channel', None)
         self.client = applicationinsights.TelemetryClient(instrumentation_key, telemetry_channel)
         self._wsgi_application = wsgi_application
 
@@ -64,44 +56,32 @@ class WSGIApplication(object):
             (obj). the response to send back to the client.
         """
         start_time = datetime.datetime.utcnow()
-        name = '/'
-        if 'PATH_INFO' in environ:
-            name = environ['PATH_INFO']
-            if not name:
-                name = '/'
-        closure = Closure()
-        closure.status = '200 OK'
+        name = environ.get('PATH_INFO') or '/'
+        closure = {'status': '200 OK'}
 
         def status_interceptor(status_string, headers_array, exc_info=None):
-            closure.status = status_string
+            closure['status'] = status_string
             start_response(status_string, headers_array, exc_info)
 
-        response = self._wsgi_application(environ, status_interceptor)
-        try:
-            iterable_response = iter(response)
-        except TypeError:
-            iterable_response = None
+        for part in self._wsgi_application(environ, status_interceptor):
+            yield part
 
-        if iterable_response:
-            for part in iterable_response:
-                yield part
-
-        response_code = re.match('\s*(?P<code>\d+)', closure.status).group('code')
         success = True
-        if int(response_code) >= 400:
+        response_match = re.match(r'\s*(?P<code>\d+)', closure['status'])
+        if response_match:
+            response_code = response_match.group('code')
+            if int(response_code) >= 400:
+                success = False
+        else:
+            response_code = closure['status']
             success = False
-        http_method = 'GET'
-        if 'REQUEST_METHOD' in environ:
-            http_method = environ['REQUEST_METHOD']
+            
+        http_method = environ.get('REQUEST_METHOD', 'GET')
         url = name
-        if 'QUERY_STRING' in environ:
-            query_string = environ['QUERY_STRING']
-            if query_string:
-                url += '?' + query_string
+        query_string = environ.get('QUERY_STRING')
+        if query_string:
+            url += '?' + query_string
         end_time = datetime.datetime.utcnow()
         duration = int((end_time - start_time).total_seconds() * 1000)
 
         self.client.track_request(name, url, success, start_time.isoformat() + 'Z', duration, response_code, http_method)
-
-        if not iterable_response:
-            return response
