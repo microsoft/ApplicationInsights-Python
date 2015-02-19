@@ -205,10 +205,10 @@ class TelemetryClient(object):
         duration_parts = []
         for multiplier in [1000, 60, 60, 24]:
             duration_parts.append(local_duration % multiplier)
-            local_duration = int(local_duration / multiplier)
+            local_duration //= multiplier
 
         duration_parts.reverse()
-        data.duration = ':'.join(['%02d' % a for a in duration_parts[:-1]]) + ('.%03d' % duration_parts[-1])
+        data.duration = '%02d:%02d:%02d.%03d' % tuple(duration_parts)
         if local_duration:
             data.duration = '%d.%s' % (local_duration, data.duration)
 
