@@ -200,7 +200,18 @@ class TelemetryClient(object):
         data.id = str(uuid.uuid4())
         data.name = name
         data.start_time = start_time or datetime.datetime.utcnow().isoformat() + 'Z'
-        data.duration = duration or 0
+
+        local_duration = duration or 0
+        duration_parts = []
+        for multiplier in [1000, 60, 60, 24]:
+            duration_parts.append(local_duration % multiplier)
+            local_duration //= multiplier
+
+        duration_parts.reverse()
+        data.duration = '%02d:%02d:%02d.%03d' % tuple(duration_parts)
+        if local_duration:
+            data.duration = '%d.%s' % (local_duration, data.duration)
+
         data.response_code = response_code or '200'
         data.success = success
         data.http_method = http_method or 'GET'
