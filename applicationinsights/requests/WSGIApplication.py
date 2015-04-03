@@ -37,6 +37,10 @@ class WSGIApplication(object):
         if not wsgi_application:
             raise Exception('WSGI application was required but not provided')
         telemetry_channel = kwargs.pop('telemetry_channel', None)
+        if not telemetry_channel:
+            sender = applicationinsights.channel.AsynchronousSender()
+            queue = applicationinsights.channel.AsynchronousQueue(sender)
+            telemetry_channel = applicationinsights.channel.TelemetryChannel(None, queue)
         self.client = applicationinsights.TelemetryClient(instrumentation_key, telemetry_channel)
         self._wsgi_application = wsgi_application
 
