@@ -56,7 +56,7 @@ class TestWSGIApplication(unittest.TestCase):
         client = wsgi_application.client
 
         # mock out the sender
-        sender = MockSynchronousSender()
+        sender = MockAsynchronousSender()
         queue = client.channel.queue
         queue.max_queue_length = 1
         queue._sender = sender
@@ -86,11 +86,23 @@ def mock_app(environ, start_response):
     return [b'Hello World!']
 
 
-class MockSynchronousSender:
+class MockAsynchronousSender:
     def __init__(self):
         self.send_buffer_size = 1
         self.data = []
         self.queue = None
+
+    def start(self):
+        while True:
+            data = []
+            while len(data) < self.send_buffer_size:
+                item = self.queue.get()
+                if not item:
+                    break
+                data.append(item)
+            if len(data) == 0:
+                break
+            self.send(data)
 
     def send(self, data_to_send):
         self.data.append(data_to_send)
