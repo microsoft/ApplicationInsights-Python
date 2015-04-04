@@ -45,7 +45,7 @@ class TestWSGIApplication(unittest.TestCase):
         self.assertEqual('/foo/bar', data.data.base_data.name)
         self.assertEqual('201', data.data.base_data.response_code)
         self.assertTrue(data.data.base_data.success)
-        self.assertEqual('/foo/bar?a=b', data.data.base_data.url)
+        self.assertEqual('http://unknown/foo/bar?a=b', data.data.base_data.url)
         self.assertIsNotNone(data.data.base_data.id)
         self.assertEqual(b'Hello World!', result_string)
         self.assertEqual(1, mock_start_response_calls)
