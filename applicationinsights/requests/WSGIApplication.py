@@ -85,6 +85,12 @@ class WSGIApplication(object):
         query_string = environ.get('QUERY_STRING')
         if query_string:
             url += '?' + query_string
+
+        scheme = environ.get('wsgi.url_scheme', 'http')
+        host =  environ.get('HTTP_HOST', environ.get('SERVER_NAME', 'unknown'))
+
+        url = scheme + '://' + host + url
+
         end_time = datetime.datetime.utcnow()
         duration = int((end_time - start_time).total_seconds() * 1000)
 
