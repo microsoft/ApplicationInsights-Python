@@ -110,6 +110,12 @@ class AsynchronousSender(SenderBase):
             local_send_time = local_send_interval
         while True:
             while True:
+                # Don't even bother processing if buffer is less than 100 items (the default batch size)
+                # This prevents us from wasting time sending tiny batches of data
+                # fixme magic number
+                if local_queue._queue.qsize() < 100:
+                    break
+                
                 # get at most send_buffer_size items from the queue
                 counter = self._send_buffer_size
                 data = []
@@ -123,6 +129,14 @@ class AsynchronousSender(SenderBase):
                 # if we didn't get any items from the queue, we're done here
                 if len(data) == 0:
                     break
+                
+                # Drop extra events from the queue until it no larger than send_buffer_size.
+                # This is a necessary evil to prevent the backlog from bloating forever in bandwidth-limited environments
+                eventsToDrop = max(0, local_queue._queue.qsize() - self._send_buffer_size)
+                while eventsToDrop > 0:
+                    #fixme probably a much more efficient way to do this, especially given that this is a synchronous queue
+                    local_queue.get()
+                    eventsToDrop = eventsToDrop - 1
 
                 # reset the send time
                 with self._lock_send_remaining_time:

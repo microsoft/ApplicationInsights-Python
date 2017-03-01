@@ -115,7 +115,7 @@ class SenderBase(object):
 
         request = HTTPClient.Request(self._service_endpoint_uri, bytearray(request_payload, 'utf-8'), { 'Accept': 'application/json', 'Content-Type' : 'application/json; charset=utf-8' })
         try:
-            response = HTTPClient.urlopen(request)
+            response = HTTPClient.urlopen(request, timeout=10)
             status_code = response.getcode()
             if 200 <= status_code < 300:
                 return
