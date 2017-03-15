@@ -101,9 +101,9 @@ class TelemetryChannel(object):
             if not properties:
                 properties = {}
                 data.properties = properties
-            for key in local_context.properties:
+            for key, value in local_context.properties:
                 if key not in properties:
-                    properties[key] = local_context.properties[key]
+                    properties[key] = value
         envelope.data.base_data = data
 
         self._queue.put(envelope)
