@@ -1,6 +1,6 @@
 # Application Insights for Python #
 
-[![Build Status](https://travis-ci.org/Microsoft/AppInsights-Python.svg?branch=master)](https://travis-ci.org/Microsoft/AppInsights-Python) 
+[![Build Status](https://travis-ci.org/Microsoft/ApplicationInsights-Python.svg?branch=master)](https://travis-ci.org/Microsoft/ApplicationInsights-Python) 
 [![PyPI version](https://badge.fury.io/py/applicationinsights.svg)](http://badge.fury.io/py/applicationinsights)
 
 This project extends the Application Insights API surface to support Python. [Application Insights](http://azure.microsoft.com/en-us/services/application-insights/) is a service that allows developers to keep their application available, performing and succeeding. This Python module will allow you to send telemetry of various kinds (event, trace, exception, etc.) to the Application Insights service where they can be visualized in the Azure Portal. 
