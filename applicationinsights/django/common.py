@@ -4,8 +4,14 @@ import applicationinsights
 
 class ApplicationInsightsSettings(object):
     def __init__(self):
-        self._settings = settings.APPLICATION_INSIGHTS or settings.APPLICATIONINSIGHTS
-        if not self._settings:
+        if hasattr(settings, "APPLICATION_INSIGHTS"):
+            self._settings = settings.APPLICATION_INSIGHTS
+        elif hasattr(settings, "APPLICATIONINSIGHTS"):
+            self._settings = settings.APPLICATIONINSIGHTS
+        else:
+            self._settings = {}
+
+        if not isinstance(self._settings, dict):
             self._settings = {}
 
     @property
@@ -48,7 +54,7 @@ def create_client(aisettings=None):
     if saved_client is not None:
         return saved_client
 
-    if aisettings = None:
+    if aisettings is None:
         aisettings = ApplicationInsightsSettings()
 
     ikey = aisettings.ikey

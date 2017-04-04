@@ -5,7 +5,7 @@ class NullSender(SenderBase):
     telemetry may not be desired, with no changes to the object model.
     """
     def __init__(self, *args, **kwargs):
-        super(NullSender, self).__init__(*args, **kwargs)
+        super(NullSender, self).__init__("nil-endpoint", *args, **kwargs)
 
     def send(self, data):
         pass
