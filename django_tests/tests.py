@@ -16,18 +16,18 @@ TEST_IKEY = '12345678-1234-5678-0912-123456789abc'
 class DjangoTests(TestCase):
     def setUp(self):
         self.events = plug_sender().events
-    
+
     def get_events(self, count):
         common.saved_client.channel.flush()
         self.assertEqual(len(self.events), count, "Expected %d event(s) in queue" % count)
         if count == 1:
             return self.events[0]
         return self.events
-    
+
     def test_basic_request(self):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
-        
+
         event = self.get_events(1)
         tags = event['tags']
         data = event['data']['baseData']
@@ -39,13 +39,13 @@ class DjangoTests(TestCase):
         self.assertEqual(data['success'], True, "Success value")
         self.assertEqual(data['httpMethod'], 'GET', "HTTP Method")
         self.assertEqual(data['url'], 'http://testserver/', "Request url")
-    
+
     def test_logger(self):
         response = self.client.get('/logger')
         self.assertEqual(response.status_code, 200)
-        
+
         logev, reqev = self.get_events(2)
-        
+
         # Check request event (minimal, since we validate this elsewhere)
         tags = reqev['tags']
         data = reqev['data']['baseData']
@@ -56,7 +56,7 @@ class DjangoTests(TestCase):
         self.assertEqual(data['url'], 'http://testserver/logger', "Request url")
 
         self.assertTrue(reqid, "Request id not empty")
-    
+
         # Check log event
         tags = logev['tags']
         data = logev['data']['baseData']
@@ -65,13 +65,13 @@ class DjangoTests(TestCase):
         self.assertEqual(tags['ai.operation.parentId'], reqid, "Parent id")
         self.assertEqual(data['message'], 'Logger message', "Log message")
         self.assertEqual(data['properties']['property'], 'value', "Property=value")
-    
+
     def test_thrower(self):
         with self.assertRaises(ValueError):
             self.client.get('/thrower')
-        
+
         errev, reqev = self.get_events(2)
-        
+
         # Check request event
         tags = reqev['tags']
         data = reqev['data']['baseData']
@@ -83,9 +83,9 @@ class DjangoTests(TestCase):
         self.assertEqual(data['success'], False, "Success value")
         self.assertEqual(data['name'], 'GET aitest.views.thrower', "Request name")
         self.assertEqual(data['url'], 'http://testserver/thrower', "Request url")
-        
+
         self.assertTrue(reqid, "Request id not empty")
-        
+
         # Check exception event
         tags = errev['tags']
         data = errev['data']['baseData']
@@ -96,11 +96,11 @@ class DjangoTests(TestCase):
         self.assertEqual(exc['typeName'], 'ValueError', "Exception type")
         self.assertEqual(exc['hasFullStack'], True, "Has full stack")
         self.assertEqual(exc['parsedStack'][0]['method'], 'thrower', "Stack frame method name")
-    
+
     def test_error(self):
         response = self.client.get("/errorer")
         self.assertEqual(response.status_code, 404)
-        
+
         event = self.get_events(1)
         tags = event['tags']
         data = event['data']['baseData']
@@ -109,11 +109,11 @@ class DjangoTests(TestCase):
         self.assertEqual(data['responseCode'], 404, "Status code")
         self.assertEqual(data['success'], False, "Success value")
         self.assertEqual(data['url'], 'http://testserver/errorer', "Request url")
-    
+
     def test_no_view(self):
         response = self.client.get('/this/view/does/not/exist')
         self.assertEqual(response.status_code, 404)
-        
+
         event = self.get_events(1)
         tags = event['tags']
         data = event['data']['baseData']
@@ -133,6 +133,6 @@ class MockSender(SenderBase):
     def __init__(self):
         SenderBase.__init__(self, "https://dc.services.visualstudio.com/v2/track")
         self.events = []
-    
+
     def send(self, data):
         self.events.extend(a.write() for a in data)

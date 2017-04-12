@@ -10,7 +10,12 @@ BASEDIR=$(pwd)
 # For each Django version...
 for v in 1.8.18 1.9.13 1.10.7 1.11
 do
+	echo ""
+	echo "***"
 	echo "*** Running tests for Django $v"
+	echo "***"
+	echo ""
+
 	# Create new directory
 	TMPDIR=$(mktemp -d)
 	function cleanup
@@ -18,22 +23,22 @@ do
 		rm -rf $TMPDIR
 		exit $1
 	}
-	
+
 	trap cleanup EXIT SIGINT
-	
+
 	# Create virtual environment
 	virtualenv -p $PYTHON $TMPDIR/env
-	
+
 	# Install Django version + application insights
 	. $TMPDIR/env/bin/activate
 	pip install Django==$v || exit $?
 	cd $BASEDIR/..
 	python setup.py install || exit $?
-	
+
 	# Run tests
 	cd $BASEDIR
 	bash ./run_test.sh || exit $?
-	
+
 	# Remove venv
 	deactivate
 	rm -rf $TMPDIR
