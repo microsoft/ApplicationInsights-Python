@@ -6,6 +6,8 @@ import time
 import traceback
 import uuid
 
+from django.http import Http404
+
 import applicationinsights
 from applicationinsights.channel import contracts
 from . import common
@@ -70,7 +72,7 @@ class ApplicationInsightsMiddleware(object):
     def __call__(self, request):
         self.process_request(request)
         response = self.get_response(request)
-        self.process_response(requst, response)
+        self.process_response(request, response)
         return response
 
     def process_view(self, request, view_func, view_args, view_kwargs):
@@ -103,11 +105,14 @@ class ApplicationInsightsMiddleware(object):
         return None
 
     def process_exception(self, request, exception):
+        if type(exception) is Http404:
+            return None
+
         client = applicationinsights.TelemetryClient(self._client.context.instrumentation_key, self._client.channel)
         if hasattr(request, 'appinsights'):
             client.context.operation.parent_id = request.appinsights.request.id
 
-        client.track_exception(type(exception).__name__, exception, sys.exc_info()[2])
+        client.track_exception(type(exception), exception, sys.exc_info()[2])
 
         return None
 
