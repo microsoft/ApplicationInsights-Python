@@ -120,12 +120,23 @@ class ApplicationInsightsMiddleware(object):
 
 class RequestAddon(object):
     def __init__(self, client):
-        self.client = client
+        self._baseclient = client
+        self._client = None
         self.request = contracts.RequestData()
         self.request.id = str(uuid.uuid4())
         self.context = applicationinsights.channel.TelemetryContext()
         self.context.instrumentation_key = client.context.instrumentation_key
+        self.context.operation.id = self.request.id
         self._process_start_time = None
+
+    @property
+    def client(self):
+        if self._client is None:
+            # Create a client that submits telemetry parented to the request.
+            self._client = applicationinsights.TelemetryClient(self.context.instrumentation_key, self._baseclient.channel)
+            self._client.context.operation.parent_id = self.context.operation.id
+
+        return self._client
 
     def start_stopwatch(self):
         self._process_start_time = TIME_FUNC()
