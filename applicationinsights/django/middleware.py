@@ -24,7 +24,7 @@ class ApplicationInsightsMiddleware(object):
     
     To enable, add this class to your settings.py file in MIDDLEWARE_CLASSES (pre-1.10) or MIDDLEWARE (1.10 and newer):
     
-    .. code-block:: python
+    .. code:: python
     
         # If on Django < 1.10
         MIDDLEWARE_CLASSES = [
@@ -87,6 +87,20 @@ class ApplicationInsightsMiddleware(object):
             'endpoint': "https://dc.services.visualstudio.com/v2/track",
         }
     
+    Once these are in place, each request will have an `appinsights` object placed on it.
+    This object will have the following properties:
+    
+    * `client`: This is an instance of the :class:`applicationinsights.TelemetryClient` type, which will
+      submit telemetry to the same instrumentation key, and will parent each telemetry item to the current
+      request.
+    * `request`: This is the :class:`applicationinsights.channel.contracts.RequestData` instance for the
+      current request.  You can modify properties on this object during the handling of the current request.
+      It will be submitted when the request has finished.
+    * `context`: This is the :class:`applicationinsights.channel.TelemetryContext` object for the current
+      ApplicationInsights sender.
+    
+    These properties will be present even when `DEBUG` is `True`, but it may not submit telemetry unless
+    `debug_ikey` is set in `APPLICATION_INSIGHTS`, above.
     """
     def __init__(self, get_response=None):
         self.get_response = get_response

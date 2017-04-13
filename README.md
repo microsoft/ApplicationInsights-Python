@@ -187,3 +187,106 @@ def hello_world():
 if __name__ == '__main__':
     app.run()
 ```
+
+**Integrating with Django**
+Place the following in your `settings.py` file:
+```python
+# If on Django < 1.10
+MIDDLEWARE_CLASSES = [
+    # ... or whatever is below for you ...
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # ... or whatever is above for you ...
+    'applicationinsights.django.ApplicationInsightsMiddleware',   # Add this middleware to the end
+]
+
+# If on Django >= 1.10
+MIDDLEWARE = [
+    # ... or whatever is below for you ...
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # ... or whatever is above for you ...
+    'applicationinsights.django.ApplicationInsightsMiddleware',   # Add this middleware to the end
+]
+
+APPLICATION_INSIGHTS = {
+    # (required) Your Application Insights instrumentation key
+    'ikey': "00000000-0000-0000-0000-000000000000",
+    
+    # (optional) By default, if DEBUG is True, then the middleware will
+    # not log any events.  To override this behavior, set debug_ikey, below:
+    'debug_ikey': "00000000-0000-0000-0000-000000000000",
+    
+    # (optional) By default, request names are logged as the fully-qualified
+    # name of the view.  To disable this behavior, specify:
+    'use_operation_url': True,
+    
+    # (optional) By default, arguments to views are tracked as custom
+    # properties.  To disable this, specify:
+    'record_view_arguments': False,
+    
+    # (optional) Events are submitted to Application Insights asynchronously.
+    # send_interval specifies how often the queue is checked for items to submit.
+    # send_time specifies how long the sender waits for new input before recycling
+    # the background thread.
+    'send_interval': 1.0, # Check every second
+    'send_time': 3.0, # Wait up to 3 seconds for an event
+    
+    # (optional, uncommon) If you must send to an endpoint other than the
+    # default endpoint, specify it here:
+    'endpoint': "https://dc.services.visualstudio.com/v2/track",
+}
+```
+
+This will log all requests and exceptions to the instrumentation key
+specified in the `APPLICATION_INSIGHTS` setting.  In addition, an
+`appinsights` property will be placed on each incoming `request` object in
+your views.  This will have the following properties:
+
+* `client`: This is an instance of the :class:`applicationinsights.TelemetryClient` type, which will
+  submit telemetry to the same instrumentation key, and will parent each telemetry item to the current
+  request.
+* `request`: This is the :class:`applicationinsights.channel.contracts.RequestData` instance for the
+  current request.  You can modify properties on this object during the handling of the current request.
+  It will be submitted when the request has finished.
+* `context`: This is the :class:`applicationinsights.channel.TelemetryContext` object for the current
+  ApplicationInsights sender.
+
+You can also hook up logging to Django.  For example, to log all builtin
+Django warnings and errors, use the following logging configuration in
+`settings.py`:
+
+```python
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        # The application insights handler is here
+        'appinsights': {
+            'class': 'applicationinsights.django.LoggingHandler',
+            'level': 'WARNING'
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['appinsights'],
+            'level': 'WARNING',
+            'propagate': True,
+        }
+    }
+}
+```
+
+See Django's [logging documentation](https://docs.djangoproject.com/en/1.11/topics/logging/)
+for more information.
