@@ -189,7 +189,9 @@ if __name__ == '__main__':
 ```
 
 **Integrating with Django**
+
 Place the following in your `settings.py` file:
+
 ```python
 # If on Django < 1.10
 MIDDLEWARE_CLASSES = [
@@ -254,14 +256,15 @@ specified in the `APPLICATION_INSIGHTS` setting.  In addition, an
 `appinsights` property will be placed on each incoming `request` object in
 your views.  This will have the following properties:
 
-* `client`: This is an instance of the :class:`applicationinsights.TelemetryClient` type, which will
-  submit telemetry to the same instrumentation key, and will parent each telemetry item to the current
-  request.
-* `request`: This is the :class:`applicationinsights.channel.contracts.RequestData` instance for the
-  current request.  You can modify properties on this object during the handling of the current request.
-  It will be submitted when the request has finished.
-* `context`: This is the :class:`applicationinsights.channel.TelemetryContext` object for the current
-  ApplicationInsights sender.
+* `client`: This is an instance of the `applicationinsights.TelemetryClient`
+  type, which will submit telemetry to the same instrumentation key, and
+  will parent each telemetry item to the current request.
+* `request`: This is the `applicationinsights.channel.contracts.RequestData`
+  instance for the current request.  You can modify properties on this
+  object during the handling of the current request.  It will be submitted
+  when the request has finished.
+* `context`: This is the `applicationinsights.channel.TelemetryContext`
+  object for the current ApplicationInsights sender.
 
 You can also hook up logging to Django.  For example, to log all builtin
 Django warnings and errors, use the following logging configuration in
