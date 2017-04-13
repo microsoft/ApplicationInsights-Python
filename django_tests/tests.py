@@ -1,19 +1,19 @@
+import logging
+import django
+
 from applicationinsights import TelemetryClient
 from applicationinsights.channel import TelemetryChannel, SynchronousQueue, SenderBase
 from applicationinsights.django import common
 from django.test import TestCase, Client, modify_settings, override_settings
-from django import VERSION as DJANGO_VERSION
 
-if DJANGO_VERSION > (1, 10):
+if django.VERSION > (1, 10):
     MIDDLEWARE_NAME = "MIDDLEWARE"
 else:
     MIDDLEWARE_NAME = "MIDDLEWARE_CLASSES"
 
 TEST_IKEY = '12345678-1234-5678-0912-123456789abc'
 
-@modify_settings(**{MIDDLEWARE_NAME: {'append': 'applicationinsights.django.ApplicationInsightsMiddleware'}})
-@override_settings(APPLICATION_INSIGHTS={'ikey': TEST_IKEY})
-class DjangoTests(TestCase):
+class AITestCase(TestCase):
     def setUp(self):
         self.events = plug_sender().events
 
@@ -24,6 +24,9 @@ class DjangoTests(TestCase):
             return self.events[0]
         return self.events
 
+@modify_settings(**{MIDDLEWARE_NAME: {'append': 'applicationinsights.django.ApplicationInsightsMiddleware'}})
+@override_settings(APPLICATION_INSIGHTS={'ikey': TEST_IKEY})
+class MiddlewareTests(AITestCase):
     def test_basic_request(self):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
@@ -122,6 +125,54 @@ class DjangoTests(TestCase):
         self.assertEqual(data['success'], False, "Success value")
         self.assertEqual(data['name'], 'GET http://testserver/this/view/does/not/exist', "Request name")
         self.assertEqual(data['url'], 'http://testserver/this/view/does/not/exist', "Request url")
+
+@override_settings(LOGGING={
+    'version': 1,
+    'handlers': {
+        'appinsights': {
+            'class': 'applicationinsights.django.LoggingHandler',
+            'level': 'INFO',
+        }
+    },
+    'loggers': {
+        __name__: {
+            'handlers': ['appinsights'],
+            'level': 'INFO',
+        }
+    }
+}, APPLICATION_INSIGHTS={'ikey': TEST_IKEY})
+class LoggerTests(AITestCase):
+    def test_log_error(self):
+        django.setup()
+        logger = logging.getLogger(__name__)
+        msg = "An error log message"
+        logger.error(msg)
+
+        event = self.get_events(1)
+        data = event['data']['baseData']
+        props = data['properties']
+        self.assertEqual(event['name'], 'Microsoft.ApplicationInsights.Message', "Event type")
+        self.assertEqual(event['iKey'], TEST_IKEY)
+        self.assertEqual(data['message'], msg, "Log message")
+        self.assertEqual(props['fileName'], 'tests.py', "Filename property")
+        self.assertEqual(props['level'], 'ERROR', "Level property")
+        self.assertEqual(props['module'], 'tests', "Module property")
+
+    def test_log_info(self):
+        django.setup()
+        logger = logging.getLogger(__name__)
+        msg = "An info message"
+        logger.info(msg)
+
+        event = self.get_events(1)
+        data = event['data']['baseData']
+        props = data['properties']
+        self.assertEqual(event['name'], 'Microsoft.ApplicationInsights.Message', "Event type")
+        self.assertEqual(event['iKey'], TEST_IKEY)
+        self.assertEqual(data['message'], msg, "Log message")
+        self.assertEqual(props['fileName'], 'tests.py', "Filename property")
+        self.assertEqual(props['level'], 'INFO', "Level property")
+        self.assertEqual(props['module'], 'tests', "Module property")
 
 def plug_sender():
     client = common.create_client()
