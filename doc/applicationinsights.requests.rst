@@ -2,8 +2,6 @@
     :maxdepth: 2
     :hidden:
 
-    applicationinsights.channel
-
 applicationinsights.requests module
 ===================================
 
