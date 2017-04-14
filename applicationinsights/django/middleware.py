@@ -3,7 +3,6 @@ import datetime
 import inspect
 import sys
 import time
-import traceback
 import uuid
 
 from django.http import Http404
