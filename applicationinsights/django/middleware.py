@@ -246,9 +246,21 @@ def ms_to_duration(n):
 
     return duration
 
-def arg_to_str(arg):
+def arg_to_str_3(arg):
     if isinstance(arg, str):
         return arg
     if isinstance(arg, int):
         return str(arg)
     return repr(arg)
+
+def arg_to_str_2(arg):
+    if isinstance(arg, str) or isinstance(arg, unicode):
+        return arg
+    if isinstance(arg, int):
+        return str(arg)
+    return repr(arg)
+
+if sys.version_info < (3, 0):
+    arg_to_str = arg_to_str_2
+else:
+    arg_to_str = arg_to_str_3

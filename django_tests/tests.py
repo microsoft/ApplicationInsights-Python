@@ -1,10 +1,11 @@
 import logging
+
 import django
+from django.test import TestCase, Client, modify_settings, override_settings
 
 from applicationinsights import TelemetryClient
 from applicationinsights.channel import TelemetryChannel, SynchronousQueue, SenderBase, NullSender, AsynchronousSender
 from applicationinsights.django import common
-from django.test import TestCase, Client, modify_settings, override_settings
 
 if django.VERSION > (1, 10):
     MIDDLEWARE_NAME = "MIDDLEWARE"
