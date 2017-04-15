@@ -15,3 +15,6 @@ def errorer(request):
 
 def echoer(request):
     return HttpResponse(request.appinsights.request.id)
+
+def getid(request, id):
+    return HttpResponse(str(id))

@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^logger$', views.logger, name='logger'),
     url(r'^thrower$', views.thrower, name='thrower'),
     url(r'^errorer$', views.errorer, name='errorer'),
+    url(r'^getid/([0-9]+)$', views.getid, name='getid'),
 ]

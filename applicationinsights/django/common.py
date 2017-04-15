@@ -1,61 +1,76 @@
+import collections
 
 from django.conf import settings
 import applicationinsights
 
-class ApplicationInsightsSettings(object):
-    def __init__(self):
-        if hasattr(settings, "APPLICATION_INSIGHTS"):
-            self._settings = settings.APPLICATION_INSIGHTS
-        elif hasattr(settings, "APPLICATIONINSIGHTS"):
-            self._settings = settings.APPLICATIONINSIGHTS
-        else:
-            self._settings = {}
+ApplicationInsightsSettings = collections.namedtuple("ApplicationInsightsSettings", [
+    "ikey",
+    "channel_settings",
+    "use_operation_url",
+    "record_view_arguments"])
 
-        if not isinstance(self._settings, dict):
-            self._settings = {}
+ApplicationInsightsChannelSettings = collections.namedtuple("ApplicationInsightsChannelSettings", [
+    "send_interval",
+    "send_time",
+    "endpoint"])
 
-    @property
-    def ikey(self):
-        if settings.DEBUG:
-            return self.debug_ikey
-        return self._settings.get("ikey", None)
+def load_settings():
+    if hasattr(settings, "APPLICATION_INSIGHTS"):
+        config = settings.APPLICATION_INSIGHTS
+    elif hasattr(settings, "APPLICATIONINSIGHTS"):
+        config = settings.APPLICATIONINSIGHTS
+    else:
+        config = {}
 
-    @property
-    def debug_ikey(self):
-        return self._settings.get("debug_ikey", None)
+    if not isinstance(config, dict):
+        config = {}
 
-    @property
-    def endpoint(self):
-        if settings.DEBUG and "debug_endpoint" in self._settings:
-            return self._settings["debug_endpoint"]
-        return self._settings.get("endpoint", None)
+    if settings.DEBUG:
+        ikey = config.get("debug_ikey")
+        endpoint = config.get("debug_endpoint", config.get("endpoint"))
+    else:
+        ikey = config.get("ikey")
+        endpoint = config.get("endpoint")
 
-    @property
-    def send_interval(self):
-        return self._settings.get("send_interval", None)
+    return ApplicationInsightsSettings(
+        ikey=ikey,
+        use_operation_url=config.get("use_operation_url", False),
+        record_view_arguments=config.get("record_view_arguments", True),
+        channel_settings=ApplicationInsightsChannelSettings(
+            endpoint=endpoint,
+            send_interval=config.get("send_interval"),
+            send_time=config.get("send_time")))
 
-    @property
-    def send_time(self):
-        return self._settings.get("send_time", None)
-
-    @property
-    def use_operation_url(self):
-        return self._settings.get("use_operation_url", False)
-
-    @property
-    def record_view_arguments(self):
-        return self._settings.get("record_view_args", True)
-
-saved_client = None
+saved_clients = {}
+saved_channels = {}
 
 def create_client(aisettings=None):
-    global saved_client
-
-    if saved_client is not None:
-        return saved_client
+    global saved_clients, saved_channels
 
     if aisettings is None:
-        aisettings = ApplicationInsightsSettings()
+        aisettings = load_settings()
+
+    if aisettings in saved_clients:
+        return saved_clients[aisettings]
+
+    channel_settings = aisettings.channel_settings
+
+    if channel_settings in saved_channels:
+        channel = saved_channels[channel_settings]
+    else:
+        if channel_settings.endpoint is not None:
+            sender = applicationinsights.channel.AsynchronousSender(service_endpoint_uri=channel_settings.endpoint)
+        else:
+            sender = applicationinsights.channel.AsynchronousSender()
+
+        if channel_settings.send_time is not None:
+            sender.send_time = channel_settings.send_time
+        if channel_settings.send_interval is not None:
+            sender.send_interval = channel_settings.send_interval
+
+        queue = applicationinsights.channel.AsynchronousQueue(sender)
+        channel = applicationinsights.channel.TelemetryChannel(None, queue)
+        saved_channels[channel_settings] = channel
 
     ikey = aisettings.ikey
     if ikey is None:
@@ -64,21 +79,9 @@ def create_client(aisettings=None):
         else:
             return dummy_client("No ikey specified")
 
-    if aisettings.endpoint is not None:
-        sender = applicationinsights.channel.AsynchronousSender(service_endpoint=aisettings.endpoint)
-    else:
-        sender = applicationinsights.channel.AsynchronousSender()
-
-    if aisettings.send_time is not None:
-        sender.send_time = aisettings.send_time
-    if aisettings.send_interval is not None:
-        sender.send_interval = aisettings.send_interval
-
-    queue = applicationinsights.channel.AsynchronousQueue(sender)
-    channel = applicationinsights.channel.TelemetryChannel(None, queue)
-
-    saved_client = applicationinsights.TelemetryClient(aisettings.ikey, channel)
-    return saved_client
+    client = applicationinsights.TelemetryClient(aisettings.ikey, channel)
+    saved_clients[aisettings] = client
+    return client
 
 def dummy_client(reason):
     """Creates a dummy channel so even if we're not logging telemetry, we can still send

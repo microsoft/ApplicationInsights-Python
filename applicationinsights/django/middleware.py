@@ -105,7 +105,7 @@ class ApplicationInsightsMiddleware(object):
         self.get_response = get_response
 
         # Get configuration
-        self._settings = common.ApplicationInsightsSettings()
+        self._settings = common.load_settings()
         self._client = common.create_client(self._settings)
 
     # Pre-1.10 handler
@@ -121,6 +121,7 @@ class ApplicationInsightsMiddleware(object):
         data.http_method = request.method
         data.url = request.build_absolute_uri()
         data.name = "%s %s" % (request.method, data.url)
+        context.operation.name = data.name
         context.operation.id = data.id
         context.location.ip = request.META.get('REMOTE_ADDR', '')
         context.user.user_agent = request.META.get('HTTP_USER_AGENT', '')
