@@ -10,6 +10,7 @@ deploy:
   user: BogdanBe
   password:
     secure: Vy3FxFJuBkkZzqozmdT7l3eMNRvGfuDXXlBy3mCfiO3XP7eYId/MJ2ftnkEqYrNoObJlWTQ3vIQpZaO/lE6KIaHO5uT1T+9Fv7E2FLIoJ0+JOV+dy219LfpARojOA5Mf+tQyGffqUyQ2zFkYnFQ/Mo1Av7wPLKGzncbUmwbrGoE=
+  distributions: "sdist bdist_wheel"
   on:
     tags: true
     repo: Microsoft/AppInsights-Python
