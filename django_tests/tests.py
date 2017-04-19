@@ -232,6 +232,18 @@ class RequestSettingsTests(AITestCase):
         self.assertEqual(event['name'], 'Microsoft.ApplicationInsights.Request', "Event type")
         self.assertEqual(props['view_arg_0'], '24', "View argument")
 
+    @override_settings(APPLICATION_INSIGHTS={'ikey': TEST_IKEY, 'log_exceptions': False})
+    def test_log_exceptions_off(self):
+        """Tests that exceptions are not logged when log_exceptions=False"""
+        self.plug_sender()
+        with self.assertRaises(ValueError):
+            response = self.client.get('/thrower')
+
+        event = self.get_events(1)
+        data = event['data']['baseData']
+        self.assertEqual(event['name'], 'Microsoft.ApplicationInsights.Request', "Event type")
+        self.assertEqual(data['responseCode'], 500, "Response code")
+
 class SettingsTests(TestCase):
     def setUp(self):
         # Just clear out any cached objects

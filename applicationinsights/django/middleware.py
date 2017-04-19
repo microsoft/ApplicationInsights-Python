@@ -75,6 +75,9 @@ class ApplicationInsightsMiddleware(object):
             # set this to True.  Defaults to False.
             'record_view_arguments': True,
             
+            # (optional) Exceptions are logged by default, to disable, set this to False.
+            'log_exceptions': False,
+            
             # (optional) Events are submitted to Application Insights asynchronously.
             # send_interval specifies how often the queue is checked for items to submit.
             # send_time specifies how long the sender waits for new input before recycling
@@ -189,14 +192,22 @@ class ApplicationInsightsMiddleware(object):
         return None
 
     def process_exception(self, request, exception):
+        if not self._settings.log_exceptions:
+            return None
+
         if type(exception) is Http404:
+            return None
+
+        _, _, tb = sys.exc_info()
+        if tb is None or exception is None:
+            # No actual traceback or exception info, don't bother logging.
             return None
 
         client = applicationinsights.TelemetryClient(self._client.context.instrumentation_key, self._client.channel)
         if hasattr(request, 'appinsights'):
             client.context.operation.parent_id = request.appinsights.request.id
 
-        client.track_exception(type(exception), exception, sys.exc_info()[2])
+        client.track_exception(type(exception), exception, tb)
 
         return None
 

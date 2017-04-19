@@ -239,6 +239,9 @@ APPLICATION_INSIGHTS = {
     # set this to True.  Defaults to False.
     'record_view_arguments': True,
     
+    # (optional) Exceptions are logged by default, to disable, set this to False.
+    'log_exceptions': False,
+    
     # (optional) Events are submitted to Application Insights asynchronously.
     # send_interval specifies how often the queue is checked for items to submit.
     # send_time specifies how long the sender waits for new input before recycling
