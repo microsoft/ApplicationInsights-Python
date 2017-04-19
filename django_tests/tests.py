@@ -160,6 +160,20 @@ class MiddlewareTests(AITestCase):
         self.assertEqual(data['name'], 'GET /this/view/does/not/exist', "Request name")
         self.assertEqual(data['url'], 'http://testserver/this/view/does/not/exist', "Request url")
 
+    def test_401_success(self):
+        """Tests that a 401 status code is considered successful"""
+        response = self.client.get("/returncode/401")
+        self.assertEqual(response.status_code, 401)
+
+        event = self.get_events(1)
+        tags = event['tags']
+        data = event['data']['baseData']
+        self.assertEqual(event['name'], 'Microsoft.ApplicationInsights.Request', "Event type")
+        self.assertEqual(tags['ai.operation.name'], 'GET /returncode/401', "Operation name")
+        self.assertEqual(data['responseCode'], 401, "Status code")
+        self.assertEqual(data['success'], True, "Success value")
+        self.assertEqual(data['url'], 'http://testserver/returncode/401', "Request url")
+
 @modify_settings(**{MIDDLEWARE_NAME: {'append': 'applicationinsights.django.ApplicationInsightsMiddleware'}})
 class RequestSettingsTests(AITestCase):
     # This type needs to plug the sender during the test -- doing it in setUp would have nil effect

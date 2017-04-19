@@ -18,3 +18,6 @@ def echoer(request):
 
 def getid(request, id):
     return HttpResponse(str(id))
+
+def returncode(request, id):
+    return HttpResponse("Status code set to %s" % id, status=int(id))

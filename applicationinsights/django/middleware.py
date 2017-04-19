@@ -146,7 +146,7 @@ class ApplicationInsightsMiddleware(object):
         # Fill in data from the response
         data.duration = addon.measure_duration()
         data.response_code = response.status_code
-        data.success = response.status_code < 400
+        data.success = response.status_code < 400 or response.status_code == 401
 
         # Submit and return
         self._client.channel.write(data, context)
