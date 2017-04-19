@@ -66,13 +66,14 @@ class ApplicationInsightsMiddleware(object):
             # not log any events.  To override this behavior, set debug_ikey, below:
             'debug_ikey': "00000000-0000-0000-0000-000000000000",
             
-            # (optional) By default, request names are logged as the fully-qualified
-            # name of the view.  To disable this behavior, specify:
-            'use_operation_url': True,
+            # (optional) By default, request names are logged as the request method
+            # and relative path of the URL.  To log the fully-qualified view names
+            # instead, set this to True.  Defaults to False.
+            'use_view_name': True,
             
-            # (optional) By default, arguments to views are tracked as custom
-            # properties.  To disable this, specify:
-            'record_view_arguments': False,
+            # (optional) To log arguments passed into the views as custom properties,
+            # set this to True.  Defaults to False.
+            'record_view_arguments': True,
             
             # (optional) Events are submitted to Application Insights asynchronously.
             # send_interval specifies how often the queue is checked for items to submit.
@@ -120,7 +121,7 @@ class ApplicationInsightsMiddleware(object):
         data.start_time = datetime.datetime.utcnow().isoformat() + "Z"
         data.http_method = request.method
         data.url = request.build_absolute_uri()
-        data.name = "%s %s" % (request.method, data.url)
+        data.name = "%s %s" % (request.method, request.path)
         context.operation.name = data.name
         context.operation.id = data.id
         context.location.ip = request.META.get('REMOTE_ADDR', '')
@@ -166,8 +167,8 @@ class ApplicationInsightsMiddleware(object):
         context = request.appinsights.context
 
         # Operation name is the method + url by default (set in __call__),
-        # so if that's not set, then we'll use the view name.
-        if not self._settings.use_operation_url:
+        # If use_view_name is set, then we'll look up the name of the view.
+        if self._settings.use_view_name:
             mod = inspect.getmodule(view_func)
             name = view_func.__name__
             if mod:

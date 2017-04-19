@@ -230,13 +230,14 @@ APPLICATION_INSIGHTS = {
     # not log any events.  To override this behavior, set debug_ikey, below:
     'debug_ikey': "00000000-0000-0000-0000-000000000000",
     
-    # (optional) By default, request names are logged as the fully-qualified
-    # name of the view.  To disable this behavior, specify:
-    'use_operation_url': True,
+    # (optional) By default, request names are logged as the request method
+    # and relative path of the URL.  To log the fully-qualified view names
+    # instead, set this to True.  Defaults to False.
+    'use_view_name': True,
     
-    # (optional) By default, arguments to views are tracked as custom
-    # properties.  To disable this, specify:
-    'record_view_arguments': False,
+    # (optional) To log arguments passed into the views as custom properties,
+    # set this to True.  Defaults to False.
+    'record_view_arguments': True,
     
     # (optional) Events are submitted to Application Insights asynchronously.
     # send_interval specifies how often the queue is checked for items to submit.

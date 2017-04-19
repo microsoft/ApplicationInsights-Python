@@ -6,7 +6,7 @@ import applicationinsights
 ApplicationInsightsSettings = collections.namedtuple("ApplicationInsightsSettings", [
     "ikey",
     "channel_settings",
-    "use_operation_url",
+    "use_view_name",
     "record_view_arguments"])
 
 ApplicationInsightsChannelSettings = collections.namedtuple("ApplicationInsightsChannelSettings", [
@@ -34,8 +34,8 @@ def load_settings():
 
     return ApplicationInsightsSettings(
         ikey=ikey,
-        use_operation_url=config.get("use_operation_url", False),
-        record_view_arguments=config.get("record_view_arguments", True),
+        use_view_name=config.get("use_view_name", False),
+        record_view_arguments=config.get("record_view_arguments", False),
         channel_settings=ApplicationInsightsChannelSettings(
             endpoint=endpoint,
             send_interval=config.get("send_interval"),
