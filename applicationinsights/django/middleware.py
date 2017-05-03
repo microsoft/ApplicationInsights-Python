@@ -62,10 +62,6 @@ class ApplicationInsightsMiddleware(object):
             # (required) Your Application Insights instrumentation key
             'ikey': "00000000-0000-0000-0000-000000000000",
             
-            # (optional) By default, if DEBUG is True, then the middleware will
-            # not log any events.  To override this behavior, set debug_ikey, below:
-            'debug_ikey': "00000000-0000-0000-0000-000000000000",
-            
             # (optional) By default, request names are logged as the request method
             # and relative path of the URL.  To log the fully-qualified view names
             # instead, set this to True.  Defaults to False.

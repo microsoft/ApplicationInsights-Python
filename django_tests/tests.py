@@ -13,9 +13,7 @@ else:
     MIDDLEWARE_NAME = "MIDDLEWARE_CLASSES"
 
 TEST_IKEY = '12345678-1234-5678-9012-123456789abc'
-DEBUG_IKEY = '87654321-4321-8765-2109-cba987654321'
 TEST_ENDPOINT = 'https://test.endpoint/v2/track'
-DEBUG_ENDPOINT = 'https://debug.endpoint/v2/track'
 DEFAULT_ENDPOINT = AsynchronousSender().service_endpoint_uri
 
 class AITestCase(TestCase):
@@ -179,22 +177,6 @@ class RequestSettingsTests(AITestCase):
     # This type needs to plug the sender during the test -- doing it in setUp would have nil effect
     # because each method's override_settings wouldn't have happened by then.
 
-    @override_settings(APPLICATION_INSIGHTS={'ikey': TEST_IKEY, 'debug_ikey': DEBUG_IKEY}, DEBUG=True)
-    def test_debug_ikey(self):
-        """Tests that the debug_ikey is used when DEBUG=True"""
-        self.plug_sender()
-        response = self.client.get('/')
-        event = self.get_events(1)
-        self.assertEqual(event['iKey'], DEBUG_IKEY)
-
-    @override_settings(APPLICATION_INSIGHTS={'ikey': TEST_IKEY, 'debug_ikey': DEBUG_IKEY}, DEBUG=False)
-    def test_debug_off_ikey(self):
-        """Tests that debug_ikey is ignored when DEBUG=False"""
-        self.plug_sender()
-        self.client.get('/')
-        event = self.get_events(1)
-        self.assertEqual(event['iKey'], TEST_IKEY)
-
     @override_settings(APPLICATION_INSIGHTS={'ikey': TEST_IKEY, 'use_view_name': True})
     def test_use_view_name(self):
         """Tests that request names are set to URLs when use_operation_url=True"""
@@ -255,18 +237,6 @@ class SettingsTests(TestCase):
         client = common.create_client()
         self.assertTrue(type(client.channel.sender) is NullSender)
 
-    @override_settings(APPLICATION_INSIGHTS={'ikey': TEST_IKEY}, DEBUG=True)
-    def test_no_events_in_debug(self):
-        """Tests that events are swallowed when Debug=True and debug_ikey is unspecified"""
-        client = common.create_client()
-        self.assertTrue(type(client.channel.sender) is NullSender)
-
-    @override_settings(APPLICATION_INSIGHTS={'debug_ikey': DEBUG_IKEY}, DEBUG=False)
-    def test_no_events_in_no_debug(self):
-        """Tests that events are swallowed when Debug=False and no ikey is specified"""
-        client = common.create_client()
-        self.assertTrue(type(client.channel.sender) is NullSender)
-
     @override_settings(APPLICATION_INSIGHTS={'ikey': TEST_IKEY})
     def test_default_endpoint(self):
         """Tests that the default endpoint is used when endpoint is unspecified"""
@@ -276,24 +246,6 @@ class SettingsTests(TestCase):
     @override_settings(APPLICATION_INSIGHTS={'ikey': TEST_IKEY, 'endpoint': TEST_ENDPOINT})
     def test_overridden_endpoint(self):
         """Tests that the endpoint is used when specified"""
-        client = common.create_client()
-        self.assertEqual(client.channel.sender.service_endpoint_uri, TEST_ENDPOINT)
-
-    @override_settings(APPLICATION_INSIGHTS={'ikey': TEST_IKEY, 'debug_endpoint': DEBUG_ENDPOINT})
-    def test_debug_endpoint_no_debug(self):
-        """Tests that the default endpoint is used when only debug_endpoint is specified, and DEBUG=False"""
-        client = common.create_client()
-        self.assertEqual(client.channel.sender.service_endpoint_uri, DEFAULT_ENDPOINT)
-
-    @override_settings(APPLICATION_INSIGHTS={'debug_ikey': TEST_IKEY, 'endpoint': TEST_ENDPOINT, 'debug_endpoint': DEBUG_ENDPOINT}, DEBUG=True)
-    def test_debug_endpoint_with_debug(self):
-        """Tests that debug_endpoint is used when both endpoints are specified and DEBUG=True"""
-        client = common.create_client()
-        self.assertEqual(client.channel.sender.service_endpoint_uri, DEBUG_ENDPOINT)
-
-    @override_settings(APPLICATION_INSIGHTS={'debug_ikey': TEST_IKEY, 'endpoint': TEST_ENDPOINT}, DEBUG=True)
-    def test_debug_endpoint_inherited(self):
-        """Tests that endpoint is used when DEBUG=True"""
         client = common.create_client()
         self.assertEqual(client.channel.sender.service_endpoint_uri, TEST_ENDPOINT)
 

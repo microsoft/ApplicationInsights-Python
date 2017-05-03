@@ -344,10 +344,6 @@ Place the following in your `settings.py` file:
         # (required) Your Application Insights instrumentation key
         'ikey': "00000000-0000-0000-0000-000000000000",
         
-        # (optional) By default, if DEBUG is True, then the middleware will
-        # not log any events.  To override this behavior, set debug_ikey, below:
-        'debug_ikey': "00000000-0000-0000-0000-000000000000",
-        
         # (optional) By default, request names are logged as the fully-qualified
         # name of the view.  To disable this behavior, specify:
         'use_operation_url': True,

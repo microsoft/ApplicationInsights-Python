@@ -26,20 +26,13 @@ def load_settings():
     if not isinstance(config, dict):
         config = {}
 
-    if settings.DEBUG:
-        ikey = config.get("debug_ikey")
-        endpoint = config.get("debug_endpoint", config.get("endpoint"))
-    else:
-        ikey = config.get("ikey")
-        endpoint = config.get("endpoint")
-
     return ApplicationInsightsSettings(
-        ikey=ikey,
+        ikey=config.get("ikey"),
         use_view_name=config.get("use_view_name", False),
         record_view_arguments=config.get("record_view_arguments", False),
         log_exceptions=config.get("log_exceptions", True),
         channel_settings=ApplicationInsightsChannelSettings(
-            endpoint=endpoint,
+            endpoint=config.get("endpoint"),
             send_interval=config.get("send_interval"),
             send_time=config.get("send_time")))
 
@@ -76,10 +69,7 @@ def create_client(aisettings=None):
 
     ikey = aisettings.ikey
     if ikey is None:
-        if settings.DEBUG:
-            return dummy_client("Running in debug mode, no 'debug_ikey' set")
-        else:
-            return dummy_client("No ikey specified")
+        return dummy_client("No ikey specified")
 
     client = applicationinsights.TelemetryClient(aisettings.ikey, channel)
     saved_clients[aisettings] = client
