@@ -15,3 +15,7 @@ ApplicationInsightsMiddleware class
 LoggingHandler class
 --------------------
 .. autoclass:: applicationinsights.django.LoggingHandler
+
+create_client function
+----------------------
+.. autofunction:: applicationinsights.django.create_client
