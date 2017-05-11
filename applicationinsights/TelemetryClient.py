@@ -168,17 +168,20 @@ class TelemetryClient(object):
 
         self._channel.write(data, self._context)
 
-    def track_trace(self, name, properties=None):
+    def track_trace(self, name, properties=None, severity=None):
         """Sends a single trace statement.
 
         Args:
             name (str). the trace statement.\n
-            properties (dict). the set of custom properties the client wants attached to this data item. (defaults to: None)
+            properties (dict). the set of custom properties the client wants attached to this data item. (defaults to: None)\n
+            severity (str). the severity level of this trace, one of DEBUG, INFO, WARNING, ERROR, CRITICAL
         """
         data = channel.contracts.MessageData()
         data.message = name or NULL_CONSTANT_STRING
         if properties:
             data.properties = properties
+        if severity is not None:
+            data.severity_level = channel.contracts.MessageData.PYTHON_LOGGING_LEVELS.get(severity)
 
         self._channel.write(data, self._context)
 
