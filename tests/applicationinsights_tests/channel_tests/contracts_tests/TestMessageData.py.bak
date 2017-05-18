@@ -60,7 +60,7 @@ class TestMessageData(unittest.TestCase):
         item.ver = 42
         item.message = 'Test string'
         item.severity_level = object()
-        for key, value in list({ 'key1': 'test value 1' , 'key2': 'test value 2' }.items()):
+        for key, value in { 'key1': 'test value 1' , 'key2': 'test value 2' }.items():
             item.properties[key] = value
         actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)
         expected = '{"ver":42,"message":"Test string","severityLevel":{},"properties":{"key1":"test value 1","key2":"test value 2"}}'

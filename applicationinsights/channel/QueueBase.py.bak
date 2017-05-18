@@ -1,6 +1,6 @@
 try:
     # Python 2.x
-    from queue import Queue, Empty
+    from Queue import Queue, Empty
 except ImportError:
     # Python 3.x
     from queue import Queue, Empty

@@ -168,7 +168,7 @@ class TestRemoteDependencyData(unittest.TestCase):
         item.success = True
         item.async = True
         item.dependency_source = object()
-        for key, value in list({ 'key1': 'test value 1' , 'key2': 'test value 2' }.items()):
+        for key, value in { 'key1': 'test value 1' , 'key2': 'test value 2' }.items():
             item.properties[key] = value
         actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)
         expected = '{"ver":42,"name":"Test string","kind":{},"value":1.5,"count":42,"min":1.5,"max":1.5,"stdDev":1.5,"dependencyKind":{},"success":true,"async":true,"dependencySource":{},"properties":{"key1":"test value 1","key2":"test value 2"}}'

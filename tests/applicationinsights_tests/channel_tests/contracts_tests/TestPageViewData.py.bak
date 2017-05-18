@@ -12,14 +12,14 @@ if root_directory not in sys.path:
 from applicationinsights.channel.contracts import *
 from .Utils import TestJsonEncoder
 
-class TestEventData(unittest.TestCase):
+class TestPageViewData(unittest.TestCase):
     def test_construct(self):
-        item = EventData()
+        item = PageViewData()
         self.assertNotEqual(item, None)
     
     def test_ver_property_works_as_expected(self):
         expected = 42
-        item = EventData()
+        item = PageViewData()
         item.ver = expected
         actual = item.ver
         self.assertEqual(expected, actual)
@@ -28,9 +28,20 @@ class TestEventData(unittest.TestCase):
         actual = item.ver
         self.assertEqual(expected, actual)
     
+    def test_url_property_works_as_expected(self):
+        expected = 'Test string'
+        item = PageViewData()
+        item.url = expected
+        actual = item.url
+        self.assertEqual(expected, actual)
+        expected = 'Other string'
+        item.url = expected
+        actual = item.url
+        self.assertEqual(expected, actual)
+    
     def test_name_property_works_as_expected(self):
         expected = 'Test string'
-        item = EventData()
+        item = PageViewData()
         item.name = expected
         actual = item.name
         self.assertEqual(expected, actual)
@@ -39,25 +50,38 @@ class TestEventData(unittest.TestCase):
         actual = item.name
         self.assertEqual(expected, actual)
     
+    def test_duration_property_works_as_expected(self):
+        expected = 'Test string'
+        item = PageViewData()
+        item.duration = expected
+        actual = item.duration
+        self.assertEqual(expected, actual)
+        expected = 'Other string'
+        item.duration = expected
+        actual = item.duration
+        self.assertEqual(expected, actual)
+    
     def test_properties_property_works_as_expected(self):
-        item = EventData()
+        item = PageViewData()
         actual = item.properties
         self.assertNotEqual(actual, None)
     
     def test_measurements_property_works_as_expected(self):
-        item = EventData()
+        item = PageViewData()
         actual = item.measurements
         self.assertNotEqual(actual, None)
     
     def test_serialize_works_as_expected(self):
-        item = EventData()
+        item = PageViewData()
         item.ver = 42
+        item.url = 'Test string'
         item.name = 'Test string'
-        for key, value in list({ 'key1': 'test value 1' , 'key2': 'test value 2' }.items()):
+        item.duration = 'Test string'
+        for key, value in { 'key1': 'test value 1' , 'key2': 'test value 2' }.items():
             item.properties[key] = value
-        for key, value in list({ 'key1': 3.1415 , 'key2': 42.2 }.items()):
+        for key, value in { 'key1': 3.1415 , 'key2': 42.2 }.items():
             item.measurements[key] = value
         actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)
-        expected = '{"ver":42,"name":"Test string","properties":{"key1":"test value 1","key2":"test value 2"},"measurements":{"key1":3.1415,"key2":42.2}}'
+        expected = '{"ver":42,"url":"Test string","name":"Test string","duration":"Test string","properties":{"key1":"test value 1","key2":"test value 2"},"measurements":{"key1":3.1415,"key2":42.2}}'
         self.assertEqual(expected, actual)
 

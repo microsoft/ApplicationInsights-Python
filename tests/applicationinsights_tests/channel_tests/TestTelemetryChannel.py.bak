@@ -93,17 +93,17 @@ class TestTelemetryChannel(unittest.TestCase):
             self.assertEqual(item.ENVELOPE_TYPE_NAME, mock_sender.data.name)
             self.assertIsNotNone(mock_sender.data.time)
             self.assertEqual("42", mock_sender.data.ikey)
-            for key, value in list(context_global.device.write().items()):
+            for key, value in context_global.device.write().items():
                 self.assertEqual(value, mock_sender.data.tags[key])
-            for key, value in list(context_global.application.write().items()):
+            for key, value in context_global.application.write().items():
                 self.assertEqual(value, mock_sender.data.tags[key])
-            for key, value in list(context_global.user.write().items()):
+            for key, value in context_global.user.write().items():
                 self.assertEqual(value, mock_sender.data.tags[key])
-            for key, value in list(context_global.session.write().items()):
+            for key, value in context_global.session.write().items():
                 self.assertEqual(value, mock_sender.data.tags[key])
-            for key, value in list(context_global.location.write().items()):
+            for key, value in context_global.location.write().items():
                 self.assertEqual(value, mock_sender.data.tags[key])
-            for key, value in list(context_global.operation.write().items()):
+            for key, value in context_global.operation.write().items():
                 self.assertEqual(value, mock_sender.data.tags[key])
             self.assertIsNotNone(mock_sender.data.data)
             self.assertEqual(item.DATA_TYPE_NAME, mock_sender.data.data.base_type)

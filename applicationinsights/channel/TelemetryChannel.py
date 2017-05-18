@@ -112,7 +112,7 @@ class TelemetryChannel(object):
         for item in [ internal_context, context.device, context.application, context.user, context.session, context.location, context.operation ]:
             if not item:
                 continue
-            for pair in item.write().items():
+            for pair in list(item.write().items()):
                 yield pair
 
 
