@@ -191,7 +191,7 @@ class TestEnvelope(unittest.TestCase):
         item.app_id = 'Test string'
         item.app_ver = 'Test string'
         item.user_id = 'Test string'
-        for key, value in list({ 'key1': 'test value 1' , 'key2': 'test value 2' }.items()):
+        for key, value in { 'key1': 'test value 1' , 'key2': 'test value 2' }.items():
             item.tags[key] = value
         item.data = object()
         actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)

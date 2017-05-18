@@ -44,7 +44,7 @@ class TestMetricData(unittest.TestCase):
         for value in [ object() ]:
             item.metrics.append(value)
         
-        for key, value in list({ 'key1': 'test value 1' , 'key2': 'test value 2' }.items()):
+        for key, value in { 'key1': 'test value 1' , 'key2': 'test value 2' }.items():
             item.properties[key] = value
         actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)
         expected = '{"ver":42,"metrics":[{}],"properties":{"key1":"test value 1","key2":"test value 2"}}'
