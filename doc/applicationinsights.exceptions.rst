@@ -2,8 +2,6 @@
     :maxdepth: 2
     :hidden:
 
-    applicationinsights.requests
-
 applicationinsights.exceptions module
 =====================================
 

@@ -1,11 +1,14 @@
-.. toctree::
-    :maxdepth: 2
-    :hidden:
-
-    applicationinsights.logging
-
 applicationinsights module
 ==========================
+
+.. toctree::
+    :maxdepth: 1
+
+    applicationinsights.channel
+    applicationinsights.logging
+    applicationinsights.requests
+    applicationinsights.django
+    applicationinsights.exceptions
 
 TelemetryClient class
 ----------------------
