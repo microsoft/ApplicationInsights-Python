@@ -1,4 +1,5 @@
 from django.http import HttpResponse, Http404
+from django.template.response import TemplateResponse
 
 def home(request):
     return HttpResponse("Welcome home")
@@ -21,3 +22,6 @@ def getid(request, id):
 
 def returncode(request, id):
     return HttpResponse("Status code set to %s" % id, status=int(id))
+
+def templater(request, data):
+    return TemplateResponse(request, 'template.html', {'context': data})
