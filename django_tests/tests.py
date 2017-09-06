@@ -1,3 +1,4 @@
+import os
 import logging
 
 import django
@@ -15,6 +16,7 @@ else:
 TEST_IKEY = '12345678-1234-5678-9012-123456789abc'
 TEST_ENDPOINT = 'https://test.endpoint/v2/track'
 DEFAULT_ENDPOINT = AsynchronousSender().service_endpoint_uri
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 class AITestCase(TestCase):
     def plug_sender(self):
@@ -37,7 +39,13 @@ class AITestCase(TestCase):
         return self.events
 
 @modify_settings(**{MIDDLEWARE_NAME: {'append': 'applicationinsights.django.ApplicationInsightsMiddleware'}})
-@override_settings(APPLICATION_INSIGHTS={'ikey': TEST_IKEY})
+@override_settings(
+    APPLICATION_INSIGHTS={'ikey': TEST_IKEY},
+    # Templates for 1.7
+    TEMPLATE_DIRS=(PROJECT_ROOT,),
+    TEMPLATE_LOADERS=('django.template.loaders.filesystem.Loader',),
+    # Templates for 1.8 and up
+    TEMPLATES=[{'BACKEND': 'django.template.backends.django.DjangoTemplates', 'DIRS': [PROJECT_ROOT]}])
 class MiddlewareTests(AITestCase):
     def setUp(self):
         self.plug_sender()
@@ -132,6 +140,18 @@ class MiddlewareTests(AITestCase):
         self.assertEqual(data['responseCode'], 404, "Status code")
         self.assertEqual(data['success'], False, "Success value")
         self.assertEqual(data['url'], 'http://testserver/errorer', "Request url")
+
+    def test_template(self):
+        """Tests that views using templates operate correctly and that template data is logged"""
+        response = self.client.get("/templater/ctx")
+        self.assertEqual(response.status_code, 200)
+
+        event = self.get_events(1)
+        data = event['data']['baseData']
+        self.assertEqual(event['name'], 'Microsoft.ApplicationInsights.Request', "Event type")
+        self.assertEqual(data['success'], True, "Success value")
+        self.assertEqual(data['responseCode'], 200, "Status code")
+        self.assertEqual(data['properties']['template_name'], 'template.html', "Template name")
 
     def test_no_view_arguments(self):
         """Tests that view id logging is off by default"""

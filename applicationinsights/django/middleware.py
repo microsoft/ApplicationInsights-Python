@@ -212,7 +212,7 @@ class ApplicationInsightsMiddleware(object):
             data = request.appinsights.request
             data.properties['template_name'] = response.template_name
 
-        return None
+        return response
 
 class RequestAddon(object):
     def __init__(self, client):
