@@ -23,6 +23,7 @@ cd aitest
 cp $SRCDIR/views.py aitest/views.py
 cp $SRCDIR/tests.py aitest/tests.py
 cp $SRCDIR/urls.py aitest/urls.py
+cp $SRCDIR/template.html aitest/template.html
 
 ./manage.py test
 exit $?

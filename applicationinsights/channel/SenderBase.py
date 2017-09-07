@@ -77,7 +77,7 @@ class SenderBase(object):
             seconds(float). Timeout in seconds.
         """
 
-        self._send_buffer_size = seconds
+        self._timeout = seconds
 
     @queue.setter
     def queue(self, value):
