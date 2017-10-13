@@ -127,8 +127,9 @@ class ApplicationInsightsMiddleware(object):
         context.user.user_agent = request.META.get('HTTP_USER_AGENT', '')
 
         # User
-        if request.user is not None and not request.user.is_anonymous and request.user.is_authenticated:
-            context.user.account_id = request.user.get_short_name()
+        if hasattr(request, 'user'):
+            if request.user is not None and not request.user.is_anonymous and request.user.is_authenticated:
+                context.user.account_id = request.user.get_short_name()
 
         # Run and time the request
         addon.start_stopwatch()
