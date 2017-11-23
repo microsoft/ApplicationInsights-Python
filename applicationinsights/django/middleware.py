@@ -137,19 +137,21 @@ class ApplicationInsightsMiddleware(object):
 
     # Pre-1.10 handler
     def process_response(self, request, response):
-        addon = request.appinsights
-        duration = addon.measure_duration()
+        if hasattr(request, 'appinsights'):
+            addon = request.appinsights
+            duration = addon.measure_duration()
 
-        data = addon.request
-        context = addon.context
+            data = addon.request
+            context = addon.context
 
-        # Fill in data from the response
-        data.duration = addon.measure_duration()
-        data.response_code = response.status_code
-        data.success = response.status_code < 400 or response.status_code == 401
+            # Fill in data from the response
+            data.duration = addon.measure_duration()
+            data.response_code = response.status_code
+            data.success = response.status_code < 400 or response.status_code == 401
 
-        # Submit and return
-        self._client.channel.write(data, context)
+            # Submit and return
+            self._client.channel.write(data, context)
+
         return response
 
     # 1.10 and up...
