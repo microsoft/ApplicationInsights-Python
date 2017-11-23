@@ -20,8 +20,8 @@ setup(
     long_description=long_description,
 
     # The project's main homepage.
-    url='https://github.com/Microsoft/AppInsights-Python',
-    download_url='https://github.com/Microsoft/AppInsights-Python',
+    url='https://github.com/Microsoft/ApplicationInsights-Python',
+    download_url='https://github.com/Microsoft/ApplicationInsights-Python',
 
     # Author details
     author='Microsoft',
