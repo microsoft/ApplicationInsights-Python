@@ -14,14 +14,14 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # http://packaging.python.org/en/latest/tutorial.html#version
-    version='0.11.1',
+    version='0.11.2',
 
     description='This project extends the Application Insights API surface to support Python.',
     long_description=long_description,
 
     # The project's main homepage.
-    url='https://github.com/Microsoft/AppInsights-Python',
-    download_url='https://github.com/Microsoft/AppInsights-Python',
+    url='https://github.com/Microsoft/ApplicationInsights-Python',
+    download_url='https://github.com/Microsoft/ApplicationInsights-Python',
 
     # Author details
     author='Microsoft',
