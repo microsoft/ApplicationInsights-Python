@@ -176,7 +176,7 @@ from applicationinsights.flask.ext import AppInsights
 
 # instantiate the Flask application
 app = Flask(__name__)
-app.config['APPLICATION_INSIGHTS_KEY'] = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+app.config['APPINSIGHTS_INSTRUMENTATIONKEY'] = '<YOUR INSTRUMENTATION KEY GOES HERE>'
 
 # log requests, traces and exceptions to the Application Insights service
 appinsights = AppInsights(app)
