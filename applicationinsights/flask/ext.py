@@ -1,3 +1,5 @@
+from os import getenv
+
 from applicationinsights import TelemetryClient
 from applicationinsights.channel import AsynchronousSender
 from applicationinsights.channel import AsynchronousQueue
@@ -27,7 +29,7 @@ class AppInsights(object):
             self.init_app(app)
 
     def init_app(self, app):
-        self._key = app.config.get(CONF_KEY)
+        self._key = app.config.get(CONF_KEY) or getenv(CONF_KEY)
 
         if not self._key:
             return
