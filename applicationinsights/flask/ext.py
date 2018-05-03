@@ -8,6 +8,7 @@ from applicationinsights.requests import WSGIApplication
 CONF_PREFIX = "APPINSIGHTS"
 
 CONF_KEY = CONF_PREFIX + "_INSTRUMENTATIONKEY"
+CONF_ENDPOINT_URI = CONF_PREFIX + "_ENDPOINT_URI"
 CONF_DISABLE_REQUEST_LOGGING = CONF_PREFIX + "_DISABLE_REQUEST_LOGGING"
 CONF_DISABLE_TRACE_LOGGING = CONF_PREFIX + "_DISABLE_TRACE_LOGGING"
 CONF_DISABLE_EXCEPTION_LOGGING = CONF_PREFIX + "_DISABLE_EXCEPTION_LOGGING"
@@ -16,6 +17,7 @@ CONF_DISABLE_EXCEPTION_LOGGING = CONF_PREFIX + "_DISABLE_EXCEPTION_LOGGING"
 class AppInsights(object):
     def __init__(self, app=None):
         self._key = None
+        self._endpoint_uri = None
         self._channel = None
         self._requests_middleware = None
         self._trace_log_handler = None
@@ -30,7 +32,13 @@ class AppInsights(object):
         if not self._key:
             return
 
-        sender = AsynchronousSender()
+        self._endpoint_uri = app.config.get(CONF_ENDPOINT_URI)
+
+        if self._endpoint_uri:
+            sender = AsynchronousSender(self._endpoint_uri)
+        else:
+            sender = AsynchronousSender()
+
         queue = AsynchronousQueue(sender)
         self._channel = TelemetryChannel(None, queue)
 
