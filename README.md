@@ -169,19 +169,28 @@ enable('<YOUR INSTRUMENTATION KEY GOES HERE>')
 raise Exception('Boom!')
 ```
 
-**Logging requests**
+**Integrating with Flask**
 ```python
 from flask import Flask
-from applicationinsights.requests import WSGIApplication
+from applicationinsights.flask.ext import AppInsights
 
-# instantiate the Flask application and wrap its WSGI application
+# instantiate the Flask application
 app = Flask(__name__)
-app.wsgi_app = WSGIApplication('<YOUR INSTRUMENTATION KEY GOES HERE>', app.wsgi_app)
+app.config['APPLICATION_INSIGHTS_KEY'] = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+
+# log requests, traces and exceptions to the Application Insights service
+appinsights = AppInsights(app)
 
 # define a simple route
 @app.route('/')
 def hello_world():
     return 'Hello World!'
+
+# ensure that the telemetry gets sent
+@app.after_request
+def send_telemetry(response):
+    appinsights.flush()
+    return response
 
 # run the application
 if __name__ == '__main__':
