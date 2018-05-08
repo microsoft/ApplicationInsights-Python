@@ -186,12 +186,6 @@ appinsights = AppInsights(app)
 def hello_world():
     return 'Hello World!'
 
-# ensure that the telemetry gets sent
-@app.after_request
-def send_telemetry(response):
-    appinsights.flush()
-    return response
-
 # run the application
 if __name__ == '__main__':
     app.run()
@@ -302,6 +296,12 @@ LOGGING = {
 
 See Django's [logging documentation](https://docs.djangoproject.com/en/1.11/topics/logging/)
 for more information.
+
+**Integrating with other web frameworks**
+
+For any other Python web framework that is [WSGI compliant](https://www.python.org/dev/peps/pep-0333/),
+the [WSGIApplication](https://github.com/Microsoft/ApplicationInsights-Python/blob/master/applicationinsights/requests/WSGIApplication.py)
+can be used as a middleware to log requests to Application Insights.
 
 
 ## Publishing new version to pypi.python.org
