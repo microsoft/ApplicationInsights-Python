@@ -169,14 +169,17 @@ enable('<YOUR INSTRUMENTATION KEY GOES HERE>')
 raise Exception('Boom!')
 ```
 
-**Logging requests**
+**Integrating with Flask**
 ```python
 from flask import Flask
-from applicationinsights.requests import WSGIApplication
+from applicationinsights.flask.ext import AppInsights
 
-# instantiate the Flask application and wrap its WSGI application
+# instantiate the Flask application
 app = Flask(__name__)
-app.wsgi_app = WSGIApplication('<YOUR INSTRUMENTATION KEY GOES HERE>', app.wsgi_app)
+app.config['APPINSIGHTS_INSTRUMENTATIONKEY'] = '<YOUR INSTRUMENTATION KEY GOES HERE>'
+
+# log requests, traces and exceptions to the Application Insights service
+appinsights = AppInsights(app)
 
 # define a simple route
 @app.route('/')
@@ -293,6 +296,12 @@ LOGGING = {
 
 See Django's [logging documentation](https://docs.djangoproject.com/en/1.11/topics/logging/)
 for more information.
+
+**Integrating with other web frameworks**
+
+For any other Python web framework that is [WSGI compliant](https://www.python.org/dev/peps/pep-0333/),
+the [WSGIApplication](https://github.com/Microsoft/ApplicationInsights-Python/blob/master/applicationinsights/requests/WSGIApplication.py)
+can be used as a middleware to log requests to Application Insights.
 
 
 ## Publishing new version to pypi.python.org

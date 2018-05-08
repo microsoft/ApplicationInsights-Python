@@ -9,21 +9,25 @@ class WSGIApplication(object):
 
     .. code:: python
 
-            from flask import Flask
             from applicationinsights.requests import WSGIApplication
+            from paste.httpserver import serve
+            from pyramid.response import Response
+            from pyramid.view import view_config
 
-            # instantiate the Flask application and wrap its WSGI application
-            app = Flask(__name__)
-            app.wsgi_app = WSGIApplication('<YOUR INSTRUMENTATION KEY GOES HERE>', app.wsgi_app)
+            @view_config()
+            def hello(request):
+                return Response('Hello')
 
-            # define a simple route
-            @app.route('/')
-            def hello_world():
-                return 'Hello World!'
-
-            # run the application
             if __name__ == '__main__':
-                app.run()
+                from pyramid.config import Configurator
+                config = Configurator()
+                config.scan()
+                app = config.make_wsgi_app()
+
+                # Enable Application Insights middleware
+                app = WSGIApplication('<YOUR INSTRUMENTATION KEY GOES HERE>', app)
+
+                serve(app, host='0.0.0.0')
     """
     def __init__(self, instrumentation_key, wsgi_application, *args, **kwargs):
         """
