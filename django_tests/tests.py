@@ -64,7 +64,6 @@ class MiddlewareTests(AITestCase):
         self.assertEqual(data['name'], 'GET /', "Request name")
         self.assertEqual(data['responseCode'], 200, "Status code")
         self.assertEqual(data['success'], True, "Success value")
-        self.assertEqual(data['httpMethod'], 'GET', "HTTP Method")
         self.assertEqual(data['url'], 'http://testserver/', "Request url")
 
     def test_logger(self):
