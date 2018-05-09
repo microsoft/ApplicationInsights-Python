@@ -7,7 +7,8 @@ class Internal(object):
     """
     _defaults = collections.OrderedDict([
         ('ai.internal.sdkVersion', None),
-        ('ai.internal.agentVersion', None)
+        ('ai.internal.agentVersion', None),
+        ('ai.internal.nodeName', None)
     ])
     
     def __init__(self):
@@ -62,6 +63,29 @@ class Internal(object):
             del self._values['ai.internal.agentVersion']
         else:
             self._values['ai.internal.agentVersion'] = value
+        
+    @property
+    def node_name(self):
+        """The node_name property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
+        if 'ai.internal.nodeName' in self._values:
+            return self._values['ai.internal.nodeName']
+        return self._defaults['ai.internal.nodeName']
+        
+    @node_name.setter
+    def node_name(self, value):
+        """The node_name property.
+        
+        Args:
+            value (string). the property value.
+        """
+        if value == self._defaults['ai.internal.nodeName'] and 'ai.internal.nodeName' in self._values:
+            del self._values['ai.internal.nodeName']
+        else:
+            self._values['ai.internal.nodeName'] = value
         
     def _initialize(self):
         """Initializes the current instance of the object.

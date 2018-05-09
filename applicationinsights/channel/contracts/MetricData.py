@@ -5,10 +5,6 @@ from .Utils import _write_complex_object
 class MetricData(object):
     """Data contract class for type MetricData.
     """
-    ENVELOPE_TYPE_NAME = 'Microsoft.ApplicationInsights.Metric'
-    
-    DATA_TYPE_NAME = 'MetricData'
-    
     _defaults = collections.OrderedDict([
         ('ver', 2),
         ('metrics', []),

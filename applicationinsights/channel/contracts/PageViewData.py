@@ -5,15 +5,13 @@ from .Utils import _write_complex_object
 class PageViewData(object):
     """Data contract class for type PageViewData.
     """
-    ENVELOPE_TYPE_NAME = 'Microsoft.ApplicationInsights.PageView'
-    
-    DATA_TYPE_NAME = 'PageViewData'
-    
     _defaults = collections.OrderedDict([
         ('ver', 2),
         ('url', None),
         ('name', None),
         ('duration', None),
+        ('id', None),
+        ('referrerUri', None),
         ('properties', {}),
         ('measurements', {})
     ])
@@ -108,6 +106,52 @@ class PageViewData(object):
             del self._values['duration']
         else:
             self._values['duration'] = value
+        
+    @property
+    def id(self):
+        """The id property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
+        if 'id' in self._values:
+            return self._values['id']
+        return self._defaults['id']
+        
+    @id.setter
+    def id(self, value):
+        """The id property.
+        
+        Args:
+            value (string). the property value.
+        """
+        if value == self._defaults['id'] and 'id' in self._values:
+            del self._values['id']
+        else:
+            self._values['id'] = value
+        
+    @property
+    def referrer_uri(self):
+        """The referrer_uri property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
+        if 'referrerUri' in self._values:
+            return self._values['referrerUri']
+        return self._defaults['referrerUri']
+        
+    @referrer_uri.setter
+    def referrer_uri(self, value):
+        """The referrer_uri property.
+        
+        Args:
+            value (string). the property value.
+        """
+        if value == self._defaults['referrerUri'] and 'referrerUri' in self._values:
+            del self._values['referrerUri']
+        else:
+            self._values['referrerUri'] = value
         
     @property
     def properties(self):

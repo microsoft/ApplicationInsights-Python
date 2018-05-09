@@ -2,18 +2,17 @@ import collections
 import copy
 from .Utils import _write_complex_object
 
-class RequestData(object):
-    """Data contract class for type RequestData.
+class AvailabilityData(object):
+    """Data contract class for type AvailabilityData.
     """
     _defaults = collections.OrderedDict([
         ('ver', 2),
         ('id', None),
-        ('source', None),
         ('name', None),
         ('duration', None),
-        ('responseCode', None),
         ('success', None),
-        ('url', None),
+        ('runLocation', None),
+        ('message', None),
         ('properties', {}),
         ('measurements', {})
     ])
@@ -24,8 +23,8 @@ class RequestData(object):
         self._values = {
             'ver': 2,
             'id': None,
+            'name': None,
             'duration': None,
-            'responseCode': None,
             'success': None,
         }
         self._initialize()
@@ -67,38 +66,13 @@ class RequestData(object):
         self._values['id'] = value
         
     @property
-    def source(self):
-        """The source property.
-        
-        Returns:
-            (string). the property value. (defaults to: None)
-        """
-        if 'source' in self._values:
-            return self._values['source']
-        return self._defaults['source']
-        
-    @source.setter
-    def source(self, value):
-        """The source property.
-        
-        Args:
-            value (string). the property value.
-        """
-        if value == self._defaults['source'] and 'source' in self._values:
-            del self._values['source']
-        else:
-            self._values['source'] = value
-        
-    @property
     def name(self):
         """The name property.
         
         Returns:
             (string). the property value. (defaults to: None)
         """
-        if 'name' in self._values:
-            return self._values['name']
-        return self._defaults['name']
+        return self._values['name']
         
     @name.setter
     def name(self, value):
@@ -107,10 +81,7 @@ class RequestData(object):
         Args:
             value (string). the property value.
         """
-        if value == self._defaults['name'] and 'name' in self._values:
-            del self._values['name']
-        else:
-            self._values['name'] = value
+        self._values['name'] = value
         
     @property
     def duration(self):
@@ -131,24 +102,6 @@ class RequestData(object):
         self._values['duration'] = value
         
     @property
-    def response_code(self):
-        """The response_code property.
-        
-        Returns:
-            (string). the property value. (defaults to: None)
-        """
-        return self._values['responseCode']
-        
-    @response_code.setter
-    def response_code(self, value):
-        """The response_code property.
-        
-        Args:
-            value (string). the property value.
-        """
-        self._values['responseCode'] = value
-        
-    @property
     def success(self):
         """The success property.
         
@@ -167,27 +120,50 @@ class RequestData(object):
         self._values['success'] = value
         
     @property
-    def url(self):
-        """The url property.
+    def run_location(self):
+        """The run_location property.
         
         Returns:
             (string). the property value. (defaults to: None)
         """
-        if 'url' in self._values:
-            return self._values['url']
-        return self._defaults['url']
+        if 'runLocation' in self._values:
+            return self._values['runLocation']
+        return self._defaults['runLocation']
         
-    @url.setter
-    def url(self, value):
-        """The url property.
+    @run_location.setter
+    def run_location(self, value):
+        """The run_location property.
         
         Args:
             value (string). the property value.
         """
-        if value == self._defaults['url'] and 'url' in self._values:
-            del self._values['url']
+        if value == self._defaults['runLocation'] and 'runLocation' in self._values:
+            del self._values['runLocation']
         else:
-            self._values['url'] = value
+            self._values['runLocation'] = value
+        
+    @property
+    def message(self):
+        """The message property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
+        if 'message' in self._values:
+            return self._values['message']
+        return self._defaults['message']
+        
+    @message.setter
+    def message(self, value):
+        """The message property.
+        
+        Args:
+            value (string). the property value.
+        """
+        if value == self._defaults['message'] and 'message' in self._values:
+            del self._values['message']
+        else:
+            self._values['message'] = value
         
     @property
     def properties(self):
