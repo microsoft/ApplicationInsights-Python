@@ -1,10 +1,14 @@
 import unittest
 import inspect
 import json
+import sys
 
-from test import test_support
+if sys.version_info < (3,0):
+    from test import test_support
+else:
+    from test import support as test_support
 
-import sys, os, os.path
+import os, os.path
 rootDirectory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..')
 if rootDirectory not in sys.path:
     sys.path.append(rootDirectory)
