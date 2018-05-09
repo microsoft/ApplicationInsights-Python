@@ -46,14 +46,14 @@ class TestLoggingHandler(unittest.TestCase):
         logger, sender = self._setup_logger()
 
         expected = [
-            (logger.debug, 'debug message', 'Microsoft.ApplicationInsights.Message', 'test', 'MessageData', 'simple_logger - DEBUG - debug message'),
-            (logger.info, 'info message', 'Microsoft.ApplicationInsights.Message', 'test', 'MessageData', 'simple_logger - INFO - info message'),
-            (logger.warning, 'warn message', 'Microsoft.ApplicationInsights.Message', 'test', 'MessageData', 'simple_logger - WARNING - warn message'),
-            (logger.error, 'error message', 'Microsoft.ApplicationInsights.Message', 'test', 'MessageData', 'simple_logger - ERROR - error message'),
-            (logger.critical, 'critical message', 'Microsoft.ApplicationInsights.Message', 'test', 'MessageData', 'simple_logger - CRITICAL - critical message')
+            (logger.debug, 'debug message', 'Microsoft.ApplicationInsights.Message', 'test', 'MessageData', 0, 'simple_logger - DEBUG - debug message'),
+            (logger.info, 'info message', 'Microsoft.ApplicationInsights.Message', 'test', 'MessageData', 1, 'simple_logger - INFO - info message'),
+            (logger.warning, 'warn message', 'Microsoft.ApplicationInsights.Message', 'test', 'MessageData', 2, 'simple_logger - WARNING - warn message'),
+            (logger.error, 'error message', 'Microsoft.ApplicationInsights.Message', 'test', 'MessageData', 3, 'simple_logger - ERROR - error message'),
+            (logger.critical, 'critical message', 'Microsoft.ApplicationInsights.Message', 'test', 'MessageData', 4, 'simple_logger - CRITICAL - critical message')
         ]
 
-        for logging_function, logging_parameter, envelope_type, ikey, data_type, message in expected:
+        for logging_function, logging_parameter, envelope_type, ikey, data_type, severity_level, message in expected:
             logging_function(logging_parameter)
             data = sender.data[0][0]
             sender.data = []
@@ -61,6 +61,7 @@ class TestLoggingHandler(unittest.TestCase):
             self.assertEqual(ikey, data.ikey)
             self.assertEqual(data_type, data.data.base_type)
             self.assertEqual(message, data.data.base_data.message)
+            self.assertEqual(severity_level, data.data.base_data.severity_level)
 
     def test_log_exception_works_as_expected(self):
         logger, sender = self._setup_logger()

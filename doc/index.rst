@@ -26,6 +26,7 @@ Application Insights SDK for Python
     * :ref:`Advanced logging configuration <usage-sample-13>`
     * :ref:`Logging unhandled exceptions <usage-sample-14>`
     * :ref:`Logging requests <usage-sample-15>`
+    * :ref:`Integrating with Django <usage-sample-16>`
 
 This project extends the Application Insights API surface to support Python. `Application
 Insights <http://azure.microsoft.com/en-us/services/application-insights/>`__ is a service that allows developers to keep their application available, performing and succeeding. This Python module will allow you to send telemetry of various kinds (event, trace, exception, etc.) to the Application Insights service where they can be visualized in the Azure Portal.
@@ -301,3 +302,106 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     # run the application
     if __name__ == '__main__':
         app.run()
+
+.. _usage-sample-16:
+
+**Integrating with Django**
+
+Place the following in your `settings.py` file:
+
+.. code:: python
+
+    # If on Django < 1.10
+    MIDDLEWARE_CLASSES = [
+        # ... or whatever is below for you ...
+        'django.middleware.security.SecurityMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        # ... or whatever is above for you ...
+        'applicationinsights.django.ApplicationInsightsMiddleware',   # Add this middleware to the end
+    ]
+
+    # If on Django >= 1.10
+    MIDDLEWARE = [
+        # ... or whatever is below for you ...
+        'django.middleware.security.SecurityMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        # ... or whatever is above for you ...
+        'applicationinsights.django.ApplicationInsightsMiddleware',   # Add this middleware to the end
+    ]
+
+    APPLICATION_INSIGHTS = {
+        # (required) Your Application Insights instrumentation key
+        'ikey': "00000000-0000-0000-0000-000000000000",
+        
+        # (optional) By default, request names are logged as the fully-qualified
+        # name of the view.  To disable this behavior, specify:
+        'use_operation_url': True,
+        
+        # (optional) By default, arguments to views are tracked as custom
+        # properties.  To disable this, specify:
+        'record_view_arguments': False,
+        
+        # (optional) Events are submitted to Application Insights asynchronously.
+        # send_interval specifies how often the queue is checked for items to submit.
+        # send_time specifies how long the sender waits for new input before recycling
+        # the background thread.
+        'send_interval': 1.0, # Check every second
+        'send_time': 3.0, # Wait up to 3 seconds for an event
+        
+        # (optional, uncommon) If you must send to an endpoint other than the
+        # default endpoint, specify it here:
+        'endpoint': "https://dc.services.visualstudio.com/v2/track",
+    }
+
+This will log all requests and exceptions to the instrumentation key
+specified in the `APPLICATION_INSIGHTS` setting.  In addition, an
+`appinsights` property will be placed on each incoming `request` object in
+your views.  This will have the following properties:
+
+* `client`: This is an instance of the :class:`applicationinsights.TelemetryClient` type, which will
+  submit telemetry to the same instrumentation key, and will parent each telemetry item to the current
+  request.
+* `request`: This is the :class:`applicationinsights.channel.contracts.RequestData` instance for the
+  current request.  You can modify properties on this object during the handling of the current request.
+  It will be submitted when the request has finished.
+* `context`: This is the :class:`applicationinsights.channel.TelemetryContext` object for the current
+  ApplicationInsights sender.
+
+You can also hook up logging to Django.  For example, to log all builtin
+Django warnings and errors, use the following logging configuration in
+`settings.py`:
+
+.. code:: python
+
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            # The application insights handler is here
+            'appinsights': {
+                'class': 'applicationinsights.django.LoggingHandler',
+                'level': 'WARNING'
+            }
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['appinsights'],
+                'level': 'WARNING',
+                'propagate': True,
+            }
+        }
+    }
+
+See Django's logging documentation for more information:
+https://docs.djangoproject.com/en/1.11/topics/logging/

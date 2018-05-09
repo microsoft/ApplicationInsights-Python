@@ -1,8 +1,5 @@
 .. toctree::
-    :maxdepth: 2
     :hidden:
-
-    applicationinsights
 
 applicationinsights.channel.contracts module
 ============================================
