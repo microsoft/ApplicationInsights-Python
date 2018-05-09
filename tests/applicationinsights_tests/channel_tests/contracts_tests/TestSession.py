@@ -9,7 +9,7 @@ root_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..',
 if root_directory not in sys.path:
     sys.path.append(root_directory)
 
-from applicationinsights.channel.contracts import *
+from applicationinsights.channel.contracts import Session
 from .Utils import TestJsonEncoder
 
 class TestSession(unittest.TestCase):
@@ -54,8 +54,7 @@ class TestSession(unittest.TestCase):
         item = Session()
         item.id = 'Test string'
         item.is_first = 'Test string'
-        item.is_new = 'Test string'
         actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)
-        expected = '{"ai.session.id":"Test string","ai.session.isFirst":"Test string","ai.session.isNew":"Test string"}'
+        expected = '{"ai.session.id":"Test string","ai.session.isFirst":"Test string"}'
         self.assertEqual(expected, actual)
 

@@ -9,7 +9,7 @@ root_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..',
 if root_directory not in sys.path:
     sys.path.append(root_directory)
 
-from applicationinsights.channel.contracts import *
+from applicationinsights.channel.contracts import User
 from .Utils import TestJsonEncoder
 
 class TestUser(unittest.TestCase):
@@ -63,11 +63,9 @@ class TestUser(unittest.TestCase):
     
     def test_serialize_works_as_expected(self):
         item = User()
-        item.account_acquisition_date = 'Test string'
         item.account_id = 'Test string'
-        item.user_agent = 'Test string'
         item.id = 'Test string'
         actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)
-        expected = '{"ai.user.accountAcquisitionDate":"Test string","ai.user.accountId":"Test string","ai.user.userAgent":"Test string","ai.user.id":"Test string"}'
+        expected = '{"ai.user.accountId":"Test string","ai.user.id":"Test string"}'
         self.assertEqual(expected, actual)
 

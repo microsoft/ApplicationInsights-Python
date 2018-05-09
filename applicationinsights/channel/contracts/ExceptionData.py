@@ -5,6 +5,11 @@ from .Utils import _write_complex_object
 class ExceptionData(object):
     """Data contract class for type ExceptionData.
     """
+
+    ENVELOPE_TYPE_NAME = 'Microsoft.ApplicationInsights.Exception'	
+    	
+    DATA_TYPE_NAME = 'ExceptionData'
+
     _defaults = collections.OrderedDict([
         ('ver', 2),
         ('exceptions', []),

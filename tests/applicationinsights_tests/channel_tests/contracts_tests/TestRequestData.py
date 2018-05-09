@@ -9,7 +9,7 @@ root_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..',
 if root_directory not in sys.path:
     sys.path.append(root_directory)
 
-from applicationinsights.channel.contracts import *
+from applicationinsights.channel.contracts import RequestData
 from .Utils import TestJsonEncoder
 
 class TestRequestData(unittest.TestCase):
@@ -131,17 +131,15 @@ class TestRequestData(unittest.TestCase):
         item.ver = 42
         item.id = 'Test string'
         item.name = 'Test string'
-        item.start_time = 'Test string'
         item.duration = 'Test string'
         item.response_code = 'Test string'
         item.success = True
-        item.http_method = 'Test string'
         item.url = 'Test string'
         for key, value in { 'key1': 'test value 1' , 'key2': 'test value 2' }.items():
             item.properties[key] = value
         for key, value in { 'key1': 3.1415 , 'key2': 42.2 }.items():
             item.measurements[key] = value
         actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)
-        expected = '{"ver":42,"id":"Test string","name":"Test string","startTime":"Test string","duration":"Test string","responseCode":"Test string","success":true,"httpMethod":"Test string","url":"Test string","properties":{"key1":"test value 1","key2":"test value 2"},"measurements":{"key1":3.1415,"key2":42.2}}'
+        expected = '{"ver":42,"id":"Test string","name":"Test string","duration":"Test string","responseCode":"Test string","success":true,"url":"Test string","properties":{"key1":"test value 1","key2":"test value 2"},"measurements":{"key1":3.1415,"key2":42.2}}'
         self.assertEqual(expected, actual)
 

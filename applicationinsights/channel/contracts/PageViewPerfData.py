@@ -21,8 +21,7 @@ class PageViewPerfData(object):
         ('referrerUri', None),
         ('properties', {}),
         ('properties', {}),
-        ('measurements', {})
-        ('measurements', {})
+        ('measurements', {}),
     ])
     
     def __init__(self):
@@ -30,8 +29,6 @@ class PageViewPerfData(object):
         """
         self._values = {
             'ver': 2,
-            'ver': 2,
-            'name': None,
             'name': None,
         }
         self._initialize()
@@ -53,25 +50,7 @@ class PageViewPerfData(object):
             value (int). the property value.
         """
         self._values['ver'] = value
-        
-    @property
-    def ver(self):
-        """The ver property.
-        
-        Returns:
-            (int). the property value. (defaults to: 2)
-        """
-        return self._values['ver']
-        
-    @ver.setter
-    def ver(self, value):
-        """The ver property.
-        
-        Args:
-            value (int). the property value.
-        """
-        self._values['ver'] = value
-        
+
     @property
     def url(self):
         """The url property.
@@ -117,24 +96,6 @@ class PageViewPerfData(object):
             del self._values['perfTotal']
         else:
             self._values['perfTotal'] = value
-        
-    @property
-    def name(self):
-        """The name property.
-        
-        Returns:
-            (string). the property value. (defaults to: None)
-        """
-        return self._values['name']
-        
-    @name.setter
-    def name(self, value):
-        """The name property.
-        
-        Args:
-            value (string). the property value.
-        """
-        self._values['name'] = value
         
     @property
     def name(self):
@@ -340,30 +301,6 @@ class PageViewPerfData(object):
             self._values['properties'] = value
         
     @property
-    def properties(self):
-        """The properties property.
-        
-        Returns:
-            (hash). the property value. (defaults to: {})
-        """
-        if 'properties' in self._values:
-            return self._values['properties']
-        self._values['properties'] = copy.deepcopy(self._defaults['properties'])
-        return self._values['properties']
-        
-    @properties.setter
-    def properties(self, value):
-        """The properties property.
-        
-        Args:
-            value (hash). the property value.
-        """
-        if value == self._defaults['properties'] and 'properties' in self._values:
-            del self._values['properties']
-        else:
-            self._values['properties'] = value
-        
-    @property
     def measurements(self):
         """The measurements property.
         
@@ -386,18 +323,6 @@ class PageViewPerfData(object):
             del self._values['measurements']
         else:
             self._values['measurements'] = value
-        
-    @property
-    def measurements(self):
-        """The measurements property.
-        
-        Returns:
-            (hash). the property value. (defaults to: {})
-        """
-        if 'measurements' in self._values:
-            return self._values['measurements']
-        self._values['measurements'] = copy.deepcopy(self._defaults['measurements'])
-        return self._values['measurements']
         
     @measurements.setter
     def measurements(self, value):

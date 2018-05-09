@@ -9,7 +9,7 @@ root_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..',
 if root_directory not in sys.path:
     sys.path.append(root_directory)
 
-from applicationinsights.channel.contracts import *
+from applicationinsights.channel.contracts import Envelope
 from .Utils import TestJsonEncoder
 
 class TestEnvelope(unittest.TestCase):
@@ -184,17 +184,10 @@ class TestEnvelope(unittest.TestCase):
         item.sample_rate = 1.5
         item.seq = 'Test string'
         item.ikey = 'Test string'
-        item.flags = 42
-        item.device_id = 'Test string'
-        item.os = 'Test string'
-        item.os_ver = 'Test string'
-        item.app_id = 'Test string'
-        item.app_ver = 'Test string'
-        item.user_id = 'Test string'
         for key, value in { 'key1': 'test value 1' , 'key2': 'test value 2' }.items():
             item.tags[key] = value
         item.data = object()
         actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)
-        expected = '{"ver":42,"name":"Test string","time":"Test string","sampleRate":1.5,"seq":"Test string","iKey":"Test string","flags":42,"deviceId":"Test string","os":"Test string","osVer":"Test string","appId":"Test string","appVer":"Test string","userId":"Test string","tags":{"key1":"test value 1","key2":"test value 2"},"data":{}}'
+        expected = '{"ver":42,"name":"Test string","time":"Test string","sampleRate":1.5,"seq":"Test string","iKey":"Test string","tags":{"key1":"test value 1","key2":"test value 2"},"data":{}}'
         self.assertEqual(expected, actual)
 
