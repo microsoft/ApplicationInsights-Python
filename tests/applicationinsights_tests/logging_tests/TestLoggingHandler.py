@@ -48,7 +48,7 @@ class TestLoggingHandler(unittest.TestCase):
         expected = [
             (logger.debug, 'debug message', 'Microsoft.ApplicationInsights.Message', 'test', 'MessageData', 0, 'simple_logger - DEBUG - debug message'),
             (logger.info, 'info message', 'Microsoft.ApplicationInsights.Message', 'test', 'MessageData', 1, 'simple_logger - INFO - info message'),
-            (logger.warn, 'warn message', 'Microsoft.ApplicationInsights.Message', 'test', 'MessageData', 2, 'simple_logger - WARNING - warn message'),
+            (logger.warning, 'warn message', 'Microsoft.ApplicationInsights.Message', 'test', 'MessageData', 2, 'simple_logger - WARNING - warn message'),
             (logger.error, 'error message', 'Microsoft.ApplicationInsights.Message', 'test', 'MessageData', 3, 'simple_logger - ERROR - error message'),
             (logger.critical, 'critical message', 'Microsoft.ApplicationInsights.Message', 'test', 'MessageData', 4, 'simple_logger - CRITICAL - critical message')
         ]
