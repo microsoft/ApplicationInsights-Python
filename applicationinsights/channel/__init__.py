@@ -6,4 +6,5 @@ from .SynchronousQueue import SynchronousQueue
 from .SynchronousSender import SynchronousSender
 from .TelemetryChannel import TelemetryChannel
 from .TelemetryContext import TelemetryContext
+from .NullSender import NullSender
 from . import contracts
