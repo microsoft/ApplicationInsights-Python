@@ -23,7 +23,6 @@ class TelemetryContext(object):
 
         context = TelemetryContext()
         context.instrumentation_key = '<YOUR INSTRUMENTATION KEY GOES HERE>'
-        context.application.id = 'My application'
         context.application.ver = '1.2.3'
         context.device.id = 'My current device'
         context.device.oem_name = 'Asus'
