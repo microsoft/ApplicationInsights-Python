@@ -106,4 +106,4 @@ class LoggingHandler(logging.Handler):
 
         # if we don't simply format the message and send the trace
         formatted_message = self.format(record)
-        self.client.track_trace(formatted_message, properties=properties)
+        self.client.track_trace(formatted_message, properties=properties, severity=record.levelname)

@@ -1,5 +1,6 @@
 import collections
 import copy
+import logging
 from .Utils import _write_complex_object
 
 class MessageData(object):
@@ -9,6 +10,19 @@ class MessageData(object):
     
     DATA_TYPE_NAME = 'MessageData'
     
+    PYTHON_LOGGING_LEVELS = {
+        'DEBUG': 0,
+        'INFO': 1,
+        'WARNING': 2,
+        'ERROR': 3,
+        'CRITICAL': 4,
+        logging.DEBUG: 0,
+        logging.INFO: 1,
+        logging.WARNING: 2,
+        logging.ERROR: 3,
+        logging.CRITICAL: 4
+    }
+
     _defaults = collections.OrderedDict([
         ('ver', 2),
         ('message', None),

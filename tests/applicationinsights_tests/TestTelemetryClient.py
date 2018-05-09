@@ -71,9 +71,9 @@ class TestTelemetryClient(unittest.TestCase):
         queue = channel.SynchronousQueue(sender)
         client = TelemetryClient('99999999-9999-9999-9999-999999999999', channel.TelemetryChannel(context=None, queue=queue))
         client.context.device = None
-        client.track_trace('test', { 'foo': 'bar' })
+        client.track_trace('test', { 'foo': 'bar' }, severity='WARNING')
         client.flush()
-        expected = '{"ver": 1, "name": "Microsoft.ApplicationInsights.Message", "time": "TIME_PLACEHOLDER", "sampleRate": 100.0, "iKey": "99999999-9999-9999-9999-999999999999", "tags": {"ai.internal.sdkVersion": "SDK_VERSION_PLACEHOLDER"}, "data": {"baseType": "MessageData", "baseData": {"ver": 2, "message": "test", "properties": {"foo": "bar"}}}}'
+        expected = '{"ver": 1, "name": "Microsoft.ApplicationInsights.Message", "time": "TIME_PLACEHOLDER", "sampleRate": 100.0, "iKey": "99999999-9999-9999-9999-999999999999", "tags": {"ai.internal.sdkVersion": "SDK_VERSION_PLACEHOLDER"}, "data": {"baseType": "MessageData", "baseData": {"ver": 2, "message": "test", "severityLevel": 2, "properties": {"foo": "bar"}}}}'
         sender.data.time = 'TIME_PLACEHOLDER'
         sender.data.tags['ai.internal.sdkVersion'] = 'SDK_VERSION_PLACEHOLDER'
         actual = json.dumps(sender.data.write())

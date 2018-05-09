@@ -25,6 +25,7 @@ class SenderBase(object):
         self._service_endpoint_uri = service_endpoint_uri
         self._queue = None
         self._send_buffer_size = 100
+        self._timeout = 10
 
     @property
     def service_endpoint_uri(self):
@@ -62,6 +63,21 @@ class SenderBase(object):
             :class:`QueueBase`. the queue instance that this sender is draining.
         """
         return self._queue
+
+    @property
+    def send_timeout(self):
+        """Time in seconds that the sender should wait before giving up."""
+        return self._timeout
+
+    @send_timeout.setter
+    def send_timeout(self, seconds):
+        """Configures the timeout in seconds the sender waits for a response for the server.
+
+        Args:
+            seconds(float). Timeout in seconds.
+        """
+
+        self._timeout = seconds
 
     @queue.setter
     def queue(self, value):
@@ -115,7 +131,7 @@ class SenderBase(object):
 
         request = HTTPClient.Request(self._service_endpoint_uri, bytearray(request_payload, 'utf-8'), { 'Accept': 'application/json', 'Content-Type' : 'application/json; charset=utf-8' })
         try:
-            response = HTTPClient.urlopen(request)
+            response = HTTPClient.urlopen(request, timeout=self._timeout)
             status_code = response.getcode()
             if 200 <= status_code < 300:
                 return

@@ -1,5 +1,6 @@
 import datetime
 import re
+import uuid
 import applicationinsights
 
 class WSGIApplication(object):
@@ -8,21 +9,25 @@ class WSGIApplication(object):
 
     .. code:: python
 
-            from flask import Flask
             from applicationinsights.requests import WSGIApplication
+            from paste.httpserver import serve
+            from pyramid.response import Response
+            from pyramid.view import view_config
 
-            # instantiate the Flask application and wrap its WSGI application
-            app = Flask(__name__)
-            app.wsgi_app = WSGIApplication('<YOUR INSTRUMENTATION KEY GOES HERE>', app.wsgi_app)
+            @view_config()
+            def hello(request):
+                return Response('Hello')
 
-            # define a simple route
-            @app.route('/')
-            def hello_world():
-                return 'Hello World!'
-
-            # run the application
             if __name__ == '__main__':
-                app.run()
+                from pyramid.config import Configurator
+                config = Configurator()
+                config.scan()
+                app = config.make_wsgi_app()
+
+                # Enable Application Insights middleware
+                app = WSGIApplication('<YOUR INSTRUMENTATION KEY GOES HERE>', app)
+
+                serve(app, host='0.0.0.0')
     """
     def __init__(self, instrumentation_key, wsgi_application, *args, **kwargs):
         """
@@ -42,6 +47,7 @@ class WSGIApplication(object):
             queue = applicationinsights.channel.AsynchronousQueue(sender)
             telemetry_channel = applicationinsights.channel.TelemetryChannel(None, queue)
         self.client = applicationinsights.TelemetryClient(instrumentation_key, telemetry_channel)
+        self.client.context.device.type = "PC"
         self._wsgi_application = wsgi_application
 
     def flush(self):
@@ -62,6 +68,11 @@ class WSGIApplication(object):
         start_time = datetime.datetime.utcnow()
         name = environ.get('PATH_INFO') or '/'
         closure = {'status': '200 OK'}
+        http_method = environ.get('REQUEST_METHOD', 'GET')
+
+        self.client.context.operation.id = str(uuid.uuid4())
+        # operation.parent_id ought to be the request id (not the operation id, but we don't have it yet)
+        self.client.context.operation.name = http_method + ' ' + name
 
         def status_interceptor(status_string, headers_array, exc_info=None):
             closure['status'] = status_string
@@ -80,7 +91,6 @@ class WSGIApplication(object):
             response_code = closure['status']
             success = False
             
-        http_method = environ.get('REQUEST_METHOD', 'GET')
         url = name
         query_string = environ.get('QUERY_STRING')
         if query_string:
