@@ -5,6 +5,10 @@ from .Utils import _write_complex_object
 class RequestData(object):
     """Data contract class for type RequestData.
     """
+    ENVELOPE_TYPE_NAME = 'Microsoft.ApplicationInsights.Request'	
+    	
+    DATA_TYPE_NAME = 'RequestData'
+
     _defaults = collections.OrderedDict([
         ('ver', 2),
         ('id', None),

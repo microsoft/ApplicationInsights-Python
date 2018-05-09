@@ -5,6 +5,10 @@ from .Utils import _write_complex_object
 class PageViewPerfData(object):
     """Data contract class for type PageViewPerfData.
     """
+    ENVELOPE_TYPE_NAME = 'Microsoft.ApplicationInsights.PageViewPerfData'	
+    	
+    DATA_TYPE_NAME = 'PageViewPerfData'
+
     _defaults = collections.OrderedDict([
         ('ver', 2),
         ('ver', 2),

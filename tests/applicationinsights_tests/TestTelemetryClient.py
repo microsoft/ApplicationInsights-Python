@@ -104,7 +104,7 @@ class TestTelemetryClient(unittest.TestCase):
         except Exception as e:
             client.track_exception(*sys.exc_info(), properties={}, measurements={ 'x': 42 })
             client.flush()
-        expected = '{"ver": 1, "name": "Microsoft.ApplicationInsights.Exception", "time": "TIME_PLACEHOLDER", "sampleRate": 100.0, "iKey": "99999999-9999-9999-9999-999999999999", "tags": {"ai.internal.sdkVersion": "SDK_VERSION_PLACEHOLDER"}, "data": {"baseType": "ExceptionData", "baseData": {"ver": 2, "handledAt": "UserCode", "exceptions": [{"id": 1, "outerId": 0, "typeName": "Exception", "message": "blah", "hasFullStack": true, "parsedStack": [{"level": 0, "method": "test_track_exception_works_as_expected", "assembly": "Unknown", "fileName": "TestTelemetryClient.py", "line": 0}]}], "measurements": {"x": 42}}}}'
+        expected = '{"ver": 1, "name": "Microsoft.ApplicationInsights.Exception", "time": "TIME_PLACEHOLDER", "sampleRate": 100.0, "iKey": "99999999-9999-9999-9999-999999999999", "tags": {"ai.internal.sdkVersion": "SDK_VERSION_PLACEHOLDER"}, "data": {"baseType": "ExceptionData", "baseData": {"ver": 2, "exceptions": [{"id": 1, "outerId": 0, "typeName": "Exception", "message": "blah", "hasFullStack": true, "parsedStack": [{"level": 0, "method": "test_track_exception_works_as_expected", "assembly": "Unknown", "fileName": "TestTelemetryClient.py", "line": 0}]}], "measurements": {"x": 42}}}}'
         sender.data.time = 'TIME_PLACEHOLDER'
         sender.data.tags['ai.internal.sdkVersion'] = 'SDK_VERSION_PLACEHOLDER'
         for item in sender.data.data.base_data.exceptions:
@@ -118,7 +118,7 @@ class TestTelemetryClient(unittest.TestCase):
         except Exception as e:
             client.track_exception()
             client.flush()
-        expected = '{"ver": 1, "name": "Microsoft.ApplicationInsights.Exception", "time": "TIME_PLACEHOLDER", "sampleRate": 100.0, "iKey": "99999999-9999-9999-9999-999999999999", "tags": {"ai.internal.sdkVersion": "SDK_VERSION_PLACEHOLDER"}, "data": {"baseType": "ExceptionData", "baseData": {"ver": 2, "handledAt": "UserCode", "exceptions": [{"id": 1, "outerId": 0, "typeName": "Exception", "message": "blah", "hasFullStack": true, "parsedStack": [{"level": 0, "method": "test_track_exception_works_as_expected", "assembly": "Unknown", "fileName": "TestTelemetryClient.py", "line": 0}]}]}}}'
+        expected = '{"ver": 1, "name": "Microsoft.ApplicationInsights.Exception", "time": "TIME_PLACEHOLDER", "sampleRate": 100.0, "iKey": "99999999-9999-9999-9999-999999999999", "tags": {"ai.internal.sdkVersion": "SDK_VERSION_PLACEHOLDER"}, "data": {"baseType": "ExceptionData", "baseData": {"ver": 2, "exceptions": [{"id": 1, "outerId": 0, "typeName": "Exception", "message": "blah", "hasFullStack": true, "parsedStack": [{"level": 0, "method": "test_track_exception_works_as_expected", "assembly": "Unknown", "fileName": "TestTelemetryClient.py", "line": 0}]}]}}}'
         sender.data.time = 'TIME_PLACEHOLDER'
         sender.data.tags['ai.internal.sdkVersion'] = 'SDK_VERSION_PLACEHOLDER'
         for item in sender.data.data.base_data.exceptions:
@@ -136,7 +136,7 @@ class TestTelemetryClient(unittest.TestCase):
         client.context.device = None
         client.track_request('test', 'http://tempuri.org', True, 'START_TIME', 13, '42', 'OPTIONS', { 'foo': 'bar' }, { 'x': 42 })
         client.flush()
-        expected = '{"ver": 1, "name": "Microsoft.ApplicationInsights.Request", "time": "TIME_PLACEHOLDER", "sampleRate": 100.0, "iKey": "99999999-9999-9999-9999-999999999999", "tags": {"ai.internal.sdkVersion": "SDK_VERSION_PLACEHOLDER"}, "data": {"baseType": "RequestData", "baseData": {"ver": 2, "id": "ID_PLACEHOLDER", "name": "test", "startTime": "START_TIME", "duration": "00:00:00.013", "responseCode": "42", "success": true, "httpMethod": "OPTIONS", "url": "http://tempuri.org", "properties": {"foo": "bar"}, "measurements": {"x": 42}}}}'
+        expected = '{"ver": 1, "name": "Microsoft.ApplicationInsights.Request", "time": "TIME_PLACEHOLDER", "sampleRate": 100.0, "iKey": "99999999-9999-9999-9999-999999999999", "tags": {"ai.internal.sdkVersion": "SDK_VERSION_PLACEHOLDER"}, "data": {"baseType": "RequestData", "baseData": {"ver": 2, "id": "ID_PLACEHOLDER", "name": "test", "duration": "00:00:00.013", "responseCode": "42", "success": true, "url": "http://tempuri.org", "properties": {"foo": "bar"}, "measurements": {"x": 42}}}}'
         sender.data.time = 'TIME_PLACEHOLDER'
         sender.data.tags['ai.internal.sdkVersion'] = 'SDK_VERSION_PLACEHOLDER'
         sender.data.data.base_data.id = 'ID_PLACEHOLDER'

@@ -5,6 +5,10 @@ from .Utils import _write_complex_object
 class RemoteDependencyData(object):
     """Data contract class for type RemoteDependencyData.
     """
+    ENVELOPE_TYPE_NAME = 'Microsoft.ApplicationInsights.RemoteDependency'	
+    	
+    DATA_TYPE_NAME = 'RemoteDependencyData'
+
     _defaults = collections.OrderedDict([
         ('ver', 2),
         ('name', None),
