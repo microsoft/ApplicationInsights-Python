@@ -12,7 +12,7 @@ if sys.version_info >= (3, 0):
 
 # set up internal context
 internal_context = contracts.Internal()
-internal_context.sdk_version = platform_moniker + ':0.11.3'
+internal_context.sdk_version = platform_moniker + ':0.11.4'
 
 class TelemetryChannel(object):
     """The telemetry channel is responsible for constructing a :class:`contracts.Envelope` object from the passed in
