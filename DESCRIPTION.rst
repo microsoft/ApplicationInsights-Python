@@ -86,7 +86,6 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 
     from applicationinsights import TelemetryClient
     tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
-    tc.context.application.id = 'My application'
     tc.context.application.ver = '1.2.3'
     tc.context.device.id = 'My current device'
     tc.context.device.oem_name = 'Asus'
