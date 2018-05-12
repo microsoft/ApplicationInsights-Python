@@ -2,23 +2,17 @@ import collections
 import copy
 from .Utils import _write_complex_object
 
-class RemoteDependencyData(object):
-    """Data contract class for type RemoteDependencyData.
+class AvailabilityData(object):
+    """Data contract class for type AvailabilityData.
     """
-    ENVELOPE_TYPE_NAME = 'Microsoft.ApplicationInsights.RemoteDependency'	
-    	
-    DATA_TYPE_NAME = 'RemoteDependencyData'
-
     _defaults = collections.OrderedDict([
         ('ver', 2),
-        ('name', None),
         ('id', None),
-        ('resultCode', None),
+        ('name', None),
         ('duration', None),
-        ('success', True),
-        ('data', None),
-        ('target', None),
-        ('type', None),
+        ('success', None),
+        ('runLocation', None),
+        ('message', None),
         ('properties', {}),
         ('measurements', {})
     ])
@@ -28,9 +22,10 @@ class RemoteDependencyData(object):
         """
         self._values = {
             'ver': 2,
+            'id': None,
             'name': None,
             'duration': None,
-            'success': True,
+            'success': None,
         }
         self._initialize()
         
@@ -53,6 +48,24 @@ class RemoteDependencyData(object):
         self._values['ver'] = value
         
     @property
+    def id(self):
+        """The id property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
+        return self._values['id']
+        
+    @id.setter
+    def id(self, value):
+        """The id property.
+        
+        Args:
+            value (string). the property value.
+        """
+        self._values['id'] = value
+        
+    @property
     def name(self):
         """The name property.
         
@@ -69,52 +82,6 @@ class RemoteDependencyData(object):
             value (string). the property value.
         """
         self._values['name'] = value
-        
-    @property
-    def id(self):
-        """The id property.
-        
-        Returns:
-            (string). the property value. (defaults to: None)
-        """
-        if 'id' in self._values:
-            return self._values['id']
-        return self._defaults['id']
-        
-    @id.setter
-    def id(self, value):
-        """The id property.
-        
-        Args:
-            value (string). the property value.
-        """
-        if value == self._defaults['id'] and 'id' in self._values:
-            del self._values['id']
-        else:
-            self._values['id'] = value
-        
-    @property
-    def result_code(self):
-        """The result_code property.
-        
-        Returns:
-            (string). the property value. (defaults to: None)
-        """
-        if 'resultCode' in self._values:
-            return self._values['resultCode']
-        return self._defaults['resultCode']
-        
-    @result_code.setter
-    def result_code(self, value):
-        """The result_code property.
-        
-        Args:
-            value (string). the property value.
-        """
-        if value == self._defaults['resultCode'] and 'resultCode' in self._values:
-            del self._values['resultCode']
-        else:
-            self._values['resultCode'] = value
         
     @property
     def duration(self):
@@ -139,11 +106,9 @@ class RemoteDependencyData(object):
         """The success property.
         
         Returns:
-            (bool). the property value. (defaults to: True)
+            (bool). the property value. (defaults to: None)
         """
-        if 'success' in self._values:
-            return self._values['success']
-        return self._defaults['success']
+        return self._values['success']
         
     @success.setter
     def success(self, value):
@@ -152,79 +117,53 @@ class RemoteDependencyData(object):
         Args:
             value (bool). the property value.
         """
-        if value == self._defaults['success'] and 'success' in self._values:
-            del self._values['success']
-        else:
-            self._values['success'] = value
+        self._values['success'] = value
         
     @property
-    def data(self):
-        """The data property.
+    def run_location(self):
+        """The run_location property.
         
         Returns:
             (string). the property value. (defaults to: None)
         """
-        if 'data' in self._values:
-            return self._values['data']
-        return self._defaults['data']
+        if 'runLocation' in self._values:
+            return self._values['runLocation']
+        return self._defaults['runLocation']
         
-    @data.setter
-    def data(self, value):
-        """The data property.
+    @run_location.setter
+    def run_location(self, value):
+        """The run_location property.
         
         Args:
             value (string). the property value.
         """
-        if value == self._defaults['data'] and 'data' in self._values:
-            del self._values['data']
+        if value == self._defaults['runLocation'] and 'runLocation' in self._values:
+            del self._values['runLocation']
         else:
-            self._values['data'] = value
+            self._values['runLocation'] = value
         
     @property
-    def target(self):
-        """The target property.
+    def message(self):
+        """The message property.
         
         Returns:
             (string). the property value. (defaults to: None)
         """
-        if 'target' in self._values:
-            return self._values['target']
-        return self._defaults['target']
+        if 'message' in self._values:
+            return self._values['message']
+        return self._defaults['message']
         
-    @target.setter
-    def target(self, value):
-        """The target property.
-        
-        Args:
-            value (string). the property value.
-        """
-        if value == self._defaults['target'] and 'target' in self._values:
-            del self._values['target']
-        else:
-            self._values['target'] = value
-        
-    @property
-    def type(self):
-        """The type property.
-        
-        Returns:
-            (string). the property value. (defaults to: None)
-        """
-        if 'type' in self._values:
-            return self._values['type']
-        return self._defaults['type']
-        
-    @type.setter
-    def type(self, value):
-        """The type property.
+    @message.setter
+    def message(self, value):
+        """The message property.
         
         Args:
             value (string). the property value.
         """
-        if value == self._defaults['type'] and 'type' in self._values:
-            del self._values['type']
+        if value == self._defaults['message'] and 'message' in self._values:
+            del self._values['message']
         else:
-            self._values['type'] = value
+            self._values['message'] = value
         
     @property
     def properties(self):

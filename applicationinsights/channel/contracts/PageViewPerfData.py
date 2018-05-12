@@ -2,22 +2,30 @@ import collections
 import copy
 from .Utils import _write_complex_object
 
-class PageViewData(object):
-    """Data contract class for type PageViewData.
+class PageViewPerfData(object):
+    """Data contract class for type PageViewPerfData.
     """
-    ENVELOPE_TYPE_NAME = 'Microsoft.ApplicationInsights.PageView'	
+    ENVELOPE_TYPE_NAME = 'Microsoft.ApplicationInsights.PageViewPerfData'	
     	
-    DATA_TYPE_NAME = 'PageViewData'
-    
+    DATA_TYPE_NAME = 'PageViewPerfData'
+
     _defaults = collections.OrderedDict([
         ('ver', 2),
+        ('ver', 2),
         ('url', None),
+        ('perfTotal', None),
+        ('name', None),
         ('name', None),
         ('duration', None),
+        ('networkConnect', None),
+        ('sentRequest', None),
+        ('receivedResponse', None),
         ('id', None),
+        ('domProcessing', None),
         ('referrerUri', None),
         ('properties', {}),
-        ('measurements', {})
+        ('properties', {}),
+        ('measurements', {}),
     ])
     
     def __init__(self):
@@ -46,7 +54,7 @@ class PageViewData(object):
             value (int). the property value.
         """
         self._values['ver'] = value
-        
+
     @property
     def url(self):
         """The url property.
@@ -69,6 +77,29 @@ class PageViewData(object):
             del self._values['url']
         else:
             self._values['url'] = value
+        
+    @property
+    def perf_total(self):
+        """The perf_total property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
+        if 'perfTotal' in self._values:
+            return self._values['perfTotal']
+        return self._defaults['perfTotal']
+        
+    @perf_total.setter
+    def perf_total(self, value):
+        """The perf_total property.
+        
+        Args:
+            value (string). the property value.
+        """
+        if value == self._defaults['perfTotal'] and 'perfTotal' in self._values:
+            del self._values['perfTotal']
+        else:
+            self._values['perfTotal'] = value
         
     @property
     def name(self):
@@ -112,6 +143,75 @@ class PageViewData(object):
             self._values['duration'] = value
         
     @property
+    def network_connect(self):
+        """The network_connect property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
+        if 'networkConnect' in self._values:
+            return self._values['networkConnect']
+        return self._defaults['networkConnect']
+        
+    @network_connect.setter
+    def network_connect(self, value):
+        """The network_connect property.
+        
+        Args:
+            value (string). the property value.
+        """
+        if value == self._defaults['networkConnect'] and 'networkConnect' in self._values:
+            del self._values['networkConnect']
+        else:
+            self._values['networkConnect'] = value
+        
+    @property
+    def sent_request(self):
+        """The sent_request property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
+        if 'sentRequest' in self._values:
+            return self._values['sentRequest']
+        return self._defaults['sentRequest']
+        
+    @sent_request.setter
+    def sent_request(self, value):
+        """The sent_request property.
+        
+        Args:
+            value (string). the property value.
+        """
+        if value == self._defaults['sentRequest'] and 'sentRequest' in self._values:
+            del self._values['sentRequest']
+        else:
+            self._values['sentRequest'] = value
+        
+    @property
+    def received_response(self):
+        """The received_response property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
+        if 'receivedResponse' in self._values:
+            return self._values['receivedResponse']
+        return self._defaults['receivedResponse']
+        
+    @received_response.setter
+    def received_response(self, value):
+        """The received_response property.
+        
+        Args:
+            value (string). the property value.
+        """
+        if value == self._defaults['receivedResponse'] and 'receivedResponse' in self._values:
+            del self._values['receivedResponse']
+        else:
+            self._values['receivedResponse'] = value
+        
+    @property
     def id(self):
         """The id property.
         
@@ -133,6 +233,29 @@ class PageViewData(object):
             del self._values['id']
         else:
             self._values['id'] = value
+        
+    @property
+    def dom_processing(self):
+        """The dom_processing property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
+        if 'domProcessing' in self._values:
+            return self._values['domProcessing']
+        return self._defaults['domProcessing']
+        
+    @dom_processing.setter
+    def dom_processing(self, value):
+        """The dom_processing property.
+        
+        Args:
+            value (string). the property value.
+        """
+        if value == self._defaults['domProcessing'] and 'domProcessing' in self._values:
+            del self._values['domProcessing']
+        else:
+            self._values['domProcessing'] = value
         
     @property
     def referrer_uri(self):
@@ -192,6 +315,18 @@ class PageViewData(object):
             return self._values['measurements']
         self._values['measurements'] = copy.deepcopy(self._defaults['measurements'])
         return self._values['measurements']
+        
+    @measurements.setter
+    def measurements(self, value):
+        """The measurements property.
+        
+        Args:
+            value (hash). the property value.
+        """
+        if value == self._defaults['measurements'] and 'measurements' in self._values:
+            del self._values['measurements']
+        else:
+            self._values['measurements'] = value
         
     @measurements.setter
     def measurements(self, value):

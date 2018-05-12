@@ -5,10 +5,11 @@ from .Utils import _write_complex_object
 class EventData(object):
     """Data contract class for type EventData.
     """
-    ENVELOPE_TYPE_NAME = 'Microsoft.ApplicationInsights.Event'
     
-    DATA_TYPE_NAME = 'EventData'
-    
+    ENVELOPE_TYPE_NAME = 'Microsoft.ApplicationInsights.Event'	
+    	
+    DATA_TYPE_NAME = 'EventData'	
+        
     _defaults = collections.OrderedDict([
         ('ver', 2),
         ('name', None),

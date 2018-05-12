@@ -9,7 +9,7 @@ root_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..',
 if root_directory not in sys.path:
     sys.path.append(root_directory)
 
-from applicationinsights.channel.contracts import *
+from applicationinsights.channel.contracts import Device
 from .Utils import TestJsonEncoder
 
 class TestDevice(unittest.TestCase):
@@ -174,20 +174,12 @@ class TestDevice(unittest.TestCase):
     def test_serialize_works_as_expected(self):
         item = Device()
         item.id = 'Test string'
-        item.ip = 'Test string'
-        item.language = 'Test string'
         item.locale = 'Test string'
         item.model = 'Test string'
-        item.network = 'Test string'
         item.oem_name = 'Test string'
-        item.os = 'Test string'
         item.os_version = 'Test string'
-        item.role_instance = 'Test string'
-        item.role_name = 'Test string'
-        item.screen_resolution = 'Test string'
         item.type = 'Test string'
-        item.vm_name = 'Test string'
         actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)
-        expected = '{"ai.device.id":"Test string","ai.device.ip":"Test string","ai.device.language":"Test string","ai.device.locale":"Test string","ai.device.model":"Test string","ai.device.network":"Test string","ai.device.oemName":"Test string","ai.device.os":"Test string","ai.device.osVersion":"Test string","ai.device.roleInstance":"Test string","ai.device.roleName":"Test string","ai.device.screenResolution":"Test string","ai.device.type":"Test string","ai.device.vmName":"Test string"}'
+        expected = '{"ai.device.id":"Test string","ai.device.locale":"Test string","ai.device.model":"Test string","ai.device.oemName":"Test string","ai.device.osVersion":"Test string","ai.device.type":"Test string"}'
         self.assertEqual(expected, actual)
 

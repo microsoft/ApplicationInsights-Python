@@ -9,7 +9,7 @@ root_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..',
 if root_directory not in sys.path:
     sys.path.append(root_directory)
 
-from applicationinsights.channel.contracts import *
+from applicationinsights.channel.contracts import ExceptionData, ExceptionDetails
 from .Utils import TestJsonEncoder
 
 class TestExceptionData(unittest.TestCase):
@@ -78,6 +78,6 @@ class TestExceptionData(unittest.TestCase):
         for key, value in { 'key1': 3.1415 , 'key2': 42.2 }.items():
             item.measurements[key] = value
         actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)
-        expected = '{"ver":42,"handledAt":"Test string","exceptions":[{}],"severityLevel":{},"properties":{"key1":"test value 1","key2":"test value 2"},"measurements":{"key1":3.1415,"key2":42.2}}'
+        expected = '{"ver":42,"exceptions":[{}],"severityLevel":{},"properties":{"key1":"test value 1","key2":"test value 2"},"measurements":{"key1":3.1415,"key2":42.2}}'
         self.assertEqual(expected, actual)
 

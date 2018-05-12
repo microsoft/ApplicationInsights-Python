@@ -5,19 +5,18 @@ from .Utils import _write_complex_object
 class RequestData(object):
     """Data contract class for type RequestData.
     """
-    ENVELOPE_TYPE_NAME = 'Microsoft.ApplicationInsights.Request'
-    
+    ENVELOPE_TYPE_NAME = 'Microsoft.ApplicationInsights.Request'	
+    	
     DATA_TYPE_NAME = 'RequestData'
-    
+
     _defaults = collections.OrderedDict([
         ('ver', 2),
         ('id', None),
+        ('source', None),
         ('name', None),
-        ('startTime', None),
         ('duration', None),
         ('responseCode', None),
         ('success', None),
-        ('httpMethod', None),
         ('url', None),
         ('properties', {}),
         ('measurements', {})
@@ -29,7 +28,6 @@ class RequestData(object):
         self._values = {
             'ver': 2,
             'id': None,
-            'startTime': None,
             'duration': None,
             'responseCode': None,
             'success': None,
@@ -73,6 +71,29 @@ class RequestData(object):
         self._values['id'] = value
         
     @property
+    def source(self):
+        """The source property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
+        if 'source' in self._values:
+            return self._values['source']
+        return self._defaults['source']
+        
+    @source.setter
+    def source(self, value):
+        """The source property.
+        
+        Args:
+            value (string). the property value.
+        """
+        if value == self._defaults['source'] and 'source' in self._values:
+            del self._values['source']
+        else:
+            self._values['source'] = value
+        
+    @property
     def name(self):
         """The name property.
         
@@ -94,24 +115,6 @@ class RequestData(object):
             del self._values['name']
         else:
             self._values['name'] = value
-        
-    @property
-    def start_time(self):
-        """The start_time property.
-        
-        Returns:
-            (string). the property value. (defaults to: None)
-        """
-        return self._values['startTime']
-        
-    @start_time.setter
-    def start_time(self, value):
-        """The start_time property.
-        
-        Args:
-            value (string). the property value.
-        """
-        self._values['startTime'] = value
         
     @property
     def duration(self):
@@ -166,29 +169,6 @@ class RequestData(object):
             value (bool). the property value.
         """
         self._values['success'] = value
-        
-    @property
-    def http_method(self):
-        """The http_method property.
-        
-        Returns:
-            (string). the property value. (defaults to: None)
-        """
-        if 'httpMethod' in self._values:
-            return self._values['httpMethod']
-        return self._defaults['httpMethod']
-        
-    @http_method.setter
-    def http_method(self, value):
-        """The http_method property.
-        
-        Args:
-            value (string). the property value.
-        """
-        if value == self._defaults['httpMethod'] and 'httpMethod' in self._values:
-            del self._values['httpMethod']
-        else:
-            self._values['httpMethod'] = value
         
     @property
     def url(self):

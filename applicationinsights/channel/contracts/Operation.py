@@ -9,7 +9,8 @@ class Operation(object):
         ('ai.operation.id', None),
         ('ai.operation.name', None),
         ('ai.operation.parentId', None),
-        ('ai.operation.rootId', None)
+        ('ai.operation.syntheticSource', None),
+        ('ai.operation.correlationVector', None)
     ])
     
     def __init__(self):
@@ -89,27 +90,50 @@ class Operation(object):
             self._values['ai.operation.parentId'] = value
         
     @property
-    def root_id(self):
-        """The root_id property.
+    def synthetic_source(self):
+        """The synthetic_source property.
         
         Returns:
             (string). the property value. (defaults to: None)
         """
-        if 'ai.operation.rootId' in self._values:
-            return self._values['ai.operation.rootId']
-        return self._defaults['ai.operation.rootId']
+        if 'ai.operation.syntheticSource' in self._values:
+            return self._values['ai.operation.syntheticSource']
+        return self._defaults['ai.operation.syntheticSource']
         
-    @root_id.setter
-    def root_id(self, value):
-        """The root_id property.
+    @synthetic_source.setter
+    def synthetic_source(self, value):
+        """The synthetic_source property.
         
         Args:
             value (string). the property value.
         """
-        if value == self._defaults['ai.operation.rootId'] and 'ai.operation.rootId' in self._values:
-            del self._values['ai.operation.rootId']
+        if value == self._defaults['ai.operation.syntheticSource'] and 'ai.operation.syntheticSource' in self._values:
+            del self._values['ai.operation.syntheticSource']
         else:
-            self._values['ai.operation.rootId'] = value
+            self._values['ai.operation.syntheticSource'] = value
+        
+    @property
+    def correlation_vector(self):
+        """The correlation_vector property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
+        if 'ai.operation.correlationVector' in self._values:
+            return self._values['ai.operation.correlationVector']
+        return self._defaults['ai.operation.correlationVector']
+        
+    @correlation_vector.setter
+    def correlation_vector(self, value):
+        """The correlation_vector property.
+        
+        Args:
+            value (string). the property value.
+        """
+        if value == self._defaults['ai.operation.correlationVector'] and 'ai.operation.correlationVector' in self._values:
+            del self._values['ai.operation.correlationVector']
+        else:
+            self._values['ai.operation.correlationVector'] = value
         
     def _initialize(self):
         """Initializes the current instance of the object.
