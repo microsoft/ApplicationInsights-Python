@@ -9,7 +9,7 @@ root_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..',
 if root_directory not in sys.path:
     sys.path.append(root_directory)
 
-from applicationinsights.channel.contracts import *
+from applicationinsights.channel.contracts import Operation
 from .Utils import TestJsonEncoder
 
 class TestOperation(unittest.TestCase):
@@ -57,17 +57,13 @@ class TestOperation(unittest.TestCase):
         actual = item.root_id
         self.assertEqual(expected, actual)
         expected = 'Other string'
-        item.root_id = expected
-        actual = item.root_id
-        self.assertEqual(expected, actual)
     
     def test_serialize_works_as_expected(self):
         item = Operation()
         item.id = 'Test string'
         item.name = 'Test string'
         item.parent_id = 'Test string'
-        item.root_id = 'Test string'
         actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)
-        expected = '{"ai.operation.id":"Test string","ai.operation.name":"Test string","ai.operation.parentId":"Test string","ai.operation.rootId":"Test string"}'
+        expected = '{"ai.operation.id":"Test string","ai.operation.name":"Test string","ai.operation.parentId":"Test string"}'
         self.assertEqual(expected, actual)
 

@@ -2,12 +2,12 @@ import collections
 import copy
 from .Utils import _write_complex_object
 
-class Session(object):
-    """Data contract class for type Session.
+class Cloud(object):
+    """Data contract class for type Cloud.
     """
     _defaults = collections.OrderedDict([
-        ('ai.session.id', None),
-        ('ai.session.isFirst', None)
+        ('ai.cloud.role', None),
+        ('ai.cloud.roleInstance', None)
     ])
     
     def __init__(self):
@@ -18,50 +18,50 @@ class Session(object):
         self._initialize()
         
     @property
-    def id(self):
-        """The id property.
+    def role(self):
+        """The role property.
         
         Returns:
             (string). the property value. (defaults to: None)
         """
-        if 'ai.session.id' in self._values:
-            return self._values['ai.session.id']
-        return self._defaults['ai.session.id']
+        if 'ai.cloud.role' in self._values:
+            return self._values['ai.cloud.role']
+        return self._defaults['ai.cloud.role']
         
-    @id.setter
-    def id(self, value):
-        """The id property.
+    @role.setter
+    def role(self, value):
+        """The role property.
         
         Args:
             value (string). the property value.
         """
-        if value == self._defaults['ai.session.id'] and 'ai.session.id' in self._values:
-            del self._values['ai.session.id']
+        if value == self._defaults['ai.cloud.role'] and 'ai.cloud.role' in self._values:
+            del self._values['ai.cloud.role']
         else:
-            self._values['ai.session.id'] = value
+            self._values['ai.cloud.role'] = value
         
     @property
-    def is_first(self):
-        """The is_first property.
+    def role_instance(self):
+        """The role_instance property.
         
         Returns:
             (string). the property value. (defaults to: None)
         """
-        if 'ai.session.isFirst' in self._values:
-            return self._values['ai.session.isFirst']
-        return self._defaults['ai.session.isFirst']
+        if 'ai.cloud.roleInstance' in self._values:
+            return self._values['ai.cloud.roleInstance']
+        return self._defaults['ai.cloud.roleInstance']
         
-    @is_first.setter
-    def is_first(self, value):
-        """The is_first property.
+    @role_instance.setter
+    def role_instance(self, value):
+        """The role_instance property.
         
         Args:
             value (string). the property value.
         """
-        if value == self._defaults['ai.session.isFirst'] and 'ai.session.isFirst' in self._values:
-            del self._values['ai.session.isFirst']
+        if value == self._defaults['ai.cloud.roleInstance'] and 'ai.cloud.roleInstance' in self._values:
+            del self._values['ai.cloud.roleInstance']
         else:
-            self._values['ai.session.isFirst'] = value
+            self._values['ai.cloud.roleInstance'] = value
         
     def _initialize(self):
         """Initializes the current instance of the object.

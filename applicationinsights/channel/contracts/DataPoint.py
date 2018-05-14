@@ -7,6 +7,7 @@ class DataPoint(object):
     """Data contract class for type DataPoint.
     """
     _defaults = collections.OrderedDict([
+        ('ns', None),
         ('name', None),
         ('kind', DataPointType.measurement),
         ('value', None),
@@ -25,6 +26,29 @@ class DataPoint(object):
             'value': None,
         }
         self._initialize()
+        
+    @property
+    def ns(self):
+        """The ns property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
+        if 'ns' in self._values:
+            return self._values['ns']
+        return self._defaults['ns']
+        
+    @ns.setter
+    def ns(self, value):
+        """The ns property.
+        
+        Args:
+            value (string). the property value.
+        """
+        if value == self._defaults['ns'] and 'ns' in self._values:
+            del self._values['ns']
+        else:
+            self._values['ns'] = value
         
     @property
     def name(self):
