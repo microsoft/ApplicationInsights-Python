@@ -302,6 +302,32 @@ For any other Python web framework that is [WSGI compliant](https://www.python.o
 the [WSGIApplication](https://github.com/Microsoft/ApplicationInsights-Python/blob/master/applicationinsights/requests/WSGIApplication.py)
 can be used as a middleware to log requests to Application Insights.
 
+Add common properties to WSGIApplication request events by passing in a dictionary to the WSGIApplication constructor:
+```
+from flask import Flask
+from applicationinsights.requests import WSGIApplication
+
+# instantiate the Flask application and wrap its WSGI application
+app = Flask(__name__)
+
+# Construct dictionary which contains properties to be included with every request event
+common_properties = {
+    "service": "hello_world_flask_app",
+    "environment": "production"
+}
+
+app.wsgi_app = WSGIApplication('<YOUR INSTRUMENTATION KEY GOES HERE>', app.wsgi_app, common_properties=common_properties)
+
+# define a simple route
+@app.route('/')
+def hello_world():
+    return 'Hello World!'
+
+# run the application
+if __name__ == '__main__':
+    app.run()
+```
+
 
 ## Publishing new version to pypi.python.org
 
