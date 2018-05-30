@@ -25,7 +25,7 @@ class WSGIApplication(object):
                 app = config.make_wsgi_app()
 
                 # Enable Application Insights middleware
-                app = WSGIApplication('<YOUR INSTRUMENTATION KEY GOES HERE>', app)
+                app = WSGIApplication('<YOUR INSTRUMENTATION KEY GOES HERE>', app, common_properties={'service': 'hello_world_service'})
 
                 serve(app, host='0.0.0.0')
     """
