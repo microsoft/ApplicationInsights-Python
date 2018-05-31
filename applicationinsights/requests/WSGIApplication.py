@@ -25,7 +25,7 @@ class WSGIApplication(object):
                 app = config.make_wsgi_app()
 
                 # Enable Application Insights middleware
-                app = WSGIApplication('<YOUR INSTRUMENTATION KEY GOES HERE>', app)
+                app = WSGIApplication('<YOUR INSTRUMENTATION KEY GOES HERE>', app, common_properties={'service': 'hello_world_service'})
 
                 serve(app, host='0.0.0.0')
     """
@@ -49,6 +49,7 @@ class WSGIApplication(object):
         self.client = applicationinsights.TelemetryClient(instrumentation_key, telemetry_channel)
         self.client.context.device.type = "PC"
         self._wsgi_application = wsgi_application
+        self._common_properties = kwargs.pop('common_properties', {})
 
     def flush(self):
         """Flushes the queued up telemetry to the service.
@@ -104,4 +105,4 @@ class WSGIApplication(object):
         end_time = datetime.datetime.utcnow()
         duration = int((end_time - start_time).total_seconds() * 1000)
 
-        self.client.track_request(name, url, success, start_time.isoformat() + 'Z', duration, response_code, http_method)
+        self.client.track_request(name, url, success, start_time.isoformat() + 'Z', duration, response_code, http_method, self._common_properties)
