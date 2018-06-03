@@ -25,7 +25,7 @@ setup(
 
     # Author details
     author='Microsoft',
-    author_email='aiengdisc@microsoft.com',
+    author_email='appinsightssdk@microsoft.com',
 
     # Choose your license
     license='MIT',
