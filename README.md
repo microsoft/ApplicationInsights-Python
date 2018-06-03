@@ -327,37 +327,3 @@ def hello_world():
 if __name__ == '__main__':
     app.run()
 ```
-
-
-## Publishing new version to pypi.python.org
-
-This package is published to https://pypi.python.org/pypi/applicationinsights. These are the steps to publish the package.
-
-1. Update the version in the following places:
-    * /applicationinsights/channel/TelemetryChannel.py
-    * conf.py
-    * setup.py
-
-2. Create ~/.pypirc file with the following content
-    ```
-    [distutils]
-    index-servers=
-    pypi
-
-    [pypi]
-    username:AppInsightsSDK
-    password=<pwd here>
-    ```
-3. Create distribution package:
-```
-python setup.py sdist
-```
-
-4. Install twine
-```
-sudo pip install twine
-```
-
-5. twine upload dist/*
-
-
