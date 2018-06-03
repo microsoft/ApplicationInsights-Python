@@ -1,14 +1,19 @@
 Application Insights for Python
 ===============================
 
+.. image:: https://travis-ci.org/Microsoft/ApplicationInsights-Python.svg?branch=master
+    :target: https://travis-ci.org/Microsoft/ApplicationInsights-Python
+
+.. image:: https://badge.fury.io/py/applicationinsights.svg
+    :target: http://badge.fury.io/py/applicationinsights
+
+
 This project extends the Application Insights API surface to support Python. `Application Insights <http://azure.microsoft.com/en-us/services/application-insights/>`_ is a service that allows developers to keep their application available, performing and succeeding. This Python module will allow you to send telemetry of various kinds (event, trace, exception, etc.) to the Application Insights service where they can be visualized in the Azure Portal.
 
 Requirements
 ------------
 
-Python 2.7 and Python 3.4 are currently supported by this module.
-
-For opening the project in Microsoft Visual Studio you will need `Python Tools for Visual Studio <http://pytools.codeplex.com/>`_.
+Python >=2.7 and Python >=3.4 are currently supported by this module.
 
 Installation
 ------------
@@ -32,7 +37,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 
     from applicationinsights import TelemetryClient
     tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
-    tc.track_event("Test event")
+    tc.track_event('Test event')
     tc.flush()
 
 **Sending an event telemetry item with custom properties and measurements**
@@ -178,16 +183,154 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     # raise an exception (this will be sent to the Application Insights service as an exception telemetry object)
     raise Exception('Boom!')
 
-**Logging requests**
+**Integrating with Flask**
 
 .. code:: python
+    from flask import Flask
+    from applicationinsights.flask.ext import AppInsights
+    
+    # instantiate the Flask application
+    app = Flask(__name__)
+    app.config['APPINSIGHTS_INSTRUMENTATIONKEY'] = '<YOUR INSTRUMENTATION KEY GOES HERE>'
 
+    # log requests, traces and exceptions to the Application Insights service
+    appinsights = AppInsights(app)
+
+    # define a simple route
+    @app.route('/')
+    def hello_world():
+        return 'Hello World!'
+
+    # run the application
+    if __name__ == '__main__':
+        app.run()
+
+**Integrating with Django**
+
+Place the following in your `settings.py` file:
+
+.. code:: python
+    # If on Django < 1.10
+    MIDDLEWARE_CLASSES = [
+        # ... or whatever is below for you ...
+        'django.middleware.security.SecurityMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        # ... or whatever is above for you ...
+        'applicationinsights.django.ApplicationInsightsMiddleware',   # Add this middleware to the end
+    ]
+
+    # If on Django >= 1.10
+    MIDDLEWARE = [
+        # ... or whatever is below for you ...
+        'django.middleware.security.SecurityMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        # ... or whatever is above for you ...
+        'applicationinsights.django.ApplicationInsightsMiddleware',   # Add this middleware to the end
+    ]
+
+    APPLICATION_INSIGHTS = {
+        # (required) Your Application Insights instrumentation key
+        'ikey': "00000000-0000-0000-0000-000000000000",
+        
+        # (optional) By default, request names are logged as the request method
+        # and relative path of the URL.  To log the fully-qualified view names
+        # instead, set this to True.  Defaults to False.
+        'use_view_name': True,
+        
+        # (optional) To log arguments passed into the views as custom properties,
+        # set this to True.  Defaults to False.
+        'record_view_arguments': True,
+        
+        # (optional) Exceptions are logged by default, to disable, set this to False.
+        'log_exceptions': False,
+        
+        # (optional) Events are submitted to Application Insights asynchronously.
+        # send_interval specifies how often the queue is checked for items to submit.
+        # send_time specifies how long the sender waits for new input before recycling
+        # the background thread.
+        'send_interval': 1.0, # Check every second
+        'send_time': 3.0, # Wait up to 3 seconds for an event
+        
+        # (optional, uncommon) If you must send to an endpoint other than the
+        # default endpoint, specify it here:
+        'endpoint': "https://dc.services.visualstudio.com/v2/track",
+    }
+
+This will log all requests and exceptions to the instrumentation key
+specified in the `APPLICATION_INSIGHTS` setting.  In addition, an
+`appinsights` property will be placed on each incoming `request` object in
+your views.  This will have the following properties:
+
+* `client`: This is an instance of the `applicationinsights.TelemetryClient`
+  type, which will submit telemetry to the same instrumentation key, and
+  will parent each telemetry item to the current request.
+* `request`: This is the `applicationinsights.channel.contracts.RequestData`
+  instance for the current request.  You can modify properties on this
+  object during the handling of the current request.  It will be submitted
+  when the request has finished.
+* `context`: This is the `applicationinsights.channel.TelemetryContext`
+  object for the current ApplicationInsights sender.
+
+You can also hook up logging to Django.  For example, to log all builtin
+Django warnings and errors, use the following logging configuration in
+`settings.py`:
+
+.. code:: python
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            # The application insights handler is here
+            'appinsights': {
+                'class': 'applicationinsights.django.LoggingHandler',
+                'level': 'WARNING'
+            }
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['appinsights'],
+                'level': 'WARNING',
+                'propagate': True,
+            }
+        }
+    }
+
+See Django's `logging documentation <https://docs.djangoproject.com/en/1.11/topics/logging/>`_
+for more information.
+
+**Integrating with other web frameworks**
+
+For any other Python web framework that is `WSGI compliant <https://www.python.org/dev/peps/pep-0333/>`_,
+the `WSGIApplication <https://github.com/Microsoft/ApplicationInsights-Python/blob/master/applicationinsights/requests/WSGIApplication.py>`_
+can be used as a middleware to log requests to Application Insights.
+
+Add common properties to WSGIApplication request events by passing in a dictionary to the WSGIApplication constructor:
+
+.. code:: python
     from flask import Flask
     from applicationinsights.requests import WSGIApplication
 
     # instantiate the Flask application and wrap its WSGI application
     app = Flask(__name__)
-    app.wsgi_app = WSGIApplication('<YOUR INSTRUMENTATION KEY GOES HERE>', app.wsgi_app)
+
+    # Construct dictionary which contains properties to be included with every request event
+    common_properties = {
+        "service": "hello_world_flask_app",
+        "environment": "production"
+    }
+
+    app.wsgi_app = WSGIApplication('<YOUR INSTRUMENTATION KEY GOES HERE>', app.wsgi_app, common_properties=common_properties)
 
     # define a simple route
     @app.route('/')
