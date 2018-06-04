@@ -1,5 +1,4 @@
-include DESCRIPTION.rst
-include README.md
+include README.rst
 include LICENSE.txt
 include CHANGELOG.md
 include CONTRIBUTING.md
