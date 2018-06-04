@@ -8,8 +8,6 @@ Requirements
 
 Python 2.7 and Python 3.4 are currently supported by this module.
 
-For opening the project in Microsoft Visual Studio you will need `Python Tools for Visual Studio <http://pytools.codeplex.com/>`_.
-
 Installation
 ------------
 
