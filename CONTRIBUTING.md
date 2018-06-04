@@ -13,6 +13,11 @@ Run `python setup.py sdist`
 
 Use `pip install -e <path>` to install it into test application for the testing purposes.
 
+## Generate documentation
+
+1. Install [sphinx](http://www.sphinx-doc.org/en/master/usage/installation.html): `brew install sphinx-doc`.
+2. 
+
 ## Releasing new version
 
 This is for repository maintainers only:
