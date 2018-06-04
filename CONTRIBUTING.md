@@ -16,7 +16,16 @@ Use `pip install -e <path>` to install it into test application for the testing 
 ## Generate documentation
 
 1. Install [sphinx](http://www.sphinx-doc.org/en/master/usage/installation.html): `brew install sphinx-doc`.
-2. 
+2. Open docs folder `cd docs`
+3. Generate html documents: `make html`
+4. Update gh-pages branch
+    ``` bash
+    git clone https://github.com/Microsoft/ApplicationInsights-Python.git python-gh-pages
+    cd python-gh-pages/
+    cp -r ../python/doc/build/html/ .
+    git add -A
+    git commit -m "upgrade to the latest version"
+    ```
 
 ## Releasing new version
 
