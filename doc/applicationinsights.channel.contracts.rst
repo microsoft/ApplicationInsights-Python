@@ -32,20 +32,6 @@ DataPointType class
     :member-order: groupwise
     :inherited-members:
 
-DependencyKind class
---------------------
-.. autoclass:: applicationinsights.channel.contracts.DependencyKind
-    :members:
-    :member-order: groupwise
-    :inherited-members:
-
-DependencySourceType class
---------------------------
-.. autoclass:: applicationinsights.channel.contracts.DependencySourceType
-    :members:
-    :member-order: groupwise
-    :inherited-members:
-
 Device class
 ------------
 .. autoclass:: applicationinsights.channel.contracts.Device
