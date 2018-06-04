@@ -52,7 +52,8 @@ This package is published to https://pypi.python.org/pypi/applicationinsights. T
         ```
     6. Test distributive. You can upload it to https://test.pypi.org/ using `twine upload --repository-url https://test.pypi.org/legacy/ dist/*`
     7. Upload the package `twine upload dist/*`.
-4. Update versions in `TelemetryChannel.py`, `CHANGELOG.md`, `conf.py` and `setup.py`.
+4. Regenerate documentation on gh-pages branch.
+5. Update versions in `TelemetryChannel.py`, `CHANGELOG.md`, `conf.py` and `setup.py`.
 
 ## Contributing
 
