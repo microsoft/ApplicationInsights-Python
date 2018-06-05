@@ -13,6 +13,32 @@ Run `python setup.py sdist`
 
 Use `pip install -e <path>` to install it into test application for the testing purposes.
 
+## Generate documentation
+
+1. Install [sphinx](http://www.sphinx-doc.org/en/master/usage/installation.html). On Mac: `brew install sphinx-doc`. You can also use virtualenv:
+    ``` bash
+    % python3 -m venv env       # Create 'env' directory
+    % . env/bin/activate        # Activate virtual environment
+    % pip install sphinx django # Install sphinx and django (so sphinx can find it)
+    % python setup.py install   # Install applicationinsights package
+    % cd doc
+    % make html
+    .
+    .
+    % deactivate   # Exit virtualenv
+    ```
+2. Open docs folder `cd docs`
+3. Generate html documents: `make html`
+4. Update gh-pages branch
+    ``` bash
+    git clone https://github.com/Microsoft/ApplicationInsights-Python.git python-gh-pages
+    cd python-gh-pages/
+    git checkout gh-pages
+    cp -r ../python/doc/build/html/ .
+    git add -A
+    git commit -m "upgrade to the latest version"
+    ```
+
 ## Releasing new version
 
 This is for repository maintainers only:
@@ -38,7 +64,8 @@ This package is published to https://pypi.python.org/pypi/applicationinsights. T
         ```
     6. Test distributive. You can upload it to https://test.pypi.org/ using `twine upload --repository-url https://test.pypi.org/legacy/ dist/*`
     7. Upload the package `twine upload dist/*`.
-4. Update versions in `TelemetryChannel.py`, `CHANGELOG.md`, `conf.py` and `setup.py`.
+4. Regenerate documentation on gh-pages branch.
+5. Update versions in `TelemetryChannel.py`, `CHANGELOG.md`, `conf.py` and `setup.py`.
 
 ## Contributing
 

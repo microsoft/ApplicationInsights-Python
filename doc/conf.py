@@ -52,7 +52,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'Application Insights SDK for Python'
-copyright = '2014, Microsoft'
+copyright = '2018, Microsoft'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
