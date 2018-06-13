@@ -172,7 +172,13 @@ class ApplicationInsightsMiddleware(object):
         # If use_view_name is set, then we'll look up the name of the view.
         if self._settings.use_view_name:
             mod = inspect.getmodule(view_func)
-            name = view_func.__name__
+            if hasattr(view_func, "__name__"):
+                name = view_func.__name__
+            elif hasattr(view_func, "__class__") and hasattr(view_func.__class__, "__name__"):
+                name = view_func.__class__.__name__
+            else:
+                name = "<unknown>"
+
             if mod:
                 opname = "%s %s.%s" % (data.http_method, mod.__name__, name)
             else:
