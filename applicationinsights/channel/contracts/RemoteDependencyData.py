@@ -1,31 +1,26 @@
 import collections
 import copy
 from .Utils import _write_complex_object
-from .DataPointType import DataPointType
-from .DependencyKind import DependencyKind
-from .DependencySourceType import DependencySourceType
 
 class RemoteDependencyData(object):
     """Data contract class for type RemoteDependencyData.
     """
-    ENVELOPE_TYPE_NAME = 'Microsoft.ApplicationInsights.RemoteDependency'
-    
+    ENVELOPE_TYPE_NAME = 'Microsoft.ApplicationInsights.RemoteDependency'	
+    	
     DATA_TYPE_NAME = 'RemoteDependencyData'
-    
+
     _defaults = collections.OrderedDict([
         ('ver', 2),
         ('name', None),
-        ('kind', DataPointType.measurement),
-        ('value', None),
-        ('count', None),
-        ('min', None),
-        ('max', None),
-        ('stdDev', None),
-        ('dependencyKind', DependencyKind.undefined),
+        ('id', None),
+        ('resultCode', None),
+        ('duration', None),
         ('success', True),
-        ('async', None),
-        ('dependencySource', DependencySourceType.undefined),
-        ('properties', {})
+        ('data', None),
+        ('target', None),
+        ('type', None),
+        ('properties', {}),
+        ('measurements', {})
     ])
     
     def __init__(self):
@@ -34,11 +29,8 @@ class RemoteDependencyData(object):
         self._values = {
             'ver': 2,
             'name': None,
-            'kind': DataPointType.measurement,
-            'value': None,
-            'dependencyKind': DependencyKind.undefined,
+            'duration': None,
             'success': True,
-            'dependencySource': DependencySourceType.undefined,
         }
         self._initialize()
         
@@ -79,155 +71,68 @@ class RemoteDependencyData(object):
         self._values['name'] = value
         
     @property
-    def kind(self):
-        """The kind property.
+    def id(self):
+        """The id property.
         
         Returns:
-            (:class:`DataPointType.measurement`). the property value. (defaults to: DataPointType.measurement)
+            (string). the property value. (defaults to: None)
         """
-        if 'kind' in self._values:
-            return self._values['kind']
-        return self._defaults['kind']
+        if 'id' in self._values:
+            return self._values['id']
+        return self._defaults['id']
         
-    @kind.setter
-    def kind(self, value):
-        """The kind property.
+    @id.setter
+    def id(self, value):
+        """The id property.
         
         Args:
-            value (:class:`DataPointType.measurement`). the property value.
+            value (string). the property value.
         """
-        if value == self._defaults['kind'] and 'kind' in self._values:
-            del self._values['kind']
+        if value == self._defaults['id'] and 'id' in self._values:
+            del self._values['id']
         else:
-            self._values['kind'] = value
+            self._values['id'] = value
         
     @property
-    def value(self):
-        """The value property.
+    def result_code(self):
+        """The result_code property.
         
         Returns:
-            (float). the property value. (defaults to: None)
+            (string). the property value. (defaults to: None)
         """
-        return self._values['value']
+        if 'resultCode' in self._values:
+            return self._values['resultCode']
+        return self._defaults['resultCode']
         
-    @value.setter
-    def value(self, value):
-        """The value property.
+    @result_code.setter
+    def result_code(self, value):
+        """The result_code property.
         
         Args:
-            value (float). the property value.
+            value (string). the property value.
         """
-        self._values['value'] = value
-        
-    @property
-    def count(self):
-        """The count property.
-        
-        Returns:
-            (int). the property value. (defaults to: None)
-        """
-        if 'count' in self._values:
-            return self._values['count']
-        return self._defaults['count']
-        
-    @count.setter
-    def count(self, value):
-        """The count property.
-        
-        Args:
-            value (int). the property value.
-        """
-        if value == self._defaults['count'] and 'count' in self._values:
-            del self._values['count']
+        if value == self._defaults['resultCode'] and 'resultCode' in self._values:
+            del self._values['resultCode']
         else:
-            self._values['count'] = value
+            self._values['resultCode'] = value
         
     @property
-    def min(self):
-        """The min property.
+    def duration(self):
+        """The duration property.
         
         Returns:
-            (float). the property value. (defaults to: None)
+            (string). the property value. (defaults to: None)
         """
-        if 'min' in self._values:
-            return self._values['min']
-        return self._defaults['min']
+        return self._values['duration']
         
-    @min.setter
-    def min(self, value):
-        """The min property.
+    @duration.setter
+    def duration(self, value):
+        """The duration property.
         
         Args:
-            value (float). the property value.
+            value (string). the property value.
         """
-        if value == self._defaults['min'] and 'min' in self._values:
-            del self._values['min']
-        else:
-            self._values['min'] = value
-        
-    @property
-    def max(self):
-        """The max property.
-        
-        Returns:
-            (float). the property value. (defaults to: None)
-        """
-        if 'max' in self._values:
-            return self._values['max']
-        return self._defaults['max']
-        
-    @max.setter
-    def max(self, value):
-        """The max property.
-        
-        Args:
-            value (float). the property value.
-        """
-        if value == self._defaults['max'] and 'max' in self._values:
-            del self._values['max']
-        else:
-            self._values['max'] = value
-        
-    @property
-    def std_dev(self):
-        """The std_dev property.
-        
-        Returns:
-            (float). the property value. (defaults to: None)
-        """
-        if 'stdDev' in self._values:
-            return self._values['stdDev']
-        return self._defaults['stdDev']
-        
-    @std_dev.setter
-    def std_dev(self, value):
-        """The std_dev property.
-        
-        Args:
-            value (float). the property value.
-        """
-        if value == self._defaults['stdDev'] and 'stdDev' in self._values:
-            del self._values['stdDev']
-        else:
-            self._values['stdDev'] = value
-        
-    @property
-    def dependency_kind(self):
-        """The dependency_kind property.
-        
-        Returns:
-            (:class:`DependencyKind.undefined`). the property value. (defaults to: DependencyKind.undefined)
-        """
-        return self._values['dependencyKind']
-        
-    @dependency_kind.setter
-    def dependency_kind(self, value):
-        """The dependency_kind property.
-        
-        Args:
-            value (:class:`DependencyKind.undefined`). the property value.
-        """
-        self._values['dependencyKind'] = value
+        self._values['duration'] = value
         
     @property
     def success(self):
@@ -253,50 +158,73 @@ class RemoteDependencyData(object):
             self._values['success'] = value
         
     @property
-    def async(self):
-        """The async property.
+    def data(self):
+        """The data property.
         
         Returns:
-            (bool). the property value. (defaults to: None)
+            (string). the property value. (defaults to: None)
         """
-        if 'async' in self._values:
-            return self._values['async']
-        return self._defaults['async']
+        if 'data' in self._values:
+            return self._values['data']
+        return self._defaults['data']
         
-    @async.setter
-    def async(self, value):
-        """The async property.
+    @data.setter
+    def data(self, value):
+        """The data property.
         
         Args:
-            value (bool). the property value.
+            value (string). the property value.
         """
-        if value == self._defaults['async'] and 'async' in self._values:
-            del self._values['async']
+        if value == self._defaults['data'] and 'data' in self._values:
+            del self._values['data']
         else:
-            self._values['async'] = value
+            self._values['data'] = value
         
     @property
-    def dependency_source(self):
-        """The dependency_source property.
+    def target(self):
+        """The target property.
         
         Returns:
-            (:class:`DependencySourceType.undefined`). the property value. (defaults to: DependencySourceType.undefined)
+            (string). the property value. (defaults to: None)
         """
-        if 'dependencySource' in self._values:
-            return self._values['dependencySource']
-        return self._defaults['dependencySource']
+        if 'target' in self._values:
+            return self._values['target']
+        return self._defaults['target']
         
-    @dependency_source.setter
-    def dependency_source(self, value):
-        """The dependency_source property.
+    @target.setter
+    def target(self, value):
+        """The target property.
         
         Args:
-            value (:class:`DependencySourceType.undefined`). the property value.
+            value (string). the property value.
         """
-        if value == self._defaults['dependencySource'] and 'dependencySource' in self._values:
-            del self._values['dependencySource']
+        if value == self._defaults['target'] and 'target' in self._values:
+            del self._values['target']
         else:
-            self._values['dependencySource'] = value
+            self._values['target'] = value
+        
+    @property
+    def type(self):
+        """The type property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
+        if 'type' in self._values:
+            return self._values['type']
+        return self._defaults['type']
+        
+    @type.setter
+    def type(self, value):
+        """The type property.
+        
+        Args:
+            value (string). the property value.
+        """
+        if value == self._defaults['type'] and 'type' in self._values:
+            del self._values['type']
+        else:
+            self._values['type'] = value
         
     @property
     def properties(self):
@@ -321,6 +249,30 @@ class RemoteDependencyData(object):
             del self._values['properties']
         else:
             self._values['properties'] = value
+        
+    @property
+    def measurements(self):
+        """The measurements property.
+        
+        Returns:
+            (hash). the property value. (defaults to: {})
+        """
+        if 'measurements' in self._values:
+            return self._values['measurements']
+        self._values['measurements'] = copy.deepcopy(self._defaults['measurements'])
+        return self._values['measurements']
+        
+    @measurements.setter
+    def measurements(self, value):
+        """The measurements property.
+        
+        Args:
+            value (hash). the property value.
+        """
+        if value == self._defaults['measurements'] and 'measurements' in self._values:
+            del self._values['measurements']
+        else:
+            self._values['measurements'] = value
         
     def _initialize(self):
         """Initializes the current instance of the object.

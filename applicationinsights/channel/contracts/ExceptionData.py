@@ -5,15 +5,16 @@ from .Utils import _write_complex_object
 class ExceptionData(object):
     """Data contract class for type ExceptionData.
     """
-    ENVELOPE_TYPE_NAME = 'Microsoft.ApplicationInsights.Exception'
-    
+
+    ENVELOPE_TYPE_NAME = 'Microsoft.ApplicationInsights.Exception'	
+    	
     DATA_TYPE_NAME = 'ExceptionData'
-    
+
     _defaults = collections.OrderedDict([
         ('ver', 2),
-        ('handledAt', None),
         ('exceptions', []),
         ('severityLevel', None),
+        ('problemId', None),
         ('properties', {}),
         ('measurements', {})
     ])
@@ -23,7 +24,6 @@ class ExceptionData(object):
         """
         self._values = {
             'ver': 2,
-            'handledAt': None,
             'exceptions': [],
         }
         self._initialize()
@@ -45,24 +45,6 @@ class ExceptionData(object):
             value (int). the property value.
         """
         self._values['ver'] = value
-        
-    @property
-    def handled_at(self):
-        """The handled_at property.
-        
-        Returns:
-            (string). the property value. (defaults to: None)
-        """
-        return self._values['handledAt']
-        
-    @handled_at.setter
-    def handled_at(self, value):
-        """The handled_at property.
-        
-        Args:
-            value (string). the property value.
-        """
-        self._values['handledAt'] = value
         
     @property
     def exceptions(self):
@@ -104,6 +86,29 @@ class ExceptionData(object):
             del self._values['severityLevel']
         else:
             self._values['severityLevel'] = value
+        
+    @property
+    def problem_id(self):
+        """The problem_id property.
+        
+        Returns:
+            (string). the property value. (defaults to: None)
+        """
+        if 'problemId' in self._values:
+            return self._values['problemId']
+        return self._defaults['problemId']
+        
+    @problem_id.setter
+    def problem_id(self, value):
+        """The problem_id property.
+        
+        Args:
+            value (string). the property value.
+        """
+        if value == self._defaults['problemId'] and 'problemId' in self._values:
+            del self._values['problemId']
+        else:
+            self._values['problemId'] = value
         
     @property
     def properties(self):

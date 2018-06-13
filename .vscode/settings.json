@@ -1,0 +1,17 @@
+{
+    "python.pythonPath": "/usr/bin/python2.7",
+    "python.unitTest.unittestEnabled": true,
+    "python.unitTest.unittestArgs": [
+        "-v",
+        "-s",
+        "test",
+        "-p",
+        "*test*.py"
+    ],
+
+    // pythonVSCode extension
+    "python.linting.pylintEnabled": true,
+    "python.linting.flake8Enabled": false,
+    "python.linting.pep8Enabled": true,
+    "python.formatting.provider": "yapf"    
+}

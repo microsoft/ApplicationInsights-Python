@@ -9,7 +9,7 @@ root_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..',
 if root_directory not in sys.path:
     sys.path.append(root_directory)
 
-from applicationinsights.channel.contracts import *
+from applicationinsights.channel.contracts import RemoteDependencyData
 from .Utils import TestJsonEncoder
 
 class TestRemoteDependencyData(unittest.TestCase):
@@ -159,11 +159,7 @@ class TestRemoteDependencyData(unittest.TestCase):
         item.ver = 42
         item.name = 'Test string'
         item.kind = object()
-        item.value = 1.5
-        item.count = 42
-        item.min = 1.5
-        item.max = 1.5
-        item.std_dev = 1.5
+        item.duration = 1.5
         item.dependency_kind = object()
         item.success = True
         item.async = True
@@ -171,6 +167,6 @@ class TestRemoteDependencyData(unittest.TestCase):
         for key, value in { 'key1': 'test value 1' , 'key2': 'test value 2' }.items():
             item.properties[key] = value
         actual = json.dumps(item.write(), separators=(',', ':'), cls=TestJsonEncoder)
-        expected = '{"ver":42,"name":"Test string","kind":{},"value":1.5,"count":42,"min":1.5,"max":1.5,"stdDev":1.5,"dependencyKind":{},"success":true,"async":true,"dependencySource":{},"properties":{"key1":"test value 1","key2":"test value 2"}}'
+        expected = '{"ver":42,"name":"Test string","duration":1.5,"success":true,"properties":{"key1":"test value 1","key2":"test value 2"}}'
         self.assertEqual(expected, actual)
 

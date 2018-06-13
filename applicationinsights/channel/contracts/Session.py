@@ -7,8 +7,7 @@ class Session(object):
     """
     _defaults = collections.OrderedDict([
         ('ai.session.id', None),
-        ('ai.session.isFirst', None),
-        ('ai.session.isNew', None)
+        ('ai.session.isFirst', None)
     ])
     
     def __init__(self):
@@ -63,29 +62,6 @@ class Session(object):
             del self._values['ai.session.isFirst']
         else:
             self._values['ai.session.isFirst'] = value
-        
-    @property
-    def is_new(self):
-        """The is_new property.
-        
-        Returns:
-            (string). the property value. (defaults to: None)
-        """
-        if 'ai.session.isNew' in self._values:
-            return self._values['ai.session.isNew']
-        return self._defaults['ai.session.isNew']
-        
-    @is_new.setter
-    def is_new(self, value):
-        """The is_new property.
-        
-        Args:
-            value (string). the property value.
-        """
-        if value == self._defaults['ai.session.isNew'] and 'ai.session.isNew' in self._values:
-            del self._values['ai.session.isNew']
-        else:
-            self._values['ai.session.isNew'] = value
         
     def _initialize(self):
         """Initializes the current instance of the object.

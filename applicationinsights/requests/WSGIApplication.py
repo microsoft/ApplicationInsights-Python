@@ -9,21 +9,25 @@ class WSGIApplication(object):
 
     .. code:: python
 
-            from flask import Flask
             from applicationinsights.requests import WSGIApplication
+            from paste.httpserver import serve
+            from pyramid.response import Response
+            from pyramid.view import view_config
 
-            # instantiate the Flask application and wrap its WSGI application
-            app = Flask(__name__)
-            app.wsgi_app = WSGIApplication('<YOUR INSTRUMENTATION KEY GOES HERE>', app.wsgi_app)
+            @view_config()
+            def hello(request):
+                return Response('Hello')
 
-            # define a simple route
-            @app.route('/')
-            def hello_world():
-                return 'Hello World!'
-
-            # run the application
             if __name__ == '__main__':
-                app.run()
+                from pyramid.config import Configurator
+                config = Configurator()
+                config.scan()
+                app = config.make_wsgi_app()
+
+                # Enable Application Insights middleware
+                app = WSGIApplication('<YOUR INSTRUMENTATION KEY GOES HERE>', app, common_properties={'service': 'hello_world_service'})
+
+                serve(app, host='0.0.0.0')
     """
     def __init__(self, instrumentation_key, wsgi_application, *args, **kwargs):
         """
@@ -45,6 +49,7 @@ class WSGIApplication(object):
         self.client = applicationinsights.TelemetryClient(instrumentation_key, telemetry_channel)
         self.client.context.device.type = "PC"
         self._wsgi_application = wsgi_application
+        self._common_properties = kwargs.pop('common_properties', {})
 
     def flush(self):
         """Flushes the queued up telemetry to the service.
@@ -100,4 +105,4 @@ class WSGIApplication(object):
         end_time = datetime.datetime.utcnow()
         duration = int((end_time - start_time).total_seconds() * 1000)
 
-        self.client.track_request(name, url, success, start_time.isoformat() + 'Z', duration, response_code, http_method)
+        self.client.track_request(name, url, success, start_time.isoformat() + 'Z', duration, response_code, http_method, self._common_properties)
