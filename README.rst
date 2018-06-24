@@ -186,6 +186,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 **Integrating with Flask**
 
 .. code:: python
+
     from flask import Flask
     from applicationinsights.flask.ext import AppInsights
     
@@ -210,6 +211,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 Place the following in your `settings.py` file:
 
 .. code:: python
+
     # If on Django < 1.10
     MIDDLEWARE_CLASSES = [
         # ... or whatever is below for you ...
@@ -287,6 +289,7 @@ Django warnings and errors, use the following logging configuration in
 `settings.py`:
 
 .. code:: python
+
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
