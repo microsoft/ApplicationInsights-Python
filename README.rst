@@ -322,25 +322,31 @@ Add common properties to WSGIApplication request events by passing in a dictiona
 
 .. code:: python
 
-    from flask import Flask
+    from wsgiref.simple_server import make_server
+    from pyramid.config import Configurator
+    from pyramid.response import Response
     from applicationinsights.requests import WSGIApplication
 
-    # instantiate the Flask application and wrap its WSGI application
-    app = Flask(__name__)
+    # define a simple pyramid route
+    def hello_world(request):
+        return Response('Hello World!')
 
-    # Construct dictionary which contains properties to be included with every request event
+    # construct dictionary which contains properties to be included with every request event
     common_properties = {
         "service": "hello_world_flask_app",
         "environment": "production"
     }
 
-    app.wsgi_app = WSGIApplication('<YOUR INSTRUMENTATION KEY GOES HERE>', app.wsgi_app, common_properties=common_properties)
-
-    # define a simple route
-    @app.route('/')
-    def hello_world():
-        return 'Hello World!'
-
-    # run the application
     if __name__ == '__main__':
-        app.run()
+        # create a simple pyramid app
+        with Configurator() as config:
+            config.add_route('hello', '/')
+            config.add_view(hello_world, route_name='hello')
+            app = config.make_wsgi_app()
+
+            # wrap the app in the application insights request logging middleware
+            app = WSGIApplication('<YOUR INSTRUMENTATION KEY GOES HERE>', app, common_properties=common_properties)
+
+        # run the app
+        server = make_server('0.0.0.0', 6543, app)
+        server.serve_forever()
