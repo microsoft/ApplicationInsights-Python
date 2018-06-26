@@ -52,6 +52,21 @@ class TestTelemetryClient(unittest.TestCase):
         self.maxDiff = None
         self.assertEqual(expected, actual)
 
+    def test_track_event_with_context_properties_works_as_expected(self):
+        sender = MockTelemetrySender()
+        queue = channel.SynchronousQueue(sender)
+        client = TelemetryClient('99999999-9999-9999-9999-999999999999', channel.TelemetryChannel(context=None, queue=queue))
+        client.context.device = None
+        client.context.properties['foo'] = 'bar'
+        client.track_event('test')
+        client.flush()
+        expected = '{"ver": 1, "name": "Microsoft.ApplicationInsights.Event", "time": "TIME_PLACEHOLDER", "sampleRate": 100.0, "iKey": "99999999-9999-9999-9999-999999999999", "tags": {"ai.internal.sdkVersion": "SDK_VERSION_PLACEHOLDER"}, "data": {"baseType": "EventData", "baseData": {"ver": 2, "name": "test", "properties": {"foo": "bar"}}}}'
+        sender.data.time = 'TIME_PLACEHOLDER'
+        sender.data.tags['ai.internal.sdkVersion'] = 'SDK_VERSION_PLACEHOLDER'
+        actual = json.dumps(sender.data.write())
+        self.maxDiff = None
+        self.assertEqual(expected, actual)
+
     def test_track_metric_works_as_expected(self):
         sender = MockTelemetrySender()
         queue = channel.SynchronousQueue(sender)
