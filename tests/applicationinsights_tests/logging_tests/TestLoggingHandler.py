@@ -6,7 +6,7 @@ rootDirectory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 
 if rootDirectory not in sys.path:
     sys.path.append(rootDirectory)
 
-from applicationinsights import logging
+from applicationinsights import logging, channel
 
 class TestEnable(unittest.TestCase):
     def test_enable(self):
@@ -43,7 +43,7 @@ class TestLoggingHandler(unittest.TestCase):
         self.assertRaises(Exception, logging.LoggingHandler, None)
 
     def test_log_works_as_expected(self):
-        logger, sender = self._setup_logger()
+        logger, sender, channel = self._setup_logger()
 
         expected = [
             (logger.debug, 'debug message', 'Microsoft.ApplicationInsights.Message', 'test', 'MessageData', 0, 'simple_logger - DEBUG - debug message'),
@@ -62,9 +62,14 @@ class TestLoggingHandler(unittest.TestCase):
             self.assertEqual(data_type, data.data.base_type)
             self.assertEqual(message, data.data.base_data.message)
             self.assertEqual(severity_level, data.data.base_data.severity_level)
+        
+        channel.context.properties['foo'] = 'bar'
+        logger.info('info message')
+        data = sender.data[0][0]
+        self.assertEqual('bar', data.data.base_data.properties['foo'])
 
     def test_log_exception_works_as_expected(self):
-        logger, sender = self._setup_logger()
+        logger, sender, _ = self._setup_logger()
 
         try:
             raise Exception('blah')
@@ -84,9 +89,11 @@ class TestLoggingHandler(unittest.TestCase):
         handler = logging.LoggingHandler('test')
         handler.setLevel(pylogging.DEBUG)
 
+        channel = handler.client.channel
+
         # mock out the sender
         sender = MockSynchronousSender()
-        queue = handler.client.channel.queue
+        queue = channel.queue
         queue.max_queue_length = 1
         queue._sender = sender
         sender.queue = queue
@@ -95,10 +102,13 @@ class TestLoggingHandler(unittest.TestCase):
         handler.setFormatter(formatter)
         logger.addHandler(handler)
 
-        return logger, sender
+        return logger, sender, channel
 
 
 class MockChannel:
+    def __init__(self):
+        self.context = channel.TelemetryContext()
+       
     def flush(self):
         pass
 

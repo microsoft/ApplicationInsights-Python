@@ -98,9 +98,6 @@ class TelemetryChannel(object):
         envelope.data.base_type = data.DATA_TYPE_NAME
         if hasattr(data, 'properties') and local_context.properties:
             properties = data.properties
-            if not properties:
-                properties = {}
-                data.properties = properties
             for key in local_context.properties:
                 if key not in properties:
                     properties[key] = local_context.properties[key]
