@@ -96,11 +96,14 @@ class TelemetryChannel(object):
             tags[key] = value
         envelope.data = contracts.Data()
         envelope.data.base_type = data.DATA_TYPE_NAME
-        if hasattr(data, 'properties') and local_context.properties:
-            properties = data.properties
-            for key in local_context.properties:
-                if key not in properties:
-                    properties[key] = local_context.properties[key]
+        for prop_context in [context, self._context]:
+            if not prop_context:
+                continue
+            if hasattr(data, 'properties') and prop_context.properties:
+                properties = data.properties
+                for key in prop_context.properties:
+                    if key not in properties:
+                        properties[key] = prop_context.properties[key]
         envelope.data.base_data = data
 
         self._queue.put(envelope)

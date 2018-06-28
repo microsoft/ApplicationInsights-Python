@@ -24,8 +24,9 @@ class TelemetryClient(object):
                 instrumentation_key = None
         else:
             raise Exception('Instrumentation key was required but not provided')
+        self._context = channel.TelemetryContext()
+        self._context.instrumentation_key = instrumentation_key
         self._channel = telemetry_channel or channel.TelemetryChannel()
-        self.context.instrumentation_key = instrumentation_key
 
     @property
     def context(self):
@@ -35,7 +36,7 @@ class TelemetryClient(object):
         Returns:
             :class:`channel.TelemetryChannel`. the context instance.
         """
-        return self._channel.context
+        return self._context
 
     @property
     def channel(self):
@@ -72,7 +73,7 @@ class TelemetryClient(object):
         if measurements:
             data.measurements = measurements
 
-        self._channel.write(data)
+        self._channel.write(data, self._context)
 
     def track_exception(self, type=None, value=None, tb=None, properties=None, measurements=None):
         """ Send information about a single exception that occurred in the application.
@@ -119,7 +120,7 @@ class TelemetryClient(object):
         if measurements:
             data.measurements = measurements
 
-        self._channel.write(data)
+        self._channel.write(data, self._context)
 
     def track_event(self, name, properties=None, measurements=None):
         """ Send information about a single event that has occurred in the context of the application.
@@ -136,7 +137,7 @@ class TelemetryClient(object):
         if measurements:
             data.measurements = measurements
 
-        self._channel.write(data)
+        self._channel.write(data, self._context)
 
     def track_metric(self, name, value, type=None, count=None, min=None, max=None, std_dev=None, properties=None):
         """Send information about a single metric data point that was captured for the application.
@@ -165,7 +166,7 @@ class TelemetryClient(object):
         if properties:
             data.properties = properties
 
-        self._channel.write(data)
+        self._channel.write(data, self._context)
 
     def track_trace(self, name, properties=None, severity=None):
         """Sends a single trace statement.
@@ -182,7 +183,7 @@ class TelemetryClient(object):
         if severity is not None:
             data.severity_level = channel.contracts.MessageData.PYTHON_LOGGING_LEVELS.get(severity)
 
-        self._channel.write(data)
+        self._channel.write(data, self._context)
 
     def track_request(self, name, url, success, start_time=None, duration=None, response_code=None, http_method=None, properties=None, measurements=None):
         """Sends a single request that was captured for the application.
@@ -223,5 +224,5 @@ class TelemetryClient(object):
         if measurements:
             data.measurements = measurements
 
-        self.channel.write(data)
+        self.channel.write(data, self._context)
 
