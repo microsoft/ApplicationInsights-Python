@@ -6,7 +6,7 @@ rootDirectory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 
 if rootDirectory not in sys.path:
     sys.path.append(rootDirectory)
 
-from applicationinsights import logging, channel
+from applicationinsights import logging
 
 class TestEnable(unittest.TestCase):
     def test_enable(self):
@@ -106,9 +106,6 @@ class TestLoggingHandler(unittest.TestCase):
 
 
 class MockChannel:
-    def __init__(self):
-        self.context = channel.TelemetryContext()
-       
     def flush(self):
         pass
 
