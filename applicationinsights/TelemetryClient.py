@@ -34,7 +34,7 @@ class TelemetryClient(object):
         this value.
 
         Returns:
-            :class:`channel.TelemetryChannel`. the context instance.
+            :class:`channel.TelemetryContext`. the context instance.
         """
         return self._context
 
