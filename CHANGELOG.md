@@ -2,6 +2,8 @@
 
 ## 0.11.5
 
+- Fixed setting custom properties through context. [#102](https://github.com/Microsoft/ApplicationInsights-Python/pull/102)
+
 ## 0.11.4
 
 - Schemas for all data types and context objects updated to the latest version.

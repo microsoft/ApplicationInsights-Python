@@ -97,6 +97,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     tc.context.device.model = 'X31A'
     tc.context.device.type = "Other"
     tc.context.user.id = 'santa@northpole.net'
+    tc.context.properties['my_property'] = 'my_value'
     tc.track_trace('My trace with context')
     tc.flush()
 
@@ -125,7 +126,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     logging.info('This is a message')
 
     # logging shutdown will cause a flush of all un-sent telemetry items
-    # alternatively flush manually via handler.flush()
+    logging.shutdown()
 
 **Basic logging configuration (second option)**
 
@@ -149,16 +150,23 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 
     # logging shutdown will cause a flush of all un-sent telemetry items
     # alternatively flush manually via handler.flush()
+    logging.shutdown()
 
 **Advanced logging configuration**
 
 .. code:: python
 
     import logging
+    from applicationinsights import channel
     from applicationinsights.logging import LoggingHandler
 
+    # set up channel with context
+    telemetry_channel = channel.TelemetryChannel()
+    telemetry_channel.context.application.ver = '1.2.3'
+    telemetry_channel.context.properties['my_property'] = 'my_value'
+
     # set up logging
-    handler = LoggingHandler('<YOUR INSTRUMENTATION KEY GOES HERE>')
+    handler = LoggingHandler('<YOUR INSTRUMENTATION KEY GOES HERE>', telemetry_channel=telemetry_channel)
     handler.setLevel(logging.DEBUG)
     handler.setFormatter(logging.Formatter('%(levelname)s: %(message)s'))
     my_logger = logging.getLogger('simple_logger')
@@ -170,6 +178,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 
     # logging shutdown will cause a flush of all un-sent telemetry items
     # alternatively flush manually via handler.flush()
+    logging.shutdown()
 
 **Logging unhandled exceptions**
 
@@ -182,6 +191,28 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
 
     # raise an exception (this will be sent to the Application Insights service as an exception telemetry object)
     raise Exception('Boom!')
+
+    # exceptions will cause a flush of all un-sent telemetry items
+
+**Logging unhandled exceptions with context**
+
+.. code:: python
+
+    from applicationinsights import channel
+    from applicationinsights.exceptions import enable
+
+    # set up channel with context
+    telemetry_channel = channel.TelemetryChannel()
+    telemetry_channel.context.application.ver = '1.2.3'
+    telemetry_channel.context.properties['my_property'] = 'my_value'
+
+    # set up exception capture
+    enable('<YOUR INSTRUMENTATION KEY GOES HERE>', telemetry_channel=telemetry_channel)
+
+    # raise an exception (this will be sent to the Application Insights service as an exception telemetry object)
+    raise Exception('Boom!')
+
+    # exceptions will cause a flush of all un-sent telemetry items
 
 **Integrating with Flask**
 
