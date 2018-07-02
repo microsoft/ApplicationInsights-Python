@@ -10,12 +10,12 @@ BASEDIR=$(pwd)
 # Django/python compatibility matrix...
 if $PYTHON -c "import sys; sys.exit(0 if sys.version_info < (3, 0) else 1)"; then
 	# Django2.0 won't support Python2
-	DJANGO_VERSIONS='1.7.11 1.8.18 1.9.13 1.10.7 1.11.4'
+	DJANGO_VERSIONS='1.7.11 1.8.19 1.9.13 1.10.8 1.11.13'
 elif $PYTHON -c "import sys; sys.exit(0 if sys.version_info < (3, 5) else 1)"; then
-	DJANGO_VERSIONS='1.7.11 1.8.18 1.9.13 1.10.7 1.11.4'
+	DJANGO_VERSIONS='1.7.11 1.8.19 1.9.13 1.10.8 1.11.13 2.0.6'
 else
 	# python3.5 dropped html.parser.HtmlParserError versions older than Django1.8 won't work
-	DJANGO_VERSIONS='1.8.18 1.9.13 1.10.7 1.11.4'
+	DJANGO_VERSIONS='1.8.19 1.9.13 1.10.8 1.11.13 2.0.6'
 fi
 
 # For each Django version...
@@ -38,7 +38,20 @@ do
 	trap cleanup EXIT SIGINT
 
 	# Create virtual environment
-	virtualenv -p $PYTHON $TMPDIR/env
+	if $PYTHON -c "import sys; sys.exit(0 if sys.version_info < (3, 3) else 1)"; then
+		if command -v virtualenv >/dev/null 2>&1; then
+			virtualenv -p $PYTHON $TMPDIR/env || exit $?
+		elif $PYTHON -c "import sys; sys.exit(0 if sys.version_info < (3, 0) else 1)"; then
+			if command -v virtualenv2 >/dev/null 2>&1; then
+				virtualenv2 -p $PYTHON $TMPDIR/env || exit $?
+			fi
+		else
+			echo Requires virtualenv
+			exit 1
+		fi
+	else
+		$PYTHON -m venv $TMPDIR/env
+	fi
 
 	# Install Django version + application insights
 	. $TMPDIR/env/bin/activate

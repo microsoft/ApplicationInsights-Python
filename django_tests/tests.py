@@ -198,7 +198,7 @@ class RequestSettingsTests(AITestCase):
 
     @override_settings(APPLICATION_INSIGHTS={'ikey': TEST_IKEY, 'use_view_name': True})
     def test_use_view_name(self):
-        """Tests that request names are set to URLs when use_operation_url=True"""
+        """Tests that request names are set to view names when use_view_name=True"""
         self.plug_sender()
         self.client.get('/')
         event = self.get_events(1)
@@ -207,12 +207,21 @@ class RequestSettingsTests(AITestCase):
 
     @override_settings(APPLICATION_INSIGHTS={'ikey': TEST_IKEY, 'use_view_name': False})
     def test_use_view_name_off(self):
-        """Tests that request names are set to view names when use_operation_url=False"""
+        """Tests that request names are set to URLs when use_view_name=False"""
         self.plug_sender()
         self.client.get('/')
         event = self.get_events(1)
         self.assertEqual(event['data']['baseData']['name'], 'GET /', "Request name")
         self.assertEqual(event['tags']['ai.operation.name'], 'GET /', "Operation name")
+
+    @override_settings(APPLICATION_INSIGHTS={'ikey': TEST_IKEY, 'use_view_name': True})
+    def test_view_name_class(self):
+        """Tests that classes can be correctly identified when use_view_name=True"""
+        self.plug_sender()
+        self.client.get('/class')
+        event = self.get_events(1)
+        self.assertEqual(event['data']['baseData']['name'], 'GET aitest.views.classview', "Request name")
+        self.assertEqual(event['tags']['ai.operation.name'], 'GET aitest.views.classview', "Operation name")
 
     @override_settings(APPLICATION_INSIGHTS=None)
     def test_appinsights_still_supplied(self):

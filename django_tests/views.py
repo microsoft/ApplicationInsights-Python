@@ -25,3 +25,7 @@ def returncode(request, id):
 
 def templater(request, data):
     return TemplateResponse(request, 'template.html', {'context': data})
+
+class classview:
+    def __call__(self, request):
+        return HttpResponse("You called a class.")

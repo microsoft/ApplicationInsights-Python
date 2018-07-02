@@ -12,7 +12,7 @@ if sys.version_info >= (3, 0):
 
 # set up internal context
 internal_context = contracts.Internal()
-internal_context.sdk_version = platform_moniker + ':0.11.4'
+internal_context.sdk_version = platform_moniker + ':0.11.5'
 
 class TelemetryChannel(object):
     """The telemetry channel is responsible for constructing a :class:`contracts.Envelope` object from the passed in
@@ -96,14 +96,14 @@ class TelemetryChannel(object):
             tags[key] = value
         envelope.data = contracts.Data()
         envelope.data.base_type = data.DATA_TYPE_NAME
-        if hasattr(data, 'properties') and local_context.properties:
-            properties = data.properties
-            if not properties:
-                properties = {}
-                data.properties = properties
-            for key in local_context.properties:
-                if key not in properties:
-                    properties[key] = local_context.properties[key]
+        for prop_context in [context, self._context]:
+            if not prop_context:
+                continue
+            if hasattr(data, 'properties') and prop_context.properties:
+                properties = data.properties
+                for key in prop_context.properties:
+                    if key not in properties:
+                        properties[key] = prop_context.properties[key]
         envelope.data.base_data = data
 
         self._queue.put(envelope)

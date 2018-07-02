@@ -15,6 +15,7 @@ class TestEnable(unittest.TestCase):
         sender = MockSynchronousSender()
         queue = channel.SynchronousQueue(sender)
         telemetry_channel = channel.TelemetryChannel(None, queue)
+        telemetry_channel.context.properties["foo"] = "bar"
         exceptions.enable('foo', telemetry_channel=telemetry_channel)
         try:
             raise Exception('Boom')
@@ -25,6 +26,7 @@ class TestEnable(unittest.TestCase):
         self.assertIsNotNone(data)
         self.assertEqual('foo', data.ikey)
         self.assertEqual('Microsoft.ApplicationInsights.Exception', data.name)
+        self.assertEqual('bar', data.data.base_data.properties['foo'])
 
     def test_enable_raises_exception_on_no_instrumentation_key(self):
         self.assertRaises(Exception, exceptions.enable, None)
