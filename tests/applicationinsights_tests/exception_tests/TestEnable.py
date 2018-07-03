@@ -4,6 +4,7 @@ import sys, os, os.path
 rootDirectory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..')
 if rootDirectory not in sys.path:
     sys.path.append(rootDirectory)
+sys.path.append('C:/Users/jaagraw/Source/Repos/ApplicationInsights-Python3')
 
 from applicationinsights import channel, exceptions
 
@@ -16,6 +17,7 @@ class TestEnable(unittest.TestCase):
         queue = channel.SynchronousQueue(sender)
         telemetry_channel = channel.TelemetryChannel(None, queue)
         telemetry_channel.context.properties["foo"] = "bar"
+        telemetry_channel.context.operation.id = 1001
         exceptions.enable('foo', telemetry_channel=telemetry_channel)
         try:
             raise Exception('Boom')
@@ -27,6 +29,7 @@ class TestEnable(unittest.TestCase):
         self.assertEqual('foo', data.ikey)
         self.assertEqual('Microsoft.ApplicationInsights.Exception', data.name)
         self.assertEqual('bar', data.data.base_data.properties['foo'])
+        self.assertEqual(1001, data.tags.get('ai.operation.id'))        
 
     def test_enable_raises_exception_on_no_instrumentation_key(self):
         self.assertRaises(Exception, exceptions.enable, None)
