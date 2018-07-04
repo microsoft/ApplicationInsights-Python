@@ -101,6 +101,17 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     tc.track_trace('My trace with context')
     tc.flush()
 
+**Establishing correlation between telemetry objects**
+
+context field called operation_id can be set to associate telemetry items.
+
+.. code:: python
+	
+	tc = TelemetryClient(instrumentation_key=instrumentation_key)
+	tc.context.operation.id = <operation_id>
+	tc.track_trace('Test trace')
+	tc.flush()
+
 **Configuring channel related properties**
 
 .. code:: python

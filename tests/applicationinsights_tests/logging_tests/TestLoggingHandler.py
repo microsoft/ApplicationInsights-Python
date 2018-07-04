@@ -64,9 +64,11 @@ class TestLoggingHandler(unittest.TestCase):
             self.assertEqual(severity_level, data.data.base_data.severity_level)
         
         channel.context.properties['foo'] = 'bar'
+        channel.context.operation.id = 1001
         logger.info('info message')
         data = sender.data[0][0]
         self.assertEqual('bar', data.data.base_data.properties['foo'])
+        self.assertEqual(1001, data.tags.get('ai.operation.id'))
 
     def test_log_exception_works_as_expected(self):
         logger, sender, _ = self._setup_logger()
