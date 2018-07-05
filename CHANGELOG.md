@@ -1,5 +1,7 @@
 # Changelog
 
+## 0.11.6
+
 ## 0.11.5
 
 - Fixed setting custom properties through context. [#102](https://github.com/Microsoft/ApplicationInsights-Python/pull/102)
