@@ -16,6 +16,7 @@ class TestEnable(unittest.TestCase):
         queue = channel.SynchronousQueue(sender)
         telemetry_channel = channel.TelemetryChannel(None, queue)
         telemetry_channel.context.properties["foo"] = "bar"
+        telemetry_channel.context.operation.id = 1001
         exceptions.enable('foo', telemetry_channel=telemetry_channel)
         try:
             raise Exception('Boom')
@@ -27,6 +28,7 @@ class TestEnable(unittest.TestCase):
         self.assertEqual('foo', data.ikey)
         self.assertEqual('Microsoft.ApplicationInsights.Exception', data.name)
         self.assertEqual('bar', data.data.base_data.properties['foo'])
+        self.assertEqual(1001, data.tags.get('ai.operation.id')) 
 
     def test_enable_raises_exception_on_no_instrumentation_key(self):
         self.assertRaises(Exception, exceptions.enable, None)
