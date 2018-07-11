@@ -92,8 +92,11 @@ class TelemetryChannel(object):
         envelope.time = datetime.datetime.utcnow().isoformat() + 'Z'
         envelope.ikey = local_context.instrumentation_key
         tags = envelope.tags
-        for key, value in self._write_tags(local_context):
-            tags[key] = value
+        for prop_context in [self._context, context]:
+            if not prop_context:
+                continue
+            for key, value in self._write_tags(prop_context):
+                tags[key] = value
         envelope.data = contracts.Data()
         envelope.data.base_type = data.DATA_TYPE_NAME
         for prop_context in [context, self._context]:
