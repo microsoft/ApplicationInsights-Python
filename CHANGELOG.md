@@ -1,12 +1,9 @@
 # Changelog
 
-## 0.11.7
-
-- Fixed setting attributes in channel through context
-
 ## 0.11.6
 
 - Fixed exception logging in Flask integration on Python 2.
+- Fixed setting attributes in channel through context
 
 ## 0.11.5
 
