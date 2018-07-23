@@ -243,6 +243,9 @@ Since operation_id is being set as a property of telemetry client, the client sh
     # define a simple route
     @app.route('/')
     def hello_world():
+        # the following message will be sent to the Flask log as well as Application Insights
+        app.logger.info('Hello World route was called')
+
         return 'Hello World!'
 
     # run the application
