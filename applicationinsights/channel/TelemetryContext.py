@@ -36,6 +36,7 @@ class TelemetryContext(object):
         """
         self.instrumentation_key = None
         self.device = contracts.Device()
+        self.cloud = contracts.Cloud()
         self.application = contracts.Application()
         self.user = contracts.User()
         self.session = contracts.Session()
