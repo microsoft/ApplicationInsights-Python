@@ -1,5 +1,7 @@
 # Changelog
 
+## Unreleased (will be 0.11.7)
+
 ## 0.11.6
 
 - Fixed exception logging in Flask integration on Python 2.
