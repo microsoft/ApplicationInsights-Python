@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.7
+
+- Added support for Cloud Role Name and Cloud Role Instance fields 
+
 ## 0.11.6
 
 - Fixed exception logging in Flask integration on Python 2.

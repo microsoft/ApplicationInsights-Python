@@ -9,6 +9,7 @@ if rootDirectory not in sys.path:
 
 from applicationinsights import channel
 
+
 class TestTelemetryContext(unittest.TestCase):
     def test_construct(self):
         context = channel.TelemetryContext()
@@ -18,6 +19,7 @@ class TestTelemetryContext(unittest.TestCase):
         self.assertEqual(platform.node(), context.device.id)
         self.assertEqual(platform.version(), context.device.os_version)
         self.assertEqual(locale.getdefaultlocale()[0], context.device.locale)
+        self.assertIsNotNone(context.cloud)
         self.assertIsNotNone(context.application)
         self.assertIsNotNone(context.user)
         self.assertIsNotNone(context.session)
@@ -42,6 +44,18 @@ class TestTelemetryContext(unittest.TestCase):
         context.device = channel.contracts.Device()
         self.assertIsNotNone(context.device)
         self.assertIsInstance(context.device, channel.contracts.Device)
+
+    def test_cloud_attribute_works_as_expected(self):
+        context = channel.TelemetryContext()
+        self.assertIsNotNone(context.cloud)
+        context.cloud = None
+        self.assertIsNone(context.cloud)
+        context.cloud = Exception()
+        self.assertIsNotNone(context.cloud)
+        self.assertIsInstance(context.cloud, Exception)
+        context.cloud = channel.contracts.Cloud()
+        self.assertIsNotNone(context.cloud)
+        self.assertIsInstance(context.cloud, channel.contracts.Cloud)
 
     def test_application_attribute_works_as_expected(self):
         context = channel.TelemetryContext()
