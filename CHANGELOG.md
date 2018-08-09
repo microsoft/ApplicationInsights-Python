@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.11.6
+
+- Fixed exception logging in Flask integration on Python 2.
+- Fixed setting attributes in channel through context
+- Added support for Cloud Role Name and Cloud Role Instance fields 
+
 ## 0.11.5
 
 - Fixed setting custom properties through context. [#102](https://github.com/Microsoft/ApplicationInsights-Python/pull/102)

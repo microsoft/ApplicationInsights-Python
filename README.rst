@@ -101,6 +101,18 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     tc.track_trace('My trace with context')
     tc.flush()
 
+**Establishing correlation between telemetry objects**
+
+context field called operation_id can be set to associate telemetry items.
+Since operation_id is being set as a property of telemetry client, the client shouldn't be reused in parallel threads as it might lead to concurrency issues.
+
+.. code:: python
+	
+	tc = TelemetryClient(instrumentation_key=instrumentation_key)
+	tc.context.operation.id = <operation_id>
+	tc.track_trace('Test trace')
+	tc.flush()
+
 **Configuring channel related properties**
 
 .. code:: python
@@ -231,6 +243,9 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     # define a simple route
     @app.route('/')
     def hello_world():
+        # the following message will be sent to the Flask log as well as Application Insights
+        app.logger.info('Hello World route was called')
+
         return 'Hello World!'
 
     # run the application

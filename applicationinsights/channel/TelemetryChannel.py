@@ -12,7 +12,8 @@ if sys.version_info >= (3, 0):
 
 # set up internal context
 internal_context = contracts.Internal()
-internal_context.sdk_version = platform_moniker + ':0.11.5'
+internal_context.sdk_version = platform_moniker + ':0.11.6'
+
 
 class TelemetryChannel(object):
     """The telemetry channel is responsible for constructing a :class:`contracts.Envelope` object from the passed in
@@ -26,6 +27,7 @@ class TelemetryChannel(object):
         event.name = 'My event'
         channel.write(event)
     """
+
     def __init__(self, context=None, queue=None):
         """Initializes a new instance of the class.
 
@@ -69,7 +71,7 @@ class TelemetryChannel(object):
         """Flushes the enqueued data by calling :func:`flush` on :func:`queue`.
         """
         self._queue.flush()
-    
+
     def write(self, data, context=None):
         """Enqueues the passed in data to the :func:`queue`. If the caller specifies a context as well, it will
         take precedence over the instance in :func:`context`.
@@ -83,7 +85,7 @@ class TelemetryChannel(object):
         local_context = context or self._context
         if not local_context:
             raise Exception('Context was required but not provided')
-                 
+
         if not data:
             raise Exception('Data was required but not provided')
 
@@ -92,8 +94,11 @@ class TelemetryChannel(object):
         envelope.time = datetime.datetime.utcnow().isoformat() + 'Z'
         envelope.ikey = local_context.instrumentation_key
         tags = envelope.tags
-        for key, value in self._write_tags(local_context):
-            tags[key] = value
+        for prop_context in [self._context, context]:
+            if not prop_context:
+                continue
+            for key, value in self._write_tags(prop_context):
+                tags[key] = value
         envelope.data = contracts.Data()
         envelope.data.base_type = data.DATA_TYPE_NAME
         for prop_context in [context, self._context]:
@@ -109,14 +114,10 @@ class TelemetryChannel(object):
         self._queue.put(envelope)
 
     def _write_tags(self, context):
-        for item in [ internal_context, context.device, context.application, context.user, context.session, context.location, context.operation ]:
+        for item in [internal_context,
+                     context.device, context.cloud, context.application, context.user,
+                     context.session, context.location, context.operation]:
             if not item:
                 continue
             for pair in item.write().items():
                 yield pair
-
-
-
-
-
-

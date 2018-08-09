@@ -159,12 +159,12 @@ class AppInsights(object):
 
         @app.errorhandler(Exception)
         def exception_handler(exception):
-            exception_telemetry_client.track_exception(
-                type=type(exception),
-                value=exception,
-                tb=exception.__traceback__)
-
-            raise exception
+            try:
+                raise exception
+            except Exception:
+                exception_telemetry_client.track_exception()
+            finally:
+                raise exception
 
         self._exception_telemetry_client = exception_telemetry_client
 
