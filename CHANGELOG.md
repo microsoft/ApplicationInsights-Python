@@ -3,6 +3,7 @@
 ## Unreleased (will be 0.11.7)
 
 - Added `track_dependency`.
+- Added optional `request_id` argument to `track_request`.
 
 ## 0.11.6
 
