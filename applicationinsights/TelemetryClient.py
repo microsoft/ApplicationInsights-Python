@@ -2,7 +2,6 @@ import datetime
 import traceback
 import sys
 import uuid
-from typing import Optional
 
 from applicationinsights import channel
 
@@ -163,7 +162,7 @@ class TelemetryClient(object):
         dataPoint.min = min
         dataPoint.max = max
         dataPoint.std_dev = std_dev
-        
+
         data = channel.contracts.MetricData()
         data.metrics.append(dataPoint)
         if properties:
@@ -232,7 +231,7 @@ class TelemetryClient(object):
 
         self.channel.write(data, self._context)
 
-    def track_dependency(self, name, data, type=None, target=None, duration=None, success=None, result_code=None, properties=None, measurements=None, id=None):
+    def track_dependency(self, name, data, type=None, target=None, duration=None, success=None, result_code=None, properties=None, measurements=None, dependency_id=None):
         """Sends a single dependency telemetry that was captured for the application.
 
         Args:
@@ -248,7 +247,7 @@ class TelemetryClient(object):
             id (str). the id for this dependency call. If None, a new uuid will be generated. (defaults to: None)
         """
         dependency_data = channel.contracts.RemoteDependencyData()
-        dependency_data.id = id or str(uuid.uuid4())
+        dependency_data.id = dependency_id or str(uuid.uuid4())
         dependency_data.name = name
         dependency_data.data = data
         dependency_data.type = type
@@ -264,7 +263,7 @@ class TelemetryClient(object):
         self.channel.write(dependency_data, self._context)
 
     @staticmethod
-    def __ms_to_duration(duration_ms: Optional[int]) -> str:
+    def __ms_to_duration(duration_ms):
         local_duration = duration_ms or 0
         duration_parts = []
         for multiplier in [1000, 60, 60, 24]:
