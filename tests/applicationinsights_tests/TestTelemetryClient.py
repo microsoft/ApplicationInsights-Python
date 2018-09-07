@@ -52,7 +52,7 @@ class TestTelemetryClient(unittest.TestCase):
         sender.data.tags['ai.device.id'] = "DEVICE_ID_PLACEHOLDER"
         sender.data.tags['ai.device.locale'] = "DEVICE_LOCALE_PLACEHOLDER"
         sender.data.tags['ai.device.osVersion'] = "DEVICE_OS_VERSION_PLACEHOLDER"
-        sender.data.tags['ai.device.type'] =  "DEVICE_TYPE_PLACEHOLDER"
+        sender.data.tags['ai.device.type'] = "DEVICE_TYPE_PLACEHOLDER"
         actual = json.dumps(sender.data.write())
         self.maxDiff = None
         self.assertEqual(expected, actual)
@@ -71,7 +71,7 @@ class TestTelemetryClient(unittest.TestCase):
         sender.data.tags['ai.device.id'] = "DEVICE_ID_PLACEHOLDER"
         sender.data.tags['ai.device.locale'] = "DEVICE_LOCALE_PLACEHOLDER"
         sender.data.tags['ai.device.osVersion'] = "DEVICE_OS_VERSION_PLACEHOLDER"
-        sender.data.tags['ai.device.type'] =  "DEVICE_TYPE_PLACEHOLDER"
+        sender.data.tags['ai.device.type'] = "DEVICE_TYPE_PLACEHOLDER"
         actual = json.dumps(sender.data.write())
         self.maxDiff = None
         self.assertEqual(expected, actual)
@@ -80,7 +80,7 @@ class TestTelemetryClient(unittest.TestCase):
         key = '99999999-9999-9999-9999-999999999999'
         sender = MockTelemetrySender()
         queue = channel.SynchronousQueue(sender)
-        
+
         chan = channel.TelemetryChannel(queue=queue)
         chan.context.properties['foo'] = 'bar'
 
@@ -99,7 +99,7 @@ class TestTelemetryClient(unittest.TestCase):
         sender.data.tags['ai.device.id'] = "DEVICE_ID_PLACEHOLDER"
         sender.data.tags['ai.device.locale'] = "DEVICE_LOCALE_PLACEHOLDER"
         sender.data.tags['ai.device.osVersion'] = "DEVICE_OS_VERSION_PLACEHOLDER"
-        sender.data.tags['ai.device.type'] =  "DEVICE_TYPE_PLACEHOLDER"
+        sender.data.tags['ai.device.type'] = "DEVICE_TYPE_PLACEHOLDER"
         actual = json.dumps(sender.data.write())
         expected = '{"ver": 1, "name": "Microsoft.ApplicationInsights.Event", "time": "TIME_PLACEHOLDER", "sampleRate": 100.0, "iKey": "99999999-9999-9999-9999-999999999999", "tags": {"ai.device.id": "DEVICE_ID_PLACEHOLDER", "ai.device.locale": "DEVICE_LOCALE_PLACEHOLDER", "ai.device.osVersion": "DEVICE_OS_VERSION_PLACEHOLDER", "ai.device.type": "DEVICE_TYPE_PLACEHOLDER", "ai.internal.sdkVersion": "SDK_VERSION_PLACEHOLDER"}, "data": {"baseType": "EventData", "baseData": {"ver": 2, "name": "test 1", "properties": {"foo": "bar", "x": 42}}}}'
         self.maxDiff = None
@@ -112,7 +112,7 @@ class TestTelemetryClient(unittest.TestCase):
         sender.data.tags['ai.device.id'] = "DEVICE_ID_PLACEHOLDER"
         sender.data.tags['ai.device.locale'] = "DEVICE_LOCALE_PLACEHOLDER"
         sender.data.tags['ai.device.osVersion'] = "DEVICE_OS_VERSION_PLACEHOLDER"
-        sender.data.tags['ai.device.type'] =  "DEVICE_TYPE_PLACEHOLDER"
+        sender.data.tags['ai.device.type'] = "DEVICE_TYPE_PLACEHOLDER"
         actual = json.dumps(sender.data.write())
         expected = '{"ver": 1, "name": "Microsoft.ApplicationInsights.Event", "time": "TIME_PLACEHOLDER", "sampleRate": 100.0, "iKey": "99999999-9999-9999-9999-999999999999", "tags": {"ai.device.id": "DEVICE_ID_PLACEHOLDER", "ai.device.locale": "DEVICE_LOCALE_PLACEHOLDER", "ai.device.osVersion": "DEVICE_OS_VERSION_PLACEHOLDER", "ai.device.type": "DEVICE_TYPE_PLACEHOLDER", "ai.internal.sdkVersion": "SDK_VERSION_PLACEHOLDER"}, "data": {"baseType": "EventData", "baseData": {"ver": 2, "name": "test 2", "properties": {"foo": "bar", "x": 84}}}}'
         self.assertEqual(expected, actual)
@@ -130,7 +130,7 @@ class TestTelemetryClient(unittest.TestCase):
         sender.data.tags['ai.device.id'] = "DEVICE_ID_PLACEHOLDER"
         sender.data.tags['ai.device.locale'] = "DEVICE_LOCALE_PLACEHOLDER"
         sender.data.tags['ai.device.osVersion'] = "DEVICE_OS_VERSION_PLACEHOLDER"
-        sender.data.tags['ai.device.type'] =  "DEVICE_TYPE_PLACEHOLDER"
+        sender.data.tags['ai.device.type'] = "DEVICE_TYPE_PLACEHOLDER"
         actual = json.dumps(sender.data.write())
         self.maxDiff = None
         self.assertEqual(expected, actual)
@@ -148,7 +148,7 @@ class TestTelemetryClient(unittest.TestCase):
         sender.data.tags['ai.device.id'] = "DEVICE_ID_PLACEHOLDER"
         sender.data.tags['ai.device.locale'] = "DEVICE_LOCALE_PLACEHOLDER"
         sender.data.tags['ai.device.osVersion'] = "DEVICE_OS_VERSION_PLACEHOLDER"
-        sender.data.tags['ai.device.type'] =  "DEVICE_TYPE_PLACEHOLDER"
+        sender.data.tags['ai.device.type'] = "DEVICE_TYPE_PLACEHOLDER"
         actual = json.dumps(sender.data.write())
         self.maxDiff = None
         self.assertEqual(expected, actual)
@@ -166,7 +166,7 @@ class TestTelemetryClient(unittest.TestCase):
         sender.data.tags['ai.device.id'] = "DEVICE_ID_PLACEHOLDER"
         sender.data.tags['ai.device.locale'] = "DEVICE_LOCALE_PLACEHOLDER"
         sender.data.tags['ai.device.osVersion'] = "DEVICE_OS_VERSION_PLACEHOLDER"
-        sender.data.tags['ai.device.type'] =  "DEVICE_TYPE_PLACEHOLDER"
+        sender.data.tags['ai.device.type'] = "DEVICE_TYPE_PLACEHOLDER"
         actual = json.dumps(sender.data.write())
         self.maxDiff = None
         self.assertEqual(expected, actual)
@@ -187,7 +187,7 @@ class TestTelemetryClient(unittest.TestCase):
         sender.data.tags['ai.device.id'] = "DEVICE_ID_PLACEHOLDER"
         sender.data.tags['ai.device.locale'] = "DEVICE_LOCALE_PLACEHOLDER"
         sender.data.tags['ai.device.osVersion'] = "DEVICE_OS_VERSION_PLACEHOLDER"
-        sender.data.tags['ai.device.type'] =  "DEVICE_TYPE_PLACEHOLDER"
+        sender.data.tags['ai.device.type'] = "DEVICE_TYPE_PLACEHOLDER"
         for item in sender.data.data.base_data.exceptions:
             for frame in item.parsed_stack:
                 frame.file_name = os.path.basename(frame.file_name)
@@ -205,7 +205,7 @@ class TestTelemetryClient(unittest.TestCase):
         sender.data.tags['ai.device.id'] = "DEVICE_ID_PLACEHOLDER"
         sender.data.tags['ai.device.locale'] = "DEVICE_LOCALE_PLACEHOLDER"
         sender.data.tags['ai.device.osVersion'] = "DEVICE_OS_VERSION_PLACEHOLDER"
-        sender.data.tags['ai.device.type'] =  "DEVICE_TYPE_PLACEHOLDER"
+        sender.data.tags['ai.device.type'] = "DEVICE_TYPE_PLACEHOLDER"
         for item in sender.data.data.base_data.exceptions:
             for frame in item.parsed_stack:
                 frame.file_name = os.path.basename(frame.file_name)
@@ -222,6 +222,25 @@ class TestTelemetryClient(unittest.TestCase):
         client.track_request('test', 'http://tempuri.org', True, 'START_TIME', 13, 42, 'OPTIONS', { 'foo': 'bar' }, { 'x': 42 }, 'ID_PLACEHOLDER')
         client.flush()
         expected = '{"ver": 1, "name": "Microsoft.ApplicationInsights.Request", "time": "TIME_PLACEHOLDER", "sampleRate": 100.0, "iKey": "99999999-9999-9999-9999-999999999999", "tags": {"ai.device.id": "DEVICE_ID_PLACEHOLDER", "ai.device.locale": "DEVICE_LOCALE_PLACEHOLDER", "ai.device.osVersion": "DEVICE_OS_VERSION_PLACEHOLDER", "ai.device.type": "DEVICE_TYPE_PLACEHOLDER", "ai.internal.sdkVersion": "SDK_VERSION_PLACEHOLDER"}, "data": {"baseType": "RequestData", "baseData": {"ver": 2, "id": "ID_PLACEHOLDER", "name": "test", "duration": "00:00:00.013", "responseCode": "42", "success": true, "url": "http://tempuri.org", "properties": {"foo": "bar"}, "measurements": {"x": 42}}}}'
+        sender.data.time = 'TIME_PLACEHOLDER'
+        sender.data.tags['ai.internal.sdkVersion'] = 'SDK_VERSION_PLACEHOLDER'
+        sender.data.tags['ai.device.id'] = "DEVICE_ID_PLACEHOLDER"
+        sender.data.tags['ai.device.locale'] = "DEVICE_LOCALE_PLACEHOLDER"
+        sender.data.tags['ai.device.osVersion'] = "DEVICE_OS_VERSION_PLACEHOLDER"
+        sender.data.tags['ai.device.type'] = "DEVICE_TYPE_PLACEHOLDER"
+        actual = json.dumps(sender.data.write())
+        self.maxDiff = None
+        self.assertEqual(expected, actual)
+
+    def test_track_dependency_works_as_expected(self):
+        sender = MockTelemetrySender()
+        queue = channel.SynchronousQueue(sender)
+        client = TelemetryClient(channel.TelemetryChannel(context=None, queue=queue))
+        client.context.instrumentation_key = '99999999-9999-9999-9999-999999999999'
+        client.context.device = None
+        client.track_dependency('test', 'COMMAND_PLACEHOLDER', 'HTTP', 'localhost', 13, True, 200, { 'foo': 'bar' }, { 'x': 42 }, 'ID_PLACEHOLDER')
+        client.flush()
+        expected = '{"ver": 1, "name": "Microsoft.ApplicationInsights.RemoteDependency", "time": "TIME_PLACEHOLDER", "sampleRate": 100.0, "iKey": "99999999-9999-9999-9999-999999999999", "tags": {"ai.device.id": "DEVICE_ID_PLACEHOLDER", "ai.device.locale": "DEVICE_LOCALE_PLACEHOLDER", "ai.device.osVersion": "DEVICE_OS_VERSION_PLACEHOLDER", "ai.device.type": "DEVICE_TYPE_PLACEHOLDER", "ai.internal.sdkVersion": "SDK_VERSION_PLACEHOLDER"}, "data": {"baseType": "RemoteDependencyData", "baseData": {"ver": 2, "name": "test", "id": "ID_PLACEHOLDER", "resultCode": "200", "duration": "00:00:00.013", "success": true, "data": "COMMAND_PLACEHOLDER", "target": "localhost", "type": "HTTP", "properties": {"foo": "bar"}, "measurements": {"x": 42}}}}'
         sender.data.time = 'TIME_PLACEHOLDER'
         sender.data.tags['ai.internal.sdkVersion'] = 'SDK_VERSION_PLACEHOLDER'
         sender.data.tags['ai.device.id'] = "DEVICE_ID_PLACEHOLDER"
