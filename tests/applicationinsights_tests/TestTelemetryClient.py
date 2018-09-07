@@ -15,6 +15,7 @@ if rootDirectory not in sys.path:
 
 from applicationinsights import TelemetryClient, channel
 
+
 class TestTelemetryClient(unittest.TestCase):
     def test_constructor_throws_with_no_instrumentation_key(self):
         self.assertRaises(Exception, TelemetryClient, None)
@@ -218,7 +219,7 @@ class TestTelemetryClient(unittest.TestCase):
         client = TelemetryClient(channel.TelemetryChannel(context=None, queue=queue))
         client.context.instrumentation_key = '99999999-9999-9999-9999-999999999999'
         client.context.device = None
-        client.track_request('test', 'http://tempuri.org', True, 'START_TIME', 13, '42', 'OPTIONS', { 'foo': 'bar' }, { 'x': 42 })
+        client.track_request('test', 'http://tempuri.org', True, 'START_TIME', 13, 42, 'OPTIONS', { 'foo': 'bar' }, { 'x': 42 }, 'ID_PLACEHOLDER')
         client.flush()
         expected = '{"ver": 1, "name": "Microsoft.ApplicationInsights.Request", "time": "TIME_PLACEHOLDER", "sampleRate": 100.0, "iKey": "99999999-9999-9999-9999-999999999999", "tags": {"ai.device.id": "DEVICE_ID_PLACEHOLDER", "ai.device.locale": "DEVICE_LOCALE_PLACEHOLDER", "ai.device.osVersion": "DEVICE_OS_VERSION_PLACEHOLDER", "ai.device.type": "DEVICE_TYPE_PLACEHOLDER", "ai.internal.sdkVersion": "SDK_VERSION_PLACEHOLDER"}, "data": {"baseType": "RequestData", "baseData": {"ver": 2, "id": "ID_PLACEHOLDER", "name": "test", "duration": "00:00:00.013", "responseCode": "42", "success": true, "url": "http://tempuri.org", "properties": {"foo": "bar"}, "measurements": {"x": 42}}}}'
         sender.data.time = 'TIME_PLACEHOLDER'
@@ -226,8 +227,7 @@ class TestTelemetryClient(unittest.TestCase):
         sender.data.tags['ai.device.id'] = "DEVICE_ID_PLACEHOLDER"
         sender.data.tags['ai.device.locale'] = "DEVICE_LOCALE_PLACEHOLDER"
         sender.data.tags['ai.device.osVersion'] = "DEVICE_OS_VERSION_PLACEHOLDER"
-        sender.data.tags['ai.device.type'] =  "DEVICE_TYPE_PLACEHOLDER"
-        sender.data.data.base_data.id = 'ID_PLACEHOLDER'
+        sender.data.tags['ai.device.type'] = "DEVICE_TYPE_PLACEHOLDER"
         actual = json.dumps(sender.data.write())
         self.maxDiff = None
         self.assertEqual(expected, actual)
@@ -239,4 +239,4 @@ class MockTelemetrySender(channel.TelemetryChannel().sender.__class__):
         self.send_buffer_size = 1
 
     def send(self, envelope):
-        self.data = envelope[0];
+        self.data = envelope[0]

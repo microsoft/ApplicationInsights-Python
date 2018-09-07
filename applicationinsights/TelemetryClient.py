@@ -6,6 +6,7 @@ from applicationinsights import channel
 
 NULL_CONSTANT_STRING = 'Null'
 
+
 class TelemetryClient(object):
     """The telemetry client used for sending all types of telemetry. It serves as the main entry point for
     interacting with the Application Insights service.
@@ -185,7 +186,7 @@ class TelemetryClient(object):
 
         self._channel.write(data, self._context)
 
-    def track_request(self, name, url, success, start_time=None, duration=None, response_code=None, http_method=None, properties=None, measurements=None):
+    def track_request(self, name, url, success, start_time=None, duration=None, response_code=None, http_method=None, properties=None, measurements=None, request_id=None):
         """Sends a single request that was captured for the application.
 
         Args:
@@ -194,13 +195,14 @@ class TelemetryClient(object):
             success (bool). true if the request ended in success, false otherwise.\n
             start_time (str). the start time of the request. The value should look the same as the one returned by :func:`datetime.isoformat()` (defaults to: None)\n
             duration (int). the number of milliseconds that this request lasted. (defaults to: None)\n
-            response_code (string). the response code that this request returned. (defaults to: None)\n
-            http_method (string). the HTTP method that triggered this request. (defaults to: None)\n
+            response_code (str). the response code that this request returned. (defaults to: None)\n
+            http_method (str). the HTTP method that triggered this request. (defaults to: None)\n
             properties (dict). the set of custom properties the client wants attached to this data item. (defaults to: None)\n
-            measurements (dict). the set of custom measurements the client wants to attach to this data item. (defaults to: None)
+            measurements (dict). the set of custom measurements the client wants to attach to this data item. (defaults to: None)\n
+            request_id (str). the id for this request. If None, a new uuid will be generated. (defaults to: None)
         """
         data = channel.contracts.RequestData()
-        data.id = str(uuid.uuid4())
+        data.id = request_id or str(uuid.uuid4())
         data.name = name
         data.start_time = start_time or datetime.datetime.utcnow().isoformat() + 'Z'
 
@@ -215,7 +217,7 @@ class TelemetryClient(object):
         if local_duration:
             data.duration = '%d.%s' % (local_duration, data.duration)
 
-        data.response_code = response_code or '200'
+        data.response_code = str(response_code) or '200'
         data.success = success
         data.http_method = http_method or 'GET'
         data.url = url
@@ -225,4 +227,3 @@ class TelemetryClient(object):
             data.measurements = measurements
 
         self.channel.write(data, self._context)
-
