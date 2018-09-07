@@ -2,6 +2,8 @@
 
 ## Unreleased (will be 0.11.7)
 
+- Added optional `request_id` argument to `track_request`.
+
 ## 0.11.6
 
 - Fixed exception logging in Flask integration on Python 2.
