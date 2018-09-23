@@ -2,9 +2,11 @@ import datetime
 import traceback
 import sys
 import uuid
+
 from applicationinsights import channel
 
 NULL_CONSTANT_STRING = 'Null'
+
 
 class TelemetryClient(object):
     """The telemetry client used for sending all types of telemetry. It serves as the main entry point for
@@ -160,7 +162,7 @@ class TelemetryClient(object):
         dataPoint.min = min
         dataPoint.max = max
         dataPoint.std_dev = std_dev
-        
+
         data = channel.contracts.MetricData()
         data.metrics.append(dataPoint)
         if properties:
@@ -185,7 +187,7 @@ class TelemetryClient(object):
 
         self._channel.write(data, self._context)
 
-    def track_request(self, name, url, success, start_time=None, duration=None, response_code=None, http_method=None, properties=None, measurements=None):
+    def track_request(self, name, url, success, start_time=None, duration=None, response_code=None, http_method=None, properties=None, measurements=None, request_id=None):
         """Sends a single request that was captured for the application.
 
         Args:
@@ -194,31 +196,21 @@ class TelemetryClient(object):
             success (bool). true if the request ended in success, false otherwise.\n
             start_time (str). the start time of the request. The value should look the same as the one returned by :func:`datetime.isoformat()` (defaults to: None)\n
             duration (int). the number of milliseconds that this request lasted. (defaults to: None)\n
-            response_code (string). the response code that this request returned. (defaults to: None)\n
-            http_method (string). the HTTP method that triggered this request. (defaults to: None)\n
+            response_code (str). the response code that this request returned. (defaults to: None)\n
+            http_method (str). the HTTP method that triggered this request. (defaults to: None)\n
             properties (dict). the set of custom properties the client wants attached to this data item. (defaults to: None)\n
-            measurements (dict). the set of custom measurements the client wants to attach to this data item. (defaults to: None)
+            measurements (dict). the set of custom measurements the client wants to attach to this data item. (defaults to: None)\n
+            request_id (str). the id for this request. If None, a new uuid will be generated. (defaults to: None)
         """
         data = channel.contracts.RequestData()
-        data.id = str(uuid.uuid4())
+        data.id = request_id or str(uuid.uuid4())
         data.name = name
-        data.start_time = start_time or datetime.datetime.utcnow().isoformat() + 'Z'
-
-        local_duration = duration or 0
-        duration_parts = []
-        for multiplier in [1000, 60, 60, 24]:
-            duration_parts.append(local_duration % multiplier)
-            local_duration //= multiplier
-
-        duration_parts.reverse()
-        data.duration = '%02d:%02d:%02d.%03d' % tuple(duration_parts)
-        if local_duration:
-            data.duration = '%d.%s' % (local_duration, data.duration)
-
-        data.response_code = response_code or '200'
-        data.success = success
-        data.http_method = http_method or 'GET'
         data.url = url
+        data.success = success
+        data.start_time = start_time or datetime.datetime.utcnow().isoformat() + 'Z'
+        data.duration = self.__ms_to_duration(duration)
+        data.response_code = str(response_code) or '200'
+        data.http_method = http_method or 'GET'
         if properties:
             data.properties = properties
         if measurements:
@@ -226,3 +218,48 @@ class TelemetryClient(object):
 
         self.channel.write(data, self._context)
 
+    def track_dependency(self, name, data, type=None, target=None, duration=None, success=None, result_code=None, properties=None, measurements=None, dependency_id=None):
+        """Sends a single dependency telemetry that was captured for the application.
+
+        Args:
+            name (str). the name of the command initiated with this dependency call. Low cardinality value. Examples are stored procedure name and URL path template.\n
+            data (str). the command initiated by this dependency call. Examples are SQL statement and HTTP URL with all query parameters.\n
+            type (str). the dependency type name. Low cardinality value for logical grouping of dependencies and interpretation of other fields like commandName and resultCode. Examples are SQL, Azure table, and HTTP. (default to: None)\n
+            target (str). the target site of a dependency call. Examples are server name, host address. (default to: None)\n
+            duration (int). the number of milliseconds that this dependency call lasted. (defaults to: None)\n
+            success (bool). true if the dependency call ended in success, false otherwise. (defaults to: None)\n
+            result_code (str). the result code of a dependency call. Examples are SQL error code and HTTP status code. (defaults to: None)\n
+            properties (dict). the set of custom properties the client wants attached to this data item. (defaults to: None)\n
+            measurements (dict). the set of custom measurements the client wants to attach to this data item. (defaults to: None)\n
+            id (str). the id for this dependency call. If None, a new uuid will be generated. (defaults to: None)
+        """
+        dependency_data = channel.contracts.RemoteDependencyData()
+        dependency_data.id = dependency_id or str(uuid.uuid4())
+        dependency_data.name = name
+        dependency_data.data = data
+        dependency_data.type = type
+        dependency_data.target = target
+        dependency_data.duration = self.__ms_to_duration(duration)
+        dependency_data.success = success
+        dependency_data.result_code = str(result_code) or '200'
+        if properties:
+            dependency_data.properties = properties
+        if measurements:
+            dependency_data.measurements = measurements
+
+        self.channel.write(dependency_data, self._context)
+
+    @staticmethod
+    def __ms_to_duration(duration_ms):
+        local_duration = duration_ms or 0
+        duration_parts = []
+        for multiplier in [1000, 60, 60, 24]:
+            duration_parts.append(local_duration % multiplier)
+            local_duration //= multiplier
+
+        duration_parts.reverse()
+        duration = '%02d:%02d:%02d.%03d' % (duration_parts[0], duration_parts[1], duration_parts[2], duration_parts[3])
+        if local_duration:
+            duration = '%d.%s' % (local_duration, duration)
+
+        return duration
