@@ -27,7 +27,7 @@ To install the latest release you can use `pip <http://www.pip-installer.org/>`_
 Documentation
 -------------
 
-Please see <https://microsoft.github.io/ApplicationInsights-Python/> for full documentation.
+Please see https://microsoft.github.io/ApplicationInsights-Python/ for full documentation.
 
 Usage
 -----
