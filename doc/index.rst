@@ -149,7 +149,7 @@ Once installed, you can send telemetry to Application Insights. Here are a few s
     # flush telemetry every 30 seconds (assuming we don't hit max_queue_item_count first)
     tc.channel.sender.send_interval_in_milliseconds = 30 * 1000
     # flush telemetry if we have 10 or more telemetry items in our queue
-    tc.channel.sender.max_queue_item_count = 10
+    tc.channel.queue.max_queue_length = 10
 
 .. _usage-sample-08:
 
