@@ -11,10 +11,15 @@ import applicationinsights
 from applicationinsights.channel import contracts
 from . import common
 
+try:
+    basestring     # Python 2
+except NameError:  # Python 3
+    basestring = (str, )
+
 # Pick a function to measure time; starting with 3.3, time.monotonic is available.
-if sys.version_info >= (3, 3):
+try:
     TIME_FUNC = time.monotonic
-else:
+except AttributeError:
     TIME_FUNC = time.time
 
 class ApplicationInsightsMiddleware(object):
@@ -263,21 +268,9 @@ def ms_to_duration(n):
 
     return duration
 
-def arg_to_str_3(arg):
-    if isinstance(arg, str):
+def arg_to_str(arg):
+    if isinstance(arg, basestring):
         return arg
     if isinstance(arg, int):
         return str(arg)
     return repr(arg)
-
-def arg_to_str_2(arg):
-    if isinstance(arg, str) or isinstance(arg, unicode):
-        return arg
-    if isinstance(arg, int):
-        return str(arg)
-    return repr(arg)
-
-if sys.version_info < (3, 0):
-    arg_to_str = arg_to_str_2
-else:
-    arg_to_str = arg_to_str_3
