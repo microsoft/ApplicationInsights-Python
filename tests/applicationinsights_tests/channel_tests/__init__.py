@@ -1,5 +1,7 @@
 from . import TestAsynchronousQueue
 from . import TestAsynchronousSender
+from . import TestJoinableAsynchronousQueue
+from . import TestJoinableAsynchronousSender
 from . import TestQueueBase
 from . import TestSenderBase
 from . import TestSynchronousQueue

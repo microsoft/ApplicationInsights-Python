@@ -1,5 +1,7 @@
 from .AsynchronousQueue import AsynchronousQueue
 from .AsynchronousSender import AsynchronousSender
+from .JoinableAsynchronousQueue import JoinableAsynchronousQueue
+from .JoinableAsynchronousSender import JoinableAsynchronousSender
 from .SenderBase import SenderBase
 from .QueueBase import QueueBase
 from .SynchronousQueue import SynchronousQueue
