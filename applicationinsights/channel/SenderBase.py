@@ -9,6 +9,8 @@ except ImportError:
     import urllib.request as HTTPClient
     from urllib.error import HTTPError
 
+DEFAULT_ENDPOINT_URL = 'https://dc.services.visualstudio.com/v2/track'
+
 class SenderBase(object):
     """The base class for all types of senders for use in conjunction with an implementation of :class:`QueueBase`.
 

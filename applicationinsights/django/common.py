@@ -53,10 +53,7 @@ def create_client(aisettings=None):
     if channel_settings in saved_channels:
         channel = saved_channels[channel_settings]
     else:
-        if channel_settings.endpoint is not None:
-            sender = applicationinsights.channel.AsynchronousSender(service_endpoint_uri=channel_settings.endpoint)
-        else:
-            sender = applicationinsights.channel.AsynchronousSender()
+        sender = applicationinsights.channel.AsynchronousSender(service_endpoint_uri=channel_settings.endpoint)
 
         if channel_settings.send_time is not None:
             sender.send_time = channel_settings.send_time
