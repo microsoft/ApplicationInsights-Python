@@ -8,7 +8,7 @@ Application Insights for Python
     :target: http://badge.fury.io/py/applicationinsights
 
 
-This project extends the Application Insights API surface to support Python. `Application Insights <http://azure.microsoft.com/services/application-insights/>`_ is a service that allows developers to keep their application available, performing and succeeding. This Python module will allow you to send telemetry of various kinds (event, trace, exception, etc.) to the Application Insights service where they can be visualized in the Azure Portal.
+This project extends the Application Insights API surface to support Python. `Application Insights <http://azure.microsoft.com/services/application-insights/>`_ is a service that allows developers to keep their application available, performing and succeeding. This Python module will allow you to send telemetry of various kinds (event, trace, exception, etc.) to the Application Insights service where they can be visualized in the Azure Portal. A link to the Application Insights API documentation can be found `here <https://microsoft.github.io/ApplicationInsights-Python/>`_.
 
 Requirements
 ------------
@@ -23,6 +23,11 @@ To install the latest release you can use `pip <http://www.pip-installer.org/>`_
 ::
 
     $ pip install applicationinsights
+
+Documentation
+-------------
+
+Please see https://microsoft.github.io/ApplicationInsights-Python/ for full documentation.
 
 Usage
 -----
@@ -122,7 +127,7 @@ Since operation_id is being set as a property of telemetry client, the client sh
     # flush telemetry every 30 seconds (assuming we don't hit max_queue_item_count first)
     tc.channel.sender.send_interval_in_milliseconds = 30 * 1000
     # flush telemetry if we have 10 or more telemetry items in our queue
-    tc.channel.sender.max_queue_item_count = 10
+    tc.channel.queue.max_queue_length = 10
 
 **Basic logging configuration (first option)**
 

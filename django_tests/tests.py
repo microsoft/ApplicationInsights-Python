@@ -6,6 +6,7 @@ from django.test import TestCase, Client, modify_settings, override_settings
 
 from applicationinsights import TelemetryClient
 from applicationinsights.channel import TelemetryChannel, SynchronousQueue, SenderBase, NullSender, AsynchronousSender
+from applicationinsights.channel.SenderBase import DEFAULT_ENDPOINT_URL as DEFAULT_ENDPOINT
 from applicationinsights.django import common
 
 if django.VERSION > (1, 10):
@@ -15,7 +16,6 @@ else:
 
 TEST_IKEY = '12345678-1234-5678-9012-123456789abc'
 TEST_ENDPOINT = 'https://test.endpoint/v2/track'
-DEFAULT_ENDPOINT = AsynchronousSender().service_endpoint_uri
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 class AITestCase(TestCase):

@@ -92,11 +92,7 @@ class AppInsights(object):
             return
 
         self._endpoint_uri = app.config.get(CONF_ENDPOINT_URI)
-
-        if self._endpoint_uri:
-            sender = AsynchronousSender(self._endpoint_uri)
-        else:
-            sender = AsynchronousSender()
+        sender = AsynchronousSender(self._endpoint_uri)
 
         queue = AsynchronousQueue(sender)
         self._channel = TelemetryChannel(None, queue)

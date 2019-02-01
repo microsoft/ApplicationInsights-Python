@@ -1,4 +1,4 @@
-from .SenderBase import SenderBase
+from .SenderBase import SenderBase, DEFAULT_ENDPOINT_URL
 from threading import Lock, Thread
 
 class AsynchronousSender(SenderBase):
@@ -13,7 +13,7 @@ class AsynchronousSender(SenderBase):
     If no queue items are found for :func:`send_time` seconds, the worker thread will shut down (and :func:`start` will
     need  to be called again).
     """
-    def __init__(self, service_endpoint_uri='https://dc.services.visualstudio.com/v2/track'):
+    def __init__(self, service_endpoint_uri=None):
         """Initializes a new instance of the class.
 
         Args:
@@ -23,7 +23,7 @@ class AsynchronousSender(SenderBase):
         self._send_remaining_time = 0
         self._send_time = 3.0
         self._lock_send_remaining_time = Lock()
-        SenderBase.__init__(self, service_endpoint_uri)
+        SenderBase.__init__(self, service_endpoint_uri or DEFAULT_ENDPOINT_URL)
 
     @property
     def send_interval(self):

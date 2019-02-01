@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased (will be 0.11.8)
+
+- Allow to specify and endpoint to upload telemetry to.
+
 ## 0.11.7
 
 - Added `track_dependency`.
