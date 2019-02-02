@@ -1,6 +1,15 @@
 # How to Contribute
 
-If you're interested in contributing, take a look at the general [contributor's guide](https://github.com/Microsoft/ApplicationInsights-Home/blob/master/CONTRIBUTING.md) first.
+If you're interested in contributing, take a look at the general [contributor's
+guide](https://github.com/Microsoft/ApplicationInsights-Home/blob/master/CONTRIBUTING.md)
+first.
+
+This project is community supported and welcomes contributions. We are working
+on plans to make it GA and officially support it. As part of GA we consider
+[migrating
+features](https://github.com/Microsoft/ApplicationInsights-Python/issues/105) of
+this SDK to Open Census. Specifically things like automatic data collection and
+more.
 
 ## Build
 
