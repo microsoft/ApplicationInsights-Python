@@ -1,7 +1,8 @@
 import logging
 import applicationinsights
+from weakref import WeakValueDictionary
 
-enabled_instrumentation_keys = {}
+enabled_instrumentation_keys = WeakValueDictionary()
 
 def enable(instrumentation_key, *args, **kwargs):
     """Enables the Application Insights logging handler for the root logger for the supplied instrumentation key.
