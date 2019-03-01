@@ -3,6 +3,7 @@
 ## Unreleased (will be 0.11.8)
 
 - Allow to specify and endpoint to upload telemetry to.
+- Add `level` argument to `logging.enable` to configure telemetry verbosity.
 
 ## 0.11.7
 
