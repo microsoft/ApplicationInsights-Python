@@ -3,6 +3,8 @@
 ## Unreleased (will be 0.11.8)
 
 - Allow to specify and endpoint to upload telemetry to.
+- Add `async_` argument to `logging.enable` to use async telemetry channel.
+- Add `endpoint` argument to `logging.enable` to configure custom telemetry endpoint.
 
 ## 0.11.7
 
