@@ -6,14 +6,11 @@ class AsynchronousQueue(QueueBase):
     will notify the sender that it needs to pick up items when it reaches :func:`max_queue_length`, or
     when the consumer calls :func:`flush` via the :func:`flush_notification` event.
     """
-    def __init__(self, sender):
+    def __init__(self, *args, **kwargs):
         """Initializes a new instance of the class.
-
-        Args:
-            sender (:class:`SenderBase`) the sender object that will be used in conjunction with this queue.
         """
         self._flush_notification = Event()
-        QueueBase.__init__(self, sender)
+        QueueBase.__init__(self, *args, **kwargs)
 
     @property
     def flush_notification(self):

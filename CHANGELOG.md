@@ -3,6 +3,7 @@
 ## Unreleased (will be 0.11.8)
 
 - Allow to specify and endpoint to upload telemetry to.
+- Add optional queue persistence to prevent telemetry loss in case of application crash.
 
 ## 0.11.7
 
