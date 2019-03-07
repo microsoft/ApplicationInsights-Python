@@ -3,6 +3,7 @@
 ## Unreleased (will be 0.11.8)
 
 - Allow to specify and endpoint to upload telemetry to.
+- Add support for using `NullSender` with `AsynchronousQueue`.
 
 ## 0.11.7
 
