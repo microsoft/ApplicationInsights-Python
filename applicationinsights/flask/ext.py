@@ -1,5 +1,10 @@
 from os import getenv
 
+try:
+    from werkzeug.exceptions import HTTPException
+except ImportError:
+    HTTPException = None
+
 from applicationinsights import TelemetryClient
 from applicationinsights.channel import AsynchronousSender
 from applicationinsights.channel import AsynchronousQueue
@@ -165,6 +170,9 @@ class AppInsights(object):
 
         @app.errorhandler(Exception)
         def exception_handler(exception):
+            if HTTPException and isinstance(exception, HTTPException):
+                return exception
+
             try:
                 raise exception
             except Exception:
