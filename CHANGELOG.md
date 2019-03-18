@@ -3,6 +3,7 @@
 ## Unreleased (will be 0.11.8)
 
 - Allow to specify and endpoint to upload telemetry to.
+- Add option to set telemetry context for Flask integration.
 - Add `async_` argument to `logging.enable` to use async telemetry channel.
 - Add `endpoint` argument to `logging.enable` to configure custom telemetry endpoint.
 - Fix Flask>=1.0 exception handler catching control-flow exceptions.
