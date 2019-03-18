@@ -12,14 +12,6 @@ class SynchronousQueue(QueueBase):
         queue.max_queue_length = 1
         queue.put(1)
     """
-    def __init__(self, sender):
-        """Initializes a new instance of the class.
-
-        Args:
-            sender (:class:`SenderBase`) the sender object that will be used in conjunction with this queue.
-        """
-        QueueBase.__init__(self, sender)
-
     def flush(self):
         """Flushes the current queue by by calling :func:`sender`'s :func:`send` method.
         """
