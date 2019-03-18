@@ -30,6 +30,7 @@ def enable(instrumentation_key, *args, **kwargs):
     Keyword Args:
         async_ (bool): Whether to use an async channel for the telemetry. Defaults to False.
         endpoint (str): The custom endpoint to which to send the telemetry. Defaults to None.
+        level (Union[int, str]): The level to set for the logger. Defaults to INFO.
 
     Returns:
         :class:`ApplicationInsightsHandler`. the newly created or existing handler.
@@ -51,8 +52,9 @@ def enable(instrumentation_key, *args, **kwargs):
         else:
             sender, queue = SynchronousSender, SynchronousQueue
         kwargs['telemetry_channel'] = TelemetryChannel(queue=queue(sender(endpoint)))
+    log_level = kwargs.pop('level', logging.INFO)
     handler = LoggingHandler(instrumentation_key, *args, **kwargs)
-    handler.setLevel(logging.INFO)
+    handler.setLevel(log_level)
     enabled_instrumentation_keys[instrumentation_key] = handler
     logging.getLogger().addHandler(handler)
     return handler

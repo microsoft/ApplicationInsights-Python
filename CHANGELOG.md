@@ -5,6 +5,10 @@
 - Allow to specify and endpoint to upload telemetry to.
 - Add `async_` argument to `logging.enable` to use async telemetry channel.
 - Add `endpoint` argument to `logging.enable` to configure custom telemetry endpoint.
+- Fix Flask>=1.0 exception handler catching control-flow exceptions.
+- Add `level` argument to `logging.enable` to configure telemetry verbosity.
+- Add optional queue persistence to prevent telemetry loss in case of application crash.
+- Add support for using `NullSender` with `AsynchronousQueue`.
 
 ## 0.11.7
 

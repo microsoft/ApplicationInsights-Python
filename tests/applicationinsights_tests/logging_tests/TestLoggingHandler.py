@@ -54,6 +54,12 @@ class TestEnable(unittest.TestCase):
         with self.assertRaises(Exception):
             logging.enable('foo', endpoint='http://bar', telemetry_channel=MockChannel())
 
+    def test_enable_with_level(self):
+        handler = logging.enable('foo', level='DEBUG')
+        self.assertIsNotNone(handler)
+        self.assertEqual(handler.level, pylogging.DEBUG)
+        pylogging.getLogger().removeHandler(handler)
+
     def test_enable_raises_exception_on_no_instrumentation_key(self):
         self.assertRaises(Exception, logging.enable, None)
 
