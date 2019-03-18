@@ -101,6 +101,16 @@ class AppInsights(object):
         self._init_trace_logging(app)
         self._init_exception_logging(app)
 
+    @property
+    def context(self):
+        """
+        Accesses the telemetry context.
+
+        Returns:
+            (applicationinsights.channel.TelemetryContext). The Application Insights telemetry context.
+        """
+        return self._channel.context
+
     def _init_request_logging(self, app):
         """
         Sets up request logging unless ``APPINSIGHTS_DISABLE_REQUEST_LOGGING``
