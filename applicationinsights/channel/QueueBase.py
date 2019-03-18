@@ -5,19 +5,35 @@ except ImportError:
     # Python 3.x
     from queue import Queue, Empty
 
+try:
+    from persistqueue import Empty as PersistEmpty
+    from persistqueue import Queue as PersistQueue
+except ImportError:
+    PersistEmpty = Empty
+    PersistQueue = None
+
+
 class QueueBase(object):
     """The base class for all types of queues for use in conjunction with an implementation of :class:`SenderBase`.
 
     The queue will notify the sender that it needs to pick up items when it reaches :func:`max_queue_length`,
     or when the consumer calls :func:`flush`.
     """
-    def __init__(self, sender):
+    def __init__(self, sender, persistence_path=''):
         """Initializes a new instance of the class.
 
         Args:
             sender (:class:`SenderBase`) the sender object that will be used in conjunction with this queue.
+            persistence_path (str) if set, persist the queue on disk into the provided directory.
         """
-        self._queue = Queue()
+        if persistence_path and PersistQueue is None:
+            raise ValueError('persistence_path argument requires persist-queue dependency to be installed')
+        elif persistence_path:
+            self._queue = PersistQueue(persistence_path)
+        else:
+            self._queue = Queue()
+
+        self._persistence_path = persistence_path
         self._max_queue_length = 500
         self._sender = sender
         if sender:
@@ -80,9 +96,14 @@ class QueueBase(object):
             :class:`contracts.Envelope`. a telemetry envelope object or None if the queue is empty.
         """
         try:
-            return self._queue.get_nowait()
-        except Empty:
+            item = self._queue.get_nowait()
+        except (Empty, PersistEmpty):
             return None
+
+        if self._persistence_path:
+            self._queue.task_done()
+
+        return item
 
     def flush(self):
         """Flushes the current queue by notifying the {#sender}. This method needs to be overridden by a concrete

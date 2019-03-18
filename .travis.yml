@@ -3,6 +3,7 @@ python:
 - '2.7'
 - '3.6'
 script:
+- pip install persist-queue
 - python setup.py sdist
 - python setup.py test
 - django_tests/all_tests.sh

@@ -43,6 +43,13 @@ class TestAsynchronousQueue(unittest.TestCase):
         result = queue.flush_notification.wait()
         self.assertEqual(True, result)
 
+    def test_with_null_sender(self):
+        sender = channel.NullSender()
+        queue = channel.AsynchronousQueue(sender)
+        queue.put(1)
+        queue.put(2)
+        queue.flush()
+
 
 class MockAsynchronousSender:
     def __init__(self):
