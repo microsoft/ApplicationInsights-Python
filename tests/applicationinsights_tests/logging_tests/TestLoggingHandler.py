@@ -2,11 +2,16 @@ import unittest
 import logging as pylogging
 
 import sys, os, os.path
+
+from applicationinsights.channel import AsynchronousQueue, AsynchronousSender
+from applicationinsights.channel import SynchronousQueue, SynchronousSender
+
 rootDirectory = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..')
 if rootDirectory not in sys.path:
     sys.path.append(rootDirectory)
 
 from applicationinsights import logging
+from applicationinsights.logging.LoggingHandler import enabled_instrumentation_keys
 
 class TestEnable(unittest.TestCase):
     def test_enable(self):
@@ -14,6 +19,8 @@ class TestEnable(unittest.TestCase):
         self.assertIsNotNone(handler1)
         self.assertEqual('LoggingHandler', handler1.__class__.__name__)
         self.assertEqual('foo', handler1.client.context.instrumentation_key)
+        self.assertIsInstance(handler1.client.channel.queue, SynchronousQueue)
+        self.assertIsInstance(handler1.client.channel.sender, SynchronousSender)
         handler2 = logging.enable('foo')
         self.assertEqual('LoggingHandler', handler2.__class__.__name__)
         self.assertEqual('foo', handler2.client.context.instrumentation_key)
@@ -29,8 +36,47 @@ class TestEnable(unittest.TestCase):
         pylogging.getLogger().removeHandler(handler2)
         pylogging.getLogger().removeHandler(handler3)
 
+    def test_enable_with_endpoint(self):
+        handler = logging.enable('foo', endpoint='http://bar')
+        self.assertEqual(handler.client.channel.sender.service_endpoint_uri, 'http://bar')
+        pylogging.getLogger().removeHandler(handler)
+
+    def test_enable_with_async(self):
+        handler = logging.enable('foo', async_=True)
+        self.assertIsInstance(handler.client.channel.queue, AsynchronousQueue)
+        self.assertIsInstance(handler.client.channel.sender, AsynchronousSender)
+        pylogging.getLogger().removeHandler(handler)
+
+    def test_enable_raises_exception_on_async_with_telemetry_channel(self):
+        with self.assertRaises(Exception):
+            logging.enable('foo', async_=True, telemetry_channel=MockChannel())
+
+    def test_enable_raises_exception_on_endpoint_with_telemetry_channel(self):
+        with self.assertRaises(Exception):
+            logging.enable('foo', endpoint='http://bar', telemetry_channel=MockChannel())
+
+    def test_enable_with_level(self):
+        handler = logging.enable('foo', level='DEBUG')
+        self.assertIsNotNone(handler)
+        self.assertEqual(handler.level, pylogging.DEBUG)
+        pylogging.getLogger().removeHandler(handler)
+
     def test_enable_raises_exception_on_no_instrumentation_key(self):
         self.assertRaises(Exception, logging.enable, None)
+
+    def test_handler_removal_clears_cache(self):
+        def enable_telemetry():
+            logging.enable('key1')
+
+        def remove_telemetry_handlers():
+            for handler in pylogging.getLogger().handlers:
+                if isinstance(handler, logging.LoggingHandler):
+                    pylogging.getLogger().removeHandler(handler)
+
+        enable_telemetry()
+        self.assertIn('key1', enabled_instrumentation_keys)
+        remove_telemetry_handlers()
+        self.assertNotIn('key1', enabled_instrumentation_keys)
 
 
 class TestLoggingHandler(unittest.TestCase):
