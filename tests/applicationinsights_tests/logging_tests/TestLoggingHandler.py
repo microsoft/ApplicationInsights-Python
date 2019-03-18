@@ -30,6 +30,12 @@ class TestEnable(unittest.TestCase):
         pylogging.getLogger().removeHandler(handler2)
         pylogging.getLogger().removeHandler(handler3)
 
+    def test_enable_with_level(self):
+        handler = logging.enable('foo', level='DEBUG')
+        self.assertIsNotNone(handler)
+        self.assertEqual(handler.level, pylogging.DEBUG)
+        pylogging.getLogger().removeHandler(handler)
+
     def test_enable_raises_exception_on_no_instrumentation_key(self):
         self.assertRaises(Exception, logging.enable, None)
 

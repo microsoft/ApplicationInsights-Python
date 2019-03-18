@@ -25,6 +25,9 @@ def enable(instrumentation_key, *args, **kwargs):
     Args:
         instrumentation_key (str). the instrumentation key to use while sending telemetry to the service.
 
+    Keyword Args:
+        level (Union[int, str]): The level to set for the logger. Defaults to INFO.
+
     Returns:
         :class:`ApplicationInsightsHandler`. the newly created or existing handler.
     """
@@ -32,8 +35,9 @@ def enable(instrumentation_key, *args, **kwargs):
         raise Exception('Instrumentation key was required but not provided')
     if instrumentation_key in enabled_instrumentation_keys:
         logging.getLogger().removeHandler(enabled_instrumentation_keys[instrumentation_key])
+    log_level = kwargs.pop('level', logging.INFO)
     handler = LoggingHandler(instrumentation_key, *args, **kwargs)
-    handler.setLevel(logging.INFO)
+    handler.setLevel(log_level)
     enabled_instrumentation_keys[instrumentation_key] = handler
     logging.getLogger().addHandler(handler)
     return handler
