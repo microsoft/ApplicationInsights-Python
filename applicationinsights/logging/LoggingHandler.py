@@ -1,10 +1,11 @@
 import logging
 import applicationinsights
+from weakref import WeakValueDictionary
 from applicationinsights.channel import AsynchronousSender, AsynchronousQueue
 from applicationinsights.channel import SynchronousSender, SynchronousQueue
 from applicationinsights.channel import TelemetryChannel
 
-enabled_instrumentation_keys = {}
+enabled_instrumentation_keys = WeakValueDictionary()
 
 def enable(instrumentation_key, *args, **kwargs):
     """Enables the Application Insights logging handler for the root logger for the supplied instrumentation key.

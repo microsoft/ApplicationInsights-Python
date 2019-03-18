@@ -11,6 +11,7 @@ if rootDirectory not in sys.path:
     sys.path.append(rootDirectory)
 
 from applicationinsights import logging
+from applicationinsights.logging.LoggingHandler import enabled_instrumentation_keys
 
 class TestEnable(unittest.TestCase):
     def test_enable(self):
@@ -62,6 +63,20 @@ class TestEnable(unittest.TestCase):
 
     def test_enable_raises_exception_on_no_instrumentation_key(self):
         self.assertRaises(Exception, logging.enable, None)
+
+    def test_handler_removal_clears_cache(self):
+        def enable_telemetry():
+            logging.enable('key1')
+
+        def remove_telemetry_handlers():
+            for handler in pylogging.getLogger().handlers:
+                if isinstance(handler, logging.LoggingHandler):
+                    pylogging.getLogger().removeHandler(handler)
+
+        enable_telemetry()
+        self.assertIn('key1', enabled_instrumentation_keys)
+        remove_telemetry_handlers()
+        self.assertNotIn('key1', enabled_instrumentation_keys)
 
 
 class TestLoggingHandler(unittest.TestCase):
