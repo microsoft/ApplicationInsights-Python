@@ -1,5 +1,8 @@
 import logging
 import applicationinsights
+from applicationinsights.channel import AsynchronousSender, AsynchronousQueue
+from applicationinsights.channel import SynchronousSender, SynchronousQueue
+from applicationinsights.channel import TelemetryChannel
 
 enabled_instrumentation_keys = {}
 
@@ -19,12 +22,14 @@ def enable(instrumentation_key, *args, **kwargs):
         logging.info('This is a message')
 
         # logging shutdown will cause a flush of all un-sent telemetry items
-        # alternatively set up an async channel via enable('<YOUR INSTRUMENTATION KEY GOES HERE>', telemetry_channel=...)
+        # alternatively set up an async channel via enable('<YOUR INSTRUMENTATION KEY GOES HERE>', async_=True)
 
     Args:
         instrumentation_key (str). the instrumentation key to use while sending telemetry to the service.
 
     Keyword Args:
+        async_ (bool): Whether to use an async channel for the telemetry. Defaults to False.
+        endpoint (str): The custom endpoint to which to send the telemetry. Defaults to None.
         level (Union[int, str]): The level to set for the logger. Defaults to INFO.
 
     Returns:
@@ -34,6 +39,19 @@ def enable(instrumentation_key, *args, **kwargs):
         raise Exception('Instrumentation key was required but not provided')
     if instrumentation_key in enabled_instrumentation_keys:
         logging.getLogger().removeHandler(enabled_instrumentation_keys[instrumentation_key])
+    async_ = kwargs.pop('async_', False)
+    endpoint = kwargs.pop('endpoint', None)
+    telemetry_channel = kwargs.get('telemetry_channel')
+    if telemetry_channel and async_:
+        raise Exception('Incompatible arguments async_ and telemetry_channel')
+    if telemetry_channel and endpoint:
+        raise Exception('Incompatible arguments endpoint and telemetry_channel')
+    if not telemetry_channel:
+        if async_:
+            sender, queue = AsynchronousSender, AsynchronousQueue
+        else:
+            sender, queue = SynchronousSender, SynchronousQueue
+        kwargs['telemetry_channel'] = TelemetryChannel(queue=queue(sender(endpoint)))
     log_level = kwargs.pop('level', logging.INFO)
     handler = LoggingHandler(instrumentation_key, *args, **kwargs)
     handler.setLevel(log_level)
