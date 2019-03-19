@@ -9,3 +9,9 @@ class NullSender(SenderBase):
 
     def send(self, data):
         pass
+
+    def start(self):
+        pass
+
+    def stop(self):
+        pass

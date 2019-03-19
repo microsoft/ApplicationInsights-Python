@@ -1,5 +1,10 @@
 from os import getenv
 
+try:
+    from werkzeug.exceptions import HTTPException
+except ImportError:
+    HTTPException = None
+
 from applicationinsights import TelemetryClient
 from applicationinsights.channel import AsynchronousSender
 from applicationinsights.channel import AsynchronousQueue
@@ -92,11 +97,7 @@ class AppInsights(object):
             return
 
         self._endpoint_uri = app.config.get(CONF_ENDPOINT_URI)
-
-        if self._endpoint_uri:
-            sender = AsynchronousSender(self._endpoint_uri)
-        else:
-            sender = AsynchronousSender()
+        sender = AsynchronousSender(self._endpoint_uri)
 
         queue = AsynchronousQueue(sender)
         self._channel = TelemetryChannel(None, queue)
@@ -104,6 +105,16 @@ class AppInsights(object):
         self._init_request_logging(app)
         self._init_trace_logging(app)
         self._init_exception_logging(app)
+
+    @property
+    def context(self):
+        """
+        Accesses the telemetry context.
+
+        Returns:
+            (applicationinsights.channel.TelemetryContext). The Application Insights telemetry context.
+        """
+        return self._channel.context
 
     def _init_request_logging(self, app):
         """
@@ -159,6 +170,9 @@ class AppInsights(object):
 
         @app.errorhandler(Exception)
         def exception_handler(exception):
+            if HTTPException and isinstance(exception, HTTPException):
+                return exception
+
             try:
                 raise exception
             except Exception:
