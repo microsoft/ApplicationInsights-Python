@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased (will be 0.11.8)
+## Unreleased (will be 0.11.9)
+
+## 0.11.8
 
 - Allow to specify and endpoint to upload telemetry to.
 - Add option to set telemetry context for Flask integration.

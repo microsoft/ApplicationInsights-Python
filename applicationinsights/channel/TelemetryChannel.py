@@ -12,7 +12,7 @@ if sys.version_info >= (3, 0):
 
 # set up internal context
 internal_context = contracts.Internal()
-internal_context.sdk_version = platform_moniker + ':0.11.8'
+internal_context.sdk_version = platform_moniker + ':0.11.9'
 
 
 class TelemetryChannel(object):
