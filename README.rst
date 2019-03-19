@@ -21,7 +21,7 @@ documentation can be found `here
 This project is not officially supported and not recommended for high load
 production use. The project is open source and welcomes contributions. Please
 refer to
-[CONTRIBUTING.md](https://github.com/Microsoft/ApplicationInsights-Python/blob/develop/CONTRIBUTING.md)
+`CONTRIBUTING.md <https://github.com/Microsoft/ApplicationInsights-Python/blob/develop/CONTRIBUTING.md>`_
 for details.
 
 Requirements
