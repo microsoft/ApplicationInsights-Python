@@ -3,6 +3,7 @@ import traceback
 import sys
 import uuid
 
+
 from applicationinsights import channel
 
 NULL_CONSTANT_STRING = 'Null'
@@ -29,6 +30,7 @@ class TelemetryClient(object):
         self._context = channel.TelemetryContext()
         self._context.instrumentation_key = instrumentation_key
         self._channel = telemetry_channel or channel.TelemetryChannel()
+        self._telemetry_processors = []
 
     @property
     def context(self):
@@ -75,7 +77,7 @@ class TelemetryClient(object):
         if measurements:
             data.measurements = measurements
 
-        self._channel.write(data, self._context)
+        self.track(data, self._context)
 
     def track_exception(self, type=None, value=None, tb=None, properties=None, measurements=None):
         """ Send information about a single exception that occurred in the application.
@@ -121,8 +123,7 @@ class TelemetryClient(object):
             data.properties = properties
         if measurements:
             data.measurements = measurements
-
-        self._channel.write(data, self._context)
+        self.track(data, self._context)
 
     def track_event(self, name, properties=None, measurements=None):
         """ Send information about a single event that has occurred in the context of the application.
@@ -139,7 +140,7 @@ class TelemetryClient(object):
         if measurements:
             data.measurements = measurements
 
-        self._channel.write(data, self._context)
+        self.track(data, self._context)
 
     def track_metric(self, name, value, type=None, count=None, min=None, max=None, std_dev=None, properties=None):
         """Send information about a single metric data point that was captured for the application.
@@ -168,7 +169,8 @@ class TelemetryClient(object):
         if properties:
             data.properties = properties
 
-        self._channel.write(data, self._context)
+        self.track(data, self._context)
+
 
     def track_trace(self, name, properties=None, severity=None):
         """Sends a single trace statement.
@@ -185,7 +187,8 @@ class TelemetryClient(object):
         if severity is not None:
             data.severity_level = channel.contracts.MessageData.PYTHON_LOGGING_LEVELS.get(severity)
 
-        self._channel.write(data, self._context)
+        self.track(data, self._context)
+
 
     def track_request(self, name, url, success, start_time=None, duration=None, response_code=None, http_method=None, properties=None, measurements=None, request_id=None):
         """Sends a single request that was captured for the application.
@@ -216,7 +219,7 @@ class TelemetryClient(object):
         if measurements:
             data.measurements = measurements
 
-        self.channel.write(data, self._context)
+        self.track(data, self._context)
 
     def track_dependency(self, name, data, type=None, target=None, duration=None, success=None, result_code=None, properties=None, measurements=None, dependency_id=None):
         """Sends a single dependency telemetry that was captured for the application.
@@ -247,7 +250,36 @@ class TelemetryClient(object):
         if measurements:
             dependency_data.measurements = measurements
 
-        self.channel.write(dependency_data, self._context)
+        self.track(dependency_data, self._context)
+
+    def track(self, data, context):
+        if self.run_telemetry_processors(data, context):
+            self.channel.write(data, context)
+
+    def add_telemetry_processor(self, telemetry_processor):
+        """Adds telemetry processor to the collection. Telemetry processors will be called one by one
+           before telemetry item is pushed for sending and in the order they were added.
+
+        Args:
+            telemetry_processor (function). Takes a telemetry item, and context object and returns boolean 
+                                            that determines if the event is passed to the server (False = Filtered)
+        """
+        if telemetry_processor is None:
+            raise TypeError('telemetry_processor cannot be None.')
+
+        self._telemetry_processors.insert(0, telemetry_processor)
+
+    def run_telemetry_processors(self, data, context):
+        allow_data_through = True
+
+        try:        
+            for processor in self._telemetry_processors:
+                if processor(data, context) == False:
+                    allow_data_through = False
+                    break
+        except:
+            allow_data_through = True
+        return allow_data_through
 
     @staticmethod
     def __ms_to_duration(duration_ms):
