@@ -126,11 +126,11 @@ context field called operation_id can be set to associate telemetry items.
 Since operation_id is being set as a property of telemetry client, the client shouldn't be reused in parallel threads as it might lead to concurrency issues.
 
 .. code:: python
-	
-	tc = TelemetryClient(instrumentation_key=instrumentation_key)
-	tc.context.operation.id = <operation_id>
-	tc.track_trace('Test trace')
-	tc.flush()
+  
+    tc = TelemetryClient(instrumentation_key=instrumentation_key)
+    tc.context.operation.id = <operation_id>
+    tc.track_trace('Test trace')
+    tc.flush()
 
 **Configuring channel related properties**
 
