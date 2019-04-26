@@ -14,7 +14,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # http://packaging.python.org/en/latest/tutorial.html#version
-    version='0.11.9',
+    version='0.12.0',
 
     description='This project extends the Application Insights API surface to support Python.',
     long_description=long_description,
