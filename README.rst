@@ -126,11 +126,11 @@ context field called operation_id can be set to associate telemetry items.
 Since operation_id is being set as a property of telemetry client, the client shouldn't be reused in parallel threads as it might lead to concurrency issues.
 
 .. code:: python
-	
-	tc = TelemetryClient(instrumentation_key=instrumentation_key)
-	tc.context.operation.id = <operation_id>
-	tc.track_trace('Test trace')
-	tc.flush()
+  
+    tc = TelemetryClient(instrumentation_key=instrumentation_key)
+    tc.context.operation.id = <operation_id>
+    tc.track_trace('Test trace')
+    tc.flush()
 
 **Configuring channel related properties**
 
@@ -142,6 +142,18 @@ Since operation_id is being set as a property of telemetry client, the client sh
     tc.channel.sender.send_interval_in_milliseconds = 30 * 1000
     # flush telemetry if we have 10 or more telemetry items in our queue
     tc.channel.queue.max_queue_length = 10
+
+**Configuring TelemetryProcessor**
+
+.. code:: python
+
+    from applicationinsights import TelemetryClient
+    def process(data, context):
+       data.properties["NEW_PROP"] = "MYPROP"  # Add property
+       context.user.id = "MYID"   # Change ID
+       return True # Not filtered
+    tc = TelemetryClient('<YOUR INSTRUMENTATION KEY GOES HERE>')
+    tc.add_telemetry_processor(process)
 
 **Basic logging configuration (first option)**
 
