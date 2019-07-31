@@ -24,6 +24,13 @@ refer to
 `CONTRIBUTING.md <https://github.com/Microsoft/ApplicationInsights-Python/blob/develop/CONTRIBUTING.md>`_
 for details.
 
+Status
+------
+
+This SDK is NOT maintained or supported by Microsoft even though we've contributed to it in the past. Note that Azure Monitor only provides support when using the `supported SDKs
+<https://docs.microsoft.com/en-us/azure/azure-monitor/app/platforms#unsupported-community-sdks>`_. We’re constantly assessing opportunities to expand our support for other languages, so follow our `GitHub Announcements
+<https://github.com/microsoft/ApplicationInsights-Announcements/issues>`_ page to receive the latest SDK news.
+
 Requirements
 ------------
 
