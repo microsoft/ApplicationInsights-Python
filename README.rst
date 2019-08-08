@@ -1,4 +1,4 @@
-Application Insights for Python
+[UNSUPPORTED] Application Insights for Python
 ===============================
 
 .. image:: https://travis-ci.org/Microsoft/ApplicationInsights-Python.svg?branch=master
@@ -18,8 +18,7 @@ can be visualized in the Azure Portal. A link to the Application Insights API
 documentation can be found `here
 <https://microsoft.github.io/ApplicationInsights-Python/>`_.
 
-This project is not officially supported and not recommended for high load
-production use. The project is open source and welcomes contributions. Please
+This project is not officially supported. The project is open source and welcomes contributions. Please
 refer to
 `CONTRIBUTING.md <https://github.com/Microsoft/ApplicationInsights-Python/blob/develop/CONTRIBUTING.md>`_
 for details.
@@ -27,7 +26,7 @@ for details.
 Status
 ------
 
-This SDK is NOT maintained or supported by Microsoft even though we've contributed to it in the past. Note that Azure Monitor only provides support when using the `supported SDKs
+This SDK is NOT maintained or supported by Microsoft. Note that Azure Monitor only provides support when using the `supported SDKs
 <https://docs.microsoft.com/en-us/azure/azure-monitor/app/platforms#unsupported-community-sdks>`_. We’re constantly assessing opportunities to expand our support for other languages, so follow our `GitHub Announcements
 <https://github.com/microsoft/ApplicationInsights-Announcements/issues>`_ page to receive the latest SDK news. Check out the `Python Open Census SDK <https://github.com/census-instrumentation/opencensus-python>`_ for Azure Monitor's latest Python investments.
 
