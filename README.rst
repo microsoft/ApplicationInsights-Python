@@ -1,4 +1,4 @@
-This SDK is no longer maintained, supported, or recommended by Microsoft. Check out the `Python Open Census SDK <https://github.com/census-instrumentation/opencensus-python>`_ for Azure Monitor's latest Python investments. Azure Monitor only provides support when using the `supported SDKs
+This SDK is not maintained, supported, or recommended by Microsoft. Check out the `Python Open Census SDK <https://github.com/census-instrumentation/opencensus-python>`_ for Azure Monitor's latest Python investments. Azure Monitor only provides support when using the `supported SDKs
 <https://docs.microsoft.com/en-us/azure/azure-monitor/app/platforms#unsupported-community-sdks>`_. 
 
 Application Insights for Python
