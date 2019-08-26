@@ -131,7 +131,15 @@ class SenderBase(object):
         """
         request_payload = json.dumps([ a.write() for a in data_to_send ])
 
-        request = HTTPClient.Request(self._service_endpoint_uri, bytearray(request_payload, 'utf-8'), { 'Accept': 'application/json', 'Content-Type' : 'application/json; charset=utf-8' })
+        request = HTTPClient.Request(
+            self._service_endpoint_uri,
+            bytearray(request_payload, 'utf-8'),
+            {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json; charset=utf-8',
+                'User-Agent': '',
+            },
+        )        
         try:
             response = HTTPClient.urlopen(request, timeout=self._timeout)
             status_code = response.getcode()
