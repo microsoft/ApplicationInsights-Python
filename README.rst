@@ -1,3 +1,7 @@
+This SDK is no longer maintained or supported by Microsoft. Check out the `Python Open Census SDK <https://github.com/census-instrumentation/opencensus-python>`_ for Azure Monitor's latest Python investments. Azure Monitor only provides support when using the `supported SDKs
+<https://docs.microsoft.com/en-us/azure/azure-monitor/app/platforms#unsupported-community-sdks>`_. We’re constantly assessing opportunities to expand our support for other languages, so follow our `GitHub Announcements
+<https://github.com/microsoft/ApplicationInsights-Announcements/issues>`_ page to receive the latest SDK news. 
+
 Application Insights for Python
 ===============================
 
@@ -23,13 +27,6 @@ production use. The project is open source and welcomes contributions. Please
 refer to
 `CONTRIBUTING.md <https://github.com/Microsoft/ApplicationInsights-Python/blob/develop/CONTRIBUTING.md>`_
 for details.
-
-Status
-------
-
-This SDK is NOT maintained or supported by Microsoft even though we've contributed to it in the past. Note that Azure Monitor only provides support when using the `supported SDKs
-<https://docs.microsoft.com/en-us/azure/azure-monitor/app/platforms#unsupported-community-sdks>`_. We’re constantly assessing opportunities to expand our support for other languages, so follow our `GitHub Announcements
-<https://github.com/microsoft/ApplicationInsights-Announcements/issues>`_ page to receive the latest SDK news. Check out the `Python Open Census SDK <https://github.com/census-instrumentation/opencensus-python>`_ for Azure Monitor's latest Python investments.
 
 Requirements
 ------------
