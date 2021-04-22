@@ -4,6 +4,10 @@
 
 TDB
 
+## 0.11.10
+
+- Add deprecation notice to `README.rst`
+
 ## 0.11.9
 
 - Add `TelemetryProcessor` support.
