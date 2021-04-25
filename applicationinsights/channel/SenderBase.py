@@ -1,4 +1,5 @@
 import json
+from ssl import CertificateError
 
 try:
     # Python 2.x
@@ -140,6 +141,8 @@ class SenderBase(object):
         except HTTPError as e:
             if e.getcode() == 400:
                 return
+        except CertificateError as e:
+            raise
         except Exception as e:
             pass
 
