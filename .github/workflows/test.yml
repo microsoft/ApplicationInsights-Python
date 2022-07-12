@@ -1,0 +1,75 @@
+name: Core Repo Tests
+
+on:
+  push:
+    branches-ignore:
+    - 'release/*'
+  pull_request:
+
+jobs:
+  build:
+    env:
+      # We use these variables to convert between tox and GHA version literals
+      py36: 3.6
+      py37: 3.7
+      py38: 3.8
+      py39: 3.9
+      py310: "3.10"
+      RUN_MATRIX_COMBINATION: ${{ matrix.python-version }}-${{ matrix.package }}-${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false  # ensures the entire test matrix is run, even if one permutation fails
+      matrix:
+        python-version: [ py36, py37, py38, py39, py310 ]
+        package: ["distro"]
+        os: [ ubuntu-20.04, windows-2019 ]
+    steps:
+      - name: Checkout Repo @ SHA - ${{ github.sha }}
+        uses: actions/checkout@v2
+      - name: Set up Python ${{ env[matrix.python-version] }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env[matrix.python-version] }}
+          architecture: 'x64'
+      - name: Install tox
+        run: pip install -U tox-factor
+      - name: Cache tox environment
+        # Preserves .tox directory between runs for faster installs
+        uses: actions/cache@v2
+        with:
+          path: |
+            .tox
+            ~/.cache/pip
+          key: v3-tox-cache-${{ env.RUN_MATRIX_COMBINATION }}-${{ hashFiles('tox.ini', 'test-requirements.txt') }}
+      # tox fails on windows and Python3.6 when tox dir is reused between builds so we remove it
+      - name: fix for windows + py3.6
+        if: ${{ matrix.os == 'windows-2019' && matrix.python-version == 'py36' }} 
+        shell: pwsh
+        run: Remove-Item .\.tox\ -Force -Recurse -ErrorAction Ignore
+  misc:
+    strategy:
+      fail-fast: false
+      matrix:
+        tox-environment: [ "lint" ]
+    name: ${{ matrix.tox-environment }}
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Repo @ SHA - ${{ github.sha }}
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+          architecture: 'x64'
+      - name: Install tox
+        run: pip install -U tox
+      - name: Cache tox environment
+        # Preserves .tox directory between runs for faster installs
+        uses: actions/cache@v2
+        with:
+          path: |
+            .tox
+            ~/.cache/pip
+          key: v3-tox-cache-${{ matrix.tox-environment }}-${{ hashFiles('tox.ini', 'lint-requirements.txt') }}
+      - name: run tox
+        run: tox -e ${{ matrix.tox-environment }}

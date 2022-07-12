@@ -1,6 +1,6 @@
 # Azure Monitor Opentelemetry Distro
 
-Azure Monitor Distro of [Opentelemetry Python][opentelemetry-python] provides multiple installable components available for an Opentelemetry Azure Monitor monitoring solution. It allows you to instrument your Python applications to capture and report telemetry to Azure Monitor via the Azure monitor exporters.
+Azure Monitor Distro of [Opentelemetry Python][ot_sdk_python] provides multiple installable components available for an Opentelemetry Azure Monitor monitoring solution. It allows you to instrument your Python applications to capture and report telemetry to Azure Monitor via the Azure monitor exporters.
 
 This distro automatically installs the following libraries:
 
