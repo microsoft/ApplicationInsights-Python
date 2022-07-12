@@ -1,7 +1,0 @@
-include README.rst
-include LICENSE.txt
-include CHANGELOG.md
-include CONTRIBUTING.md
-# Include the test suite
-recursive-include tests *
-global-exclude *.pyc 

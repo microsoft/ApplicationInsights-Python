@@ -14,5 +14,6 @@
     "python.linting.flake8Enabled": false,
     "python.linting.pep8Enabled": true,
     "python.formatting.provider": "yapf",
-    "restructuredtext.confPath": ""
+    "restructuredtext.confPath": "",
+    "esbonio.sphinx.confDir": ""
 }
