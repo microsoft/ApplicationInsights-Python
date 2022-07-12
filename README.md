@@ -30,5 +30,8 @@ To use this package, you must have:
 <!-- LINKS -->
 [azure_monitor_opentelemetry_exporters]: https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/monitor/azure-monitor-opentelemetry-exporter#microsoft-opentelemetry-exporter-for-azure-monitor
 [azure_portal]: https://portal.azure.com
+[azure_sub]: https://azure.microsoft.com/free/
+[application_insights_namespace]: https://docs.microsoft.com/azure/azure-monitor/app/
 [pip]: https://pypi.org/project/pip/
-[opentelemetry-python]: https://github.com/open-telemetry/opentelemetry-python
+[ot_sdk_python]: https://github.com/open-telemetry/opentelemetry-python
+[python]: https://www.python.org/downloads/
