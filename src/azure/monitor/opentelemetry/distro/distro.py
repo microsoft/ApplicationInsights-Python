@@ -10,6 +10,6 @@ from opentelemetry.environment_variables import OTEL_LOGS_EXPORTER, OTEL_METRICS
 
 class AzureMonitorDistro(BaseDistro):
     def _configure(self, **kwargs):
-        environ.setdefault(OTEL_LOGS_EXPORTER, "otlp_proto_grpc")
-        environ.setdefault(OTEL_METRICS_EXPORTER, "otlp_proto_grpc")
-        environ.setdefault(OTEL_TRACES_EXPORTER, "otlp_proto_grpc")
+        environ.setdefault(OTEL_LOGS_EXPORTER, "azure_monitor_opentelemetry_exporter")
+        environ.setdefault(OTEL_METRICS_EXPORTER, "azure_monitor_opentelemetry_exporter")
+        environ.setdefault(OTEL_TRACES_EXPORTER, "azure_monitor_opentelemetry_exporter")
