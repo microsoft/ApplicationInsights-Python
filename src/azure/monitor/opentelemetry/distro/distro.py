@@ -6,10 +6,17 @@
 
 from os import environ
 from opentelemetry.instrumentation.distro import BaseDistro
-from opentelemetry.environment_variables import OTEL_LOGS_EXPORTER, OTEL_METRICS_EXPORTER, OTEL_TRACES_EXPORTER
+from opentelemetry.environment_variables import (
+    OTEL_LOGS_EXPORTER,
+    OTEL_METRICS_EXPORTER,
+    OTEL_TRACES_EXPORTER,
+)
+
 
 class AzureMonitorDistro(BaseDistro):
     def _configure(self, **kwargs):
         environ.setdefault(OTEL_LOGS_EXPORTER, "azure_monitor_opentelemetry_exporter")
-        environ.setdefault(OTEL_METRICS_EXPORTER, "azure_monitor_opentelemetry_exporter")
+        environ.setdefault(
+            OTEL_METRICS_EXPORTER, "azure_monitor_opentelemetry_exporter"
+        )
         environ.setdefault(OTEL_TRACES_EXPORTER, "azure_monitor_opentelemetry_exporter")
