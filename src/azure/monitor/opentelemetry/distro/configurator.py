@@ -6,5 +6,6 @@
 
 from opentelemetry.sdk._configuration import _OTelSDKConfigurator
 
+
 class AzureMonitorConfigurator(_OTelSDKConfigurator):
     pass
