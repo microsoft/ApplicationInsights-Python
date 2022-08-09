@@ -1,5 +1,2 @@
 pytest
 azure-monitor-opentelemetry-exporter
-opentelemetry-api
-opentelemetry-instrumentation
-opentelemetry-sdk
