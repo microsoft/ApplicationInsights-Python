@@ -1,2 +1,1 @@
 pytest
-azure-monitor-opentelemetry-exporter
