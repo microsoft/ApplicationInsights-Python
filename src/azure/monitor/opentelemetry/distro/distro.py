@@ -14,7 +14,8 @@ from opentelemetry.instrumentation.distro import BaseDistro
 
 class AzureMonitorDistro(BaseDistro):
     def _configure(self, **kwargs):
-        environ.setdefault(OTEL_LOGS_EXPORTER, "azure_monitor_opentelemetry_exporter")
+        # TODO: Uncomment when logging is out of preview
+        # environ.setdefault(OTEL_LOGS_EXPORTER, "azure_monitor_opentelemetry_exporter")
         environ.setdefault(
             OTEL_METRICS_EXPORTER, "azure_monitor_opentelemetry_exporter"
         )
