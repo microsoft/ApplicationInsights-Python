@@ -14,11 +14,9 @@
 
 import unittest
 
-from azure.monitor.opentelemetry.exporter import (
-    AzureMonitorLogExporter,
-    AzureMonitorMetricExporter,
-    AzureMonitorTraceExporter,
-)
+from azure.monitor.opentelemetry.exporter import (AzureMonitorLogExporter,
+                                                  AzureMonitorMetricExporter,
+                                                  AzureMonitorTraceExporter)
 
 
 class TestAzureMonitorExporters(unittest.TestCase):
