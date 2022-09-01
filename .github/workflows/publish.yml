@@ -26,7 +26,7 @@ jobs:
     - name: Publish to TestPyPI
       env:
         TWINE_USERNAME: '__token__'
-        TWINE_PASSWORD: ${{ secrets.PYPI_AUTOMATIC_RELEASE_TOKEN }}
+        TWINE_PASSWORD: ${{ secrets.TEST_PYPI_AUTOMATIC_RELEASE_TOKEN }}
       run: |
         twine upload --repository testpypi --skip-existing --verbose dist/*
     - name: Publish to PyPI
