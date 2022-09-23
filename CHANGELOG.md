@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Adding requests, flask, and psycopg2 instrumentations
+    ([#XXX](https://github.com/microsoft/ApplicationInsights-Python/pull/XXX))
 - Added publishing action
     ([#193](https://github.com/microsoft/ApplicationInsights-Python/pull/193))
 
