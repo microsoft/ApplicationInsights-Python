@@ -1,4 +1,3 @@
-import requests
 import unittest
 
 from opentelemetry.instrumentation.requests import RequestsInstrumentor
