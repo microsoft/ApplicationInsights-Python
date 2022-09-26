@@ -4,7 +4,7 @@
 
 ## [1.0.0b7](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b7) - 2022-09-26
 
-- Moved and updated changelog
+- Moved and updated README
     ([#201](https://github.com/microsoft/ApplicationInsights-Python/pull/201))
 - Adding requests, flask, and psycopg2 instrumentations
     ([#199](https://github.com/microsoft/ApplicationInsights-Python/pull/199))
