@@ -16,7 +16,7 @@ This distro automatically installs the following libraries:
 Install the Azure Monitor Opentelemetry Distro with [pip][pip]:
 
 ```Bash
-pip install azure-monitor-opentelemetry-distro
+pip install azure-monitor-opentelemetry-distro --pre
 ```
 
 ### Prerequisites:
