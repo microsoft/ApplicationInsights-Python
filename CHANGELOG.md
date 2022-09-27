@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## [1.0.0b8](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b8) - 2022-09-26
+
+- Changing instrumentation dependencies to ~=0.33b0
+    ([#203](https://github.com/microsoft/ApplicationInsights-Python/pull/203))
+
 ## [1.0.0b7](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b7) - 2022-09-26
 
 - Moved and updated README
