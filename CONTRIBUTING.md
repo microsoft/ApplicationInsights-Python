@@ -14,7 +14,7 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 
 ## Reporting Bugs/Feature Requests
 
-To report a bug or feature request, open up an [issue](https://github.com/microsoft/ApplicationInsights-Python/issues). Please provide as much information as possible. For example for a bug, describe your environment, provide steps to reproduce, expected behavior/actual behavior in the description.
+To report a bug or feature request, open up an [issue](https://github.com/microsoft/ApplicationInsights-Python/issues). Please provide as much information as possible. For a bug, describe your environment, provide steps to reproduce, expected behavior/actual behavior in the description, etc.
 
 ## Contributing
 
