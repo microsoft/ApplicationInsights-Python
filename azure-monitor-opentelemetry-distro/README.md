@@ -6,6 +6,7 @@ This distro automatically installs the following libraries:
 
 * [Azure Monitor OpenTelemetry exporters][azure_monitor_opentelemetry_exporters]
 * [OpenTelemetry Requests Instrumentation][opentelemetry_instrumentation_requests]
+* [OpenTelemetry Django Instrumentation][opentelemetry_instrumentation_django]
 * [OpenTelemetry Flask Instrumentation][opentelemetry_instrumentation_flask]
 * [OpenTelemetry Psycopg2 Instrumentation][opentelemetry_instrumentation_psycopg2]
 
@@ -48,6 +49,7 @@ To use this package, you must have:
 [ot_python_docs]: https://opentelemetry.io/docs/instrumentation/python/
 [ot_sdk_python]: https://github.com/open-telemetry/opentelemetry-python
 [opentelemetry_instrumentation_requests]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-requests
+[opentelemetry_instrumentation_django]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-django
 [opentelemetry_instrumentation_flask]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-flask
 [opentelemetry_instrumentation_psycopg2]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-psycopg2
 [python]: https://www.python.org/downloads/
