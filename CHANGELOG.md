@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Made build.sh script executible from publish workflow
+    ([#213](https://github.com/microsoft/ApplicationInsights-Python/pull/213))
 - Updated main and distro READMEs
     ([#205](https://github.com/microsoft/ApplicationInsights-Python/pull/205))
 - Update CONTRIBUTING.md, support Py3.11
