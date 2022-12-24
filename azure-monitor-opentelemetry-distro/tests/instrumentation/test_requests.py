@@ -18,4 +18,3 @@ class TestRequestsInstrumentation(unittest.TestCase):
             self.fail(
                 f"Unexpected exception raised when instrumenting {RequestsInstrumentor.__name__}"
             )
-

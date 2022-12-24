@@ -19,4 +19,3 @@ class TestFlaskInstrumentation(unittest.TestCase):
             self.fail(
                 f"Unexpected exception raised when instrumenting {FlaskInstrumentor.__name__}"
             )
-

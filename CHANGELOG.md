@@ -7,7 +7,7 @@
 - Update CONTRIBUTING.md, support Py3.11
     ([#210](https://github.com/microsoft/ApplicationInsights-Python/pull/210))
 - Updated setup.py, directory structure
-    ([#210](https://github.com/microsoft/ApplicationInsights-Python/pull/210))
+    ([#214](https://github.com/microsoft/ApplicationInsights-Python/pull/214))
 
 ## [1.0.0b8](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b8) - 2022-09-26
 
