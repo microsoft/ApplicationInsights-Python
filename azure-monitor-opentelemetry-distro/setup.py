@@ -10,7 +10,7 @@ import setuptools
 
 BASE_DIR = os.path.dirname(__file__)
 VERSION_FILENAME = os.path.join(
-    BASE_DIR, "src", "azure", "monitor", "opentelemetry", "distro", "version.py"
+    BASE_DIR, "azure", "monitor", "opentelemetry", "distro", "version.py"
 )
 PACKAGE_INFO = {}
 with open(VERSION_FILENAME, encoding="utf-8") as f:
