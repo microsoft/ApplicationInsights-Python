@@ -1,3 +1,9 @@
+# -------------------------------------------------------------------------
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License. See License in the project root for
+# license information.
+# --------------------------------------------------------------------------
+
 import unittest
 
 from opentelemetry.instrumentation.psycopg2 import Psycopg2Instrumentor
@@ -12,4 +18,3 @@ class TestPsycopg2Instrumentation(unittest.TestCase):
             self.fail(
                 f"Unexpected exception raised when instrumenting {Psycopg2Instrumentor.__name__}"
             )
-
