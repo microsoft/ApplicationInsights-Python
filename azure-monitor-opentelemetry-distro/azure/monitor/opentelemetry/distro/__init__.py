@@ -34,10 +34,10 @@ def configure_opentelemetry(**kwargs):
     variable, their description follows:
     """
 
-    configurations = get_configurations(False, kwargs)
+    configurations = get_configurations(**kwargs)
     connection_string = configurations["connection_string"]
     service_name = configurations["service_name"]
-    service_namespace = configurations["service_name"]
+    service_namespace = configurations["service_namespace"]
     service_instance_id = configurations["service_instance_id"]
     service_version = configurations["service_version"]
     disable_tracing = configurations["disable_tracing"]
