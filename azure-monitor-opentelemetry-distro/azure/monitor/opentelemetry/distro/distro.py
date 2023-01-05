@@ -3,7 +3,7 @@
 # Licensed under the MIT License. See License in the project root for
 # license information.
 # --------------------------------------------------------------------------
-import logging
+
 from os import environ
 
 from opentelemetry.environment_variables import (
@@ -12,29 +12,14 @@ from opentelemetry.environment_variables import (
 )
 from opentelemetry.instrumentation.distro import BaseDistro
 
-from azure.monitor.opentelemetry.distro.util import get_configurations
-
-
-_logger = logging.getLogger(__name__)
-
 
 class AzureMonitorDistro(BaseDistro):
-    def _configure(self, **kwargs) -> None:
-        try:
-            _configure_auto_instrumentation()
-        except Exception:
-            _logger.exception(
-                (
-                    "Error occured auto-instrumenting AzureMonitorDistro"
-                )
-            )
-
-
-def _configure_auto_instrumentation() -> None:
-    # TODO: support configuration via env vars
-    # TODO: Uncomment when logging is out of preview
-    # environ.setdefault(OTEL_LOGS_EXPORTER, "azure_monitor_opentelemetry_exporter")
-    environ.setdefault(
-        OTEL_METRICS_EXPORTER, "azure_monitor_opentelemetry_exporter"
-    )
-    environ.setdefault(OTEL_TRACES_EXPORTER, "azure_monitor_opentelemetry_exporter")
+    def _configure(self, **kwargs):
+        # TODO: Uncomment when logging is out of preview
+        # environ.setdefault(OTEL_LOGS_EXPORTER, "azure_monitor_opentelemetry_exporter")
+        environ.setdefault(
+            OTEL_METRICS_EXPORTER, "azure_monitor_opentelemetry_exporter"
+        )
+        environ.setdefault(
+            OTEL_TRACES_EXPORTER, "azure_monitor_opentelemetry_exporter"
+        )
