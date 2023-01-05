@@ -11,12 +11,11 @@ def get_configurations(**kwargs) -> Dict[str, Any]:
     configurations = {}
 
     # In-code configurations take priority
-    configurations["connection_string"] = kwargs.get("connection_string")
-    configurations["disable_tracing"] = kwargs.get("disable_tracing")
+    configurations["connection_string"] = kwargs.get("connection_string", None)
+    configurations["disable_tracing"] = kwargs.get("disable_tracing", False)
     configurations["service_name"] = kwargs.get("service_name", "")
     configurations["service_namespace"] = kwargs.get("service_namespace", "")
     configurations["service_instance_id"] = kwargs.get("service_instance_id", "")
-    configurations["service_version"] = kwargs.get("service_version", "")
 
     # TODO: Support addtional env vars configurations
     # if configurations.get("disable_tracing") is None:
