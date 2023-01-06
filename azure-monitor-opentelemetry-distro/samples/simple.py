@@ -4,8 +4,8 @@
 # license information.
 # --------------------------------------------------------------------------
 
-from opentelemetry import trace
 from azure.monitor.opentelemetry.distro import configure_opentelemetry
+from opentelemetry import trace
 
 configure_opentelemetry()
 

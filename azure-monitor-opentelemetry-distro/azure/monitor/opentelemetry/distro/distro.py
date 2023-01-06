@@ -12,7 +12,6 @@ from opentelemetry.environment_variables import (
 )
 from opentelemetry.instrumentation.distro import BaseDistro
 
-
 _logger = logging.getLogger(__name__)
 
 

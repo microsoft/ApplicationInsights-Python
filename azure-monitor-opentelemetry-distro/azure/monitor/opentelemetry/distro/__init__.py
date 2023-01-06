@@ -5,14 +5,13 @@
 # --------------------------------------------------------------------------
 import logging
 
+from azure.monitor.opentelemetry.distro.util import get_configurations
+from azure.monitor.opentelemetry.exporter import AzureMonitorTraceExporter
 from opentelemetry import trace
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from opentelemetry.semconv.resource import ResourceAttributes
-
-from azure.monitor.opentelemetry.distro.util import get_configurations
-from azure.monitor.opentelemetry.exporter import AzureMonitorTraceExporter
 
 
 def configure_opentelemetry(**kwargs):

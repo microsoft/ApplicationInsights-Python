@@ -13,11 +13,10 @@
 # limitations under the License.
 
 import unittest
-from unittest.mock import patch, Mock
-
-from opentelemetry.semconv.resource import ResourceAttributes
+from unittest.mock import Mock, patch
 
 from azure.monitor.opentelemetry.distro import configure_opentelemetry
+from opentelemetry.semconv.resource import ResourceAttributes
 
 
 class TestConfigure(unittest.TestCase):
