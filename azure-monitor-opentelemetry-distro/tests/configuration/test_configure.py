@@ -60,11 +60,13 @@ class TestConfigure(unittest.TestCase):
             service_namespace="test_namespace",
             service_instance_id="test_id",
         )
-        resource_mock.create.assert_called_once_with({
-            ResourceAttributes.SERVICE_NAME: "test_service_name",
-            ResourceAttributes.SERVICE_NAMESPACE: "test_namespace",
-            ResourceAttributes.SERVICE_INSTANCE_ID: "test_id",
-        })
+        resource_mock.create.assert_called_once_with(
+            {
+                ResourceAttributes.SERVICE_NAME: "test_service_name",
+                ResourceAttributes.SERVICE_NAMESPACE: "test_namespace",
+                ResourceAttributes.SERVICE_INSTANCE_ID: "test_id",
+            }
+        )
         tp_mock.assert_called_once_with(resource=resource_init_mock)
         trace_mock.set_tracer_provider.assert_called_once_with(tp_init_mock)
         exporter_mock.assert_called_once_with(connection_string="test_cs")

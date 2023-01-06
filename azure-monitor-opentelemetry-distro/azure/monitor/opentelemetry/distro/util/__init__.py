@@ -15,7 +15,9 @@ def get_configurations(**kwargs) -> Dict[str, Any]:
     configurations["disable_tracing"] = kwargs.get("disable_tracing", False)
     configurations["service_name"] = kwargs.get("service_name", "")
     configurations["service_namespace"] = kwargs.get("service_namespace", "")
-    configurations["service_instance_id"] = kwargs.get("service_instance_id", "")
+    configurations["service_instance_id"] = kwargs.get(
+        "service_instance_id", ""
+    )
 
     # TODO: Support addtional env vars configurations
     # if configurations.get("disable_tracing") is None:

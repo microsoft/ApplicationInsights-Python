@@ -11,7 +11,7 @@ configure_opentelemetry()
 
 tracer = trace.get_tracer(__name__)
 
-with tracer.start_as_current_span("hello2"):
+with tracer.start_as_current_span("hello"):
     print("Hello, World!")
 
 input()

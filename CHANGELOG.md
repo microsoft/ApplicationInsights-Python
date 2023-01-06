@@ -9,7 +9,7 @@
 - Updated setup.py, directory structure
     ([#214](https://github.com/microsoft/ApplicationInsights-Python/pull/214))
 - Introduce Distro API
-    ([#214](https://github.com/microsoft/ApplicationInsights-Python/pull/214))
+    ([#215](https://github.com/microsoft/ApplicationInsights-Python/pull/215))
 
 ## [1.0.0b8](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b8) - 2022-09-26
 

@@ -22,9 +22,7 @@ class AzureMonitorDistro(BaseDistro):
             _configure_auto_instrumentation()
         except Exception:
             _logger.exception(
-                (
-                    "Error occured auto-instrumenting AzureMonitorDistro"
-                )
+                ("Error occured auto-instrumenting AzureMonitorDistro")
             )
 
 
@@ -35,4 +33,6 @@ def _configure_auto_instrumentation() -> None:
     environ.setdefault(
         OTEL_METRICS_EXPORTER, "azure_monitor_opentelemetry_exporter"
     )
-    environ.setdefault(OTEL_TRACES_EXPORTER, "azure_monitor_opentelemetry_exporter")
+    environ.setdefault(
+        OTEL_TRACES_EXPORTER, "azure_monitor_opentelemetry_exporter"
+    )

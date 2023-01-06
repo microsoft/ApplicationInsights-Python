@@ -12,9 +12,7 @@ from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from opentelemetry.semconv.resource import ResourceAttributes
 
 from azure.monitor.opentelemetry.distro.util import get_configurations
-from azure.monitor.opentelemetry.exporter import (
-    AzureMonitorTraceExporter
-)
+from azure.monitor.opentelemetry.exporter import AzureMonitorTraceExporter
 
 
 def configure_opentelemetry(**kwargs):
@@ -34,13 +32,16 @@ def configure_opentelemetry(**kwargs):
     disable_tracing = configurations["disable_tracing"]
 
     if not disable_tracing:
-        resource = Resource.create({
+        resource = Resource.create(
+            {
                 ResourceAttributes.SERVICE_NAME: service_name,
                 ResourceAttributes.SERVICE_NAMESPACE: service_namespace,
                 ResourceAttributes.SERVICE_INSTANCE_ID: service_instance_id,
             }
         )
         trace.set_tracer_provider(TracerProvider(resource=resource))
-        exporter = AzureMonitorTraceExporter(connection_string=connection_string)
+        exporter = AzureMonitorTraceExporter(
+            connection_string=connection_string
+        )
         span_processor = BatchSpanProcessor(exporter)
         trace.get_tracer_provider().add_span_processor(span_processor)
