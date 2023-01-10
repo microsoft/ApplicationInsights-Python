@@ -1,0 +1,14 @@
+[tool.black]
+line-length = 79
+exclude = '''
+(
+  /(  # generated files
+    .github|
+    .tox|
+    .vscode|
+    venv|
+    .*/build/lib/.*|
+    scripts
+  )/
+)
+'''
