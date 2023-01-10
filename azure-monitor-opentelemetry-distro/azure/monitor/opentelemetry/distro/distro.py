@@ -19,10 +19,11 @@ class AzureMonitorDistro(BaseDistro):
     def _configure(self, **kwargs) -> None:
         try:
             _configure_auto_instrumentation()
-        except Exception:
+        except Exception as ex:
             _logger.exception(
                 ("Error occured auto-instrumenting AzureMonitorDistro")
             )
+            raise ex
 
 
 def _configure_auto_instrumentation() -> None:
