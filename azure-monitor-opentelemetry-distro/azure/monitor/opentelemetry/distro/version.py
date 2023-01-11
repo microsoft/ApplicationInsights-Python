@@ -4,14 +4,4 @@
 # license information.
 # --------------------------------------------------------------------------
 
-from azure.monitor.opentelemetry.distro import configure_opentelemetry
-from opentelemetry import trace
-
-configure_opentelemetry()
-
-tracer = trace.get_tracer(__name__)
-
-with tracer.start_as_current_span("hello"):
-    print("Hello, World!")
-
-input()
+VERSION = "1.0.0b8"
