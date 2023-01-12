@@ -9,6 +9,9 @@ from os import environ
 from azure.monitor.opentelemetry.distro._diagnostic_logging import (
     AzureDiagnosticLogging,
 )
+from azure.monitor.opentelemetry.distro._status_logger import (
+    log_status,
+)
 from opentelemetry.environment_variables import (
     OTEL_METRICS_EXPORTER,
     OTEL_TRACES_EXPORTER,
@@ -34,6 +37,7 @@ class AzureMonitorDistro(BaseDistro):
 
 def _configure_auto_instrumentation() -> None:
     try:
+        log_status(False, "Distro being configured.")
         AzureDiagnosticLogging.enable(_logger)
         AzureDiagnosticLogging.enable(_opentelemetry_logger)
         # TODO: Enabled when duplicate logging issue is solved
@@ -51,10 +55,12 @@ def _configure_auto_instrumentation() -> None:
         environ.setdefault(
             OTEL_TRACES_EXPORTER, "azure_monitor_opentelemetry_exporter"
         )
+        log_status(True)
         _logger.info(
             "Azure Monitor OpenTelemetry Distro configured successfully."
         )
     except Exception as exc:
+        log_status(False, reason=exc)
         _logger.error(
             "Azure Monitor OpenTelemetry Distro failed during "
             + f"configuration: {exc}"
