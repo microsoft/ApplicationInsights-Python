@@ -35,4 +35,6 @@ class TestUtil(unittest.TestCase):
         self.assertEqual(configurations["service_namespace"], "test_namespace")
         self.assertEqual(configurations["service_instance_id"], "test_id")
         self.assertEqual(configurations["sampling_ratio"], "test_sample_ratio")
-        self.assertEqual(configurations["tracing_export_interval"], "test_interval")
+        self.assertEqual(
+            configurations["tracing_export_interval"], "test_interval"
+        )

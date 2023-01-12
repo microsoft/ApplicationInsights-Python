@@ -15,4 +15,5 @@ def get_configurations(**kwargs) -> Dict[str, Any]:
 
     return configurations
 
+
 # TODO: Add env var configuration

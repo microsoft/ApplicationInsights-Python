@@ -28,7 +28,9 @@ def configure_azure_monitor(**kwargs):
     service_namespace = configurations.get("service_namespace", "")
     service_instance_id = configurations.get("service_instance_id", "")
     sampling_ratio = configurations.get("sampling_ratio", 1.0)
-    tracing_export_interval = configurations.get("tracing_export_interval", 30000)
+    tracing_export_interval = configurations.get(
+        "tracing_export_interval", 30000
+    )
 
     if not disable_tracing:
         resource = Resource.create(
@@ -39,9 +41,7 @@ def configure_azure_monitor(**kwargs):
             }
         )
         tracer_provider = TracerProvider(
-            sampler=ApplicationInsightsSampler(
-                sampling_ratio=sampling_ratio
-            ),
+            sampler=ApplicationInsightsSampler(sampling_ratio=sampling_ratio),
             resource=resource,
         )
         trace.set_tracer_provider(tracer_provider)
