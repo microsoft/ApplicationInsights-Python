@@ -1,1 +1,4 @@
 pytest
+psycopg2
+flask
+requests

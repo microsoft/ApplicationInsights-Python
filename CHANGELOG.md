@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added Diagnostic Logging for App Service
+    ([#212](https://github.com/microsoft/ApplicationInsights-Python/pull/212))
 - Updated main and distro READMEs
     ([#205](https://github.com/microsoft/ApplicationInsights-Python/pull/205))
 - Update CONTRIBUTING.md, support Py3.11
