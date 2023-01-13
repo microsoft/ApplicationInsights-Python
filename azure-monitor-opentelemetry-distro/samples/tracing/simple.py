@@ -4,10 +4,14 @@
 # license information.
 # --------------------------------------------------------------------------
 
-from azure.monitor.opentelemetry.distro import configure_opentelemetry
+from azure.monitor.opentelemetry.distro import configure_azure_monitor
 from opentelemetry import trace
 
-configure_opentelemetry()
+configure_azure_monitor(
+    connection_string="<your-connection-string>",
+    service_name="foo_service",
+    tracing_export_interval_millis=15000,
+)
 
 tracer = trace.get_tracer(__name__)
 

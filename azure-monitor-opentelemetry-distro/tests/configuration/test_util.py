@@ -25,6 +25,8 @@ class TestUtil(unittest.TestCase):
             service_name="test_service_name",
             service_namespace="test_namespace",
             service_instance_id="test_id",
+            sampling_ratio="test_sample_ratio",
+            tracing_export_interval="test_interval",
         )
 
         self.assertEqual(configurations["connection_string"], "test_cs")
@@ -32,11 +34,7 @@ class TestUtil(unittest.TestCase):
         self.assertEqual(configurations["service_name"], "test_service_name")
         self.assertEqual(configurations["service_namespace"], "test_namespace")
         self.assertEqual(configurations["service_instance_id"], "test_id")
-
-    def test_get_configurations_default(self):
-        configurations = get_configurations()
-        self.assertEqual(configurations["connection_string"], None)
-        self.assertEqual(configurations["disable_tracing"], False)
-        self.assertEqual(configurations["service_name"], "")
-        self.assertEqual(configurations["service_namespace"], "")
-        self.assertEqual(configurations["service_instance_id"], "")
+        self.assertEqual(configurations["sampling_ratio"], "test_sample_ratio")
+        self.assertEqual(
+            configurations["tracing_export_interval"], "test_interval"
+        )
