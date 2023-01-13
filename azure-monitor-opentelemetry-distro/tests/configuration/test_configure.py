@@ -59,13 +59,12 @@ class TestConfigure(unittest.TestCase):
         bsp_init_mock = Mock()
         bsp_mock.return_value = bsp_init_mock
         configure_azure_monitor(
-            connection_string="test_cs",
             disable_tracing=False,
             service_name="test_service_name",
             service_namespace="test_namespace",
             service_instance_id="test_id",
             sampling_ratio=0.5,
-            tracing_export_interval=15,
+            tracing_interval_millis=15000,
         )
         resource_mock.create.assert_called_once_with(
             {
@@ -83,7 +82,7 @@ class TestConfigure(unittest.TestCase):
         sampler_mock.assert_called_once_with(sampling_ratio=0.5)
         bsp_mock.assert_called_once_with(
             exp_init_mock,
-            export_timeout_millis=15,
+            export_timeout_millis=15000,
         )
 
     @patch(
@@ -115,7 +114,6 @@ class TestConfigure(unittest.TestCase):
         bsp_mock,
     ):
         configure_azure_monitor(
-            connection_string="test_cs",
             disable_tracing=True,
         )
         resource_mock.assert_not_called()
@@ -164,6 +162,7 @@ class TestConfigure(unittest.TestCase):
         bsp_init_mock = Mock()
         bsp_mock.return_value = bsp_init_mock
         kwargs = {
+            "connection_string": "test_cs",
             "api_version": "1.0",
             "disable_offline_storage": True,
             "storage_maintenance_period": 50,

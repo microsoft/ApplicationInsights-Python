@@ -10,7 +10,7 @@ from opentelemetry import trace
 configure_azure_monitor(
     connection_string="<your-connection-string>",
     service_name="foo_service",
-    tracing_export_interval=15,
+    tracing_interval_millis=15000,
 )
 
 tracer = trace.get_tracer(__name__)

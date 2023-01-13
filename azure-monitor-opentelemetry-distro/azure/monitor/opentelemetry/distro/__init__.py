@@ -28,8 +28,8 @@ def configure_azure_monitor(**kwargs):
     service_namespace = configurations.get("service_namespace", "")
     service_instance_id = configurations.get("service_instance_id", "")
     sampling_ratio = configurations.get("sampling_ratio", 1.0)
-    tracing_export_interval = configurations.get(
-        "tracing_export_interval", 30000
+    tracing_interval_millis = configurations.get(
+        "tracing_interval_millis", 30000
     )
 
     if not disable_tracing:
@@ -48,6 +48,6 @@ def configure_azure_monitor(**kwargs):
         exporter = AzureMonitorTraceExporter(**kwargs)
         span_processor = BatchSpanProcessor(
             exporter,
-            export_timeout_millis=tracing_export_interval,
+            export_timeout_millis=tracing_interval_millis,
         )
         trace.get_tracer_provider().add_span_processor(span_processor)
