@@ -64,7 +64,7 @@ class TestConfigure(unittest.TestCase):
             service_namespace="test_namespace",
             service_instance_id="test_id",
             sampling_ratio=0.5,
-            tracing_interval_millis=15000,
+            tracing_export_interval_millis=15000,
         )
         resource_mock.create.assert_called_once_with(
             {
