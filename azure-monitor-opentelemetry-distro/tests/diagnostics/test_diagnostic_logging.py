@@ -12,7 +12,7 @@ from pathlib import Path
 from unittest import TestCase
 from unittest.mock import patch
 
-import azure.monitor.opentelemetry.distro._diagnostic_logging as diagnostic_logger
+import azure.monitor.opentelemetry.distro._diagnostics._diagnostic_logging as diagnostic_logger
 
 TEST_LOGGER_PATH = str(Path.home())
 TEST_DIAGNOSTIC_LOGGER_FILE_NAME = "test-applicationinsights-extension.log"
@@ -88,27 +88,27 @@ def set_up(
     reload(diagnostic_logger)
     assert not diagnostic_logger.AzureDiagnosticLogging._initialized
     patch(
-        "azure.monitor.opentelemetry.distro._diagnostic_logging._DIAGNOSTIC_LOG_PATH",
+        "azure.monitor.opentelemetry.distro._diagnostics._diagnostic_logging._DIAGNOSTIC_LOG_PATH",
         TEST_LOGGER_PATH,
     ).start()
     patch(
-        "azure.monitor.opentelemetry.distro._diagnostic_logging._DIAGNOSTIC_LOGGER_FILE_NAME",
+        "azure.monitor.opentelemetry.distro._diagnostics._diagnostic_logging._DIAGNOSTIC_LOGGER_FILE_NAME",
         TEST_DIAGNOSTIC_LOGGER_FILE_NAME,
     ).start()
     patch(
-        "azure.monitor.opentelemetry.distro._diagnostic_logging._CUSTOMER_IKEY",
+        "azure.monitor.opentelemetry.distro._diagnostics._diagnostic_logging._CUSTOMER_IKEY",
         TEST_CUSTOMER_IKEY,
     ).start()
     patch(
-        "azure.monitor.opentelemetry.distro._diagnostic_logging._EXTENSION_VERSION",
+        "azure.monitor.opentelemetry.distro._diagnostics._diagnostic_logging._EXTENSION_VERSION",
         TEST_EXTENSION_VERSION,
     ).start()
     patch(
-        "azure.monitor.opentelemetry.distro._diagnostic_logging.VERSION",
+        "azure.monitor.opentelemetry.distro._diagnostics._diagnostic_logging.VERSION",
         TEST_VERSION,
     ).start()
     patch(
-        "azure.monitor.opentelemetry.distro._diagnostic_logging._IS_DIAGNOSTICS_ENABLED",
+        "azure.monitor.opentelemetry.distro._diagnostics._diagnostic_logging._IS_DIAGNOSTICS_ENABLED",
         is_diagnostics_enabled,
     ).start()
     diagnostic_logger.AzureDiagnosticLogging.enable(logger)
