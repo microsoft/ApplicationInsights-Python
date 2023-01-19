@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added Status Logger
+    ([#217](https://github.com/microsoft/ApplicationInsights-Python/pull/217))
 - Added Diagnostic Logging for App Service
     ([#212](https://github.com/microsoft/ApplicationInsights-Python/pull/212))
 - Updated main and distro READMEs

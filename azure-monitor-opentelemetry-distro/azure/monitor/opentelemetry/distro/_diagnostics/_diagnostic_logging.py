@@ -27,9 +27,6 @@ _SUBSCRIPTION_ID = (
     if _SUBSCRIPTION_ID_ENV_VAR
     else None
 )
-_opentelemetry_logger = logging.getLogger(
-    _OPENTELEMETRY_DIAGNOSTIC_LOGGER_NAME
-)
 _logger = logging.getLogger(__name__)
 _DIAGNOSTIC_LOG_PATH = _get_log_path()
 
