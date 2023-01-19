@@ -13,9 +13,14 @@
 # limitations under the License.
 
 import unittest
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, patch, call
 
-from azure.monitor.opentelemetry.distro import configure_azure_monitor
+from azure.monitor.opentelemetry.distro import (
+    configure_azure_monitor,
+    _setup_instrumentations,
+    _setup_tracing,
+    _SUPPORTED_INSTRUMENTED_LIBRARIES,
+)
 from opentelemetry.semconv.resource import ResourceAttributes
 
 
@@ -179,3 +184,97 @@ class TestConfigure(unittest.TestCase):
         exporter_mock.assert_called_once_with(**kwargs)
         sampler_mock.assert_called_once()
         bsp_mock.assert_called_once()
+
+
+    @patch("azure.monitor.opentelemetry.distro.getattr")
+    def test_setup_instrumentations(
+        self,         
+        getattr_mock,
+    ):
+        for lib_name in _SUPPORTED_INSTRUMENTED_LIBRARIES:
+            with patch("importlib.import_module") as import_module_mock:
+                instrumentations = [lib_name]
+                instrument_mock = Mock()
+                instrumentor_mock = Mock()
+                instrumentor_mock.return_value = instrument_mock
+                getattr_mock.return_value = instrumentor_mock
+                _setup_instrumentations(instrumentations)
+                self.assertEqual(import_module_mock.call_count, 2)
+                instr_lib_name = "opentelemetry.instrumentation." + lib_name
+                import_module_mock.assert_has_calls([call(lib_name), call(instr_lib_name)])
+                instrumentor_mock.assert_called_once()
+                instrument_mock.instrument.assert_called_once()
+
+    @patch("azure.monitor.opentelemetry.distro.getattr")
+    def test_setup_instrumentations_lib_not_found(
+        self,         
+        getattr_mock,
+    ):
+        with patch("importlib.import_module") as import_module_mock:
+            instrumentations = ["non_supported_lib"]
+            instrument_mock = Mock()
+            instrumentor_mock = Mock()
+            instrumentor_mock.return_value = instrument_mock
+            getattr_mock.return_value = instrumentor_mock
+            _setup_instrumentations(instrumentations)
+            import_module_mock.assert_not_called()
+            instrumentor_mock.assert_not_called()
+            instrument_mock.instrument.assert_not_called()
+
+    @patch("azure.monitor.opentelemetry.distro.getattr")
+    def test_setup_instrumentations_import_lib_failed(
+        self,         
+        getattr_mock,
+    ):
+        for lib_name in _SUPPORTED_INSTRUMENTED_LIBRARIES:
+            with patch(
+                "importlib.import_module",
+                side_effect=ImportError()
+            ) as import_module_mock:
+                instrumentations = [lib_name]
+                instrument_mock = Mock()
+                instrumentor_mock = Mock()
+                instrumentor_mock.return_value = instrument_mock
+                getattr_mock.return_value = instrumentor_mock
+                _setup_instrumentations(instrumentations)
+                import_module_mock.assert_called_once()
+                instrumentor_mock.assert_not_called()
+                instrument_mock.instrument.assert_not_called()
+
+    @patch("azure.monitor.opentelemetry.distro.getattr")
+    def test_setup_instrumentations_import_instr_failed(
+        self,         
+        getattr_mock,
+    ):
+        for lib_name in _SUPPORTED_INSTRUMENTED_LIBRARIES:
+            with patch("importlib.import_module") as import_module_mock:
+                instrumentations = [lib_name]
+                instrument_mock = Mock()
+                instrumentor_mock = Mock()
+                instrumentor_mock.return_value = instrument_mock
+                getattr_mock.return_value = instrumentor_mock
+                import_module_mock.side_effect = [None, ImportError()]
+                _setup_instrumentations(instrumentations)
+                instr_lib_name = "opentelemetry.instrumentation." + lib_name
+                import_module_mock.assert_has_calls([call(lib_name), call(instr_lib_name)])
+                instrumentor_mock.assert_not_called()
+                instrument_mock.instrument.assert_not_called()
+
+    @patch("azure.monitor.opentelemetry.distro.getattr")
+    def test_setup_instrumentations_failed_general(
+        self,         
+        getattr_mock,
+    ):
+        for lib_name in _SUPPORTED_INSTRUMENTED_LIBRARIES:
+            with patch("importlib.import_module") as import_module_mock:
+                instrumentations = [lib_name]
+                instrument_mock = Mock()
+                instrumentor_mock = Mock()
+                instrumentor_mock.return_value = instrument_mock
+                getattr_mock.side_effect = Exception()
+                _setup_instrumentations(instrumentations)
+                self.assertEqual(import_module_mock.call_count, 2)
+                instr_lib_name = "opentelemetry.instrumentation." + lib_name
+                import_module_mock.assert_has_calls([call(lib_name), call(instr_lib_name)])
+                instrumentor_mock.assert_not_called()
+                instrument_mock.instrument.assert_not_called()

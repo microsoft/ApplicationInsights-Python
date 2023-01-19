@@ -1,3 +1,9 @@
+# -------------------------------------------------------------------------
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License. See License in the project root for
+# license information.
+# --------------------------------------------------------------------------
+
 import logging
 import platform
 from os import environ
@@ -7,11 +13,7 @@ from azure.monitor.opentelemetry.exporter._connection_string_parser import (
     ConnectionStringParser,
 )
 
-# -------------------------------------------------------------------------
-# Copyright (c) Microsoft Corporation. All rights reserved.
-# Licensed under the MIT License. See License in the project root for
-# license information.
-# --------------------------------------------------------------------------
+# --------------------Diagnostic/status logging------------------------------
 
 _LOG_PATH_LINUX = "/var/log/applicationinsights"
 _LOG_PATH_WINDOWS = "\\LogFiles\\ApplicationInsights"

@@ -14,6 +14,8 @@
     ([#215](https://github.com/microsoft/ApplicationInsights-Python/pull/215))
 - Rename to `configure_azure_monitor`, add sampler to config
     ([#216](https://github.com/microsoft/ApplicationInsights-Python/pull/216))
+- Add instrumentation selection config
+    ([#216](https://github.com/microsoft/ApplicationInsights-Python/pull/216))
 
 ## [1.0.0b8](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b8) - 2022-09-26
 
