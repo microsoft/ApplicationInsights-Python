@@ -2,20 +2,22 @@
 
 ## Unreleased
 
-- Added Status Logger
-    ([#217](https://github.com/microsoft/ApplicationInsights-Python/pull/217))
-- Added Diagnostic Logging for App Service
-    ([#212](https://github.com/microsoft/ApplicationInsights-Python/pull/212))
 - Updated main and distro READMEs
     ([#205](https://github.com/microsoft/ApplicationInsights-Python/pull/205))
 - Update CONTRIBUTING.md, support Py3.11
     ([#210](https://github.com/microsoft/ApplicationInsights-Python/pull/210))
+- Added Diagnostic Logging for App Service
+    ([#212](https://github.com/microsoft/ApplicationInsights-Python/pull/212))
 - Updated setup.py, directory structure
     ([#214](https://github.com/microsoft/ApplicationInsights-Python/pull/214))
 - Introduce Distro API
     ([#215](https://github.com/microsoft/ApplicationInsights-Python/pull/215))
 - Rename to `configure_azure_monitor`, add sampler to config
     ([#216](https://github.com/microsoft/ApplicationInsights-Python/pull/216))
+- Added Status Logger
+    ([#217](https://github.com/microsoft/ApplicationInsights-Python/pull/217))
+- Add Logging configuration to Distro API
+    ([#218](https://github.com/microsoft/ApplicationInsights-Python/pull/218))
 
 ## [1.0.0b8](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b8) - 2022-09-26
 
