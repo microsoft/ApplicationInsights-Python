@@ -5,7 +5,7 @@
 # --------------------------------------------------------------------------
 
 
-from azure.monitor.opentelemetry.distro._diagnostic_logging import (
+from azure.monitor.opentelemetry.distro._diagnostics._diagnostic_logging import (
     AzureDiagnosticLogging,
 )
 from opentelemetry.sdk._configuration import _OTelSDKConfigurator
