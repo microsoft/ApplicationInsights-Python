@@ -18,7 +18,6 @@ from azure.monitor.opentelemetry.distro._constants import (
 )
 from azure.monitor.opentelemetry.distro._version import VERSION
 
-_OPENTELEMETRY_DIAGNOSTIC_LOGGER_NAME = "opentelemetry"
 _DIAGNOSTIC_LOGGER_FILE_NAME = "applicationinsights-extension.log"
 _SITE_NAME = _env_var_or_default("WEBSITE_SITE_NAME")
 _SUBSCRIPTION_ID_ENV_VAR = _env_var_or_default("WEBSITE_OWNER_NAME")
@@ -68,14 +67,18 @@ class AzureDiagnosticLogging:
                         fmt=format, datefmt="%Y-%m-%dT%H:%M:%S"
                     )
                     AzureDiagnosticLogging._f_handler.setFormatter(formatter)
-                    _logger.addHandler(AzureDiagnosticLogging._f_handler)
                     AzureDiagnosticLogging._initialized = True
                     _logger.info("Initialized Azure Diagnostic Logger.")
 
     def enable(logger: logging.Logger):
         AzureDiagnosticLogging._initialize()
         if AzureDiagnosticLogging._initialized:
-            logger.addHandler(AzureDiagnosticLogging._f_handler)
-            _logger.info(
-                "Added Azure diagnostics logging to %s." % logger.name
-            )
+            if AzureDiagnosticLogging._f_handler in logger.handlers:
+                _logger.info(
+                    "Azure diagnostics already enabled for %s logger." % logger.name
+                )
+            else:
+                logger.addHandler(AzureDiagnosticLogging._f_handler)
+                _logger.info(
+                    "Added Azure diagnostics logging to %s." % logger.name
+                )
