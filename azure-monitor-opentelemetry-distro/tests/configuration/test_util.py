@@ -21,20 +21,32 @@ class TestUtil(unittest.TestCase):
     def test_get_configurations(self):
         configurations = get_configurations(
             connection_string="test_cs",
-            disable_tracing="test_disable",
+            disable_logging="test_disable_logging",
+            disable_tracing="test_disable_tracing",
+            logging_level="test_logging_level",
             service_name="test_service_name",
             service_namespace="test_namespace",
             service_instance_id="test_id",
             sampling_ratio="test_sample_ratio",
-            tracing_export_interval="test_interval",
+            tracing_export_interval="test_tracing_interval",
+            logging_export_interval="test_logging_interval",
         )
 
         self.assertEqual(configurations["connection_string"], "test_cs")
-        self.assertEqual(configurations["disable_tracing"], "test_disable")
+        self.assertEqual(
+            configurations["disable_logging"], "test_disable_logging"
+        )
+        self.assertEqual(
+            configurations["disable_tracing"], "test_disable_tracing"
+        )
+        self.assertEqual(configurations["logging_level"], "test_logging_level")
         self.assertEqual(configurations["service_name"], "test_service_name")
         self.assertEqual(configurations["service_namespace"], "test_namespace")
         self.assertEqual(configurations["service_instance_id"], "test_id")
         self.assertEqual(configurations["sampling_ratio"], "test_sample_ratio")
         self.assertEqual(
-            configurations["tracing_export_interval"], "test_interval"
+            configurations["tracing_export_interval"], "test_tracing_interval"
+        )
+        self.assertEqual(
+            configurations["logging_export_interval"], "test_logging_interval"
         )
