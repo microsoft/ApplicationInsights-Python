@@ -18,6 +18,8 @@
     ([#217](https://github.com/microsoft/ApplicationInsights-Python/pull/217))
 - Add Logging configuration to Distro API
     ([#218](https://github.com/microsoft/ApplicationInsights-Python/pull/218))
+- Removing diagnostic logging from its module's logger. Preventing duplicate handlers.
+    ([#225](https://github.com/microsoft/ApplicationInsights-Python/pull/225))
 
 ## [1.0.0b8](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b8) - 2022-09-26
 

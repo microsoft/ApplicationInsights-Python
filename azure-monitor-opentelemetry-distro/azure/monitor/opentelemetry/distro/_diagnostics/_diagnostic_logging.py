@@ -75,7 +75,8 @@ class AzureDiagnosticLogging:
         if AzureDiagnosticLogging._initialized:
             if AzureDiagnosticLogging._f_handler in logger.handlers:
                 _logger.info(
-                    "Azure diagnostics already enabled for %s logger." % logger.name
+                    "Azure diagnostics already enabled for %s logger."
+                    % logger.name
                 )
             else:
                 logger.addHandler(AzureDiagnosticLogging._f_handler)
