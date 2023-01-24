@@ -5,8 +5,6 @@
 import os
 import sys
 
-from opentelemetry.instrumentation.django import DjangoInstrumentor
-
 
 def main():
     """Run administrative tasks."""

@@ -10,9 +10,10 @@ from azure.monitor.opentelemetry.distro import configure_azure_monitor
 
 # Configure Azure monitor collection telemetry pipeline
 configure_azure_monitor(
-    connection_string="<your-connection-string>",
+    # connection_string="<your-connection-string>",
     service_name="django_service_name",
     instrumentations=["django"],
+    disable_logging=True,
     tracing_export_interval_millis=15000,
 )
 

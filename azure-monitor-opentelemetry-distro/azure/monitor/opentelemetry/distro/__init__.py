@@ -56,16 +56,16 @@ def configure_azure_monitor(**kwargs):
 
     # Setup tracing pipeline
     if not disable_tracing:
-        _setup_tracing(resource, configurations, **kwargs)
+        _setup_tracing(resource, configurations)
 
     # Setup logging pipeline
     if not disable_logging:
-        _setup_logging(resource, configurations, **kwargs)
+        _setup_logging(resource, configurations)
 
     # Setup instrumentations
     # Instrumentations need to be setup last so to use the global providers
     # instanstiated in the other setup steps
-    _setup_instrumentations(configurations.get("instrumentations", []))
+    _setup_instrumentations(configurations)
 
 
 def _get_resource(configurations: Dict[str, Any]) -> Resource:
@@ -81,7 +81,7 @@ def _get_resource(configurations: Dict[str, Any]) -> Resource:
         )
 
 
-def _setup_tracing(resource: Resource, configurations: Dict[str, Any], **kwargs: Dict[Any, Any]):
+def _setup_tracing(resource: Resource, configurations: Dict[str, Any]):
     sampling_ratio = configurations.get("sampling_ratio", 1.0)
     tracing_export_interval_millis = configurations.get(
         "tracing_export_interval_millis", 30000
@@ -91,7 +91,7 @@ def _setup_tracing(resource: Resource, configurations: Dict[str, Any], **kwargs:
             resource=resource,
         )
     set_tracer_provider(tracer_provider)
-    trace_exporter = AzureMonitorTraceExporter(**kwargs)
+    trace_exporter = AzureMonitorTraceExporter(**configurations)
     span_processor = BatchSpanProcessor(
         trace_exporter,
         export_timeout_millis=tracing_export_interval_millis,
@@ -99,14 +99,14 @@ def _setup_tracing(resource: Resource, configurations: Dict[str, Any], **kwargs:
     get_tracer_provider().add_span_processor(span_processor)
 
 
-def _setup_logging(resource: Resource, configurations: Dict[str, Any], **kwargs: Dict[Any, Any]):
+def _setup_logging(resource: Resource, configurations: Dict[str, Any]):
     logging_level = configurations.get("logging_level", NOTSET)
     logging_export_interval_millis = configurations.get(
         "logging_export_interval_millis", 30000
     )
     logger_provider = LoggerProvider(resource=resource)
     set_logger_provider(logger_provider)
-    log_exporter = AzureMonitorLogExporter(**kwargs)
+    log_exporter = AzureMonitorLogExporter(**configurations)
     log_record_processor = BatchLogRecordProcessor(
         log_exporter,
         export_timeout_millis=logging_export_interval_millis,
@@ -118,7 +118,8 @@ def _setup_logging(resource: Resource, configurations: Dict[str, Any], **kwargs:
     getLogger().addHandler(handler)
 
 
-def _setup_instrumentations(instrumentations: Dict[str, str]):
+def _setup_instrumentations(configurations: Dict[str, Any]):
+    instrumentations = configurations.get("instrumentations", [])
     for lib_name in instrumentations:
         if lib_name in _SUPPORTED_INSTRUMENTED_LIBRARIES:
                 try:

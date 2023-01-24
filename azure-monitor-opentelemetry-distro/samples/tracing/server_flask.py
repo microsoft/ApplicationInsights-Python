@@ -11,6 +11,7 @@ from azure.monitor.opentelemetry.distro import configure_azure_monitor
 configure_azure_monitor(
     connection_string="<your-connection-string>",
     service_name="flask_service_name",
+    disable_logging=True,
     instrumentations=["flask"],
     tracing_export_interval_millis=15000,
 )
