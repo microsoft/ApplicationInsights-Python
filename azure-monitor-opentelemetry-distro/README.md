@@ -14,7 +14,7 @@ This distro automatically installs the following libraries:
 
 ### Key Concepts
 
-This package is simply a collection of OpenTelemetry and Azure Monitor components bundled together to enable the collection and sending of telemetry to Azure Monitor. For MANUAL instrumentation, it is equivalent to installing the above packages individually. AUTOMATIC instrumentation is not yet supported.
+This package bundles a series of OpenTelemetry and Azure Monitor components to enable the collection and sending of telemetry to Azure Monitor. For MANUAL instrumentation, use the `configure_azure_monitor` function. AUTOMATIC instrumentation is not yet supported.
 
 The [Azure Monitor OpenTelemetry exporters][azure_monitor_opentelemetry_exporters] are the main components in accomplishing this. You will be able to use the exporters and their APIs directly through this package. Please go the exporter documentation to understand how OpenTelemetry and Azure Monitor components work in enabling telemetry collection and exporting.
 
@@ -27,6 +27,23 @@ Install the Azure Monitor Opentelemetry Distro with [pip][pip]:
 ```Bash
 pip install azure-monitor-opentelemetry-distro --pre
 ```
+
+### Usage
+
+You can use `configure_azure_monitor` to set up instrumentation for your app to Azure Monitor. `configure_azure_monitor` supports the following optional arguments:
+
+* connection_string - The [connection string][connection_string_doc] for your Application Insights resource. The connection string will be automatically populated from the `APPLICATIONINSIGHTS_CONNECTION_STRING` environment variable if not explicitly passed in.
+* service_name = Specifies the [service][service_semantic_convention_doc] name. 
+* service_namespace = Specifies the [service][service_semantic_convention_doc] namespace.
+* service_instance_id = Specifies the [service][service_semantic_convention_doc] instance id.
+* disable_logging = If set to `True`, disables collection and export of logging telemetry.
+* logging_level = Specifies the [logging level][logging_level] of the Opentelemetry Logging Handler. Ex: logging.WARNING.
+* logging_export_interval_millis = Specifies the export interval of the logging exporter in milliseconds. Defaults to 30,000.
+* disable_tracing = If set to `True`, disables collection and export of distributed tracing telemetry.
+* sampling_ratio = Specifies the ratio of distributed tracing telemetry to be [sampled][application_insights_sampling]. Accepted values are in the range [0,1]. Defaults to 1.0, meaning no telemetry is sampled out.
+* tracing_export_interval_millis = Specifies the export interval of the distributed tracing exporter in milliseconds. Defaults to 30,000.
+
+See additional [configuration related to exporting here][exporter_configuration_docs].
 
 ### Prerequisites:
 To use this package, you must have:
@@ -44,8 +61,11 @@ To use this package, you must have:
 [azure_monitor_opentelemetry_exporters]: https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/monitor/azure-monitor-opentelemetry-exporter#microsoft-opentelemetry-exporter-for-azure-monitor
 [azure_portal]: https://portal.azure.com
 [azure_sub]: https://azure.microsoft.com/free/
-[application_insights_namespace]: https://docs.microsoft.com/azure/azure-monitor/app/
-[pip]: https://pypi.org/project/pip/
+[application_insights_namespace]: https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview
+[application_insights_sampling]: https://learn.microsoft.com/en-us/azure/azure-monitor/app/sampling
+[connection_string_doc]: https://learn.microsoft.com/en-us/azure/azure-monitor/app/sdk-connection-string
+[exporter_configuration_docs]: https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/monitor/azure-monitor-opentelemetry-exporter#configuration
+[logging_level]: https://docs.python.org/3/library/logging.html#levels
 [ot_python_docs]: https://opentelemetry.io/docs/instrumentation/python/
 [ot_sdk_python]: https://github.com/open-telemetry/opentelemetry-python
 [opentelemetry_instrumentation_requests]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-requests
@@ -53,3 +73,5 @@ To use this package, you must have:
 [opentelemetry_instrumentation_flask]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-flask
 [opentelemetry_instrumentation_psycopg2]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-psycopg2
 [python]: https://www.python.org/downloads/
+[pip]: https://pypi.org/project/pip/
+[service_semantic_convention_doc]: https://github.com/open-telemetry/opentelemetry-specification/tree/main/specification/resource/semantic_conventions#service

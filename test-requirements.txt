@@ -1,4 +1,5 @@
 pytest
 psycopg2
 flask
+django
 requests

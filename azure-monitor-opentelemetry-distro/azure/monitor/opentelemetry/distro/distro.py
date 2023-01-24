@@ -13,6 +13,7 @@ from azure.monitor.opentelemetry.distro._diagnostics._status_logger import (
     AzureStatusLogger,
 )
 from opentelemetry.environment_variables import (
+    OTEL_LOGS_EXPORTER,
     OTEL_METRICS_EXPORTER,
     OTEL_TRACES_EXPORTER,
 )
@@ -54,6 +55,9 @@ def _configure_auto_instrumentation() -> None:
         )
         environ.setdefault(
             OTEL_TRACES_EXPORTER, "azure_monitor_opentelemetry_exporter"
+        )
+        environ.setdefault(
+            OTEL_LOGS_EXPORTER, "azure_monitor_opentelemetry_exporter"
         )
         AzureStatusLogger.log_status(True)
         _logger.info(

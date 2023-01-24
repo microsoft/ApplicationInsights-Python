@@ -13,6 +13,7 @@ configure_azure_monitor(
     service_name="psycopg2_service_name",
     instrumentations=["psycopg2"],
     tracing_export_interval_millis=15000,
+    disable_logging=True,
 )
 
 cnx = psycopg2.connect(database='test', user="<user>", password="<password>")
