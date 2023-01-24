@@ -10,15 +10,14 @@ from os import makedirs
 from os.path import exists, join
 
 from azure.monitor.opentelemetry.distro._constants import (
-    _CUSTOMER_IKEY,
     _EXTENSION_VERSION,
     _IS_DIAGNOSTICS_ENABLED,
+    ConnectionStringConstants,
     _env_var_or_default,
     _get_log_path,
 )
 from azure.monitor.opentelemetry.distro._version import VERSION
 
-_OPENTELEMETRY_DIAGNOSTIC_LOGGER_NAME = "opentelemetry"
 _DIAGNOSTIC_LOGGER_FILE_NAME = "applicationinsights-extension.log"
 _SITE_NAME = _env_var_or_default("WEBSITE_SITE_NAME")
 _SUBSCRIPTION_ID_ENV_VAR = _env_var_or_default("WEBSITE_OWNER_NAME")
@@ -40,6 +39,20 @@ class AzureDiagnosticLogging:
         with AzureDiagnosticLogging._lock:
             if not AzureDiagnosticLogging._initialized:
                 if _IS_DIAGNOSTICS_ENABLED and _DIAGNOSTIC_LOG_PATH:
+                    customer_ikey = (
+                        ConnectionStringConstants.get_customer_ikey()
+                    )
+                    if customer_ikey is None:
+                        try:
+                            ConnectionStringConstants.set_conn_str_from_env_var()
+                            customer_ikey = (
+                                ConnectionStringConstants.get_customer_ikey()
+                            )
+                        except ValueError as e:
+                            _logger.error(
+                                "Failed to parse Instrumentation Key: %s" % e
+                            )
+                            customer_ikey = "unknown"
                     format = (
                         "{"
                         + '"time":"%(asctime)s.%(msecs)03d", '
@@ -49,7 +62,7 @@ class AzureDiagnosticLogging:
                         + '"properties":{'
                         + '"operation":"Startup", '
                         + f'"sitename":"{_SITE_NAME}", '
-                        + f'"ikey":"{_CUSTOMER_IKEY}", '
+                        + f'"ikey":"{customer_ikey}", '
                         + f'"extensionVersion":"{_EXTENSION_VERSION}", '
                         + f'"sdkVersion":"{VERSION}", '
                         + f'"subscriptionId":"{_SUBSCRIPTION_ID}", '
@@ -68,14 +81,19 @@ class AzureDiagnosticLogging:
                         fmt=format, datefmt="%Y-%m-%dT%H:%M:%S"
                     )
                     AzureDiagnosticLogging._f_handler.setFormatter(formatter)
-                    _logger.addHandler(AzureDiagnosticLogging._f_handler)
                     AzureDiagnosticLogging._initialized = True
                     _logger.info("Initialized Azure Diagnostic Logger.")
 
     def enable(logger: logging.Logger):
         AzureDiagnosticLogging._initialize()
         if AzureDiagnosticLogging._initialized:
-            logger.addHandler(AzureDiagnosticLogging._f_handler)
-            _logger.info(
-                "Added Azure diagnostics logging to %s." % logger.name
-            )
+            if AzureDiagnosticLogging._f_handler in logger.handlers:
+                _logger.info(
+                    "Azure diagnostics already enabled for %s logger."
+                    % logger.name
+                )
+            else:
+                logger.addHandler(AzureDiagnosticLogging._f_handler)
+                _logger.info(
+                    "Added Azure diagnostics logging to %s." % logger.name
+                )

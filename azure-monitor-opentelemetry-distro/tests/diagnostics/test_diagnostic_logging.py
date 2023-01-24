@@ -96,8 +96,8 @@ def set_up(
         TEST_DIAGNOSTIC_LOGGER_FILE_NAME,
     ).start()
     patch(
-        "azure.monitor.opentelemetry.distro._diagnostics._diagnostic_logging._CUSTOMER_IKEY",
-        TEST_CUSTOMER_IKEY,
+        "azure.monitor.opentelemetry.distro._diagnostics._diagnostic_logging.ConnectionStringConstants.get_customer_ikey",
+        return_value=TEST_CUSTOMER_IKEY,
     ).start()
     patch(
         "azure.monitor.opentelemetry.distro._diagnostics._diagnostic_logging._EXTENSION_VERSION",
@@ -147,6 +147,14 @@ class TestDiagnosticLogger(TestCase):
 
     def test_warning(self):
         set_up(is_diagnostics_enabled=True)
+        TEST_LOGGER_SUB_MODULE.warning(MESSAGE1)
+        TEST_LOGGER_SUB_MODULE.warning(MESSAGE2)
+        check_file_for_messages("WARNING", (MESSAGE1, MESSAGE2))
+
+    def test_warning_multiple_enable(self):
+        set_up(is_diagnostics_enabled=True)
+        diagnostic_logger.AzureDiagnosticLogging.enable(TEST_LOGGER)
+        diagnostic_logger.AzureDiagnosticLogging.enable(TEST_LOGGER)
         TEST_LOGGER_SUB_MODULE.warning(MESSAGE1)
         TEST_LOGGER_SUB_MODULE.warning(MESSAGE2)
         check_file_for_messages("WARNING", (MESSAGE1, MESSAGE2))
