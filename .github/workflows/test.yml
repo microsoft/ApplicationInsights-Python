@@ -14,12 +14,13 @@ jobs:
       py38: 3.8
       py39: 3.9
       py310: "3.10"
+      py311: "3.11"
       RUN_MATRIX_COMBINATION: ${{ matrix.python-version }}-${{ matrix.package }}-${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false  # ensures the entire test matrix is run, even if one permutation fails
       matrix:
-        python-version: [ py37, py38, py39, py310 ]
+        python-version: [ py37, py38, py39, py310, py311 ]
         package: ["distro"]
         os: [ ubuntu-20.04, windows-2019 ]
     steps:
@@ -31,7 +32,7 @@ jobs:
           python-version: ${{ env[matrix.python-version] }}
           architecture: 'x64'
       - name: Install tox
-        run: pip install -U tox-factor
+        run: pip install tox==3.27.1 -U tox-factor
       - name: Cache tox environment
         # Preserves .tox directory between runs for faster installs
         uses: actions/cache@v2
@@ -40,6 +41,11 @@ jobs:
             .tox
             ~/.cache/pip
           key: v3-tox-cache-${{ env.RUN_MATRIX_COMBINATION }}-${{ hashFiles('tox.ini', 'test-requirements.txt') }}
+      - name: Windows does not let git check out files with long names
+        if: ${{ matrix.os == 'windows-2019'}}
+        run: git config --system core.longpaths true
+      - name: run tox
+        run: tox -f ${{ matrix.python-version }}-${{ matrix.package }}
   misc:
     strategy:
       fail-fast: false
@@ -53,7 +59,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.9
+          python-version: 3.11
           architecture: 'x64'
       - name: Install tox
         run: pip install -U tox

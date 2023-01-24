@@ -4,7 +4,4 @@
 # license information.
 # --------------------------------------------------------------------------
 
-from azure.monitor.opentelemetry.distro.distro import AzureMonitorDistro
-
-distro = AzureMonitorDistro()
-distro.configure()
+VERSION = "1.0.0b8"
