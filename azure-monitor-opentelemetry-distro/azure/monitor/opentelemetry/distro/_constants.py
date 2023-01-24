@@ -4,7 +4,6 @@
 # license information.
 # --------------------------------------------------------------------------
 
-import logging
 import platform
 from os import environ
 from pathlib import Path
@@ -63,20 +62,18 @@ _EXTENSION_VERSION = _env_var_or_default(
 class ConnectionStringConstants:
     _conn_str_parser = None
 
-
     def set_conn_str_from_env_var():
         ConnectionStringConstants._conn_str_parser = ConnectionStringParser()
 
-
     def set_conn_str(conn_str):
-        ConnectionStringConstants._conn_str_parser = ConnectionStringParser(conn_str)
-
+        ConnectionStringConstants._conn_str_parser = ConnectionStringParser(
+            conn_str
+        )
 
     def get_conn_str():
         if ConnectionStringConstants._conn_str_parser is None:
             return None
         return ConnectionStringConstants._conn_str_parser._conn_str
-
 
     def get_customer_ikey():
         if ConnectionStringConstants._conn_str_parser is None:

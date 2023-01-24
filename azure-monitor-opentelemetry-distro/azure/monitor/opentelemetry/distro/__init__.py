@@ -5,8 +5,10 @@
 # --------------------------------------------------------------------------
 from logging import NOTSET, getLogger
 
+from azure.monitor.opentelemetry.distro._constants import (
+    ConnectionStringConstants,
+)
 from azure.monitor.opentelemetry.distro.util import get_configurations
-from azure.monitor.opentelemetry.distro._constants import ConnectionStringConstants
 from azure.monitor.opentelemetry.exporter import (
     ApplicationInsightsSampler,
     AzureMonitorLogExporter,
@@ -37,7 +39,9 @@ def configure_azure_monitor(**kwargs):
     conn_str = configurations.get("connection_string", "")
     if conn_str is None:
         # TODO: JEREVOSS: We could levae this for the exporter to determine.
-        configurations["connection_string"] = ConnectionStringConstants.get_conn_str()
+        configurations[
+            "connection_string"
+        ] = ConnectionStringConstants.get_conn_str()
     else:
         ConnectionStringConstants.set_conn_str(conn_str)
     service_name = configurations.get("service_name", "")

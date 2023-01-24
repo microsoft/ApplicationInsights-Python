@@ -4,19 +4,19 @@
 # license information.
 # --------------------------------------------------------------------------
 
+import logging
 from json import dumps
 from os import getpid, makedirs
 from os.path import exists, join
 from platform import node
 
 from azure.monitor.opentelemetry.distro._constants import (
-    ConnectionStringConstants,
     _EXTENSION_VERSION,
     _IS_DIAGNOSTICS_ENABLED,
+    ConnectionStringConstants,
     _get_log_path,
 )
 from azure.monitor.opentelemetry.distro._version import VERSION
-import logging
 
 _MACHINE_NAME = node()
 _STATUS_LOG_PATH = _get_log_path(status_log_path=True)

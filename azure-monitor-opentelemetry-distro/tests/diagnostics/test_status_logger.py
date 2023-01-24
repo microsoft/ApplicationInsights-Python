@@ -129,7 +129,9 @@ class TestStatusLogger(TestCase):
         "azure.monitor.opentelemetry.distro._diagnostics._status_logger.getpid",
         return_value=TEST_PID,
     )
-    def test_log_status_failed_initialization(self, mock_get_customer_ikey, mock_getpid):
+    def test_log_status_failed_initialization(
+        self, mock_get_customer_ikey, mock_getpid
+    ):
         AzureStatusLogger.log_status(True, MESSAGE1)
         AzureStatusLogger.log_status(False, MESSAGE2)
         check_file_for_messages(False, MESSAGE2)
@@ -195,7 +197,9 @@ class TestStatusLogger(TestCase):
         "azure.monitor.opentelemetry.distro._diagnostics._status_logger.getpid",
         return_value=TEST_PID,
     )
-    def test_disabled_log_status_success(self, mock_get_customer_ikey, mock_getpid):
+    def test_disabled_log_status_success(
+        self, mock_get_customer_ikey, mock_getpid
+    ):
         AzureStatusLogger.log_status(False, MESSAGE1)
         AzureStatusLogger.log_status(True, MESSAGE2)
         check_file_is_empty()
@@ -228,7 +232,9 @@ class TestStatusLogger(TestCase):
         "azure.monitor.opentelemetry.distro._diagnostics._status_logger.getpid",
         return_value=TEST_PID,
     )
-    def test_disabled_log_status_failed_initialization(self, mock_get_customer_ikey, mock_getpid):
+    def test_disabled_log_status_failed_initialization(
+        self, mock_get_customer_ikey, mock_getpid
+    ):
         AzureStatusLogger.log_status(True, MESSAGE1)
         AzureStatusLogger.log_status(False, MESSAGE2)
         check_file_is_empty()
@@ -261,7 +267,9 @@ class TestStatusLogger(TestCase):
         "azure.monitor.opentelemetry.distro._diagnostics._status_logger.getpid",
         return_value=TEST_PID,
     )
-    def test_disabled_log_status_no_reason(self, mock_get_customer_ikey, mock_getpid):
+    def test_disabled_log_status_no_reason(
+        self, mock_get_customer_ikey, mock_getpid
+    ):
         AzureStatusLogger.log_status(False, MESSAGE1)
         AzureStatusLogger.log_status(True)
         check_file_is_empty()

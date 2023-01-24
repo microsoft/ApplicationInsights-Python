@@ -7,7 +7,7 @@
 from importlib import reload
 from os import environ
 from unittest import TestCase
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 from azure.monitor.opentelemetry.distro import _constants
 
@@ -46,11 +46,18 @@ class TestConstants(TestCase):
         mock_csp_init = Mock()
         mock_csp.return_value = mock_csp_init
         mock_csp_init.instrumentation_key = TEST_IKEY
-        self.assertIsNone(_constants.ConnectionStringConstants._conn_str_parser)
+        self.assertIsNone(
+            _constants.ConnectionStringConstants._conn_str_parser
+        )
         _constants.ConnectionStringConstants.set_conn_str_from_env_var()
         mock_csp.assert_called_once()
-        self.assertEqual(_constants.ConnectionStringConstants._conn_str_parser, mock_csp_init)
-        self.assertEqual(_constants.ConnectionStringConstants.get_customer_ikey(), TEST_IKEY)
+        self.assertEqual(
+            _constants.ConnectionStringConstants._conn_str_parser,
+            mock_csp_init,
+        )
+        self.assertEqual(
+            _constants.ConnectionStringConstants.get_customer_ikey(), TEST_IKEY
+        )
 
     @patch(
         "azure.monitor.opentelemetry.exporter._connection_string_parser.ConnectionStringParser"
@@ -61,8 +68,13 @@ class TestConstants(TestCase):
         mock_csp.return_value = mock_csp_init
         mock_csp_init.instrumentation_key = TEST_IKEY
         _constants.ConnectionStringConstants.set_conn_str(TEST_CONN_STR)
-        self.assertEqual(_constants.ConnectionStringConstants._conn_str_parser, mock_csp_init)
-        self.assertEqual(_constants.ConnectionStringConstants.get_customer_ikey(), TEST_IKEY)
+        self.assertEqual(
+            _constants.ConnectionStringConstants._conn_str_parser,
+            mock_csp_init,
+        )
+        self.assertEqual(
+            _constants.ConnectionStringConstants.get_customer_ikey(), TEST_IKEY
+        )
 
     @patch(
         "azure.monitor.opentelemetry.exporter._connection_string_parser.ConnectionStringParser"
@@ -70,7 +82,9 @@ class TestConstants(TestCase):
     def test_ikey_defaults(self, mock_csp):
         clear_env_var("APPLICATIONINSIGHTS_CONNECTION_STRING")
         reload(_constants)
-        self.assertIsNone(_constants.ConnectionStringConstants.get_customer_ikey())
+        self.assertIsNone(
+            _constants.ConnectionStringConstants.get_customer_ikey()
+        )
 
     # TODO: Enabled when duplciate logging issue is solved
     # @patch.dict(

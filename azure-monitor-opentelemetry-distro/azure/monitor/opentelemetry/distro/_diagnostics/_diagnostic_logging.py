@@ -10,9 +10,9 @@ from os import makedirs
 from os.path import exists, join
 
 from azure.monitor.opentelemetry.distro._constants import (
-    ConnectionStringConstants,
     _EXTENSION_VERSION,
     _IS_DIAGNOSTICS_ENABLED,
+    ConnectionStringConstants,
     _env_var_or_default,
     _get_log_path,
 )
@@ -39,13 +39,19 @@ class AzureDiagnosticLogging:
         with AzureDiagnosticLogging._lock:
             if not AzureDiagnosticLogging._initialized:
                 if _IS_DIAGNOSTICS_ENABLED and _DIAGNOSTIC_LOG_PATH:
-                    customer_ikey = ConnectionStringConstants.get_customer_ikey()
+                    customer_ikey = (
+                        ConnectionStringConstants.get_customer_ikey()
+                    )
                     if customer_ikey is None:
                         try:
                             ConnectionStringConstants.set_conn_str_from_env_var()
-                            customer_ikey = ConnectionStringConstants.get_customer_ikey()
+                            customer_ikey = (
+                                ConnectionStringConstants.get_customer_ikey()
+                            )
                         except ValueError as e:
-                            _logger.error("Failed to parse Instrumentation Key: %s" % e)
+                            _logger.error(
+                                "Failed to parse Instrumentation Key: %s" % e
+                            )
                             customer_ikey = "unknown"
                     format = (
                         "{"
