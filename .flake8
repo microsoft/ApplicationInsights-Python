@@ -21,7 +21,7 @@ exclude =
   CVS
   .venv*/
   venv*/
-  samples/*
+  */samples/*
   target
   __pycache__
   */build/lib/*
