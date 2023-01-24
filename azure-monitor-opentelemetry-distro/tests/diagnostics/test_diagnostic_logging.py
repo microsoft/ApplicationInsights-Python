@@ -96,8 +96,8 @@ def set_up(
         TEST_DIAGNOSTIC_LOGGER_FILE_NAME,
     ).start()
     patch(
-        "azure.monitor.opentelemetry.distro._diagnostics._diagnostic_logging._CUSTOMER_IKEY",
-        TEST_CUSTOMER_IKEY,
+        "azure.monitor.opentelemetry.distro._diagnostics._diagnostic_logging.get_customer_ikey",
+        return_value=TEST_CUSTOMER_IKEY,
     ).start()
     patch(
         "azure.monitor.opentelemetry.distro._diagnostics._diagnostic_logging._EXTENSION_VERSION",

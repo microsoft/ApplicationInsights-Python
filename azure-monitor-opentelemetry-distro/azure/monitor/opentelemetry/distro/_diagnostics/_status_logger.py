@@ -10,26 +10,36 @@ from os.path import exists, join
 from platform import node
 
 from azure.monitor.opentelemetry.distro._constants import (
-    _CUSTOMER_IKEY,
+    ConnectionStringConstants,
     _EXTENSION_VERSION,
     _IS_DIAGNOSTICS_ENABLED,
     _get_log_path,
 )
 from azure.monitor.opentelemetry.distro._version import VERSION
+import logging
 
 _MACHINE_NAME = node()
 _STATUS_LOG_PATH = _get_log_path(status_log_path=True)
+_logger = logging.getLogger(__name__)
 
 
 class AzureStatusLogger:
     def _get_status_json(agent_initialized_successfully, pid, reason=None):
+        customer_ikey = ConnectionStringConstants.get_customer_ikey()
+        if customer_ikey is None:
+            try:
+                ConnectionStringConstants.set_conn_str_from_env_var()
+                customer_ikey = ConnectionStringConstants.get_customer_ikey()
+            except ValueError as e:
+                _logger.error("Failed to parse Instrumentation Key: %s" % e)
+                customer_ikey = "unknown"
         status_json = {
             "AgentInitializedSuccessfully": agent_initialized_successfully,
             "AppType": "python",
             "MachineName": _MACHINE_NAME,
             "PID": pid,
             "SdkVersion": VERSION,
-            "Ikey": _CUSTOMER_IKEY,
+            "Ikey": customer_ikey,
             "ExtensionVersion": _EXTENSION_VERSION,
         }
         if reason:
