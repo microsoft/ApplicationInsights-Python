@@ -4,9 +4,8 @@
 # license information.
 # --------------------------------------------------------------------------
 import importlib
-
-from typing import Any, Dict
 from logging import NOTSET, getLogger
+from typing import Any, Dict
 
 from azure.monitor.opentelemetry.distro.util import get_configurations
 from azure.monitor.opentelemetry.exporter import (
@@ -52,7 +51,7 @@ def configure_azure_monitor(**kwargs):
 
     resource = None
     if not disable_logging or not disable_tracing:
-        resource = _get_resource(configurations) 
+        resource = _get_resource(configurations)
 
     # Setup tracing pipeline
     if not disable_tracing:
@@ -73,12 +72,12 @@ def _get_resource(configurations: Dict[str, Any]) -> Resource:
     service_namespace = configurations.get("service_namespace", "")
     service_instance_id = configurations.get("service_instance_id", "")
     return Resource.create(
-            {
-                ResourceAttributes.SERVICE_NAME: service_name,
-                ResourceAttributes.SERVICE_NAMESPACE: service_namespace,
-                ResourceAttributes.SERVICE_INSTANCE_ID: service_instance_id,
-            }
-        )
+        {
+            ResourceAttributes.SERVICE_NAME: service_name,
+            ResourceAttributes.SERVICE_NAMESPACE: service_namespace,
+            ResourceAttributes.SERVICE_INSTANCE_ID: service_instance_id,
+        }
+    )
 
 
 def _setup_tracing(resource: Resource, configurations: Dict[str, Any]):
@@ -87,9 +86,9 @@ def _setup_tracing(resource: Resource, configurations: Dict[str, Any]):
         "tracing_export_interval_millis", 30000
     )
     tracer_provider = TracerProvider(
-            sampler=ApplicationInsightsSampler(sampling_ratio=sampling_ratio),
-            resource=resource,
-        )
+        sampler=ApplicationInsightsSampler(sampling_ratio=sampling_ratio),
+        resource=resource,
+    )
     set_tracer_provider(tracer_provider)
     trace_exporter = AzureMonitorTraceExporter(**configurations)
     span_processor = BatchSpanProcessor(
@@ -122,31 +121,34 @@ def _setup_instrumentations(configurations: Dict[str, Any]):
     instrumentations = configurations.get("instrumentations", [])
     for lib_name in instrumentations:
         if lib_name in _SUPPORTED_INSTRUMENTED_LIBRARIES:
-                try:
-                    importlib.import_module(lib_name)
-                except ImportError as ex:
-                    _logger.warning(
-                        "Unable to import %s. Please make sure it is installed.",
-                        lib_name
-                    )
-                    continue
-                instr_lib_name = "opentelemetry.instrumentation." + lib_name
-                try:
-                    module = importlib.import_module(instr_lib_name)
-                    instrumentor_name = "{}Instrumentor".format(
-                        lib_name.capitalize()
-                    )
-                    class_ = getattr(module, instrumentor_name)
-                    class_().instrument()
-                except ImportError:
-                    _logger.warning(
-                        "Unable to import %s. Please make sure it is installed.",
-                        instr_lib_name
-                    )
-                except Exception as ex:
-                    _logger.warning(
-                        "Exception occured when instrumenting: %s.", lib_name, exc_info=ex)
-                finally:
-                    continue
+            try:
+                importlib.import_module(lib_name)
+            except ImportError:
+                _logger.warning(
+                    "Unable to import %s. Please make sure it is installed.",
+                    lib_name,
+                )
+                continue
+            instr_lib_name = "opentelemetry.instrumentation." + lib_name
+            try:
+                module = importlib.import_module(instr_lib_name)
+                instrumentor_name = "{}Instrumentor".format(
+                    lib_name.capitalize()
+                )
+                class_ = getattr(module, instrumentor_name)
+                class_().instrument()
+            except ImportError:
+                _logger.warning(
+                    "Unable to import %s. Please make sure it is installed.",
+                    instr_lib_name,
+                )
+            except Exception as ex:
+                _logger.warning(
+                    "Exception occured when instrumenting: %s.",
+                    lib_name,
+                    exc_info=ex,
+                )
         else:
-            _logger.warning("Instrumentation not supported for library: %s.", lib_name)
+            _logger.warning(
+                "Instrumentation not supported for library: %s.", lib_name
+            )

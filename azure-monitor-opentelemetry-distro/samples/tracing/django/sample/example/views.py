@@ -4,9 +4,8 @@
 # license information.
 # --------------------------------------------------------------------------
 
-from django.http import HttpResponse
-
 from azure.monitor.opentelemetry.distro import configure_azure_monitor
+from django.http import HttpResponse
 
 # Configure Azure monitor collection telemetry pipeline
 configure_azure_monitor(
@@ -20,6 +19,7 @@ configure_azure_monitor(
 # Requests sent to the django application will be automatically captured
 def index(request):
     return HttpResponse("Hello, world.")
+
 
 # Exceptions that are raised within the request are automatically captured
 def exception(request):

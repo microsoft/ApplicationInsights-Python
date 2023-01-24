@@ -4,7 +4,6 @@
 # license information.
 # --------------------------------------------------------------------------
 import psycopg2
-
 from azure.monitor.opentelemetry.distro import configure_azure_monitor
 
 # Configure Azure monitor collection telemetry pipeline
@@ -16,7 +15,7 @@ configure_azure_monitor(
     disable_logging=True,
 )
 
-cnx = psycopg2.connect(database='test', user="<user>", password="<password>")
+cnx = psycopg2.connect(database="test", user="<user>", password="<password>")
 cursor = cnx.cursor()
 cursor.execute("INSERT INTO test_tables (test_field) VALUES (123)")
 cursor.close()

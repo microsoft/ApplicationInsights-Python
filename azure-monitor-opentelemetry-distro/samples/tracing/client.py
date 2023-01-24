@@ -4,8 +4,8 @@
 # license information.
 # --------------------------------------------------------------------------
 import logging
-import requests
 
+import requests
 from azure.monitor.opentelemetry.distro import configure_azure_monitor
 from opentelemetry import trace
 

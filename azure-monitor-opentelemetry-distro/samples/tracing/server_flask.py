@@ -4,7 +4,6 @@
 # license information.
 # --------------------------------------------------------------------------
 import flask
-
 from azure.monitor.opentelemetry.distro import configure_azure_monitor
 
 # Configure Azure monitor collection telemetry pipeline
@@ -22,6 +21,7 @@ app = flask.Flask(__name__)
 @app.route("/")
 def test():
     return "Test flask request"
+
 
 # Exceptions that are raised within the request are automatically captured
 @app.route("/exception")
