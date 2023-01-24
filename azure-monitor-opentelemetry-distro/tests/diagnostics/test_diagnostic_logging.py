@@ -96,7 +96,7 @@ def set_up(
         TEST_DIAGNOSTIC_LOGGER_FILE_NAME,
     ).start()
     patch(
-        "azure.monitor.opentelemetry.distro._diagnostics._diagnostic_logging.get_customer_ikey",
+        "azure.monitor.opentelemetry.distro._diagnostics._diagnostic_logging.ConnectionStringConstants.get_customer_ikey",
         return_value=TEST_CUSTOMER_IKEY,
     ).start()
     patch(

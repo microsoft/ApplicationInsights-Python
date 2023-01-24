@@ -89,7 +89,7 @@ class TestStatusLogger(TestCase):
         TEST_MACHINE_NAME,
     )
     @patch(
-        "azure.monitor.opentelemetry.distro._diagnostics._status_logger.get_customer_ikey",
+        "azure.monitor.opentelemetry.distro._diagnostics._status_logger.ConnectionStringConstants.get_customer_ikey",
         return_value=TEST_CUSTOMER_IKEY,
     )
     @patch(
@@ -122,7 +122,7 @@ class TestStatusLogger(TestCase):
         TEST_MACHINE_NAME,
     )
     @patch(
-        "azure.monitor.opentelemetry.distro._diagnostics._status_logger.get_customer_ikey",
+        "azure.monitor.opentelemetry.distro._diagnostics._status_logger.ConnectionStringConstants.get_customer_ikey",
         return_value=TEST_CUSTOMER_IKEY,
     )
     @patch(
@@ -155,7 +155,7 @@ class TestStatusLogger(TestCase):
         TEST_MACHINE_NAME,
     )
     @patch(
-        "azure.monitor.opentelemetry.distro._diagnostics._status_logger.get_customer_ikey",
+        "azure.monitor.opentelemetry.distro._diagnostics._status_logger.ConnectionStringConstants.get_customer_ikey",
         return_value=TEST_CUSTOMER_IKEY,
     )
     @patch(
@@ -188,7 +188,7 @@ class TestStatusLogger(TestCase):
         TEST_MACHINE_NAME,
     )
     @patch(
-        "azure.monitor.opentelemetry.distro._diagnostics._status_logger.get_customer_ikey",
+        "azure.monitor.opentelemetry.distro._diagnostics._status_logger.ConnectionStringConstants.get_customer_ikey",
         return_value=TEST_CUSTOMER_IKEY,
     )
     @patch(
@@ -221,7 +221,7 @@ class TestStatusLogger(TestCase):
         TEST_MACHINE_NAME,
     )
     @patch(
-        "azure.monitor.opentelemetry.distro._diagnostics._status_logger.get_customer_ikey",
+        "azure.monitor.opentelemetry.distro._diagnostics._status_logger.ConnectionStringConstants.get_customer_ikey",
         return_value=TEST_CUSTOMER_IKEY,
     )
     @patch(
@@ -254,7 +254,7 @@ class TestStatusLogger(TestCase):
         TEST_MACHINE_NAME,
     )
     @patch(
-        "azure.monitor.opentelemetry.distro._diagnostics._status_logger.get_customer_ikey",
+        "azure.monitor.opentelemetry.distro._diagnostics._status_logger.ConnectionStringConstants.get_customer_ikey",
         return_value=TEST_CUSTOMER_IKEY,
     )
     @patch(
