@@ -18,6 +18,8 @@
     ([#217](https://github.com/microsoft/ApplicationInsights-Python/pull/217))
 - Add Logging configuration to Distro API
     ([#218](https://github.com/microsoft/ApplicationInsights-Python/pull/218))
+- Add instrumentation selection config
+    ([#228](https://github.com/microsoft/ApplicationInsights-Python/pull/228))
 
 ## [1.0.0b8](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b8) - 2022-09-26
 
