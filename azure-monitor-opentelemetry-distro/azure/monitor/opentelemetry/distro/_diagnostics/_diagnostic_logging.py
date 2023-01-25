@@ -18,7 +18,6 @@ from azure.monitor.opentelemetry.distro._constants import (
 )
 from azure.monitor.opentelemetry.distro._version import VERSION
 
-_OPENTELEMETRY_DIAGNOSTIC_LOGGER_NAME = "opentelemetry"
 _DIAGNOSTIC_LOGGER_FILE_NAME = "applicationinsights-extension.log"
 _SITE_NAME = _env_var_or_default("WEBSITE_SITE_NAME")
 _SUBSCRIPTION_ID_ENV_VAR = _env_var_or_default("WEBSITE_OWNER_NAME")
@@ -68,7 +67,6 @@ class AzureDiagnosticLogging:
                         fmt=format, datefmt="%Y-%m-%dT%H:%M:%S"
                     )
                     AzureDiagnosticLogging._f_handler.setFormatter(formatter)
-                    _logger.addHandler(AzureDiagnosticLogging._f_handler)
                     AzureDiagnosticLogging._initialized = True
                     _logger.info("Initialized Azure Diagnostic Logger.")
 
