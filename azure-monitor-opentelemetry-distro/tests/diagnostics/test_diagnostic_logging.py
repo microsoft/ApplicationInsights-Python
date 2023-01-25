@@ -151,6 +151,14 @@ class TestDiagnosticLogger(TestCase):
         TEST_LOGGER_SUB_MODULE.warning(MESSAGE2)
         check_file_for_messages("WARNING", (MESSAGE1, MESSAGE2))
 
+    def test_warning_multiple_enable(self):
+        set_up(is_diagnostics_enabled=True)
+        diagnostic_logger.AzureDiagnosticLogging.enable(TEST_LOGGER)
+        diagnostic_logger.AzureDiagnosticLogging.enable(TEST_LOGGER)
+        TEST_LOGGER_SUB_MODULE.warning(MESSAGE1)
+        TEST_LOGGER_SUB_MODULE.warning(MESSAGE2)
+        check_file_for_messages("WARNING", (MESSAGE1, MESSAGE2))
+
     def test_error(self):
         set_up(is_diagnostics_enabled=True)
         TEST_LOGGER_SUB_MODULE.error(MESSAGE1)

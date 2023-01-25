@@ -22,6 +22,8 @@
     ([#218](https://github.com/microsoft/ApplicationInsights-Python/pull/218))
 - Add instrumentation selection config
     ([#228](https://github.com/microsoft/ApplicationInsights-Python/pull/228))
+- Removing diagnostic logging from its module's logger.
+    ([#225](https://github.com/microsoft/ApplicationInsights-Python/pull/225))
 
 ## [1.0.0b8](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b8) - 2022-09-26
 
