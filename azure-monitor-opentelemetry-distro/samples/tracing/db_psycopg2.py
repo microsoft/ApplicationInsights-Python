@@ -10,9 +10,9 @@ from azure.monitor.opentelemetry.distro import configure_azure_monitor
 configure_azure_monitor(
     connection_string="<your-connection-string>",
     service_name="psycopg2_service_name",
+    disable_logging=True,
     instrumentations=["psycopg2"],
     tracing_export_interval_millis=15000,
-    disable_logging=True,
 )
 
 cnx = psycopg2.connect(database="test", user="<user>", password="<password>")
