@@ -33,7 +33,8 @@ pip install azure-monitor-opentelemetry-distro --pre
 You can use `configure_azure_monitor` to set up instrumentation for your app to Azure Monitor. `configure_azure_monitor` supports the following optional arguments:
 
 * connection_string - The [connection string][connection_string_doc] for your Application Insights resource. The connection string will be automatically populated from the `APPLICATIONINSIGHTS_CONNECTION_STRING` environment variable if not explicitly passed in.
-* service_name = Specifies the [service][service_semantic_convention_doc] name. 
+* instrumentations = Specifies the libraries with [instrumentations][ot_instrumentations] that you would like to use. Accepts a comma separated list. e.g. `["requests", "flask"]`
+* service_name = Specifies the [service][service_semantic_convention_doc] name.
 * service_namespace = Specifies the [service][service_semantic_convention_doc] namespace.
 * service_instance_id = Specifies the [service][service_semantic_convention_doc] instance id.
 * disable_logging = If set to `True`, disables collection and export of logging telemetry.
@@ -66,6 +67,7 @@ To use this package, you must have:
 [connection_string_doc]: https://learn.microsoft.com/en-us/azure/azure-monitor/app/sdk-connection-string
 [exporter_configuration_docs]: https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/monitor/azure-monitor-opentelemetry-exporter#configuration
 [logging_level]: https://docs.python.org/3/library/logging.html#levels
+[ot_instrumentations]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation
 [ot_python_docs]: https://opentelemetry.io/docs/instrumentation/python/
 [ot_sdk_python]: https://github.com/open-telemetry/opentelemetry-python
 [opentelemetry_instrumentation_requests]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-requests
