@@ -24,6 +24,7 @@ class TestUtil(unittest.TestCase):
             disable_logging="test_disable_logging",
             disable_tracing="test_disable_tracing",
             logging_level="test_logging_level",
+            logger_name="test_logger_name",
             service_name="test_service_name",
             service_namespace="test_namespace",
             service_instance_id="test_id",
@@ -40,6 +41,7 @@ class TestUtil(unittest.TestCase):
             configurations["disable_tracing"], "test_disable_tracing"
         )
         self.assertEqual(configurations["logging_level"], "test_logging_level")
+        self.assertEqual(configurations["logger_name"], "test_logger_name")
         self.assertEqual(configurations["service_name"], "test_service_name")
         self.assertEqual(configurations["service_namespace"], "test_namespace")
         self.assertEqual(configurations["service_instance_id"], "test_id")
