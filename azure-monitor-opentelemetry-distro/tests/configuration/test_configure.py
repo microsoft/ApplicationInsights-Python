@@ -52,6 +52,7 @@ class TestConfigure(unittest.TestCase):
             "disable_tracing": False,
             "logging_export_interval_millis": 10000,
             "logging_level": "test_logging_level",
+            "logger_name": "test_logger_name",
             "service_name": "test_service_name",
             "service_namespace": "test_namespace",
             "service_instance_id": "test_id",
@@ -91,6 +92,7 @@ class TestConfigure(unittest.TestCase):
             "disable_tracing": True,
             "logging_export_interval_millis": 10000,
             "logging_level": "test_logging_level",
+            "logger_name": "test_logger_name",
             "service_name": "test_service_name",
             "service_namespace": "test_namespace",
             "service_instance_id": "test_id",
@@ -130,6 +132,7 @@ class TestConfigure(unittest.TestCase):
             "disable_tracing": False,
             "logging_export_interval_millis": 10000,
             "logging_level": "test_logging_level",
+            "logger_name": "test_logger_name",
             "service_name": "test_service_name",
             "service_namespace": "test_namespace",
             "service_instance_id": "test_id",
@@ -272,6 +275,7 @@ class TestConfigure(unittest.TestCase):
             "disable_logging": False,
             "logging_export_interval_millis": 10000,
             "logging_level": "test_logging_level",
+            "logger_name": "test_logger_name",
         }
         _setup_logging(resource_mock, configurations)
 
@@ -288,7 +292,7 @@ class TestConfigure(unittest.TestCase):
         logging_handler_mock.assert_called_once_with(
             level="test_logging_level", logger_provider=lp_init_mock
         )
-        get_logger_mock.assert_called_once_with()
+        get_logger_mock.assert_called_once_with("test_logger_name")
         logger_mock.addHandler.assert_called_once_with(
             logging_handler_init_mock
         )

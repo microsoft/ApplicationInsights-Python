@@ -99,6 +99,7 @@ def _setup_tracing(resource: Resource, configurations: Dict[str, Any]):
 
 
 def _setup_logging(resource: Resource, configurations: Dict[str, Any]):
+    logger_name = configurations.get("logger_name", "")
     logging_level = configurations.get("logging_level", NOTSET)
     logging_export_interval_millis = configurations.get(
         "logging_export_interval_millis", 30000
@@ -114,7 +115,7 @@ def _setup_logging(resource: Resource, configurations: Dict[str, Any]):
     handler = LoggingHandler(
         level=logging_level, logger_provider=get_logger_provider()
     )
-    getLogger().addHandler(handler)
+    getLogger(logger_name).addHandler(handler)
 
 
 def _setup_instrumentations(configurations: Dict[str, Any]):
