@@ -9,7 +9,6 @@ configure_azure_monitor(
     service_name="metric_attribute_service",
     disable_logging=True,
     disable_tracing=True,
-    metrics_export_interval_millis=30000,
 )
 
 attribute_set1 = {"key1": "val1"}

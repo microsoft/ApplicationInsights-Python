@@ -12,7 +12,6 @@ configure_azure_monitor(
     service_name="metric_instrument_service",
     disable_logging=True,
     disable_tracing=True,
-    metrics_export_interval_millis=30000,
 )
 
 # Create a namespaced meter

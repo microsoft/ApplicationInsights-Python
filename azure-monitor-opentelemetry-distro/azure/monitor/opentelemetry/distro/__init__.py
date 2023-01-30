@@ -128,15 +128,9 @@ def _setup_logging(resource: Resource, configurations: Dict[str, Any]):
 
 
 def _setup_metrics(resource: Resource, configurations: Dict[str, Any]):
-    metrics_export_interval_millis = configurations.get(
-        "metrics_export_interval_millis", 60000
-    )
     views = configurations.get("views", ())
     metric_exporter = AzureMonitorMetricExporter(**configurations)
-    reader = PeriodicExportingMetricReader(
-        metric_exporter,
-        export_interval_millis=metrics_export_interval_millis,
-    )
+    reader = PeriodicExportingMetricReader(metric_exporter)
     meter_provider = MeterProvider(
         metric_readers=[reader],
         resource=resource,

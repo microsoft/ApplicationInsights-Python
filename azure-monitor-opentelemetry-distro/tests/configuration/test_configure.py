@@ -64,6 +64,7 @@ class TestConfigure(unittest.TestCase):
             "service_instance_id": "test_id",
             "sampling_ratio": 0.5,
             "tracing_export_interval_millis": 15000,
+            "views": "test_views",
         }
         resource_init_mock = Mock()
         resource_mock.return_value = resource_init_mock
@@ -110,6 +111,7 @@ class TestConfigure(unittest.TestCase):
             "service_instance_id": "test_id",
             "sampling_ratio": 0.5,
             "tracing_export_interval_millis": 15000,
+            "views": "test_views",
         }
         resource_init_mock = Mock()
         resource_mock.return_value = resource_init_mock
@@ -156,6 +158,7 @@ class TestConfigure(unittest.TestCase):
             "service_instance_id": "test_id",
             "sampling_ratio": 0.5,
             "tracing_export_interval_millis": 15000,
+            "views": "test_views",
         }
         resource_init_mock = Mock()
         resource_mock.return_value = resource_init_mock
@@ -201,6 +204,7 @@ class TestConfigure(unittest.TestCase):
             "service_instance_id": "test_id",
             "sampling_ratio": 0.5,
             "tracing_export_interval_millis": 15000,
+            "views": "test_views",
         }
         resource_init_mock = Mock()
         resource_mock.return_value = resource_init_mock
@@ -392,7 +396,6 @@ class TestConfigure(unittest.TestCase):
         configurations = {
             "connection_string": "test_cs",
             "disable_metrics": False,
-            "metrics_export_interval_millis": 15000,
             "views": "test_views",
         }
         _setup_metrics(resource_mock, configurations)
@@ -403,9 +406,7 @@ class TestConfigure(unittest.TestCase):
         )
         set_meter_provider_mock.assert_called_once_with(mp_init_mock)
         metric_exporter_mock.assert_called_once()
-        reader_mock.assert_called_once_with(
-            metric_exp_init_mock, export_interval_millis=15000
-        )
+        reader_mock.assert_called_once_with(metric_exp_init_mock)
 
     @patch("azure.monitor.opentelemetry.distro.getattr")
     def test_setup_instrumentations(

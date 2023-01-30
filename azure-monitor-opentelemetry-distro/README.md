@@ -44,7 +44,6 @@ You can use `configure_azure_monitor` to set up instrumentation for your app to 
 * logger_name = Specifies the [logger name][logger_name_hierarchy_doc] under which all logging will be instrumented. Defaults to "" which corresponds to the root logger.
 * logging_export_interval_millis - Specifies the logging export interval in milliseconds. Defaults to 30,000.
 * views - Specifies the list of [views][opentelemetry_specification_view] to configure for the metric pipeline. See [here][ot_sdk_python_view_examples] for example usage.
-* metrics_export_interval_millis - Specifies the metric export interval in milliseconds. Defaults to 60,000.
 * sampling_ratio - Specifies the ratio of distributed tracing telemetry to be [sampled][application_insights_sampling]. Accepted values are in the range [0,1]. Defaults to 1.0, meaning no telemetry is sampled out.
 * tracing_export_interval_millis - Specifies the distributed tracing export interval in milliseconds. Defaults to 30,000.
 
