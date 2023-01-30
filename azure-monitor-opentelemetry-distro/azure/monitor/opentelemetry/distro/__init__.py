@@ -11,8 +11,10 @@ from azure.monitor.opentelemetry.distro.util import get_configurations
 from azure.monitor.opentelemetry.exporter import (
     ApplicationInsightsSampler,
     AzureMonitorLogExporter,
+    AzureMonitorMetricExporter,
     AzureMonitorTraceExporter,
 )
+from opentelemetry.metrics import set_meter_provider
 from opentelemetry.sdk._logs import (
     LoggerProvider,
     LoggingHandler,
@@ -20,6 +22,8 @@ from opentelemetry.sdk._logs import (
     set_logger_provider,
 )
 from opentelemetry.sdk._logs.export import BatchLogRecordProcessor
+from opentelemetry.sdk.metrics import MeterProvider
+from opentelemetry.sdk.metrics.export import PeriodicExportingMetricReader
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
@@ -48,9 +52,10 @@ def configure_azure_monitor(**kwargs):
 
     disable_tracing = configurations.get("disable_tracing", False)
     disable_logging = configurations.get("disable_logging", False)
+    disable_metrics = configurations.get("disable_metrics", False)
 
     resource = None
-    if not disable_logging or not disable_tracing:
+    if not disable_logging or not disable_tracing or not disable_metrics:
         resource = _get_resource(configurations)
 
     # Setup tracing pipeline
@@ -60,6 +65,10 @@ def configure_azure_monitor(**kwargs):
     # Setup logging pipeline
     if not disable_logging:
         _setup_logging(resource, configurations)
+
+    # Setup metrics pipeline
+    if not disable_metrics:
+        _setup_metrics(resource, configurations)
 
     # Setup instrumentations
     # Instrumentations need to be setup last so to use the global providers
@@ -116,6 +125,18 @@ def _setup_logging(resource: Resource, configurations: Dict[str, Any]):
         level=logging_level, logger_provider=get_logger_provider()
     )
     getLogger(logger_name).addHandler(handler)
+
+
+def _setup_metrics(resource: Resource, configurations: Dict[str, Any]):
+    views = configurations.get("views", ())
+    metric_exporter = AzureMonitorMetricExporter(**configurations)
+    reader = PeriodicExportingMetricReader(metric_exporter)
+    meter_provider = MeterProvider(
+        metric_readers=[reader],
+        resource=resource,
+        views=views,
+    )
+    set_meter_provider(meter_provider)
 
 
 def _setup_instrumentations(configurations: Dict[str, Any]):

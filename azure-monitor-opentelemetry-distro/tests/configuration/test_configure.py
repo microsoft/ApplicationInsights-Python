@@ -20,6 +20,7 @@ from azure.monitor.opentelemetry.distro import (
     _get_resource,
     _setup_instrumentations,
     _setup_logging,
+    _setup_metrics,
     _setup_tracing,
     configure_azure_monitor,
 )
@@ -29,6 +30,9 @@ from opentelemetry.semconv.resource import ResourceAttributes
 class TestConfigure(unittest.TestCase):
     @patch(
         "azure.monitor.opentelemetry.distro._setup_instrumentations",
+    )
+    @patch(
+        "azure.monitor.opentelemetry.distro._setup_metrics",
     )
     @patch(
         "azure.monitor.opentelemetry.distro._setup_logging",
@@ -44,12 +48,14 @@ class TestConfigure(unittest.TestCase):
         resource_mock,
         tracing_mock,
         logging_mock,
+        metrics_mock,
         instrumentation_mock,
     ):
         kwargs = {
             "connection_string": "test_cs",
-            "disable_logging": False,
             "disable_tracing": False,
+            "disable_logging": False,
+            "disable_metrics": False,
             "logging_export_interval_millis": 10000,
             "logging_level": "test_logging_level",
             "logger_name": "test_logger_name",
@@ -58,6 +64,7 @@ class TestConfigure(unittest.TestCase):
             "service_instance_id": "test_id",
             "sampling_ratio": 0.5,
             "tracing_export_interval_millis": 15000,
+            "views": "test_views",
         }
         resource_init_mock = Mock()
         resource_mock.return_value = resource_init_mock
@@ -65,10 +72,14 @@ class TestConfigure(unittest.TestCase):
         resource_mock.assert_called_once_with(kwargs)
         tracing_mock.assert_called_once_with(resource_init_mock, kwargs)
         logging_mock.assert_called_once_with(resource_init_mock, kwargs)
+        metrics_mock.assert_called_once_with(resource_init_mock, kwargs)
         instrumentation_mock.assert_called_once_with(kwargs)
 
     @patch(
         "azure.monitor.opentelemetry.distro._setup_instrumentations",
+    )
+    @patch(
+        "azure.monitor.opentelemetry.distro._setup_metrics",
     )
     @patch(
         "azure.monitor.opentelemetry.distro._setup_logging",
@@ -84,12 +95,14 @@ class TestConfigure(unittest.TestCase):
         resource_mock,
         tracing_mock,
         logging_mock,
+        metrics_mock,
         instrumentation_mock,
     ):
         kwargs = {
             "connection_string": "test_cs",
-            "disable_logging": False,
             "disable_tracing": True,
+            "disable_logging": False,
+            "disable_metrics": False,
             "logging_export_interval_millis": 10000,
             "logging_level": "test_logging_level",
             "logger_name": "test_logger_name",
@@ -98,6 +111,7 @@ class TestConfigure(unittest.TestCase):
             "service_instance_id": "test_id",
             "sampling_ratio": 0.5,
             "tracing_export_interval_millis": 15000,
+            "views": "test_views",
         }
         resource_init_mock = Mock()
         resource_mock.return_value = resource_init_mock
@@ -105,10 +119,14 @@ class TestConfigure(unittest.TestCase):
         resource_mock.assert_called_once_with(kwargs)
         tracing_mock.assert_not_called()
         logging_mock.assert_called_once_with(resource_init_mock, kwargs)
+        metrics_mock.assert_called_once_with(resource_init_mock, kwargs)
         instrumentation_mock.assert_called_once_with(kwargs)
 
     @patch(
         "azure.monitor.opentelemetry.distro._setup_instrumentations",
+    )
+    @patch(
+        "azure.monitor.opentelemetry.distro._setup_metrics",
     )
     @patch(
         "azure.monitor.opentelemetry.distro._setup_logging",
@@ -124,12 +142,14 @@ class TestConfigure(unittest.TestCase):
         resource_mock,
         tracing_mock,
         logging_mock,
+        metrics_mock,
         instrumentation_mock,
     ):
         kwargs = {
             "connection_string": "test_cs",
-            "disable_logging": True,
             "disable_tracing": False,
+            "disable_logging": True,
+            "disable_metrics": False,
             "logging_export_interval_millis": 10000,
             "logging_level": "test_logging_level",
             "logger_name": "test_logger_name",
@@ -138,6 +158,7 @@ class TestConfigure(unittest.TestCase):
             "service_instance_id": "test_id",
             "sampling_ratio": 0.5,
             "tracing_export_interval_millis": 15000,
+            "views": "test_views",
         }
         resource_init_mock = Mock()
         resource_mock.return_value = resource_init_mock
@@ -145,6 +166,53 @@ class TestConfigure(unittest.TestCase):
         resource_mock.assert_called_once_with(kwargs)
         tracing_mock.assert_called_once_with(resource_init_mock, kwargs)
         logging_mock.assert_not_called()
+        metrics_mock.assert_called_once_with(resource_init_mock, kwargs)
+        instrumentation_mock.assert_called_once_with(kwargs)
+
+    @patch(
+        "azure.monitor.opentelemetry.distro._setup_instrumentations",
+    )
+    @patch(
+        "azure.monitor.opentelemetry.distro._setup_metrics",
+    )
+    @patch(
+        "azure.monitor.opentelemetry.distro._setup_logging",
+    )
+    @patch(
+        "azure.monitor.opentelemetry.distro._setup_tracing",
+    )
+    @patch(
+        "azure.monitor.opentelemetry.distro._get_resource",
+    )
+    def test_configure_azure_monitor_disable_metrics(
+        self,
+        resource_mock,
+        tracing_mock,
+        logging_mock,
+        metrics_mock,
+        instrumentation_mock,
+    ):
+        kwargs = {
+            "connection_string": "test_cs",
+            "disable_tracing": False,
+            "disable_logging": False,
+            "disable_metrics": True,
+            "logging_export_interval_millis": 10000,
+            "logging_level": "test_logging_level",
+            "service_name": "test_service_name",
+            "service_namespace": "test_namespace",
+            "service_instance_id": "test_id",
+            "sampling_ratio": 0.5,
+            "tracing_export_interval_millis": 15000,
+            "views": "test_views",
+        }
+        resource_init_mock = Mock()
+        resource_mock.return_value = resource_init_mock
+        configure_azure_monitor(**kwargs)
+        resource_mock.assert_called_once_with(kwargs)
+        tracing_mock.assert_called_once_with(resource_init_mock, kwargs)
+        logging_mock.assert_called_once_with(resource_init_mock, kwargs)
+        metrics_mock.assert_not_called()
         instrumentation_mock.assert_called_once_with(kwargs)
 
     @patch(
@@ -296,6 +364,49 @@ class TestConfigure(unittest.TestCase):
         logger_mock.addHandler.assert_called_once_with(
             logging_handler_init_mock
         )
+
+    @patch(
+        "azure.monitor.opentelemetry.distro.PeriodicExportingMetricReader",
+    )
+    @patch(
+        "azure.monitor.opentelemetry.distro.AzureMonitorMetricExporter",
+    )
+    @patch(
+        "azure.monitor.opentelemetry.distro.set_meter_provider",
+    )
+    @patch(
+        "azure.monitor.opentelemetry.distro.MeterProvider",
+        autospec=True,
+    )
+    def test_setup_metrics(
+        self,
+        mp_mock,
+        set_meter_provider_mock,
+        metric_exporter_mock,
+        reader_mock,
+    ):
+        resource_mock = Mock()
+        mp_init_mock = Mock()
+        mp_mock.return_value = mp_init_mock
+        metric_exp_init_mock = Mock()
+        metric_exporter_mock.return_value = metric_exp_init_mock
+        reader_init_mock = Mock()
+        reader_mock.return_value = reader_init_mock
+
+        configurations = {
+            "connection_string": "test_cs",
+            "disable_metrics": False,
+            "views": "test_views",
+        }
+        _setup_metrics(resource_mock, configurations)
+        mp_mock.assert_called_once_with(
+            metric_readers=[reader_init_mock],
+            resource=resource_mock,
+            views="test_views",
+        )
+        set_meter_provider_mock.assert_called_once_with(mp_init_mock)
+        metric_exporter_mock.assert_called_once()
+        reader_mock.assert_called_once_with(metric_exp_init_mock)
 
     @patch("azure.monitor.opentelemetry.distro.getattr")
     def test_setup_instrumentations(
