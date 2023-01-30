@@ -13,6 +13,7 @@ configure_azure_monitor(
     connection_string="<your-connection-string>",
     service_name="foo_service",
     logging_level=WARN,
+    disable_metrics=True,
     disable_tracing=True,
 )
 

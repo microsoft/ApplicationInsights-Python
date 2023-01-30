@@ -13,6 +13,7 @@ configure_azure_monitor(
     service_name="django_service_name",
     instrumentations=["django"],
     disable_logging=True,
+    disable_metrics=True,
     tracing_export_interval_millis=15000,
 )
 

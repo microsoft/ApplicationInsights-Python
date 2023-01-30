@@ -33,16 +33,19 @@ pip install azure-monitor-opentelemetry-distro --pre
 You can use `configure_azure_monitor` to set up instrumentation for your app to Azure Monitor. `configure_azure_monitor` supports the following optional arguments:
 
 * connection_string - The [connection string][connection_string_doc] for your Application Insights resource. The connection string will be automatically populated from the `APPLICATIONINSIGHTS_CONNECTION_STRING` environment variable if not explicitly passed in.
-* instrumentations = Specifies the libraries with [instrumentations][ot_instrumentations] that you would like to use. Accepts a comma separated list. e.g. `["requests", "flask"]`
-* service_name = Specifies the [service][service_semantic_convention_doc] name.
-* service_namespace = Specifies the [service][service_semantic_convention_doc] namespace.
-* service_instance_id = Specifies the [service][service_semantic_convention_doc] instance id.
-* disable_logging = If set to `True`, disables collection and export of logging telemetry.
-* logging_level = Specifies the [logging level][logging_level] of the Opentelemetry Logging Handler. Ex: logging.WARNING.
-* logging_export_interval_millis = Specifies the export interval of the logging exporter in milliseconds. Defaults to 30,000.
-* disable_tracing = If set to `True`, disables collection and export of distributed tracing telemetry.
-* sampling_ratio = Specifies the ratio of distributed tracing telemetry to be [sampled][application_insights_sampling]. Accepted values are in the range [0,1]. Defaults to 1.0, meaning no telemetry is sampled out.
-* tracing_export_interval_millis = Specifies the export interval of the distributed tracing exporter in milliseconds. Defaults to 30,000.
+* instrumentations - Specifies the libraries with [instrumentations][ot_instrumentations] that you would like to use. Accepts a comma separated list. e.g. `["requests", "flask"]`
+* service_name - Specifies the [service][service_semantic_convention_doc] name.
+* service_namespace - Specifies the [service][service_semantic_convention_doc] namespace.
+* service_instance_id - Specifies the [service][service_semantic_convention_doc] instance id.
+* disable_logging - If set to `True`, disables collection and export of logging telemetry.
+* disable_metrics - If set to `True`, disables collection and export of metric telemetry.
+* disable_tracing - If set to `True`, disables collection and export of distributed tracing telemetry.
+* logging_level - Specifies the [logging level][logging_level] of the Opentelemetry Logging Handler. Ex: logging.WARNING.
+* logging_export_interval_millis - Specifies the logging export interval in milliseconds. Defaults to 30,000.
+* views - Specifies the list of [views][opentelemetry_specification_view] to configure for the metric pipeline. See [here][ot_sdk_python_view_examples] for example usage.
+* metrics_export_interval_millis - Specifies the metric export interval in milliseconds. Defaults to 60,000.
+* sampling_ratio - Specifies the ratio of distributed tracing telemetry to be [sampled][application_insights_sampling]. Accepted values are in the range [0,1]. Defaults to 1.0, meaning no telemetry is sampled out.
+* tracing_export_interval_millis - Specifies the distributed tracing export interval in milliseconds. Defaults to 30,000.
 
 See additional [configuration related to exporting here][exporter_configuration_docs].
 
@@ -70,10 +73,12 @@ To use this package, you must have:
 [ot_instrumentations]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation
 [ot_python_docs]: https://opentelemetry.io/docs/instrumentation/python/
 [ot_sdk_python]: https://github.com/open-telemetry/opentelemetry-python
+[ot_sdk_python_view_examples]: https://github.com/open-telemetry/opentelemetry-python/tree/main/docs/examples/metrics/views
 [opentelemetry_instrumentation_requests]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-requests
 [opentelemetry_instrumentation_django]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-django
 [opentelemetry_instrumentation_flask]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-flask
 [opentelemetry_instrumentation_psycopg2]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-psycopg2
+[opentelemetry_specification_view]: https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/metrics/sdk.md#view
 [python]: https://www.python.org/downloads/
 [pip]: https://pypi.org/project/pip/
 [service_semantic_convention_doc]: https://github.com/open-telemetry/opentelemetry-specification/tree/main/specification/resource/semantic_conventions#service

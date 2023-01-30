@@ -11,6 +11,7 @@ configure_azure_monitor(
     connection_string="<your-connection-string>",
     service_name="psycopg2_service_name",
     disable_logging=True,
+    disable_metrics=True,
     instrumentations=["psycopg2"],
     tracing_export_interval_millis=15000,
 )

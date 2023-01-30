@@ -12,6 +12,7 @@ configure_azure_monitor(
     service_name="foo_service",
     tracing_export_interval_millis=15000,
     disable_logging=True,
+    disable_metrics=True,
 )
 
 tracer = trace.get_tracer(__name__)
