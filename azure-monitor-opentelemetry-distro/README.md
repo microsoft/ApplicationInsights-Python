@@ -20,6 +20,15 @@ The [Azure Monitor OpenTelemetry exporters][azure_monitor_opentelemetry_exporter
 
 Currently, all instrumentations available in OpenTelemetry are in a beta state, meaning they are not stable and may have breaking changes in the future. Efforts are being made in pushing these to a more stable state.
 
+### Prerequisites:
+
+To use this package, you must have:
+
+* Azure subscription - [Create a free account][azure_sub]
+* Azure Monitor - [How to use application insights][application_insights_namespace]
+* Opentelemetry SDK - [Opentelemetry SDK for Python][ot_sdk_python]
+* Python 3.7 or later - [Install Python][python]
+
 ### Install the package
 
 Install the Azure Monitor Opentelemetry Distro with [pip][pip]:
@@ -49,14 +58,9 @@ You can use `configure_azure_monitor` to set up instrumentation for your app to 
 
 See additional [configuration related to exporting here][exporter_configuration_docs].
 
-### Prerequisites:
+### Example code
 
-To use this package, you must have:
-
-* Azure subscription - [Create a free account][azure_sub]
-* Azure Monitor - [How to use application insights][application_insights_namespace]
-* Opentelemetry SDK - [Opentelemetry SDK for Python][ot_sdk_python]
-* Python 3.7 or later - [Install Python][python]
+Samples are available [here][samples] to demonstrate how to utilize the above configuration options.
 
 ### Additional documentation
 
@@ -84,4 +88,5 @@ To use this package, you must have:
 [opentelemetry_specification_view]: https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/metrics/sdk.md#view
 [python]: https://www.python.org/downloads/
 [pip]: https://pypi.org/project/pip/
+[samples]: https://github.com/microsoft/ApplicationInsights-Python/tree/main/azure-monitor-opentelemetry-distro/samples
 [service_semantic_convention_doc]: https://github.com/open-telemetry/opentelemetry-specification/tree/main/specification/resource/semantic_conventions#service
