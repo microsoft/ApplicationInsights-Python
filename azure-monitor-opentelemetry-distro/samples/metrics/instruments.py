@@ -2,10 +2,9 @@
 # Licensed under the MIT License.
 from typing import Iterable
 
+from azure.monitor.opentelemetry.distro import configure_azure_monitor
 from opentelemetry import metrics
 from opentelemetry.metrics import CallbackOptions, Observation
-
-from azure.monitor.opentelemetry.distro import configure_azure_monitor
 
 # Configure Azure monitor collection telemetry pipeline
 configure_azure_monitor(
@@ -32,6 +31,7 @@ def observable_up_down_counter_func(
 
 def observable_gauge_func(options: CallbackOptions) -> Iterable[Observation]:
     yield Observation(9, {})
+
 
 # Counter
 counter = meter.create_counter("counter")

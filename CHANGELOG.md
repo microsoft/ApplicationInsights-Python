@@ -27,7 +27,7 @@
 - Add ability to specify logger for logging configuration
     ([#227](https://github.com/microsoft/ApplicationInsights-Python/pull/227))
 - Add metric configuration to distro api
-    ([#230](https://github.com/microsoft/ApplicationInsights-Python/pull/230))
+    ([#232](https://github.com/microsoft/ApplicationInsights-Python/pull/232))
 
 ## [1.0.0b8](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b8) - 2022-09-26
 

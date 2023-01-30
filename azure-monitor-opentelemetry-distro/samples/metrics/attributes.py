@@ -1,8 +1,7 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
-from opentelemetry import metrics
-
 from azure.monitor.opentelemetry.distro import configure_azure_monitor
+from opentelemetry import metrics
 
 # Configure Azure monitor collection telemetry pipeline
 configure_azure_monitor(
@@ -13,12 +12,8 @@ configure_azure_monitor(
     metrics_export_interval_millis=30000,
 )
 
-attribute_set1 = {
-    "key1": "val1"
-}
-attribute_set2 = {
-    "key2": "val2"
-}
+attribute_set1 = {"key1": "val1"}
+attribute_set2 = {"key2": "val2"}
 large_attribute_set = {}
 for i in range(20):
     key = "key{}".format(i)
