@@ -41,6 +41,7 @@ You can use `configure_azure_monitor` to set up instrumentation for your app to 
 * disable_metrics - If set to `True`, disables collection and export of metric telemetry.
 * disable_tracing - If set to `True`, disables collection and export of distributed tracing telemetry.
 * logging_level - Specifies the [logging level][logging_level] of the Opentelemetry Logging Handler. Ex: logging.WARNING.
+* logger_name = Specifies the [logger name][logger_name_hierarchy_doc] under which all logging will be instrumented. Defaults to "" which corresponds to the root logger.
 * logging_export_interval_millis - Specifies the logging export interval in milliseconds. Defaults to 30,000.
 * views - Specifies the list of [views][opentelemetry_specification_view] to configure for the metric pipeline. See [here][ot_sdk_python_view_examples] for example usage.
 * metrics_export_interval_millis - Specifies the metric export interval in milliseconds. Defaults to 60,000.
@@ -50,7 +51,9 @@ You can use `configure_azure_monitor` to set up instrumentation for your app to 
 See additional [configuration related to exporting here][exporter_configuration_docs].
 
 ### Prerequisites:
+
 To use this package, you must have:
+
 * Azure subscription - [Create a free account][azure_sub]
 * Azure Monitor - [How to use application insights][application_insights_namespace]
 * Opentelemetry SDK - [Opentelemetry SDK for Python][ot_sdk_python]
@@ -70,6 +73,7 @@ To use this package, you must have:
 [connection_string_doc]: https://learn.microsoft.com/en-us/azure/azure-monitor/app/sdk-connection-string
 [exporter_configuration_docs]: https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/monitor/azure-monitor-opentelemetry-exporter#configuration
 [logging_level]: https://docs.python.org/3/library/logging.html#levels
+[logger_name_hierarchy_doc]: https://docs.python.org/3/library/logging.html#logger-objects
 [ot_instrumentations]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation
 [ot_python_docs]: https://opentelemetry.io/docs/instrumentation/python/
 [ot_sdk_python]: https://github.com/open-telemetry/opentelemetry-python

@@ -24,6 +24,8 @@
     ([#228](https://github.com/microsoft/ApplicationInsights-Python/pull/228))
 - Removing diagnostic logging from its module's logger.
     ([#225](https://github.com/microsoft/ApplicationInsights-Python/pull/225))
+- Add ability to specify logger for logging configuration
+    ([#227](https://github.com/microsoft/ApplicationInsights-Python/pull/227))
 - Add metric configuration to distro api
     ([#230](https://github.com/microsoft/ApplicationInsights-Python/pull/230))
 
