@@ -23,6 +23,7 @@ class TestUtil(unittest.TestCase):
             connection_string="test_cs",
             disable_logging="test_disable_logging",
             disable_tracing="test_disable_tracing",
+            instrumentations=["test_instrumentation"],
             logging_level="test_logging_level",
             logger_name="test_logger_name",
             service_name="test_service_name",
@@ -31,6 +32,7 @@ class TestUtil(unittest.TestCase):
             sampling_ratio="test_sample_ratio",
             tracing_export_interval="test_tracing_interval",
             logging_export_interval="test_logging_interval",
+            views=("test_view"),
         )
 
         self.assertEqual(configurations["connection_string"], "test_cs")
@@ -40,6 +42,7 @@ class TestUtil(unittest.TestCase):
         self.assertEqual(
             configurations["disable_tracing"], "test_disable_tracing"
         )
+        self.assertEqual(configurations["instrumentations"], ["test_instrumentation"])
         self.assertEqual(configurations["logging_level"], "test_logging_level")
         self.assertEqual(configurations["logger_name"], "test_logger_name")
         self.assertEqual(configurations["service_name"], "test_service_name")
@@ -52,3 +55,4 @@ class TestUtil(unittest.TestCase):
         self.assertEqual(
             configurations["logging_export_interval"], "test_logging_interval"
         )
+        self.assertEqual(configurations["views"], ("test_view"))
