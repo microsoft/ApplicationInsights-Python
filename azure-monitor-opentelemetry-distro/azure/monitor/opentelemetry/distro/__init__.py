@@ -34,12 +34,12 @@ _logger = getLogger(__name__)
 
 
 _INSTRUMENTATION_CONFIG_SUFFIX = "_config"
-_SUPPORTED_INSTRUMENTED_LIBRARIES = {
+_SUPPORTED_INSTRUMENTED_LIBRARIES = (
     "django",
     "flask",
     "psycopg2",
     "requests",
-}
+)
 
 
 def configure_azure_monitor(**kwargs):
