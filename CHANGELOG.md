@@ -28,6 +28,8 @@
     ([#227](https://github.com/microsoft/ApplicationInsights-Python/pull/227))
 - Add metric configuration to distro api
     ([#232](https://github.com/microsoft/ApplicationInsights-Python/pull/232))
+- Add ability to pass custom configuration into instrumentations
+    ([#235](https://github.com/microsoft/ApplicationInsights-Python/pull/235))
 - Fix export interval bug
     ([#237](https://github.com/microsoft/ApplicationInsights-Python/pull/237))
 
