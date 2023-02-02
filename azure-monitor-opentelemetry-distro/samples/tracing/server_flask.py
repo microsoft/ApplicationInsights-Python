@@ -19,6 +19,7 @@ configure_azure_monitor(
 
 app = flask.Flask(__name__)
 
+
 # Requests sent to the flask application will be automatically captured
 @app.route("/")
 def test():

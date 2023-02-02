@@ -17,6 +17,7 @@ configure_azure_monitor(
     tracing_export_interval_millis=15000,
 )
 
+
 # Requests sent to the django application will be automatically captured
 def index(request):
     return HttpResponse("Hello, world.")

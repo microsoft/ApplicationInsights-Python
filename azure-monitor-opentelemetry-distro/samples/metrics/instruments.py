@@ -14,9 +14,6 @@ configure_azure_monitor(
     disable_tracing=True,
 )
 
-# Create a namespaced meter
-meter = metrics.get_meter_provider().get_meter("sample")
-
 # Callback functions for observable instruments
 def observable_counter_func(options: CallbackOptions) -> Iterable[Observation]:
     yield Observation(1, {})
@@ -31,6 +28,8 @@ def observable_up_down_counter_func(
 def observable_gauge_func(options: CallbackOptions) -> Iterable[Observation]:
     yield Observation(9, {})
 
+# Create a namespaced meter
+meter = metrics.get_meter_provider().get_meter("sample")
 
 # Counter
 counter = meter.create_counter("counter")

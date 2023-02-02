@@ -28,6 +28,8 @@
     ([#227](https://github.com/microsoft/ApplicationInsights-Python/pull/227))
 - Add metric configuration to distro api
     ([#232](https://github.com/microsoft/ApplicationInsights-Python/pull/232))
+- Add ability to pass custom configuration into instrumentations
+    ([#235](https://github.com/microsoft/ApplicationInsights-Python/pull/235))
 
 ## [1.0.0b8](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b8) - 2022-09-26
 

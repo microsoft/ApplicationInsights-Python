@@ -39,7 +39,7 @@ pip install azure-monitor-opentelemetry-distro --pre
 
 ### Usage
 
-You can use `configure_azure_monitor` to set up instrumentation for your app to Azure Monitor. `configure_azure_monitor()` supports the following optional arguments:
+You can use `configure_azure_monitor` to set up instrumentation for your app to Azure Monitor. `configure_azure_monitor` supports the following optional arguments:
 
 * connection_string - The [connection string][connection_string_doc] for your Application Insights resource. The connection string will be automatically populated from the `APPLICATIONINSIGHTS_CONNECTION_STRING` environment variable if not explicitly passed in.
 * instrumentations - Specifies the libraries with [instrumentations][ot_instrumentations] that you would like to use. Accepts a comma separated list. e.g. `["requests", "flask"]`
@@ -58,7 +58,7 @@ You can use `configure_azure_monitor` to set up instrumentation for your app to 
 
 #### Exporter configurations
 
-You can pass exporter configuration parameters directly into `configure_azure_monitor()`. See additional [configuration related to exporting here][exporter_configuration_docs].
+You can pass exporter configuration parameters directly into `configure_azure_monitor`. See additional [configuration related to exporting here][exporter_configuration_docs].
 
 ```python
 ...
@@ -71,7 +71,7 @@ configure_azure_monitor(
 
 #### Instrumentation configurations
 
-You can pass in instrumentation specific configuration into `configure_azure_monitor()` with the key `<instrumented-library-name>_config` and value as a dictionary representing `kwargs` for the corresponding instrumentation. Note the instrumented library must also be enabled through the `instrumentations` configuration.
+You can pass in instrumentation specific configuration into `configure_azure_monitor` with the key `<instrumented-library-name>_config` and value as a dictionary representing `kwargs` for the corresponding instrumentation. Note the instrumented library must also be enabled through the `instrumentations` configuration.
 
 ```python
 ...
