@@ -37,5 +37,6 @@ def exception():
 def ignore():
     return "Request received but not tracked."
 
+
 if __name__ == "__main__":
     app.run(host="localhost", port=8080)

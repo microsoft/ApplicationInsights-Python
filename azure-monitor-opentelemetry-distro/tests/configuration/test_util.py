@@ -42,7 +42,9 @@ class TestUtil(unittest.TestCase):
         self.assertEqual(
             configurations["disable_tracing"], "test_disable_tracing"
         )
-        self.assertEqual(configurations["instrumentations"], ["test_instrumentation"])
+        self.assertEqual(
+            configurations["instrumentations"], ["test_instrumentation"]
+        )
         self.assertEqual(configurations["logging_level"], "test_logging_level")
         self.assertEqual(configurations["logger_name"], "test_logger_name")
         self.assertEqual(configurations["service_name"], "test_service_name")

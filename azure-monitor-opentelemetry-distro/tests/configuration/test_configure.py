@@ -515,7 +515,7 @@ class TestConfigure(unittest.TestCase):
             with patch("importlib.import_module") as import_module_mock:
                 configurations = {
                     "instrumentations": [lib_name],
-                    lib_name + "_config": {"test_key": "test_value"}
+                    lib_name + "_config": {"test_key": "test_value"},
                 }
                 instrument_mock = Mock()
                 instrumentor_mock = Mock()
@@ -541,7 +541,7 @@ class TestConfigure(unittest.TestCase):
             lib_name = list(_SUPPORTED_INSTRUMENTED_LIBRARIES)[0]
             configurations = {
                 "instrumentations": [],
-                lib_name + "_config": {"test_key": "test_value"}
+                lib_name + "_config": {"test_key": "test_value"},
             }
             instrument_mock = Mock()
             instrumentor_mock = Mock()
@@ -561,7 +561,7 @@ class TestConfigure(unittest.TestCase):
             lib_name = list(_SUPPORTED_INSTRUMENTED_LIBRARIES)[0]
             configurations = {
                 "instrumentations": [lib_name],
-                lib_name + "error_config": {"test_key": "test_value"}
+                lib_name + "error_config": {"test_key": "test_value"},
             }
             instrument_mock = Mock()
             instrumentor_mock = Mock()
