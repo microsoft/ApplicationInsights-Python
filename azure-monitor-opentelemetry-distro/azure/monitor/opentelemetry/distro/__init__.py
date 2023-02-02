@@ -92,7 +92,7 @@ def _get_resource(configurations: Dict[str, Any]) -> Resource:
 def _setup_tracing(resource: Resource, configurations: Dict[str, Any]):
     sampling_ratio = configurations.get("sampling_ratio", 1.0)
     tracing_export_interval_millis = configurations.get(
-        "tracing_export_interval_millis", 30000
+        "tracing_export_interval_millis", 5000
     )
     tracer_provider = TracerProvider(
         sampler=ApplicationInsightsSampler(sampling_ratio=sampling_ratio),
@@ -102,7 +102,7 @@ def _setup_tracing(resource: Resource, configurations: Dict[str, Any]):
     trace_exporter = AzureMonitorTraceExporter(**configurations)
     span_processor = BatchSpanProcessor(
         trace_exporter,
-        export_timeout_millis=tracing_export_interval_millis,
+        schedule_delay_millis=tracing_export_interval_millis,
     )
     get_tracer_provider().add_span_processor(span_processor)
 
@@ -111,14 +111,14 @@ def _setup_logging(resource: Resource, configurations: Dict[str, Any]):
     logger_name = configurations.get("logger_name", "")
     logging_level = configurations.get("logging_level", NOTSET)
     logging_export_interval_millis = configurations.get(
-        "logging_export_interval_millis", 30000
+        "logging_export_interval_millis", 5000
     )
     logger_provider = LoggerProvider(resource=resource)
     set_logger_provider(logger_provider)
     log_exporter = AzureMonitorLogExporter(**configurations)
     log_record_processor = BatchLogRecordProcessor(
         log_exporter,
-        export_timeout_millis=logging_export_interval_millis,
+        schedule_delay_millis=logging_export_interval_millis,
     )
     get_logger_provider().add_log_record_processor(log_record_processor)
     handler = LoggingHandler(

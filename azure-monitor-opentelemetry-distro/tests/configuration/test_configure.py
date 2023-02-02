@@ -288,7 +288,7 @@ class TestConfigure(unittest.TestCase):
         get_tracer_provider_mock.assert_called()
         trace_exporter_mock.assert_called_once()
         bsp_mock.assert_called_once_with(
-            trace_exp_init_mock, export_timeout_millis=15000
+            trace_exp_init_mock, schedule_delay_millis=15000
         )
         tp_init_mock.add_span_processor(bsp_init_mock)
 
@@ -352,7 +352,7 @@ class TestConfigure(unittest.TestCase):
         get_logger_provider_mock.assert_called()
         log_exporter_mock.assert_called_once()
         blrp_mock.assert_called_once_with(
-            log_exp_init_mock, export_timeout_millis=10000
+            log_exp_init_mock, schedule_delay_millis=10000
         )
         lp_init_mock.add_log_record_processor.assert_called_once_with(
             blrp_init_mock
