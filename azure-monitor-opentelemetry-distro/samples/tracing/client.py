@@ -18,6 +18,7 @@ configure_azure_monitor(
     disable_logging=True,
     disable_metrics=True,
     instrumentations=["requests"],
+    requests_config={"excluded_urls": "http://example.com"},
     tracing_export_interval_millis=15000,
 )
 
@@ -26,6 +27,8 @@ with tracer.start_as_current_span("Request parent span") as span:
     try:
         # Requests made using the requests library will be automatically captured
         response = requests.get("https://azure.microsoft.com/", timeout=5)
+        # This request will not be tracked due to the excluded_urls configuration
+        response = requests.get("http://example.com", timeout=5)
         logger.warning("Request sent")
     except Exception as ex:
         # If an exception occurs, this can be manually recorded on the parent span
