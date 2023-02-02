@@ -33,6 +33,7 @@ from opentelemetry.trace import get_tracer_provider, set_tracer_provider
 _logger = getLogger(__name__)
 
 
+_INSTRUMENTATION_CONFIG_SUFFIX = "_config"
 _SUPPORTED_INSTRUMENTED_LIBRARIES = {
     "django",
     "flask",
@@ -141,6 +142,15 @@ def _setup_metrics(resource: Resource, configurations: Dict[str, Any]):
 
 def _setup_instrumentations(configurations: Dict[str, Any]):
     instrumentations = configurations.get("instrumentations", [])
+    instrumentation_configs = {}
+
+    # Instrumentation specific configs
+    # Format is {"<library_name>": {"<config>":<value>}}
+    for k, v in configurations.items():
+        if k.endswith(_INSTRUMENTATION_CONFIG_SUFFIX):
+            lib_name = k.partition(_INSTRUMENTATION_CONFIG_SUFFIX)[0]
+            instrumentation_configs[lib_name] = v
+
     for lib_name in instrumentations:
         if lib_name in _SUPPORTED_INSTRUMENTED_LIBRARIES:
             try:
@@ -158,7 +168,8 @@ def _setup_instrumentations(configurations: Dict[str, Any]):
                     lib_name.capitalize()
                 )
                 class_ = getattr(module, instrumentor_name)
-                class_().instrument()
+                config = instrumentation_configs.get(lib_name, {})
+                class_().instrument(**config)
             except ImportError:
                 _logger.warning(
                     "Unable to import %s. Please make sure it is installed.",

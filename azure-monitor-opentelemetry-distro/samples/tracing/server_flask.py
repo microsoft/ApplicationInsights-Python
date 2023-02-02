@@ -13,6 +13,7 @@ configure_azure_monitor(
     disable_logging=True,
     disable_metrics=True,
     instrumentations=["flask"],
+    flask_config={"excluded_urls": "http://localhost:8080/ignore"},
     tracing_export_interval_millis=15000,
 )
 
@@ -29,6 +30,12 @@ def test():
 def exception():
     raise Exception("Hit an exception")
 
+
+# Requests sent to this endpoint will not be tracked due to
+# flask_config configuration
+@app.route("/ignore")
+def ignore():
+    return "Request received but not tracked."
 
 if __name__ == "__main__":
     app.run(host="localhost", port=8080)
