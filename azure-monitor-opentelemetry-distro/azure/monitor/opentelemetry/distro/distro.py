@@ -18,6 +18,9 @@ from opentelemetry.environment_variables import (
     OTEL_TRACES_EXPORTER,
 )
 from opentelemetry.instrumentation.distro import BaseDistro
+from opentelemetry.sdk.environment_variables import (
+    _OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED,
+)
 
 _logger = logging.getLogger(__name__)
 _opentelemetry_logger = logging.getLogger("opentelemetry")
@@ -58,6 +61,9 @@ def _configure_auto_instrumentation() -> None:
         )
         environ.setdefault(
             OTEL_LOGS_EXPORTER, "azure_monitor_opentelemetry_exporter"
+        )
+        environ.setdefault(
+            _OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED, "true"
         )
         AzureStatusLogger.log_status(True)
         _logger.info(
