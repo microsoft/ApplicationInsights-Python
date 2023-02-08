@@ -92,6 +92,7 @@ def _get_resource(configurations: Dict[str, Any]) -> Resource:
 
 def _setup_tracing(resource: Resource, configurations: Dict[str, Any]):
     sampling_ratio = configurations.get("sampling_ratio", 1.0)
+    span_processors = configurations.get("span_processors", [])
     tracing_export_interval_millis = configurations.get(
         "tracing_export_interval_millis", 5000
     )
@@ -106,6 +107,8 @@ def _setup_tracing(resource: Resource, configurations: Dict[str, Any]):
         schedule_delay_millis=tracing_export_interval_millis,
     )
     get_tracer_provider().add_span_processor(span_processor)
+    for sp in span_processors:
+        get_tracer_provider().add_span_processor(sp)
 
 
 def _setup_logging(resource: Resource, configurations: Dict[str, Any]):
@@ -130,10 +133,11 @@ def _setup_logging(resource: Resource, configurations: Dict[str, Any]):
 
 def _setup_metrics(resource: Resource, configurations: Dict[str, Any]):
     views = configurations.get("views", ())
+    metric_readers = configurations.get("metric_readers", [])
     metric_exporter = AzureMonitorMetricExporter(**configurations)
     reader = PeriodicExportingMetricReader(metric_exporter)
     meter_provider = MeterProvider(
-        metric_readers=[reader],
+        metric_readers=[reader] + metric_readers,
         resource=resource,
         views=views,
     )
