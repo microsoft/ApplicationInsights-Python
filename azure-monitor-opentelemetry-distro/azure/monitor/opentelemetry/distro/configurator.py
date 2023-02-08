@@ -22,9 +22,11 @@ class AzureMonitorConfigurator(_OTelSDKConfigurator):
             super()._configure(**kwargs)
         except ValueError as e:
             _logger.error(
-                f"The components failed to initialize due to a ValueError: {e}"
+                f"Azure Monitor Configurator failed during configuration due to a ValueError: {e}"
             )
             raise e
         except Exception as e:
-            _logger.error(f"The components failed to initialize: {e}")
+            _logger.error(
+                f"Azure Monitor Configurator failed during configuration: {e}"
+            )
             raise e
