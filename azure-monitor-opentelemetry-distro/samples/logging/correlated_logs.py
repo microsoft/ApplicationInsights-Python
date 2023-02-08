@@ -7,6 +7,7 @@
 from logging import WARNING, getLogger
 
 from azure.monitor.opentelemetry.distro import configure_azure_monitor
+from opentelemetry import trace
 
 configure_azure_monitor(
     connection_string="<your-connection-string>",
@@ -17,7 +18,13 @@ configure_azure_monitor(
 )
 
 logger = getLogger(__name__)
+tracer = trace.get_tracer(__name__)
 
-logger.info("info log")
-logger.warning("warning log")
-logger.error("error log")
+logger.info("Uncorrelated info log")
+logger.warning("Uncorrelated warning log")
+logger.error("Uncorrelated error log")
+
+with tracer.start_as_current_span("Span for correlated logs"):
+    logger.info("Correlated info log")
+    logger.warning("Correlated warning log")
+    logger.error("Correlated error log")

@@ -49,7 +49,7 @@ You can use `configure_azure_monitor` to set up instrumentation for your app to 
 * disable_logging - If set to `True`, disables collection and export of logging telemetry.
 * disable_metrics - If set to `True`, disables collection and export of metric telemetry.
 * disable_tracing - If set to `True`, disables collection and export of distributed tracing telemetry.
-* logging_level - Specifies the [logging level][logging_level] of the Opentelemetry Logging Handler. Ex: logging.WARNING.
+* logging_level - Specifies the [logging level][logging_level] of the Opentelemetry Logging Handler. Defaults to logging.NOTSET.
 * logger_name = Specifies the [logger name][logger_name_hierarchy_doc] under which all logging will be instrumented. Defaults to "" which corresponds to the root logger.
 * logging_export_interval_millis - Specifies the logging export interval in milliseconds. Defaults to 5000.
 * metric_readers - Specifies the [metric readers][ot_metric_reader] that you would like to use for your metrics pipeline. Accepts a list of [metric readers][ot_sdk_python_metric_reader].

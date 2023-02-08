@@ -4,20 +4,21 @@
 # license information.
 # --------------------------------------------------------------------------
 
-from logging import WARNING, getLogger
+from logging import DEBUG, getLogger
 
 from azure.monitor.opentelemetry.distro import configure_azure_monitor
 
 configure_azure_monitor(
     connection_string="<your-connection-string>",
     service_name="foo_service",
-    logging_level=WARNING,
+    logger_name=__name__,
+    logging_level=DEBUG,
     disable_metrics=True,
     disable_tracing=True,
 )
 
 logger = getLogger(__name__)
+logger.setLevel(DEBUG)
 
-logger.info("info log")
-logger.warning("warning log")
-logger.error("error log")
+# Pass custom properties in a dictionary with the extra argument
+logger.debug("DEBUG: Debug with properties", extra={"debug": "true"})
