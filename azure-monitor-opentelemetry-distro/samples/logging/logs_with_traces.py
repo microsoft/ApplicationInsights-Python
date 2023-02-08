@@ -4,7 +4,7 @@
 # license information.
 # --------------------------------------------------------------------------
 
-from logging import WARN, getLogger
+from logging import WARNING, getLogger
 
 import flask
 from azure.monitor.opentelemetry.distro import configure_azure_monitor
@@ -13,7 +13,7 @@ from opentelemetry import trace
 configure_azure_monitor(
     connection_string="<your-connection-string>",
     service_name="flask_service_name",
-    logging_level=WARN,
+    logging_level=WARNING,
     disable_metrics=True,
     instrumentations=["flask"],
     tracing_export_interval_millis=15000,

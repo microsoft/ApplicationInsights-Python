@@ -20,4 +20,5 @@ configure_azure_monitor(
 logger = getLogger(__name__)
 logger.setLevel(DEBUG)
 
+# Pass custom properties in a dictionary with the extra argument
 logger.debug("DEBUG: Debug with properties", extra={"debug": "true"})

@@ -4,7 +4,7 @@
 # license information.
 # --------------------------------------------------------------------------
 
-from logging import WARN, getLogger
+from logging import WARNING, getLogger
 
 from azure.monitor.opentelemetry.distro import configure_azure_monitor
 from opentelemetry import trace
@@ -12,13 +12,17 @@ from opentelemetry import trace
 configure_azure_monitor(
     connection_string="<your-connection-string>",
     service_name="foo_service",
-    logging_level=WARN,
+    logging_level=WARNING,
     disable_metrics=True,
     disable_tracing=True,
 )
 
 logger = getLogger(__name__)
 tracer = trace.get_tracer(__name__)
+
+logger.info("Uncorrelated info log")
+logger.warning("Uncorrelated warning log")
+logger.error("Uncorrelated error log")
 
 with tracer.start_as_current_span("Span for correlated logs"):
     logger.info("Correlated info log")
