@@ -59,6 +59,7 @@ class TestConfigure(unittest.TestCase):
             "logging_export_interval_millis": 10000,
             "logging_level": "test_logging_level",
             "logger_name": "test_logger_name",
+            "metric_readers": "test_metric_readers",
             "service_name": "test_service_name",
             "service_namespace": "test_namespace",
             "service_instance_id": "test_id",
@@ -290,7 +291,7 @@ class TestConfigure(unittest.TestCase):
         bsp_mock.assert_called_once_with(
             trace_exp_init_mock, schedule_delay_millis=15000
         )
-        tp_init_mock.add_span_processor(bsp_init_mock)
+        tp_init_mock.add_span_processor.assert_called_once_with(bsp_init_mock)
 
     @patch(
         "azure.monitor.opentelemetry.distro.getLogger",
@@ -396,11 +397,12 @@ class TestConfigure(unittest.TestCase):
         configurations = {
             "connection_string": "test_cs",
             "disable_metrics": False,
+            "metric_readers": ["test_reader1", "test_reader2"],
             "views": "test_views",
         }
         _setup_metrics(resource_mock, configurations)
         mp_mock.assert_called_once_with(
-            metric_readers=[reader_init_mock],
+            metric_readers=[reader_init_mock, "test_reader1", "test_reader2"],
             resource=resource_mock,
             views="test_views",
         )
