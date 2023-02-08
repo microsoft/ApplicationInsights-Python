@@ -64,7 +64,6 @@ class TestConfigure(unittest.TestCase):
             "service_namespace": "test_namespace",
             "service_instance_id": "test_id",
             "sampling_ratio": 0.5,
-            "span_processors": "test_span_processors",
             "tracing_export_interval_millis": 15000,
             "views": "test_views",
         }
@@ -278,7 +277,6 @@ class TestConfigure(unittest.TestCase):
             "connection_string": "test_cs",
             "disable_tracing": False,
             "sampling_ratio": 0.5,
-            "span_processors": ["test_processor1", "test_processor2"],
             "tracing_export_interval_millis": 15000,
         }
         _setup_tracing(resource_mock, configurations)
@@ -293,13 +291,7 @@ class TestConfigure(unittest.TestCase):
         bsp_mock.assert_called_once_with(
             trace_exp_init_mock, schedule_delay_millis=15000
         )
-        tp_init_mock.add_span_processor.assert_has_calls(
-            [
-                call(bsp_init_mock),
-                call("test_processor1"),
-                call("test_processor2"),
-            ]
-        )
+        tp_init_mock.add_span_processor.assert_called_once_with(bsp_init_mock)
 
     @patch(
         "azure.monitor.opentelemetry.distro.getLogger",

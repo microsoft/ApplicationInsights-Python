@@ -32,7 +32,7 @@
     ([#235](https://github.com/microsoft/ApplicationInsights-Python/pull/235))
 - Fix export interval bug
     ([#237](https://github.com/microsoft/ApplicationInsights-Python/pull/237))
-- Add ability to specify custom span processors and metric readers
+- Add ability to specify custom metric readers
     ([#241](https://github.com/microsoft/ApplicationInsights-Python/pull/241))
 
 ## [1.0.0b8](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b8) - 2022-09-26
