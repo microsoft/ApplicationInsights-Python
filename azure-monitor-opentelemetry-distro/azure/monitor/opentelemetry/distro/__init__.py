@@ -130,10 +130,11 @@ def _setup_logging(resource: Resource, configurations: Dict[str, Any]):
 
 def _setup_metrics(resource: Resource, configurations: Dict[str, Any]):
     views = configurations.get("views", ())
+    metric_readers = configurations.get("metric_readers", [])
     metric_exporter = AzureMonitorMetricExporter(**configurations)
     reader = PeriodicExportingMetricReader(metric_exporter)
     meter_provider = MeterProvider(
-        metric_readers=[reader],
+        metric_readers=[reader] + metric_readers,
         resource=resource,
         views=views,
     )

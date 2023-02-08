@@ -52,6 +52,7 @@ You can use `configure_azure_monitor` to set up instrumentation for your app to 
 * logging_level - Specifies the [logging level][logging_level] of the Opentelemetry Logging Handler. Defaults to logging.NOTSET.
 * logger_name = Specifies the [logger name][logger_name_hierarchy_doc] under which all logging will be instrumented. Defaults to "" which corresponds to the root logger.
 * logging_export_interval_millis - Specifies the logging export interval in milliseconds. Defaults to 5000.
+* metric_readers - Specifies the [metric readers][ot_metric_reader] that you would like to use for your metrics pipeline. Accepts a list of [metric readers][ot_sdk_python_metric_reader].
 * views - Specifies the list of [views][opentelemetry_specification_view] to configure for the metric pipeline. See [here][ot_sdk_python_view_examples] for example usage.
 * sampling_ratio - Specifies the ratio of distributed tracing telemetry to be [sampled][application_insights_sampling]. Accepted values are in the range [0,1]. Defaults to 1.0, meaning no telemetry is sampled out.
 * tracing_export_interval_millis - Specifies the distributed tracing export interval in milliseconds. Defaults to 5000.
@@ -106,8 +107,10 @@ Samples are available [here][samples] to demonstrate how to utilize the above co
 [logging_level]: https://docs.python.org/3/library/logging.html#levels
 [logger_name_hierarchy_doc]: https://docs.python.org/3/library/logging.html#logger-objects
 [ot_instrumentations]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation
+[ot_metric_reader]: https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/metrics/sdk.md#metricreader
 [ot_python_docs]: https://opentelemetry.io/docs/instrumentation/python/
 [ot_sdk_python]: https://github.com/open-telemetry/opentelemetry-python
+[ot_sdk_python_metric_reader]: https://opentelemetry-python.readthedocs.io/en/stable/sdk/metrics.export.html#opentelemetry.sdk.metrics.export.MetricReader
 [ot_sdk_python_view_examples]: https://github.com/open-telemetry/opentelemetry-python/tree/main/docs/examples/metrics/views
 [opentelemetry_instrumentation_requests]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-requests
 [opentelemetry_instrumentation_django]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-django

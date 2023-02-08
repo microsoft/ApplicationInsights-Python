@@ -32,6 +32,8 @@
     ([#235](https://github.com/microsoft/ApplicationInsights-Python/pull/235))
 - Fix export interval bug
     ([#237](https://github.com/microsoft/ApplicationInsights-Python/pull/237))
+- Add ability to specify custom metric readers
+    ([#241](https://github.com/microsoft/ApplicationInsights-Python/pull/241))
 - Defaulting logging env var for auto-instrumentation. Added logging samples.
     ([#240](https://github.com/microsoft/ApplicationInsights-Python/pull/240))
 

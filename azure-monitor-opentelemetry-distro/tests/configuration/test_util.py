@@ -32,6 +32,7 @@ class TestUtil(unittest.TestCase):
             sampling_ratio="test_sample_ratio",
             tracing_export_interval="test_tracing_interval",
             logging_export_interval="test_logging_interval",
+            metric_readers=("test_readers"),
             views=("test_view"),
         )
 
@@ -57,4 +58,5 @@ class TestUtil(unittest.TestCase):
         self.assertEqual(
             configurations["logging_export_interval"], "test_logging_interval"
         )
+        self.assertEqual(configurations["metric_readers"], ("test_readers"))
         self.assertEqual(configurations["views"], ("test_view"))
