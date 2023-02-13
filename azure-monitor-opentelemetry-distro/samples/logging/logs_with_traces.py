@@ -8,7 +8,6 @@ from logging import WARNING, getLogger
 
 import flask
 from azure.monitor.opentelemetry.distro import configure_azure_monitor
-from opentelemetry import trace
 
 configure_azure_monitor(
     connection_string="<your-connection-string>",
