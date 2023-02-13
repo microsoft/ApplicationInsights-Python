@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import patch
 
-from azure.monitor.opentelemetry.distro.distro import AzureMonitorDistro
+from azure.monitor.opentelemetry.distro._distro import AzureMonitorDistro
 
 
 class TestDistro(TestCase):
