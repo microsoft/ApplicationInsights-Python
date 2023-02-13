@@ -40,7 +40,7 @@
     ([#242](https://github.com/microsoft/ApplicationInsights-Python/pull/242))
 - Update to azure-monitor-opentelemetry-exporter 1.0.0b12
     ([#243](https://github.com/microsoft/ApplicationInsights-Python/pull/243))
-- Move symbols to protected
+- Move symbols to protected, add docstring for api
     ([#244](https://github.com/microsoft/ApplicationInsights-Python/pull/244))
 
 ## [1.0.0b8](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b8) - 2022-09-26
