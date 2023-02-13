@@ -8,6 +8,7 @@ from typing import Dict
 
 from azure.monitor.opentelemetry.distro._types import ConfigurationValue
 
+
 def _get_configurations(**kwargs) -> Dict[str, ConfigurationValue]:
     configurations = {}
 

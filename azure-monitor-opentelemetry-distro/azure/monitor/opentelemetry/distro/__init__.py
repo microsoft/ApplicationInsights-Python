@@ -7,8 +7,8 @@ import importlib
 from logging import NOTSET, getLogger
 from typing import Dict
 
-from azure.monitor.opentelemetry.distro.util import _get_configurations
 from azure.monitor.opentelemetry.distro._types import ConfigurationValue
+from azure.monitor.opentelemetry.distro.util import _get_configurations
 from azure.monitor.opentelemetry.exporter import (
     ApplicationInsightsSampler,
     AzureMonitorLogExporter,
@@ -106,7 +106,9 @@ def _get_resource(configurations: Dict[str, ConfigurationValue]) -> Resource:
     )
 
 
-def _setup_tracing(resource: Resource, configurations: Dict[str, ConfigurationValue]):
+def _setup_tracing(
+    resource: Resource, configurations: Dict[str, ConfigurationValue]
+):
     sampling_ratio = configurations.get("sampling_ratio", 1.0)
     tracing_export_interval_millis = configurations.get(
         "tracing_export_interval_millis", 5000
@@ -124,7 +126,9 @@ def _setup_tracing(resource: Resource, configurations: Dict[str, ConfigurationVa
     get_tracer_provider().add_span_processor(span_processor)
 
 
-def _setup_logging(resource: Resource, configurations: Dict[str, ConfigurationValue]):
+def _setup_logging(
+    resource: Resource, configurations: Dict[str, ConfigurationValue]
+):
     logger_name = configurations.get("logger_name", "")
     logging_level = configurations.get("logging_level", NOTSET)
     logging_export_interval_millis = configurations.get(
@@ -144,7 +148,9 @@ def _setup_logging(resource: Resource, configurations: Dict[str, ConfigurationVa
     getLogger(logger_name).addHandler(handler)
 
 
-def _setup_metrics(resource: Resource, configurations: Dict[str, ConfigurationValue]):
+def _setup_metrics(
+    resource: Resource, configurations: Dict[str, ConfigurationValue]
+):
     views = configurations.get("views", ())
     metric_readers = configurations.get("metric_readers", [])
     metric_exporter = AzureMonitorMetricExporter(**configurations)
