@@ -36,8 +36,12 @@
     ([#241](https://github.com/microsoft/ApplicationInsights-Python/pull/241))
 - Defaulting logging env var for auto-instrumentation. Added logging samples.
     ([#240](https://github.com/microsoft/ApplicationInsights-Python/pull/240))
+- Removed old log_diagnostic_error calls from configurator
+    ([#242](https://github.com/microsoft/ApplicationInsights-Python/pull/242))
+- Update to azure-monitor-opentelemetry-exporter 1.0.0b12
+    ([#243](https://github.com/microsoft/ApplicationInsights-Python/pull/243))
 - Move symbols to protected
-    ([#240](https://github.com/microsoft/ApplicationInsights-Python/pull/240))
+    ([#244](https://github.com/microsoft/ApplicationInsights-Python/pull/244))
 
 ## [1.0.0b8](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b8) - 2022-09-26
 
