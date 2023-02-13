@@ -46,13 +46,13 @@ You can use `configure_azure_monitor` to set up instrumentation for your app to 
 * service_name - Specifies the [service][service_semantic_convention_doc] name.
 * service_namespace - Specifies the [service][service_semantic_convention_doc] namespace.
 * service_instance_id - Specifies the [service][service_semantic_convention_doc] instance id.
-* disable_logging - If set to `True`, disables collection and export of logging telemetry.
-* disable_metrics - If set to `True`, disables collection and export of metric telemetry.
-* disable_tracing - If set to `True`, disables collection and export of distributed tracing telemetry.
-* logging_level - Specifies the [logging level][logging_level] of the Opentelemetry Logging Handler. Defaults to logging.NOTSET.
-* logger_name = Specifies the [logger name][logger_name_hierarchy_doc] under which all logging will be instrumented. Defaults to "" which corresponds to the root logger.
+* disable_logging - If set to `True`, disables collection and export of logging telemetry. Defaults to `False`.
+* disable_metrics - If set to `True`, disables collection and export of metric telemetry. Defaults to `False`.
+* disable_tracing - If set to `True`, disables collection and export of distributed tracing telemetry. Defaults to `False`.
+* logging_level - Specifies the [logging level][logging_level] of the logs you would like to collect for your logging pipeline. Defaults to logging.NOTSET.
+* logger_name = Specifies the [logger name][logger_name_hierarchy_doc] under which logging will be instrumented. Defaults to "" which corresponds to the root logger.
 * logging_export_interval_millis - Specifies the logging export interval in milliseconds. Defaults to 5000.
-* metric_readers - Specifies the [metric readers][ot_metric_reader] that you would like to use for your metrics pipeline. Accepts a list of [metric readers][ot_sdk_python_metric_reader].
+* metric_readers - Specifies the [metric readers][ot_metric_reader] that you would like to use for your metric pipeline. Accepts a list of [metric readers][ot_sdk_python_metric_reader].
 * views - Specifies the list of [views][opentelemetry_specification_view] to configure for the metric pipeline. See [here][ot_sdk_python_view_examples] for example usage.
 * sampling_ratio - Specifies the ratio of distributed tracing telemetry to be [sampled][application_insights_sampling]. Accepted values are in the range [0,1]. Defaults to 1.0, meaning no telemetry is sampled out.
 * tracing_export_interval_millis - Specifies the distributed tracing export interval in milliseconds. Defaults to 5000.

@@ -36,6 +36,8 @@
     ([#241](https://github.com/microsoft/ApplicationInsights-Python/pull/241))
 - Defaulting logging env var for auto-instrumentation. Added logging samples.
     ([#240](https://github.com/microsoft/ApplicationInsights-Python/pull/240))
+- Move symbols to protected
+    ([#240](https://github.com/microsoft/ApplicationInsights-Python/pull/240))
 
 ## [1.0.0b8](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b8) - 2022-09-26
 

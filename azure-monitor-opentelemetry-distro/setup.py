@@ -94,10 +94,10 @@ setup(
     ],
     entry_points={
         "opentelemetry_distro": [
-            "azure_monitor_opentelemetry_distro = azure.monitor.opentelemetry.distro.distro:AzureMonitorDistro"
+            "azure_monitor_opentelemetry_distro = azure.monitor.opentelemetry.distro._distro:AzureMonitorDistro"
         ],
         "opentelemetry_configurator": [
-            "azure_monitor_opentelemetry_configurator = azure.monitor.opentelemetry.distro.configurator:AzureMonitorConfigurator"
+            "azure_monitor_opentelemetry_configurator = azure.monitor.opentelemetry.distro._configurator:AzureMonitorConfigurator"
         ],
     },
 )
