@@ -42,6 +42,8 @@
     ([#243](https://github.com/microsoft/ApplicationInsights-Python/pull/243))
 - Move symbols to protected, add docstring for api, pin opentelemtry-api/sdk versions
     ([#244](https://github.com/microsoft/ApplicationInsights-Python/pull/244))
+- Replace service.X configurations with Resource
+    ([#245](https://github.com/microsoft/ApplicationInsights-Python/pull/245))
 
 ## [1.0.0b8](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b8) - 2022-09-26
 

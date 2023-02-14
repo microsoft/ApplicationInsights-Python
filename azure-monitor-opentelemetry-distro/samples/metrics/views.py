@@ -17,7 +17,6 @@ change_metric_name_view = View(
 # Configure Azure monitor collection telemetry pipeline
 configure_azure_monitor(
     connection_string="<your-connection-string>",
-    service_name="metric_views_service",
     disable_logging=True,
     disable_tracing=True,
     metrics_export_interval_millis=30000,

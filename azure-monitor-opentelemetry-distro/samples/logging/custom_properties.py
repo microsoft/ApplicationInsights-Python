@@ -10,7 +10,6 @@ from azure.monitor.opentelemetry.distro import configure_azure_monitor
 
 configure_azure_monitor(
     connection_string="<your-connection-string>",
-    service_name="foo_service",
     logger_name=__name__,
     logging_level=DEBUG,
     disable_metrics=True,

@@ -9,7 +9,6 @@ from azure.monitor.opentelemetry.distro import configure_azure_monitor
 # Configure Azure monitor collection telemetry pipeline
 configure_azure_monitor(
     connection_string="<your-connection-string>",
-    service_name="flask_service_name",
     disable_logging=True,
     disable_metrics=True,
     instrumentations=["flask"],

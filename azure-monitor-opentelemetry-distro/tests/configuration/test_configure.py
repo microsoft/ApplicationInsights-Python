@@ -216,23 +216,18 @@ class TestConfigure(unittest.TestCase):
         metrics_mock.assert_not_called()
         instrumentation_mock.assert_called_once_with(kwargs)
 
+    def test_get_resource(self):
+        configuration = {"resource": "test_resource"}
+        res = _get_resource(configuration)
+        self.assertEqual(res, "test_resource")
+
     @patch(
         "azure.monitor.opentelemetry.distro.Resource",
     )
-    def test_get_resource(self, resource_mock):
-        configuration = {
-            "service_name": "test_service_name",
-            "service_namespace": "test_namespace",
-            "service_instance_id": "test_id",
-        }
+    def test_get_resource_default(self, resource_mock):
+        configuration = {}
         _get_resource(configuration)
-        resource_mock.create.assert_called_once_with(
-            {
-                ResourceAttributes.SERVICE_NAME: "test_service_name",
-                ResourceAttributes.SERVICE_NAMESPACE: "test_namespace",
-                ResourceAttributes.SERVICE_INSTANCE_ID: "test_id",
-            }
-        )
+        resource_mock.create.assert_called_once_with()
 
     @patch(
         "azure.monitor.opentelemetry.distro.BatchSpanProcessor",

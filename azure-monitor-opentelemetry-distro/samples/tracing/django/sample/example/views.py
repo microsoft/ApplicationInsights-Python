@@ -10,7 +10,6 @@ from django.http import HttpResponse
 # Configure Azure monitor collection telemetry pipeline
 configure_azure_monitor(
     connection_string="<your-connection-string>",
-    service_name="django_service_name",
     instrumentations=["django"],
     disable_logging=True,
     disable_metrics=True,

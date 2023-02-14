@@ -46,9 +46,7 @@ def configure_azure_monitor(**kwargs) -> None:
     configuration can be done via arguments passed to this function.
     :keyword str connection_string: Connection string for your Application Insights resource.
     :keyword Sequence[str] connection_string: Specifies the libraries with instrumentations to be enabled.
-    :keyword str service_name: Specifies the service name.
-    :keyword str service_namespace: Specifies the service namespace.
-    :keyword str service_instance_id: Specifies the service instance id.
+    :keyword Resource resource: Specified the OpenTelemetry [resource][opentelemetry_spec_resource] associated with your application.
     :keyword bool disable_logging: If set to `True`, disables collection and export of logging telemetry. Defaults to `False`.
     :keyword bool disable_metrics: If set to `True`, disables collection and export of metric telemetry. Defaults to `False`.
     :keyword bool disable_tracing: If set to `True`, disables collection and export of distributed tracing telemetry. Defaults to `False`.
@@ -94,16 +92,7 @@ def configure_azure_monitor(**kwargs) -> None:
 
 
 def _get_resource(configurations: Dict[str, ConfigurationValue]) -> Resource:
-    service_name = configurations.get("service_name", "")
-    service_namespace = configurations.get("service_namespace", "")
-    service_instance_id = configurations.get("service_instance_id", "")
-    return Resource.create(
-        {
-            ResourceAttributes.SERVICE_NAME: service_name,
-            ResourceAttributes.SERVICE_NAMESPACE: service_namespace,
-            ResourceAttributes.SERVICE_INSTANCE_ID: service_instance_id,
-        }
-    )
+    return configurations.get("resource", Resource.create())
 
 
 def _setup_tracing(
