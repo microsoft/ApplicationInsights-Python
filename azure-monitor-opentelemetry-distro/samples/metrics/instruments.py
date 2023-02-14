@@ -5,13 +5,19 @@ from typing import Iterable
 from azure.monitor.opentelemetry.distro import configure_azure_monitor
 from opentelemetry import metrics
 from opentelemetry.metrics import CallbackOptions, Observation
+from opentelemetry.sdk.resources import Resource, ResourceAttributes
 
 # Configure Azure monitor collection telemetry pipeline
 configure_azure_monitor(
     connection_string="<your-connection-string>",
-    service_name="metric_instrument_service",
     disable_logging=True,
     disable_tracing=True,
+    resource=Resource.create(
+        {
+            ResourceAttributes.SERVICE_NAME: "metric_service",
+            ResourceAttributes.SERVICE_INSTANCE_ID: "instrument_instance",
+        }
+    ),
 )
 
 

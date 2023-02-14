@@ -7,11 +7,18 @@
 from logging import WARNING, getLogger
 
 from azure.monitor.opentelemetry.distro import configure_azure_monitor
+from opentelemetry.sdk.resources import Resource, ResourceAttributes
 
 configure_azure_monitor(
     connection_string="<your-connection-string>",
-    service_name="foo_service",
+    logger_name=__name__,
     logging_level=WARNING,
+    resource=Resource.create(
+        {
+            ResourceAttributes.SERVICE_NAME: "simple_service",
+            ResourceAttributes.SERVICE_INSTANCE_ID: "simple_logging_instance",
+        }
+    ),
     disable_metrics=True,
     disable_tracing=True,
 )

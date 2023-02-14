@@ -14,7 +14,6 @@ logger = logging.getLogger(__name__)
 # Configure Azure monitor collection telemetry pipeline
 configure_azure_monitor(
     connection_string="<your-connection-string>",
-    service_name="client_service_name",
     disable_logging=True,
     disable_metrics=True,
     instrumentations=["requests"],

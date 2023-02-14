@@ -6,7 +6,6 @@ from opentelemetry import metrics
 # Configure Azure monitor collection telemetry pipeline
 configure_azure_monitor(
     connection_string="<your-connection-string>",
-    service_name="metric_attribute_service",
     disable_logging=True,
     disable_tracing=True,
 )
