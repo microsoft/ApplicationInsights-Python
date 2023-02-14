@@ -24,7 +24,6 @@ from opentelemetry.sdk.metrics.export import PeriodicExportingMetricReader
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
-from opentelemetry.semconv.resource import ResourceAttributes
 from opentelemetry.trace import get_tracer_provider, set_tracer_provider
 
 _logger = getLogger(__name__)

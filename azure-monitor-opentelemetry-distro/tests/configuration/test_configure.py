@@ -24,7 +24,6 @@ from azure.monitor.opentelemetry.distro import (
     _setup_tracing,
     configure_azure_monitor,
 )
-from opentelemetry.semconv.resource import ResourceAttributes
 
 
 class TestConfigure(unittest.TestCase):
