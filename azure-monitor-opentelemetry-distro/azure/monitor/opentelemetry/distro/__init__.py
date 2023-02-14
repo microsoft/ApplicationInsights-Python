@@ -5,9 +5,10 @@
 # --------------------------------------------------------------------------
 import importlib
 from logging import NOTSET, getLogger
-from typing import Any, Dict
+from typing import Dict
 
-from azure.monitor.opentelemetry.distro.util import get_configurations
+from azure.monitor.opentelemetry.distro._types import ConfigurationValue
+from azure.monitor.opentelemetry.distro.util import _get_configurations
 from azure.monitor.opentelemetry.exporter import (
     ApplicationInsightsSampler,
     AzureMonitorLogExporter,
@@ -38,14 +39,33 @@ _SUPPORTED_INSTRUMENTED_LIBRARIES = (
 )
 
 
-def configure_azure_monitor(**kwargs):
+def configure_azure_monitor(**kwargs) -> None:
     """
     This function works as a configuration layer that allows the
     end user to configure OpenTelemetry and Azure monitor components. The
     configuration can be done via arguments passed to this function.
+    :keyword str connection_string: Connection string for your Application Insights resource.
+    :keyword Sequence[str] connection_string: Specifies the libraries with instrumentations to be enabled.
+    :keyword str service_name: Specifies the service name.
+    :keyword str service_namespace: Specifies the service namespace.
+    :keyword str service_instance_id: Specifies the service instance id.
+    :keyword bool disable_logging: If set to `True`, disables collection and export of logging telemetry. Defaults to `False`.
+    :keyword bool disable_metrics: If set to `True`, disables collection and export of metric telemetry. Defaults to `False`.
+    :keyword bool disable_tracing: If set to `True`, disables collection and export of distributed tracing telemetry. Defaults to `False`.
+    :keyword int logging_level: Specifies the logging of the logs you would like to collect for your logging pipeline.
+    :keyword str logger_name: Specifies the logger name under which logging will be instrumented. Defaults to "" which corresponds to the root logger.
+    :keyword int logging_export_interval_millis: Specifies the logging export interval in milliseconds. Defaults to 5000.
+    :keyword Sequence[MetricReader] metric_readers: Specifies the metric readers that you would like to use for your metric pipeline.
+    :keyword Sequence[View] views: Specifies the list of views to configure for the metric pipeline.
+    :keyword float sampling_ratio: Specifies the ratio of distributed tracing telemetry to be sampled. Accepted values are in the range [0,1]. Defaults to 1.0, meaning no telemetry is sampled out.
+    :keyword int tracing_export_interval_millis: Specifies the distributed tracing export interval in milliseconds. Defaults to 5000.
+    :keyword Dict[str, Any] <instrumentation>_config: Specifies a dictionary of kwargs that will be applied to configuration for instrumentation <instrumentation>.
+    :keyword bool disable_offline_storage: Boolean value to determine whether to disable storing failed telemetry records for retry. Defaults to `False`.
+    :keyword str storage_directory: Storage directory in which to store retry files. Defaults to `<tempfile.gettempdir()>/Microsoft/AzureMonitor/opentelemetry-python-<your-instrumentation-key>`.
+    :rtype: None
     """
 
-    configurations = get_configurations(**kwargs)
+    configurations = _get_configurations(**kwargs)
 
     disable_tracing = configurations.get("disable_tracing", False)
     disable_logging = configurations.get("disable_logging", False)
@@ -73,7 +93,7 @@ def configure_azure_monitor(**kwargs):
     _setup_instrumentations(configurations)
 
 
-def _get_resource(configurations: Dict[str, Any]) -> Resource:
+def _get_resource(configurations: Dict[str, ConfigurationValue]) -> Resource:
     service_name = configurations.get("service_name", "")
     service_namespace = configurations.get("service_namespace", "")
     service_instance_id = configurations.get("service_instance_id", "")
@@ -86,7 +106,9 @@ def _get_resource(configurations: Dict[str, Any]) -> Resource:
     )
 
 
-def _setup_tracing(resource: Resource, configurations: Dict[str, Any]):
+def _setup_tracing(
+    resource: Resource, configurations: Dict[str, ConfigurationValue]
+):
     sampling_ratio = configurations.get("sampling_ratio", 1.0)
     tracing_export_interval_millis = configurations.get(
         "tracing_export_interval_millis", 5000
@@ -104,7 +126,9 @@ def _setup_tracing(resource: Resource, configurations: Dict[str, Any]):
     get_tracer_provider().add_span_processor(span_processor)
 
 
-def _setup_logging(resource: Resource, configurations: Dict[str, Any]):
+def _setup_logging(
+    resource: Resource, configurations: Dict[str, ConfigurationValue]
+):
     logger_name = configurations.get("logger_name", "")
     logging_level = configurations.get("logging_level", NOTSET)
     logging_export_interval_millis = configurations.get(
@@ -124,7 +148,9 @@ def _setup_logging(resource: Resource, configurations: Dict[str, Any]):
     getLogger(logger_name).addHandler(handler)
 
 
-def _setup_metrics(resource: Resource, configurations: Dict[str, Any]):
+def _setup_metrics(
+    resource: Resource, configurations: Dict[str, ConfigurationValue]
+):
     views = configurations.get("views", ())
     metric_readers = configurations.get("metric_readers", [])
     metric_exporter = AzureMonitorMetricExporter(**configurations)
@@ -137,7 +163,7 @@ def _setup_metrics(resource: Resource, configurations: Dict[str, Any]):
     set_meter_provider(meter_provider)
 
 
-def _setup_instrumentations(configurations: Dict[str, Any]):
+def _setup_instrumentations(configurations: Dict[str, ConfigurationValue]):
     instrumentations = configurations.get("instrumentations", [])
     instrumentation_configs = {}
 

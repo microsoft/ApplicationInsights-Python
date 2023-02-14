@@ -14,12 +14,12 @@
 
 import unittest
 
-from azure.monitor.opentelemetry.distro.util import get_configurations
+from azure.monitor.opentelemetry.distro.util import _get_configurations
 
 
 class TestUtil(unittest.TestCase):
     def test_get_configurations(self):
-        configurations = get_configurations(
+        configurations = _get_configurations(
             connection_string="test_cs",
             disable_logging="test_disable_logging",
             disable_tracing="test_disable_tracing",

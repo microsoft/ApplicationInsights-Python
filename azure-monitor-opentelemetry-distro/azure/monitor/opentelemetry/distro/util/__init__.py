@@ -4,10 +4,12 @@
 # license information.
 # --------------------------------------------------------------------------
 
-from typing import Any, Dict
+from typing import Dict
+
+from azure.monitor.opentelemetry.distro._types import ConfigurationValue
 
 
-def get_configurations(**kwargs) -> Dict[str, Any]:
+def _get_configurations(**kwargs) -> Dict[str, ConfigurationValue]:
     configurations = {}
 
     for key, val in kwargs.items():

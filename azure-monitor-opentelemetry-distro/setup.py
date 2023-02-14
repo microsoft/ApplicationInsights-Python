@@ -91,13 +91,15 @@ setup(
         "opentelemetry-instrumentation-requests~=0.36b0",
         "opentelemetry-instrumentation-flask~=0.36b0",
         "opentelemetry-instrumentation-psycopg2~=0.36b0",
+        "opentelemetry-api==1.15.0",
+        "opentelemetry-sdk==1.15.0",
     ],
     entry_points={
         "opentelemetry_distro": [
-            "azure_monitor_opentelemetry_distro = azure.monitor.opentelemetry.distro.distro:AzureMonitorDistro"
+            "azure_monitor_opentelemetry_distro = azure.monitor.opentelemetry.distro._distro:AzureMonitorDistro"
         ],
         "opentelemetry_configurator": [
-            "azure_monitor_opentelemetry_configurator = azure.monitor.opentelemetry.distro.configurator:AzureMonitorConfigurator"
+            "azure_monitor_opentelemetry_configurator = azure.monitor.opentelemetry.distro._configurator:AzureMonitorConfigurator"
         ],
     },
 )
