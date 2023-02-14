@@ -8,13 +8,13 @@ from logging import NOTSET, getLogger
 from typing import Dict
 
 from azure.monitor.opentelemetry._types import ConfigurationValue
-from azure.monitor.opentelemetry.util import _get_configurations
 from azure.monitor.opentelemetry.exporter import (
     ApplicationInsightsSampler,
     AzureMonitorLogExporter,
     AzureMonitorMetricExporter,
     AzureMonitorTraceExporter,
 )
+from azure.monitor.opentelemetry.util import _get_configurations
 from opentelemetry._logs import get_logger_provider, set_logger_provider
 from opentelemetry.metrics import set_meter_provider
 from opentelemetry.sdk._logs import LoggerProvider, LoggingHandler

@@ -5,6 +5,7 @@
 # -------------------------------------------------------------------------
 
 from azure.monitor.opentelemetry._configure import configure_azure_monitor
+
 from ._version import VERSION
 
 __all__ = [
