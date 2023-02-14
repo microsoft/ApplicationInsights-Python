@@ -44,6 +44,8 @@
     ([#244](https://github.com/microsoft/ApplicationInsights-Python/pull/244))
 - Replace service.X configurations with Resource
     ([#246](https://github.com/microsoft/ApplicationInsights-Python/pull/246))
+- Change namespace to `azure.monitor.opentelemtry`
+    ([#247](https://github.com/microsoft/ApplicationInsights-Python/pull/247))
 
 ## [1.0.0b8](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b8) - 2022-09-26
 
