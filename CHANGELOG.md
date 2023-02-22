@@ -48,6 +48,8 @@
     ([#246](https://github.com/microsoft/ApplicationInsights-Python/pull/246))
 - Change namespace to `azure.monitor.opentelemtry`
     ([#247](https://github.com/microsoft/ApplicationInsights-Python/pull/247))
+- Updating documents for new namespace
+    ([#249](https://github.com/microsoft/ApplicationInsights-Python/pull/249))
 
 ## [1.0.0b8](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b8) - 2022-09-26
 

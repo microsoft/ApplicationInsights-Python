@@ -56,7 +56,7 @@ setup(
     license="MIT License",
     author="Microsoft Corporation",
     author_email="ascl@microsoft.com",
-    url="https://github.com/microsoft/ApplicationInsights-Python/tree/main/azure-monitor-opentelemetry-distro",
+    url="https://github.com/microsoft/ApplicationInsights-Python/tree/main/azure-monitor-opentelemetry",
     classifiers=[
         "Development Status :: 4 - Beta",
         "Programming Language :: Python",
