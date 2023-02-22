@@ -2,7 +2,9 @@
 
 ## Unreleased
 
-- Made build.sh script executible from publish workflow
+## [1.0.0b9](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b9) - 2023-02-22
+
+- Made build.sh script executable from publish workflow
     ([#213](https://github.com/microsoft/ApplicationInsights-Python/pull/213))
 - Updated main and distro READMEs
     ([#205](https://github.com/microsoft/ApplicationInsights-Python/pull/205))
