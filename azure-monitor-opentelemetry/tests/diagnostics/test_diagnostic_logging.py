@@ -68,7 +68,7 @@ def check_file_is_empty():
 
 
 def set_up(
-    isdiagnostics_enabled,
+    is_diagnostics_enabled,
     logger=TEST_LOGGER,
     subscription_id_env_var=TEST_SUBSCRIPTION_ID_ENV_VAR,
 ) -> None:
@@ -109,28 +109,28 @@ def set_up(
     ).start()
     patch(
         "azure.monitor.opentelemetry.diagnostics._diagnostic_logging._IS_DIAGNOSTICS_ENABLED",
-        isdiagnostics_enabled,
+        is_diagnostics_enabled,
     ).start()
     diagnostic_logger.AzureDiagnosticLogging.enable(logger)
 
 
 class TestDiagnosticLogger(TestCase):
     def test_initialized(self):
-        set_up(isdiagnostics_enabled=True)
+        set_up(is_diagnostics_enabled=True)
         self.assertTrue(diagnostic_logger.AzureDiagnosticLogging._initialized)
 
     def test_uninitialized(self):
-        set_up(isdiagnostics_enabled=False)
+        set_up(is_diagnostics_enabled=False)
         self.assertFalse(diagnostic_logger.AzureDiagnosticLogging._initialized)
 
     def test_info(self):
-        set_up(isdiagnostics_enabled=True)
+        set_up(is_diagnostics_enabled=True)
         TEST_LOGGER_SUB_MODULE.info(MESSAGE1)
         TEST_LOGGER_SUB_MODULE.info(MESSAGE2)
         check_file_is_empty()
 
     def test_info_with_info_log_level(self):
-        set_up(isdiagnostics_enabled=True)
+        set_up(is_diagnostics_enabled=True)
         TEST_LOGGER_SUB_MODULE.setLevel(logging.INFO)
         TEST_LOGGER_SUB_MODULE.info(MESSAGE1)
         TEST_LOGGER_SUB_MODULE.info(MESSAGE2)
@@ -138,7 +138,7 @@ class TestDiagnosticLogger(TestCase):
         check_file_for_messages("INFO", (MESSAGE1, MESSAGE2))
 
     def test_info_with_sub_module_info_log_level(self):
-        set_up(isdiagnostics_enabled=True)
+        set_up(is_diagnostics_enabled=True)
         TEST_LOGGER_SUB_MODULE.setLevel(logging.INFO)
         TEST_LOGGER_SUB_MODULE.info(MESSAGE1)
         TEST_LOGGER_SUB_MODULE.info(MESSAGE2)
@@ -146,13 +146,13 @@ class TestDiagnosticLogger(TestCase):
         check_file_for_messages("INFO", (MESSAGE1, MESSAGE2))
 
     def test_warning(self):
-        set_up(isdiagnostics_enabled=True)
+        set_up(is_diagnostics_enabled=True)
         TEST_LOGGER_SUB_MODULE.warning(MESSAGE1)
         TEST_LOGGER_SUB_MODULE.warning(MESSAGE2)
         check_file_for_messages("WARNING", (MESSAGE1, MESSAGE2))
 
     def test_warning_multiple_enable(self):
-        set_up(isdiagnostics_enabled=True)
+        set_up(is_diagnostics_enabled=True)
         diagnostic_logger.AzureDiagnosticLogging.enable(TEST_LOGGER)
         diagnostic_logger.AzureDiagnosticLogging.enable(TEST_LOGGER)
         TEST_LOGGER_SUB_MODULE.warning(MESSAGE1)
@@ -160,13 +160,13 @@ class TestDiagnosticLogger(TestCase):
         check_file_for_messages("WARNING", (MESSAGE1, MESSAGE2))
 
     def test_error(self):
-        set_up(isdiagnostics_enabled=True)
+        set_up(is_diagnostics_enabled=True)
         TEST_LOGGER_SUB_MODULE.error(MESSAGE1)
         TEST_LOGGER_SUB_MODULE.error(MESSAGE2)
         check_file_for_messages("ERROR", (MESSAGE1, MESSAGE2))
 
     def test_off_app_service_info(self):
-        set_up(isdiagnostics_enabled=False)
+        set_up(is_diagnostics_enabled=False)
         TEST_LOGGER.info(MESSAGE1)
         TEST_LOGGER.info(MESSAGE2)
         TEST_LOGGER_SUB_MODULE.info(MESSAGE1)
@@ -174,7 +174,7 @@ class TestDiagnosticLogger(TestCase):
         check_file_is_empty()
 
     def test_off_app_service_warning(self):
-        set_up(isdiagnostics_enabled=False)
+        set_up(is_diagnostics_enabled=False)
         TEST_LOGGER.warning(MESSAGE1)
         TEST_LOGGER.warning(MESSAGE2)
         TEST_LOGGER_SUB_MODULE.warning(MESSAGE1)
@@ -182,7 +182,7 @@ class TestDiagnosticLogger(TestCase):
         check_file_is_empty()
 
     def test_off_app_service_error(self):
-        set_up(isdiagnostics_enabled=False)
+        set_up(is_diagnostics_enabled=False)
         TEST_LOGGER.error(MESSAGE1)
         TEST_LOGGER.error(MESSAGE2)
         TEST_LOGGER_SUB_MODULE.error(MESSAGE1)
@@ -191,7 +191,7 @@ class TestDiagnosticLogger(TestCase):
 
     def test_subscription_id_plus(self):
         set_up(
-            isdiagnostics_enabled=True,
+            is_diagnostics_enabled=True,
             subscription_id_env_var=TEST_SUBSCRIPTION_ID_ENV_VAR,
         )
         self.assertEqual(
@@ -203,7 +203,7 @@ class TestDiagnosticLogger(TestCase):
 
     def test_subscription_id_no_plus(self):
         set_up(
-            isdiagnostics_enabled=True,
+            is_diagnostics_enabled=True,
             subscription_id_env_var=TEST_SUBSCRIPTION_ID,
         )
         self.assertEqual(
