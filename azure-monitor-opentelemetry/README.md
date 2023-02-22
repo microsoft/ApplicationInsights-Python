@@ -34,7 +34,7 @@ To use this package, you must have:
 Install the Azure Monitor Opentelemetry Distro with [pip][pip]:
 
 ```Bash
-pip install azure-monitor-opentelemetry-distro --pre
+pip install azure-monitor-opentelemetry --pre
 ```
 
 ### Usage
@@ -119,4 +119,4 @@ Samples are available [here][samples] to demonstrate how to utilize the above co
 [opentelemetry_spec_view]: https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/metrics/sdk.md#view
 [python]: https://www.python.org/downloads/
 [pip]: https://pypi.org/project/pip/
-[samples]: https://github.com/microsoft/ApplicationInsights-Python/tree/main/azure-monitor-opentelemetry-distro/samples
+[samples]: https://github.com/microsoft/ApplicationInsights-Python/tree/main/azure-monitor-opentelemetry/samples

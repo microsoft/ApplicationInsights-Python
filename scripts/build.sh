@@ -16,7 +16,7 @@ DISTDIR=dist
   mkdir -p $DISTDIR
   rm -rf $DISTDIR/*
 
- for d in azure-monitor-opentelemetry-distro; do
+ for d in azure-monitor-opentelemetry; do
    (
      echo "building $d"
      cd "$d"

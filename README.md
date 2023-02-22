@@ -4,7 +4,7 @@ This repository holds components that enable telemetry scenarios for your Python
 
 Below is the list of components that are within this repository:
 
-[Azure Monitor OpenTelemetry Distro][azure-monitor-opentelemetry-distro].
+[Azure Monitor OpenTelemetry Distro][azure-monitor-opentelemetry].
 
 ## Contributing
 
@@ -12,4 +12,4 @@ For information about contributing to this repository, see [CONTRIBUTING.md](CON
 
 <!-- LINKS -->
 [azure_application_insights]: https://azure.microsoft.com/documentation/articles/app-insights-overview/
-[azure-monitor-opentelemetry-distro]: https://github.com/microsoft/ApplicationInsights-Python/blob/main/azure-monitor-opentelemetry-distro/README.md
+[azure-monitor-opentelemetry]: https://github.com/microsoft/ApplicationInsights-Python/blob/main/azure-monitor-opentelemetry/README.md
