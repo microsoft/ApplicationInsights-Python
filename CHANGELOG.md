@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## [1.0.0b10](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b10) - 2023-02-23
+
 - Fix source and wheel distribution, include MANIFEST.in and use `pkgutils` style `__init__.py`
     ([#250](https://github.com/microsoft/ApplicationInsights-Python/pull/250))
 
