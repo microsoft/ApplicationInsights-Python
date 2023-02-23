@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Fix source and wheel distribution, include MANIFEST.in and use `pkgutils` style `__init__.py`
+    ([#250](https://github.com/microsoft/ApplicationInsights-Python/pull/250))
+
 ## [1.0.0b9](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b9) - 2023-02-22
 
 - Made build.sh script executable from publish workflow
