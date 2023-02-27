@@ -75,13 +75,12 @@ configure_azure_monitor(
 
 #### Instrumentation configurations
 
-You can pass in instrumentation specific configuration into `configure_azure_monitor` with the key `<instrumented-library-name>_config` and value as a dictionary representing `kwargs` for the corresponding instrumentation. Note the instrumented library must also be enabled through the `instrumentations` configuration.
+You can pass in instrumentation specific configuration into `configure_azure_monitor` with the key `<instrumented-library-name>_config` and value as a dictionary representing `kwargs` for the corresponding instrumentation.
 
 ```python
 ...
 configure_azure_monitor(
     connection_string="<your-connection-string>",
-    instrumentations=["flask", "requests"],
     flask_config={"excluded_urls": "http://localhost:8080/ignore"},
     requests_config={"excluded_urls": "http://example.com"},
 )
