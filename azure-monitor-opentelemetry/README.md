@@ -47,7 +47,6 @@ pip install azure-monitor-opentelemetry --pre
 You can use `configure_azure_monitor` to set up instrumentation for your app to Azure Monitor. `configure_azure_monitor` supports the following optional arguments:
 
 * connection_string - The [connection string][connection_string_doc] for your Application Insights resource. The connection string will be automatically populated from the `APPLICATIONINSIGHTS_CONNECTION_STRING` environment variable if not explicitly passed in.
-* instrumentations - Specifies the libraries with [instrumentations][ot_instrumentations] that you would like to use. Accepts a comma separated list. e.g. `["requests", "flask"]`
 * disable_logging - If set to `True`, disables collection and export of logging telemetry. Defaults to `False`.
 * disable_metrics - If set to `True`, disables collection and export of metric telemetry. Defaults to `False`.
 * disable_tracing - If set to `True`, disables collection and export of distributed tracing telemetry. Defaults to `False`.
