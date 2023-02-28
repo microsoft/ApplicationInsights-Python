@@ -5,6 +5,11 @@ The Azure Monitor Distro of [Opentelemetry Python][ot_sdk_python] provides multi
 This distro automatically installs the following libraries:
 
 * [Azure Monitor OpenTelemetry exporters][azure_monitor_opentelemetry_exporters]
+
+## Officially supported instrumentations
+
+The following OpenTelemetry instrumentations come bundled in with the Azure monitor distro. If you would like to add support for another OpenTelemetry instrumentation, please submit a feature [request][distro_feature_request]. In the meantime, you can use the OpenTelemetry instrumentation manually via it's own APIs (i.e. `instrument()`) in your code.
+
 * [OpenTelemetry Requests Instrumentation][opentelemetry_instrumentation_requests]
 * [OpenTelemetry Django Instrumentation][opentelemetry_instrumentation_django]
 * [OpenTelemetry Flask Instrumentation][opentelemetry_instrumentation_flask]
@@ -42,10 +47,10 @@ pip install azure-monitor-opentelemetry --pre
 You can use `configure_azure_monitor` to set up instrumentation for your app to Azure Monitor. `configure_azure_monitor` supports the following optional arguments:
 
 * connection_string - The [connection string][connection_string_doc] for your Application Insights resource. The connection string will be automatically populated from the `APPLICATIONINSIGHTS_CONNECTION_STRING` environment variable if not explicitly passed in.
-* instrumentations - Specifies the libraries with [instrumentations][ot_instrumentations] that you would like to use. Accepts a comma separated list. e.g. `["requests", "flask"]`
 * disable_logging - If set to `True`, disables collection and export of logging telemetry. Defaults to `False`.
 * disable_metrics - If set to `True`, disables collection and export of metric telemetry. Defaults to `False`.
 * disable_tracing - If set to `True`, disables collection and export of distributed tracing telemetry. Defaults to `False`.
+* exclude_instrumentations - By default, all supported [instrumentations](#officially-supported-instrumentations) are enabled to collect telemetry. Specify instrumentations you do not want to enable to collect telemetry by passing in a comma separated list of instrumented library names. e.g. `["requests", "flask"]`
 * resource - Specified the OpenTelemetry [resource][opentelemetry_spec_resource] associated with your application. See [this][ot_sdk_python_resource] for default behavior.
 * logging_level - Specifies the [logging level][logging_level] of the logs you would like to collect for your logging pipeline. Defaults to logging.NOTSET.
 * logger_name = Specifies the [logger name][logger_name_hierarchy_doc] under which logging will be instrumented. Defaults to "" which corresponds to the root logger.
@@ -70,13 +75,12 @@ configure_azure_monitor(
 
 #### Instrumentation configurations
 
-You can pass in instrumentation specific configuration into `configure_azure_monitor` with the key `<instrumented-library-name>_config` and value as a dictionary representing `kwargs` for the corresponding instrumentation. Note the instrumented library must also be enabled through the `instrumentations` configuration.
+You can pass in instrumentation specific configuration into `configure_azure_monitor` with the key `<instrumented-library-name>_config` and value as a dictionary representing `kwargs` for the corresponding instrumentation.
 
 ```python
 ...
 configure_azure_monitor(
     connection_string="<your-connection-string>",
-    instrumentations=["flask", "requests"],
     flask_config={"excluded_urls": "http://localhost:8080/ignore"},
     requests_config={"excluded_urls": "http://example.com"},
 )
@@ -101,6 +105,7 @@ Samples are available [here][samples] to demonstrate how to utilize the above co
 [application_insights_namespace]: https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview
 [application_insights_sampling]: https://learn.microsoft.com/en-us/azure/azure-monitor/app/sampling
 [connection_string_doc]: https://learn.microsoft.com/en-us/azure/azure-monitor/app/sdk-connection-string
+[distro_feature_request]: https://github.com/microsoft/ApplicationInsights-Python/issues/new
 [exporter_configuration_docs]: https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/monitor/azure-monitor-opentelemetry-exporter#configuration
 [logging_level]: https://docs.python.org/3/library/logging.html#levels
 [logger_name_hierarchy_doc]: https://docs.python.org/3/library/logging.html#logger-objects

@@ -14,7 +14,7 @@
 
 import unittest
 
-from azure.monitor.opentelemetry.util import _get_configurations
+from azure.monitor.opentelemetry.util.configurations import _get_configurations
 
 
 class TestUtil(unittest.TestCase):
