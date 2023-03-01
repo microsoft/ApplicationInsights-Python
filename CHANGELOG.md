@@ -5,7 +5,7 @@
 - Reverse default behavior of instrumentations and implement configuration for exclusion
     ([#253](https://github.com/microsoft/ApplicationInsights-Python/pull/253))
 - Use entrypoints instead of importlib to load instrumentations
-    ([#253](https://github.com/microsoft/ApplicationInsights-Python/pull/253))
+    ([#254](https://github.com/microsoft/ApplicationInsights-Python/pull/254))
 
 ## [1.0.0b10](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b10) - 2023-02-23
 
