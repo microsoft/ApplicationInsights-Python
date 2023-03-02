@@ -174,7 +174,7 @@ def _setup_instrumentations(configurations: Dict[str, ConfigurationValue]):
         if lib_name not in _SUPPORTED_INSTRUMENTED_LIBRARIES:
             continue
         if lib_name in exclude_instrumentations:
-            _logger.debug("Instrumentation skipped for library %s", lib_name)
+            _logger.debug("Instrumentation excluded for library %s", lib_name)
             continue
         try:
             # Check if dependent libraries/version are installed
