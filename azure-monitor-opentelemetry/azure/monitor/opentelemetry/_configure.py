@@ -3,7 +3,6 @@
 # Licensed under the MIT License. See License in the project root for
 # license information.
 # --------------------------------------------------------------------------
-import importlib
 from logging import NOTSET, getLogger
 from typing import Dict
 
@@ -16,6 +15,10 @@ from azure.monitor.opentelemetry.exporter import (
 )
 from azure.monitor.opentelemetry.util.configurations import _get_configurations
 from opentelemetry._logs import get_logger_provider, set_logger_provider
+from opentelemetry.instrumentation.dependencies import (
+    get_dist_dependency_conflicts,
+)
+from opentelemetry.instrumentation.instrumentor import BaseInstrumentor
 from opentelemetry.metrics import set_meter_provider
 from opentelemetry.sdk._logs import LoggerProvider, LoggingHandler
 from opentelemetry.sdk._logs.export import BatchLogRecordProcessor
@@ -25,6 +28,7 @@ from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from opentelemetry.trace import get_tracer_provider, set_tracer_provider
+from pkg_resources import iter_entry_points
 
 _logger = getLogger(__name__)
 
@@ -164,32 +168,31 @@ def _setup_instrumentations(configurations: Dict[str, ConfigurationValue]):
             lib_name = k.partition(_INSTRUMENTATION_CONFIG_SUFFIX)[0]
             instrumentation_configs[lib_name] = v
 
-    for lib_name in _SUPPORTED_INSTRUMENTED_LIBRARIES:
+    # use pkg_resources for now until https://github.com/open-telemetry/opentelemetry-python/pull/3168 is merged
+    for entry_point in iter_entry_points("opentelemetry_instrumentor"):
+        lib_name = entry_point.name
+        if lib_name not in _SUPPORTED_INSTRUMENTED_LIBRARIES:
+            continue
         if lib_name in exclude_instrumentations:
-            _logger.debug("Instrumentation skipped for library %s", lib_name)
+            _logger.debug("Instrumentation excluded for library %s", lib_name)
             continue
-        # Check if library is installed
         try:
-            importlib.import_module(lib_name)
-        except ImportError:
-            _logger.warning(
-                "Unable to import %s. Please make sure it is installed.",
-                lib_name,
-            )
-            continue
-        instr_lib_name = "opentelemetry.instrumentation." + lib_name
-        # Import and instrument the instrumentation
-        try:
-            module = importlib.import_module(instr_lib_name)
-            instrumentor_name = "{}Instrumentor".format(lib_name.capitalize())
-            class_ = getattr(module, instrumentor_name)
+            # Check if dependent libraries/version are installed
+            conflict = get_dist_dependency_conflicts(entry_point.dist)
+            if conflict:
+                _logger.debug(
+                    "Skipping instrumentation %s: %s",
+                    entry_point.name,
+                    conflict,
+                )
+                continue
+            # Load the instrumentor via entrypoint
+            instrumentor: BaseInstrumentor = entry_point.load()
+            # Call instrument() with configuration
             config = instrumentation_configs.get(lib_name, {})
-            class_().instrument(**config)
-        except ImportError:
-            _logger.warning(
-                "Unable to import %s. Please make sure it is installed.",
-                instr_lib_name,
-            )
+            # tell instrumentation to not run dep checks again as we already did it above
+            config["skip_dep_check"] = True
+            instrumentor().instrument(**config)
         except Exception as ex:
             _logger.warning(
                 "Exception occured when instrumenting: %s.",
