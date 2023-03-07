@@ -23,7 +23,7 @@ tracer = trace.get_tracer(__name__)
 with tracer.start_as_current_span("Request parent span") as span:
     try:
         # Requests made using the urllib library will be automatically captured
-        req = request.Request('https://www.example.org/', method="GET")
+        req = request.Request("https://www.example.org/", method="GET")
         r = request.urlopen(req)
         logger.warning("Request sent")
     except Exception as ex:
