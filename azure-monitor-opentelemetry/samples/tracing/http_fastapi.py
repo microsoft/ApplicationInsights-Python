@@ -17,6 +17,7 @@ configure_azure_monitor(
 
 app = fastapi.FastAPI()
 
+
 # Requests made to fastapi endpoints will be automatically captured
 @app.get("/")
 async def root():
