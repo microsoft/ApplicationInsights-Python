@@ -8,7 +8,7 @@
     ([#254](https://github.com/microsoft/ApplicationInsights-Python/pull/254))
 - Add support for FastAPI instrumentation
     ([#255](https://github.com/microsoft/ApplicationInsights-Python/pull/255))
-- Add support for Urllib3 instrumentation
+- Add support for Urllib3/Urllib instrumentation
     ([#256](https://github.com/microsoft/ApplicationInsights-Python/pull/256))
 
 ## [1.0.0b10](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b10) - 2023-02-23

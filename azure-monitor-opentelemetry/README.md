@@ -15,6 +15,7 @@ The following OpenTelemetry instrumentations come bundled in with the Azure moni
 * [OpenTelemetry Flask Instrumentation][opentelemetry_instrumentation_flask]
 * [OpenTelemetry Psycopg2 Instrumentation][opentelemetry_instrumentation_psycopg2]
 * [OpenTelemetry Requests Instrumentation][opentelemetry_instrumentation_requests]
+* [OpenTelemetry UrlLib Instrumentation][opentelemetry_instrumentation_urllib]
 * [OpenTelemetry UrlLib3 Instrumentation][opentelemetry_instrumentation_urllib3]
 
 ## Getting started
@@ -123,6 +124,7 @@ Samples are available [here][samples] to demonstrate how to utilize the above co
 [opentelemetry_instrumentation_flask]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-flask
 [opentelemetry_instrumentation_psycopg2]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-psycopg2
 [opentelemetry_instrumentation_requests]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-requests
+[opentelemetry_instrumentation_urllib]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-urllib
 [opentelemetry_instrumentation_urllib3]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-urllib3
 [opentelemetry_spec_resource]: https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/resource/sdk.md#resource-sdk
 [opentelemetry_spec_view]: https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/metrics/sdk.md#view

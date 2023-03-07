@@ -91,6 +91,7 @@ setup(
         "opentelemetry-instrumentation-flask~=0.36b0",
         "opentelemetry-instrumentation-psycopg2~=0.36b0",
         "opentelemetry-instrumentation-requests~=0.36b0",
+        "opentelemetry-instrumentation-urllib~=0.36b0",
         "opentelemetry-instrumentation-urllib3~=0.36b0",
         "opentelemetry-api==1.15.0",
         "opentelemetry-sdk==1.15.0",
