@@ -4,8 +4,8 @@
 # license information.
 # --------------------------------------------------------------------------
 import logging
-
 from urllib import request
+
 from azure.monitor.opentelemetry import configure_azure_monitor
 from opentelemetry import trace
 
