@@ -36,6 +36,7 @@ _logger = getLogger(__name__)
 _INSTRUMENTATION_CONFIG_SUFFIX = "_config"
 _SUPPORTED_INSTRUMENTED_LIBRARIES = (
     "django",
+    "fastapi",
     "flask",
     "psycopg2",
     "requests",

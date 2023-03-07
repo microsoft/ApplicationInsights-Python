@@ -12,6 +12,7 @@ The following OpenTelemetry instrumentations come bundled in with the Azure moni
 
 * [OpenTelemetry Requests Instrumentation][opentelemetry_instrumentation_requests]
 * [OpenTelemetry Django Instrumentation][opentelemetry_instrumentation_django]
+* [OpenTelemetry FastApi Instrumentation][opentelemetry_instrumentation_fastapi]
 * [OpenTelemetry Flask Instrumentation][opentelemetry_instrumentation_flask]
 * [OpenTelemetry Psycopg2 Instrumentation][opentelemetry_instrumentation_psycopg2]
 
@@ -118,6 +119,7 @@ Samples are available [here][samples] to demonstrate how to utilize the above co
 [ot_sdk_python_view_examples]: https://github.com/open-telemetry/opentelemetry-python/tree/main/docs/examples/metrics/views
 [opentelemetry_instrumentation_requests]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-requests
 [opentelemetry_instrumentation_django]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-django
+[opentelemetry_instrumentation_fastapi]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-fastapi
 [opentelemetry_instrumentation_flask]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-flask
 [opentelemetry_instrumentation_psycopg2]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-psycopg2
 [opentelemetry_spec_resource]: https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/resource/sdk.md#resource-sdk
