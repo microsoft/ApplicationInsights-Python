@@ -10,11 +10,12 @@ This distro automatically installs the following libraries:
 
 The following OpenTelemetry instrumentations come bundled in with the Azure monitor distro. If you would like to add support for another OpenTelemetry instrumentation, please submit a feature [request][distro_feature_request]. In the meantime, you can use the OpenTelemetry instrumentation manually via it's own APIs (i.e. `instrument()`) in your code.
 
-* [OpenTelemetry Requests Instrumentation][opentelemetry_instrumentation_requests]
 * [OpenTelemetry Django Instrumentation][opentelemetry_instrumentation_django]
 * [OpenTelemetry FastApi Instrumentation][opentelemetry_instrumentation_fastapi]
 * [OpenTelemetry Flask Instrumentation][opentelemetry_instrumentation_flask]
 * [OpenTelemetry Psycopg2 Instrumentation][opentelemetry_instrumentation_psycopg2]
+* [OpenTelemetry Requests Instrumentation][opentelemetry_instrumentation_requests]
+* [OpenTelemetry UrlLib3 Instrumentation][opentelemetry_instrumentation_urllib3]
 
 ## Getting started
 
@@ -117,11 +118,12 @@ Samples are available [here][samples] to demonstrate how to utilize the above co
 [ot_sdk_python_metric_reader]: https://opentelemetry-python.readthedocs.io/en/stable/sdk/metrics.export.html#opentelemetry.sdk.metrics.export.MetricReader
 [ot_sdk_python_resource]: https://github.com/open-telemetry/opentelemetry-python/blob/main/opentelemetry-sdk/src/opentelemetry/sdk/resources/__init__.py#L153
 [ot_sdk_python_view_examples]: https://github.com/open-telemetry/opentelemetry-python/tree/main/docs/examples/metrics/views
-[opentelemetry_instrumentation_requests]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-requests
 [opentelemetry_instrumentation_django]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-django
 [opentelemetry_instrumentation_fastapi]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-fastapi
 [opentelemetry_instrumentation_flask]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-flask
 [opentelemetry_instrumentation_psycopg2]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-psycopg2
+[opentelemetry_instrumentation_requests]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-requests
+[opentelemetry_instrumentation_urllib3]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-urllib3
 [opentelemetry_spec_resource]: https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/resource/sdk.md#resource-sdk
 [opentelemetry_spec_view]: https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/metrics/sdk.md#view
 [python]: https://www.python.org/downloads/
