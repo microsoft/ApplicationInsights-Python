@@ -40,6 +40,7 @@ _SUPPORTED_INSTRUMENTED_LIBRARIES = (
     "flask",
     "psycopg2",
     "requests",
+    "urllib3",
 )
 
 
