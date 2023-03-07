@@ -1,5 +1,6 @@
 pytest
-psycopg2
-flask
 django
+fastapi
+flask
+psycopg2
 requests

@@ -6,6 +6,8 @@
     ([#253](https://github.com/microsoft/ApplicationInsights-Python/pull/253))
 - Use entrypoints instead of importlib to load instrumentations
     ([#254](https://github.com/microsoft/ApplicationInsights-Python/pull/254))
+- Add support for FastAPI instrumentation
+    ([#255](https://github.com/microsoft/ApplicationInsights-Python/pull/255))
 
 ## [1.0.0b10](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b10) - 2023-02-23
 
