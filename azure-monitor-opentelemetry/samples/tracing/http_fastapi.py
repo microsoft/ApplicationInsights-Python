@@ -20,11 +20,17 @@ app = fastapi.FastAPI()
 
 # Requests made to fastapi endpoints will be automatically captured
 @app.get("/")
-async def root():
+async def test():
     return {"message": "Hello World"}
+
+
+# Exceptions that are raised within the request are automatically captured
+@app.get("/exception")
+async def exception():
+    raise Exception("Hit an exception")
 
 
 # Telemetry from this endpoint will not be captured due to excluded_urls config above
 @app.get("/exclude")
-async def root():
+async def exclude():
     return {"message": "Telemetry was not captured"}
