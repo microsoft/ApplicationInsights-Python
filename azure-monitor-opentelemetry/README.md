@@ -8,7 +8,7 @@ This distro automatically installs the following libraries:
 
 ## Officially supported instrumentations
 
-The following OpenTelemetry instrumentations come bundled in with the Azure monitor distro. If you would like to add support for another OpenTelemetry instrumentation, please submit a feature [request][distro_feature_request]. In the meantime, you can use the OpenTelemetry instrumentation manually via it's own APIs (i.e. `instrument()`) in your code.
+The following OpenTelemetry instrumentations come bundled in with the Azure monitor distro. If you would like to add support for another OpenTelemetry instrumentation, please submit a feature [request][distro_feature_request]. In the meantime, you can use the OpenTelemetry instrumentation manually via it's own APIs (i.e. `instrument()`) in your code. See [this][samples_manual] for an example.
 
 * [OpenTelemetry Django Instrumentation][opentelemetry_instrumentation_django]
 * [OpenTelemetry FastApi Instrumentation][opentelemetry_instrumentation_fastapi]
@@ -131,3 +131,4 @@ Samples are available [here][samples] to demonstrate how to utilize the above co
 [python]: https://www.python.org/downloads/
 [pip]: https://pypi.org/project/pip/
 [samples]: https://github.com/microsoft/ApplicationInsights-Python/tree/main/azure-monitor-opentelemetry/samples
+[samples_manual]: https://github.com/microsoft/ApplicationInsights-Python/tree/main/azure-monitor-opentelemetry/samples/tracing/manual.py
