@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from logging import WARN
 import unittest
 from unittest.mock import Mock, patch
 
@@ -24,6 +25,9 @@ from azure.monitor.opentelemetry._configure import (
     _setup_tracing,
     configure_azure_monitor,
 )
+
+
+TEST_LOGGING_LEVEL = WARN
 
 
 class TestConfigure(unittest.TestCase):
@@ -56,7 +60,7 @@ class TestConfigure(unittest.TestCase):
             "disable_logging": False,
             "disable_metrics": False,
             "logging_export_interval_ms": 10000,
-            "logging_level": "test_logging_level",
+            "logging_level": TEST_LOGGING_LEVEL,
             "logger_name": "test_logger_name",
             "metric_readers": "test_metric_readers",
             "service_name": "test_service_name",
@@ -104,7 +108,7 @@ class TestConfigure(unittest.TestCase):
             "disable_logging": False,
             "disable_metrics": False,
             "logging_export_interval_ms": 10000,
-            "logging_level": "test_logging_level",
+            "logging_level": TEST_LOGGING_LEVEL,
             "logger_name": "test_logger_name",
             "service_name": "test_service_name",
             "service_namespace": "test_namespace",
@@ -151,7 +155,7 @@ class TestConfigure(unittest.TestCase):
             "disable_logging": True,
             "disable_metrics": False,
             "logging_export_interval_ms": 10000,
-            "logging_level": "test_logging_level",
+            "logging_level": TEST_LOGGING_LEVEL,
             "logger_name": "test_logger_name",
             "service_name": "test_service_name",
             "service_namespace": "test_namespace",
@@ -198,7 +202,7 @@ class TestConfigure(unittest.TestCase):
             "disable_logging": False,
             "disable_metrics": True,
             "logging_export_interval_ms": 10000,
-            "logging_level": "test_logging_level",
+            "logging_level": TEST_LOGGING_LEVEL,
             "service_name": "test_service_name",
             "service_namespace": "test_namespace",
             "service_instance_id": "test_id",
@@ -337,7 +341,7 @@ class TestConfigure(unittest.TestCase):
             "connection_string": "test_cs",
             "disable_logging": False,
             "logging_export_interval_ms": 10000,
-            "logging_level": "test_logging_level",
+            "logging_level": TEST_LOGGING_LEVEL,
             "logger_name": "test_logger_name",
         }
         _setup_logging(resource_mock, configurations)
@@ -353,7 +357,7 @@ class TestConfigure(unittest.TestCase):
             blrp_init_mock
         )
         logging_handler_mock.assert_called_once_with(
-            level="test_logging_level", logger_provider=lp_init_mock
+            level=TEST_LOGGING_LEVEL, logger_provider=lp_init_mock
         )
         get_logger_mock.assert_called_once_with("test_logger_name")
         logger_mock.addHandler.assert_called_once_with(

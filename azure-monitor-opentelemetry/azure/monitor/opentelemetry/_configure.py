@@ -4,7 +4,7 @@
 # license information.
 # --------------------------------------------------------------------------
 from logging import NOTSET, getLogger
-from typing import Any, Dict
+from typing import Any, Dict, Sequence
 
 from azure.monitor.opentelemetry._types import ConfigurationValue
 from azure.monitor.opentelemetry.exporter import (
@@ -53,7 +53,7 @@ def configure_azure_monitor(**kwargs) -> None:
     end user to configure OpenTelemetry and Azure monitor components. The
     configuration can be done via arguments passed to this function.
     :keyword str connection_string: Connection string for your Application Insights resource.
-    :keyword Sequence[str] connection_string: Specifies the libraries with instrumentations to be enabled.
+    :keyword Sequence[str] exclude_instrumentations: Specifies instrumentations you do not want to enable.
     :keyword Resource resource: Specified the OpenTelemetry [resource][opentelemetry_spec_resource] associated with your application.
     :keyword bool disable_logging: If set to `True`, disables collection and export of logging telemetry. Defaults to `False`.
     :keyword bool disable_metrics: If set to `True`, disables collection and export of metric telemetry. Defaults to `False`.
@@ -74,6 +74,7 @@ def configure_azure_monitor(**kwargs) -> None:
     """
 
     configurations = _get_configurations(**kwargs)
+    _validate_configurations(configurations)
 
     disable_tracing = configurations.get("disable_tracing", False)
     disable_logging = configurations.get("disable_logging", False)
@@ -199,3 +200,26 @@ def _setup_instrumentations(configurations: Dict[str, ConfigurationValue]):
                 lib_name,
                 exc_info=ex,
             )
+
+def _is_instance_or_none(var, type):
+    return isinstance(var, type) or var is None
+
+def _validate_configurations(configurations):
+    assert(_is_instance_or_none(configurations.get("connection_string"), str))
+    assert(_is_instance_or_none(configurations.get("exclude_instrumentations"), Sequence))
+    assert(_is_instance_or_none(configurations.get("resource"), Resource))
+    assert(_is_instance_or_none(configurations.get("disable_logging"), bool))
+    assert(_is_instance_or_none(configurations.get("disable_metrics"), bool))
+    assert(_is_instance_or_none(configurations.get("disable_tracing"), bool))
+    assert(_is_instance_or_none(configurations.get("logging_level"), int))
+    assert(_is_instance_or_none(configurations.get("logger_name"), str))
+    assert(_is_instance_or_none(configurations.get("logging_export_interval_millis"), int))
+    assert(_is_instance_or_none(configurations.get("metric_readers"), Sequence))
+    assert(_is_instance_or_none(configurations.get("views"), Sequence))
+    assert(_is_instance_or_none(configurations.get("sampling_ratio"), float))
+    assert(_is_instance_or_none(configurations.get("tracing_export_interval_millis"), int))
+    for library in _SUPPORTED_INSTRUMENTED_LIBRARIES:
+        assert(_is_instance_or_none(configurations.get(library + "_config"), Dict))
+    assert(_is_instance_or_none(configurations.get("disable_offline_storage"), bool))
+    assert(_is_instance_or_none(configurations.get("storage_directory"), str))
+    
