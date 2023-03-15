@@ -12,7 +12,7 @@ configure_azure_monitor(
     disable_logging=True,
     disable_metrics=True,
     flask_config={"excluded_urls": "http://localhost:8080/ignore"},
-    tracing_export_interval_millis=15000,
+    tracing_export_interval_ms=15000,
 )
 
 app = flask.Flask(__name__)

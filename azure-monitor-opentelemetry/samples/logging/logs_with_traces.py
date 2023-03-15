@@ -15,7 +15,7 @@ configure_azure_monitor(
     logging_level=WARNING,
     disable_metrics=True,
     instrumentations=["flask"],
-    tracing_export_interval_millis=15000,
+    tracing_export_interval_ms=15000,
 )
 
 logger = getLogger(__name__)

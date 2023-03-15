@@ -9,7 +9,7 @@ from sqlalchemy import create_engine, text
 
 configure_azure_monitor(
     connection_string="<your-connection-string>",
-    tracing_export_interval_millis=15000,
+    tracing_export_interval_ms=15000,
     disable_logging=True,
     disable_metrics=True,
 )

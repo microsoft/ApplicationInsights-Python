@@ -17,7 +17,7 @@ configure_azure_monitor(
     disable_logging=True,
     disable_metrics=True,
     requests_config={"excluded_urls": "http://example.com"},
-    tracing_export_interval_millis=15000,
+    tracing_export_interval_ms=15000,
 )
 
 tracer = trace.get_tracer(__name__)
