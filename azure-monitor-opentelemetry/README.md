@@ -74,11 +74,11 @@ Take a look at the specific [instrumenation][ot_instrumentations] documentation 
 * resource - Specified the OpenTelemetry [resource][opentelemetry_spec_resource] associated with your application. See [this][ot_sdk_python_resource] for default behavior.
 * logging_level - Specifies the [logging level][logging_level] of the logs you would like to collect for your logging pipeline. Defaults to logging.NOTSET.
 * logger_name = Specifies the [logger name][logger_name_hierarchy_doc] under which logging will be instrumented. Defaults to "" which corresponds to the root logger.
-* logging_export_interval_millis - Specifies the logging export interval in milliseconds. Defaults to 5000.
+* logging_export_interval_ms - Specifies the logging export interval in milliseconds. Defaults to 5000.
 * metric_readers - Specifies the [metric readers][ot_metric_reader] that you would like to use for your metric pipeline. Accepts a list of [metric readers][ot_sdk_python_metric_reader].
 * views - Specifies the list of [views][opentelemetry_spec_view] to configure for the metric pipeline. See [here][ot_sdk_python_view_examples] for example usage.
 * sampling_ratio - Specifies the ratio of distributed tracing telemetry to be [sampled][application_insights_sampling]. Accepted values are in the range [0,1]. Defaults to 1.0, meaning no telemetry is sampled out.
-* tracing_export_interval_millis - Specifies the distributed tracing export interval in milliseconds. Defaults to 5000.
+* tracing_export_interval_ms - Specifies the distributed tracing export interval in milliseconds. Defaults to 5000.
 
 #### Azure monitor OpenTelemetry Exporter configurations
 

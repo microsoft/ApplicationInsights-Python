@@ -60,11 +60,11 @@ def configure_azure_monitor(**kwargs) -> None:
     :keyword bool disable_tracing: If set to `True`, disables collection and export of distributed tracing telemetry. Defaults to `False`.
     :keyword int logging_level: Specifies the logging of the logs you would like to collect for your logging pipeline.
     :keyword str logger_name: Specifies the logger name under which logging will be instrumented. Defaults to "" which corresponds to the root logger.
-    :keyword int logging_export_interval_millis: Specifies the logging export interval in milliseconds. Defaults to 5000.
+    :keyword int logging_export_interval_ms: Specifies the logging export interval in milliseconds. Defaults to 5000.
     :keyword Sequence[MetricReader] metric_readers: Specifies the metric readers that you would like to use for your metric pipeline.
     :keyword Sequence[View] views: Specifies the list of views to configure for the metric pipeline.
     :keyword float sampling_ratio: Specifies the ratio of distributed tracing telemetry to be sampled. Accepted values are in the range [0,1]. Defaults to 1.0, meaning no telemetry is sampled out.
-    :keyword int tracing_export_interval_millis: Specifies the distributed tracing export interval in milliseconds. Defaults to 5000.
+    :keyword int tracing_export_interval_ms: Specifies the distributed tracing export interval in milliseconds. Defaults to 5000.
     :keyword InstrumentationConfig instrumentation_config: Specifies a dictionary of kwargs that will be applied to instrumentation configuration. You can specify which instrumentation you want to
         configure by name in the key field and value as a dictionary representing `kwargs` for the corresponding instrumentation.
         Refer to the `Supported Library` section of https://github.com/microsoft/ApplicationInsights-Python/tree/main/azure-monitor-opentelemetry#officially-supported-instrumentations for the list of suppoprted library names.
@@ -109,8 +109,8 @@ def _setup_tracing(
     resource: Resource, configurations: Dict[str, ConfigurationValue]
 ):
     sampling_ratio = configurations.get("sampling_ratio", 1.0)
-    tracing_export_interval_millis = configurations.get(
-        "tracing_export_interval_millis", 5000
+    tracing_export_interval_ms = configurations.get(
+        "tracing_export_interval_ms", 5000
     )
     tracer_provider = TracerProvider(
         sampler=ApplicationInsightsSampler(sampling_ratio=sampling_ratio),
@@ -120,7 +120,7 @@ def _setup_tracing(
     trace_exporter = AzureMonitorTraceExporter(**configurations)
     span_processor = BatchSpanProcessor(
         trace_exporter,
-        schedule_delay_millis=tracing_export_interval_millis,
+        schedule_delay_millis=tracing_export_interval_ms,
     )
     get_tracer_provider().add_span_processor(span_processor)
 
@@ -130,15 +130,15 @@ def _setup_logging(
 ):
     logger_name = configurations.get("logger_name", "")
     logging_level = configurations.get("logging_level", NOTSET)
-    logging_export_interval_millis = configurations.get(
-        "logging_export_interval_millis", 5000
+    logging_export_interval_ms = configurations.get(
+        "logging_export_interval_ms", 5000
     )
     logger_provider = LoggerProvider(resource=resource)
     set_logger_provider(logger_provider)
     log_exporter = AzureMonitorLogExporter(**configurations)
     log_record_processor = BatchLogRecordProcessor(
         log_exporter,
-        schedule_delay_millis=logging_export_interval_millis,
+        schedule_delay_millis=logging_export_interval_ms,
     )
     get_logger_provider().add_log_record_processor(log_record_processor)
     handler = LoggingHandler(

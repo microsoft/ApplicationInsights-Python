@@ -55,7 +55,7 @@ class TestConfigure(unittest.TestCase):
             "disable_tracing": False,
             "disable_logging": False,
             "disable_metrics": False,
-            "logging_export_interval_millis": 10000,
+            "logging_export_interval_ms": 10000,
             "logging_level": "test_logging_level",
             "logger_name": "test_logger_name",
             "metric_readers": "test_metric_readers",
@@ -63,7 +63,7 @@ class TestConfigure(unittest.TestCase):
             "service_namespace": "test_namespace",
             "service_instance_id": "test_id",
             "sampling_ratio": 0.5,
-            "tracing_export_interval_millis": 15000,
+            "tracing_export_interval_ms": 15000,
             "views": "test_views",
         }
         resource_init_mock = Mock()
@@ -103,14 +103,14 @@ class TestConfigure(unittest.TestCase):
             "disable_tracing": True,
             "disable_logging": False,
             "disable_metrics": False,
-            "logging_export_interval_millis": 10000,
+            "logging_export_interval_ms": 10000,
             "logging_level": "test_logging_level",
             "logger_name": "test_logger_name",
             "service_name": "test_service_name",
             "service_namespace": "test_namespace",
             "service_instance_id": "test_id",
             "sampling_ratio": 0.5,
-            "tracing_export_interval_millis": 15000,
+            "tracing_export_interval_ms": 15000,
             "views": "test_views",
         }
         resource_init_mock = Mock()
@@ -150,14 +150,14 @@ class TestConfigure(unittest.TestCase):
             "disable_tracing": False,
             "disable_logging": True,
             "disable_metrics": False,
-            "logging_export_interval_millis": 10000,
+            "logging_export_interval_ms": 10000,
             "logging_level": "test_logging_level",
             "logger_name": "test_logger_name",
             "service_name": "test_service_name",
             "service_namespace": "test_namespace",
             "service_instance_id": "test_id",
             "sampling_ratio": 0.5,
-            "tracing_export_interval_millis": 15000,
+            "tracing_export_interval_ms": 15000,
             "views": "test_views",
         }
         resource_init_mock = Mock()
@@ -197,13 +197,13 @@ class TestConfigure(unittest.TestCase):
             "disable_tracing": False,
             "disable_logging": False,
             "disable_metrics": True,
-            "logging_export_interval_millis": 10000,
+            "logging_export_interval_ms": 10000,
             "logging_level": "test_logging_level",
             "service_name": "test_service_name",
             "service_namespace": "test_namespace",
             "service_instance_id": "test_id",
             "sampling_ratio": 0.5,
-            "tracing_export_interval_millis": 15000,
+            "tracing_export_interval_ms": 15000,
             "views": "test_views",
         }
         resource_init_mock = Mock()
@@ -271,7 +271,7 @@ class TestConfigure(unittest.TestCase):
             "connection_string": "test_cs",
             "disable_tracing": False,
             "sampling_ratio": 0.5,
-            "tracing_export_interval_millis": 15000,
+            "tracing_export_interval_ms": 15000,
         }
         _setup_tracing(resource_mock, configurations)
         sampler_mock.assert_called_once_with(sampling_ratio=0.5)
@@ -336,7 +336,7 @@ class TestConfigure(unittest.TestCase):
         configurations = {
             "connection_string": "test_cs",
             "disable_logging": False,
-            "logging_export_interval_millis": 10000,
+            "logging_export_interval_ms": 10000,
             "logging_level": "test_logging_level",
             "logger_name": "test_logger_name",
         }

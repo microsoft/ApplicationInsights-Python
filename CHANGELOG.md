@@ -12,6 +12,8 @@
     ([#256](https://github.com/microsoft/ApplicationInsights-Python/pull/256))
 - Change instrumentation config to use TypedDict InstrumentationConfig
     ([#259](https://github.com/microsoft/ApplicationInsights-Python/pull/259))
+- Change interval params to use `_ms` as suffix
+    ([#260](https://github.com/microsoft/ApplicationInsights-Python/pull/260))
 
 ## [1.0.0b10](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b10) - 2023-02-23
 

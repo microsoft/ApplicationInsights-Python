@@ -12,7 +12,7 @@ configure_azure_monitor(
     # Sampling ratio of between 0 and 1 inclusive
     # 0.1 means approximately 10% of your traces are sent
     sampling_ratio=0.1,
-    tracing_export_interval_millis=15000,
+    tracing_export_interval_ms=15000,
     disable_logging=True,
     disable_metrics=True,
 )
