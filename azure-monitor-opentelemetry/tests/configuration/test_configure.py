@@ -544,7 +544,11 @@ class TestConfigure(unittest.TestCase):
     ):
         libr_name = _SUPPORTED_INSTRUMENTED_LIBRARIES[0]
         configurations = {
-            libr_name + "_config": {"test_key": "test_value"},
+            "instrumentation_config": {
+                libr_name: {
+                    "test_key": "test_value",
+                }
+            },
         }
         ep_mock = Mock()
         iter_mock.return_value = [ep_mock]
@@ -574,8 +578,14 @@ class TestConfigure(unittest.TestCase):
         libr_name = _SUPPORTED_INSTRUMENTED_LIBRARIES[0]
         libr_name2 = _SUPPORTED_INSTRUMENTED_LIBRARIES[1]
         configurations = {
-            libr_name + "_config": {"test_key": "test_value"},
-            libr_name2 + "_config": {"test_key2": "test_value2"},
+            "instrumentation_config": {
+                libr_name: {
+                    "test_key": "test_value",
+                },
+                libr_name2: {
+                    "test_key2": "test_value2",
+                },
+            },
             "exclude_instrumentations": libr_name,
         }
         ep_mock = Mock()

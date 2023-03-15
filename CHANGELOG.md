@@ -10,6 +10,8 @@
     ([#255](https://github.com/microsoft/ApplicationInsights-Python/pull/255))
 - Add support for Urllib3/Urllib instrumentation
     ([#256](https://github.com/microsoft/ApplicationInsights-Python/pull/256))
+- Change instrumentation config to use TypedDict InstrumentationConfig
+    ([#259](https://github.com/microsoft/ApplicationInsights-Python/pull/259))
 - Change interval params to use `_ms` as suffix
     ([#260](https://github.com/microsoft/ApplicationInsights-Python/pull/260))
 

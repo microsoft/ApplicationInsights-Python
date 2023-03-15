@@ -4,7 +4,7 @@
 # license information.
 # --------------------------------------------------------------------------
 from logging import NOTSET, getLogger
-from typing import Dict
+from typing import Any, Dict
 
 from azure.monitor.opentelemetry._types import ConfigurationValue
 from azure.monitor.opentelemetry.exporter import (
@@ -33,7 +33,6 @@ from pkg_resources import iter_entry_points
 _logger = getLogger(__name__)
 
 
-_INSTRUMENTATION_CONFIG_SUFFIX = "_config"
 _SUPPORTED_INSTRUMENTED_LIBRARIES = (
     "django",
     "fastapi",
@@ -43,6 +42,9 @@ _SUPPORTED_INSTRUMENTED_LIBRARIES = (
     "urllib",
     "urllib3",
 )
+
+
+InstrumentationConfig = Dict[str, Dict[str, Any]]
 
 
 def configure_azure_monitor(**kwargs) -> None:
@@ -63,7 +65,9 @@ def configure_azure_monitor(**kwargs) -> None:
     :keyword Sequence[View] views: Specifies the list of views to configure for the metric pipeline.
     :keyword float sampling_ratio: Specifies the ratio of distributed tracing telemetry to be sampled. Accepted values are in the range [0,1]. Defaults to 1.0, meaning no telemetry is sampled out.
     :keyword int tracing_export_interval_ms: Specifies the distributed tracing export interval in milliseconds. Defaults to 5000.
-    :keyword Dict[str, Any] <instrumentation>_config: Specifies a dictionary of kwargs that will be applied to configuration for instrumentation <instrumentation>.
+    :keyword InstrumentationConfig instrumentation_config: Specifies a dictionary of kwargs that will be applied to instrumentation configuration. You can specify which instrumentation you want to
+        configure by name in the key field and value as a dictionary representing `kwargs` for the corresponding instrumentation.
+        Refer to the `Supported Library` section of https://github.com/microsoft/ApplicationInsights-Python/tree/main/azure-monitor-opentelemetry#officially-supported-instrumentations for the list of suppoprted library names.
     :keyword bool disable_offline_storage: Boolean value to determine whether to disable storing failed telemetry records for retry. Defaults to `False`.
     :keyword str storage_directory: Storage directory in which to store retry files. Defaults to `<tempfile.gettempdir()>/Microsoft/AzureMonitor/opentelemetry-python-<your-instrumentation-key>`.
     :rtype: None
@@ -162,14 +166,7 @@ def _setup_instrumentations(configurations: Dict[str, ConfigurationValue]):
     exclude_instrumentations = configurations.get(
         "exclude_instrumentations", []
     )
-    instrumentation_configs = {}
-
-    # Instrumentation specific configs
-    # Format is {"<library_name>": {"<config>":<value>}}
-    for k, v in configurations.items():
-        if k.endswith(_INSTRUMENTATION_CONFIG_SUFFIX):
-            lib_name = k.partition(_INSTRUMENTATION_CONFIG_SUFFIX)[0]
-            instrumentation_configs[lib_name] = v
+    instrumentation_configs = configurations.get("instrumentation_config", {})
 
     # use pkg_resources for now until https://github.com/open-telemetry/opentelemetry-python/pull/3168 is merged
     for entry_point in iter_entry_points("opentelemetry_instrumentor"):

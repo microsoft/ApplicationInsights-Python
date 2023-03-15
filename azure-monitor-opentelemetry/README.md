@@ -8,15 +8,17 @@ This distro automatically installs the following libraries:
 
 ## Officially supported instrumentations
 
-The following OpenTelemetry instrumentations come bundled in with the Azure monitor distro. If you would like to add support for another OpenTelemetry instrumentation, please submit a feature [request][distro_feature_request]. In the meantime, you can use the OpenTelemetry instrumentation manually via it's own APIs (i.e. `instrument()`) in your code. See [this][samples_manual] for an example.
+OpenTelemetry instrumentations allow automatic collection of requests sent from underlying instrumented libraries. The following is a list of OpenTelemetry instrumentations that come bundled in with the Azure monitor distro. If you would like to add support for another OpenTelemetry instrumentation, please submit a feature [request][distro_feature_request]. In the meantime, you can use the OpenTelemetry instrumentation manually via it's own APIs (i.e. `instrument()`) in your code. See [this][samples_manual] for an example.
 
-* [OpenTelemetry Django Instrumentation][opentelemetry_instrumentation_django]
-* [OpenTelemetry FastApi Instrumentation][opentelemetry_instrumentation_fastapi]
-* [OpenTelemetry Flask Instrumentation][opentelemetry_instrumentation_flask]
-* [OpenTelemetry Psycopg2 Instrumentation][opentelemetry_instrumentation_psycopg2]
-* [OpenTelemetry Requests Instrumentation][opentelemetry_instrumentation_requests]
-* [OpenTelemetry UrlLib Instrumentation][opentelemetry_instrumentation_urllib]
-* [OpenTelemetry UrlLib3 Instrumentation][opentelemetry_instrumentation_urllib3]
+| Instrumentation                       | Supported library | Supported versions |
+| ------------------------------------- | ----------------- | ------------------ |
+| [OpenTelemetry Django Instrumentation][ot_instrumentation_django] | [django][pypi_django] | [link][ot_instrumentation_django_version]
+| [OpenTelemetry FastApi Instrumentation][ot_instrumentation_fastapi] | [fastapi][pypi_fastapi] | [link][ot_instrumentation_fastapi_version]
+| [OpenTelemetry Flask Instrumentation][ot_instrumentation_flask] | [flask][pypi_flask] | [link][ot_instrumentation_flask_version]
+| [OpenTelemetry Psycopg2 Instrumentation][ot_instrumentation_psycopg2] | [psycopg2][pypi_psycopg2] | [link][ot_instrumentation_psycopg2_version]
+| [OpenTelemetry Requests Instrumentation][ot_instrumentation_requests] | [requests][pypi_requests] | [link][ot_instrumentation_requests_version]
+| [OpenTelemetry UrlLib Instrumentation][ot_instrumentation_urllib] | [urllib][pypi_urllib] | All
+| [OpenTelemetry UrlLib3 Instrumentation][ot_instrumentation_urllib3] | [urllib3][pypi_urllib3] | [link][ot_instrumentation_urllib3_version]
 
 ## Getting started
 
@@ -54,31 +56,8 @@ You can use `configure_azure_monitor` to set up instrumentation for your app to 
 * disable_metrics - If set to `True`, disables collection and export of metric telemetry. Defaults to `False`.
 * disable_tracing - If set to `True`, disables collection and export of distributed tracing telemetry. Defaults to `False`.
 * exclude_instrumentations - By default, all supported [instrumentations](#officially-supported-instrumentations) are enabled to collect telemetry. Specify instrumentations you do not want to enable to collect telemetry by passing in a comma separated list of instrumented library names. e.g. `["requests", "flask"]`
-* resource - Specified the OpenTelemetry [resource][opentelemetry_spec_resource] associated with your application. See [this][ot_sdk_python_resource] for default behavior.
-* logging_level - Specifies the [logging level][logging_level] of the logs you would like to collect for your logging pipeline. Defaults to logging.NOTSET.
-* logger_name = Specifies the [logger name][logger_name_hierarchy_doc] under which logging will be instrumented. Defaults to "" which corresponds to the root logger.
-* logging_export_interval_ms - Specifies the logging export interval in milliseconds. Defaults to 5000.
-* metric_readers - Specifies the [metric readers][ot_metric_reader] that you would like to use for your metric pipeline. Accepts a list of [metric readers][ot_sdk_python_metric_reader].
-* views - Specifies the list of [views][opentelemetry_spec_view] to configure for the metric pipeline. See [here][ot_sdk_python_view_examples] for example usage.
-* sampling_ratio - Specifies the ratio of distributed tracing telemetry to be [sampled][application_insights_sampling]. Accepted values are in the range [0,1]. Defaults to 1.0, meaning no telemetry is sampled out.
-* tracing_export_interval_ms - Specifies the distributed tracing export interval in milliseconds. Defaults to 5000.
-
-#### Exporter configurations
-
-You can pass exporter configuration parameters directly into `configure_azure_monitor`. See additional [configuration related to exporting here][exporter_configuration_docs].
-
-```python
-...
-configure_azure_monitor(
-   connection_string="<your-connection-string>",
-   disable_offline_storage=True, 
-)
-...
-```
-
-#### Instrumentation configurations
-
-You can pass in instrumentation specific configuration into `configure_azure_monitor` with the key `<instrumented-library-name>_config` and value as a dictionary representing `kwargs` for the corresponding instrumentation.
+* instrumentation_config - Specifies a dictionary of kwargs that will be applied to instrumentation configuration. You can specify which instrumentation you want to configure by name in the key field and value as a dictionary representing `kwargs` for the corresponding instrumentation.
+    Refer to the `Supported Library` section [above](#officially-supported-instrumentations) for the list of suppoprted library names.
 
 ```python
 ...
@@ -91,6 +70,28 @@ configure_azure_monitor(
 ```
 
 Take a look at the specific [instrumenation][ot_instrumentations] documentation for available configurations.
+
+* resource - Specified the OpenTelemetry [resource][opentelemetry_spec_resource] associated with your application. See [this][ot_sdk_python_resource] for default behavior.
+* logging_level - Specifies the [logging level][logging_level] of the logs you would like to collect for your logging pipeline. Defaults to logging.NOTSET.
+* logger_name = Specifies the [logger name][logger_name_hierarchy_doc] under which logging will be instrumented. Defaults to "" which corresponds to the root logger.
+* logging_export_interval_ms - Specifies the logging export interval in milliseconds. Defaults to 5000.
+* metric_readers - Specifies the [metric readers][ot_metric_reader] that you would like to use for your metric pipeline. Accepts a list of [metric readers][ot_sdk_python_metric_reader].
+* views - Specifies the list of [views][opentelemetry_spec_view] to configure for the metric pipeline. See [here][ot_sdk_python_view_examples] for example usage.
+* sampling_ratio - Specifies the ratio of distributed tracing telemetry to be [sampled][application_insights_sampling]. Accepted values are in the range [0,1]. Defaults to 1.0, meaning no telemetry is sampled out.
+* tracing_export_interval_ms - Specifies the distributed tracing export interval in milliseconds. Defaults to 5000.
+
+#### Azure monitor OpenTelemetry Exporter configurations
+
+You can pass Azure monitor OpenTelemetry exporter configuration parameters directly into `configure_azure_monitor`. See additional [configuration related to exporting here][exporter_configuration_docs].
+
+```python
+...
+configure_azure_monitor(
+   connection_string="<your-connection-string>",
+   disable_offline_storage=True, 
+)
+...
+```
 
 ### Samples
 
@@ -119,16 +120,29 @@ Samples are available [here][samples] to demonstrate how to utilize the above co
 [ot_sdk_python_metric_reader]: https://opentelemetry-python.readthedocs.io/en/stable/sdk/metrics.export.html#opentelemetry.sdk.metrics.export.MetricReader
 [ot_sdk_python_resource]: https://github.com/open-telemetry/opentelemetry-python/blob/main/opentelemetry-sdk/src/opentelemetry/sdk/resources/__init__.py#L153
 [ot_sdk_python_view_examples]: https://github.com/open-telemetry/opentelemetry-python/tree/main/docs/examples/metrics/views
-[opentelemetry_instrumentation_django]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-django
-[opentelemetry_instrumentation_fastapi]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-fastapi
-[opentelemetry_instrumentation_flask]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-flask
-[opentelemetry_instrumentation_psycopg2]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-psycopg2
-[opentelemetry_instrumentation_requests]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-requests
-[opentelemetry_instrumentation_urllib]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-urllib
-[opentelemetry_instrumentation_urllib3]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-urllib3
+[ot_instrumentation_django]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-django
+[ot_instrumentation_django_version]: https://github.com/open-telemetry/opentelemetry-python-contrib/blob/main/instrumentation/opentelemetry-instrumentation-django/src/opentelemetry/instrumentation/django/package.py#L16
+[ot_instrumentation_fastapi]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-fastapi
+[ot_instrumentation_fastapi_version]: https://github.com/open-telemetry/opentelemetry-python-contrib/blob/main/instrumentation/opentelemetry-instrumentation-fastapi/src/opentelemetry/instrumentation/fastapi/package.py#L16
+[ot_instrumentation_flask]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-flask
+[ot_instrumentation_flask_version]: https://github.com/open-telemetry/opentelemetry-python-contrib/blob/main/instrumentation/opentelemetry-instrumentation-flask/src/opentelemetry/instrumentation/flask/package.py#L16
+[ot_instrumentation_psycopg2]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-psycopg2
+[ot_instrumentation_psycopg2_version]: https://github.com/open-telemetry/opentelemetry-python-contrib/blob/main/instrumentation/opentelemetry-instrumentation-psycopg2/src/opentelemetry/instrumentation/psycopg2/package.py#L16
+[ot_instrumentation_requests]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-requests
+[ot_instrumentation_requests_version]: https://github.com/open-telemetry/opentelemetry-python-contrib/blob/main/instrumentation/opentelemetry-instrumentation-requests/src/opentelemetry/instrumentation/requests/package.py#L16
+[ot_instrumentation_urllib]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-urllib3
+[ot_instrumentation_urllib3]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-urllib3
+[ot_instrumentation_urllib3_version]: https://github.com/open-telemetry/opentelemetry-python-contrib/blob/main/instrumentation/opentelemetry-instrumentation-urllib3/src/opentelemetry/instrumentation/urllib3/package.py#L16
 [opentelemetry_spec_resource]: https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/resource/sdk.md#resource-sdk
 [opentelemetry_spec_view]: https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/metrics/sdk.md#view
-[python]: https://www.python.org/downloads/
 [pip]: https://pypi.org/project/pip/
+[pypi_django]: https://pypi.org/project/Django/
+[pypi_fastapi]: https://pypi.org/project/fastapi/
+[pypi_flask]: https://pypi.org/project/Flask/
+[pypi_psycopg2]: https://pypi.org/project/psycopg2/
+[pypi_requests]: https://pypi.org/project/requests/
+[pypi_urllib]: https://docs.python.org/3/library/urllib.html
+[pypi_urllib3]: https://pypi.org/project/urllib3/
+[python]: https://www.python.org/downloads/
 [samples]: https://github.com/microsoft/ApplicationInsights-Python/tree/main/azure-monitor-opentelemetry/samples
 [samples_manual]: https://github.com/microsoft/ApplicationInsights-Python/tree/main/azure-monitor-opentelemetry/samples/tracing/manual.py
