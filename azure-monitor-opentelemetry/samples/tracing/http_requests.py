@@ -16,7 +16,11 @@ configure_azure_monitor(
     connection_string="<your-connection-string>",
     disable_logging=True,
     disable_metrics=True,
-    requests_config={"excluded_urls": "http://example.com"},
+    instrumentation_config={
+        "requests": {
+            "excluded_urls": "http://example.com",
+        }
+    },
     tracing_export_interval_millis=15000,
 )
 
