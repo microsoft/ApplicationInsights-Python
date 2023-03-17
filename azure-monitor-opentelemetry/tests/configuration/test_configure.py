@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from logging import WARN
 import unittest
+from logging import WARN
 from unittest.mock import Mock, patch
 
 from azure.monitor.opentelemetry._configure import (
@@ -25,7 +25,6 @@ from azure.monitor.opentelemetry._configure import (
     _setup_tracing,
     configure_azure_monitor,
 )
-
 
 TEST_LOGGING_LEVEL = WARN
 

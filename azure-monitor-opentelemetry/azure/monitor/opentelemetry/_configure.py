@@ -201,25 +201,36 @@ def _setup_instrumentations(configurations: Dict[str, ConfigurationValue]):
                 exc_info=ex,
             )
 
+
 def _is_instance_or_none(var, type):
     return isinstance(var, type) or var is None
 
+
 def _validate_configurations(configurations):
-    assert(_is_instance_or_none(configurations.get("connection_string"), str))
-    assert(_is_instance_or_none(configurations.get("exclude_instrumentations"), Sequence))
-    assert(_is_instance_or_none(configurations.get("resource"), Resource))
-    assert(_is_instance_or_none(configurations.get("disable_logging"), bool))
-    assert(_is_instance_or_none(configurations.get("disable_metrics"), bool))
-    assert(_is_instance_or_none(configurations.get("disable_tracing"), bool))
-    assert(_is_instance_or_none(configurations.get("logging_level"), int))
-    assert(_is_instance_or_none(configurations.get("logger_name"), str))
-    assert(_is_instance_or_none(configurations.get("logging_export_interval_millis"), int))
-    assert(_is_instance_or_none(configurations.get("metric_readers"), Sequence))
-    assert(_is_instance_or_none(configurations.get("views"), Sequence))
-    assert(_is_instance_or_none(configurations.get("sampling_ratio"), float))
-    assert(_is_instance_or_none(configurations.get("tracing_export_interval_millis"), int))
+    assert _is_instance_or_none(configurations.get("connection_string"), str)
+    assert _is_instance_or_none(
+        configurations.get("exclude_instrumentations"), Sequence
+    )
+    assert _is_instance_or_none(configurations.get("resource"), Resource)
+    assert _is_instance_or_none(configurations.get("disable_logging"), bool)
+    assert _is_instance_or_none(configurations.get("disable_metrics"), bool)
+    assert _is_instance_or_none(configurations.get("disable_tracing"), bool)
+    assert _is_instance_or_none(configurations.get("logging_level"), int)
+    assert _is_instance_or_none(configurations.get("logger_name"), str)
+    assert _is_instance_or_none(
+        configurations.get("logging_export_interval_millis"), int
+    )
+    assert _is_instance_or_none(configurations.get("metric_readers"), Sequence)
+    assert _is_instance_or_none(configurations.get("views"), Sequence)
+    assert _is_instance_or_none(configurations.get("sampling_ratio"), float)
+    assert _is_instance_or_none(
+        configurations.get("tracing_export_interval_millis"), int
+    )
     for library in _SUPPORTED_INSTRUMENTED_LIBRARIES:
-        assert(_is_instance_or_none(configurations.get(library + "_config"), Dict))
-    assert(_is_instance_or_none(configurations.get("disable_offline_storage"), bool))
-    assert(_is_instance_or_none(configurations.get("storage_directory"), str))
-    
+        assert _is_instance_or_none(
+            configurations.get(library + "_config"), Dict
+        )
+    assert _is_instance_or_none(
+        configurations.get("disable_offline_storage"), bool
+    )
+    assert _is_instance_or_none(configurations.get("storage_directory"), str)
