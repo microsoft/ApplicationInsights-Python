@@ -5,8 +5,7 @@ The Azure Monitor Distro of [Opentelemetry Python][ot_sdk_python] provides multi
 This distro automatically installs the following libraries:
 
 * [Azure Monitor OpenTelemetry exporters][azure_monitor_opentelemetry_exporters]
-
-as well as a subset of OpenTelemetry [instrumentations][ot_instrumentations] that are officially supported as listed below.
+* A subset of OpenTelemetry [instrumentations][ot_instrumentations] that are officially supported as listed below.
 
 ## Officially supported instrumentations
 
