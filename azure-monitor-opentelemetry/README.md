@@ -5,6 +5,7 @@ The Azure Monitor Distro of [Opentelemetry Python][ot_sdk_python] provides multi
 This distro automatically installs the following libraries:
 
 * [Azure Monitor OpenTelemetry exporters][azure_monitor_opentelemetry_exporters]
+* A subset of OpenTelemetry [instrumentations][ot_instrumentations] that are officially supported as listed below.
 
 ## Officially supported instrumentations
 
@@ -63,8 +64,14 @@ You can use `configure_azure_monitor` to set up instrumentation for your app to 
 ...
 configure_azure_monitor(
     connection_string="<your-connection-string>",
-    flask_config={"excluded_urls": "http://localhost:8080/ignore"},
-    requests_config={"excluded_urls": "http://example.com"},
+    instrumentation_config={
+        "flask": {
+            "excluded_urls": "http://localhost:8080/ignore",
+        },
+        "requests": {
+            "excluded_urls": "http://example.com"
+        }
+    }
 )
 ...
 ```
@@ -99,16 +106,18 @@ Samples are available [here][samples] to demonstrate how to utilize the above co
 
 ### Additional documentation
 
-[Azure Portal][azure_portal]
-[OpenTelemetry Python Official Docs][ot_python_docs]
+* [Azure Portal][azure_portal]
+* [Official Azure monitor docs][azure_monitor_opentelemetry]
+* [OpenTelemetry Python Official Docs][ot_python_docs]
 
 <!-- LINKS -->
+[azure_monitor_opentelemetry]: https://learn.microsoft.com/azure/azure-monitor/app/opentelemetry-enable?tabs=python
 [azure_monitor_opentelemetry_exporters]: https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/monitor/azure-monitor-opentelemetry-exporter#microsoft-opentelemetry-exporter-for-azure-monitor
 [azure_portal]: https://portal.azure.com
 [azure_sub]: https://azure.microsoft.com/free/
-[application_insights_namespace]: https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview
-[application_insights_sampling]: https://learn.microsoft.com/en-us/azure/azure-monitor/app/sampling
-[connection_string_doc]: https://learn.microsoft.com/en-us/azure/azure-monitor/app/sdk-connection-string
+[application_insights_namespace]: https://learn.microsoft.com/azure/azure-monitor/app/app-insights-overview
+[application_insights_sampling]: https://learn.microsoft.com/azure/azure-monitor/app/sampling
+[connection_string_doc]: https://learn.microsoft.com/azure/azure-monitor/app/sdk-connection-string
 [distro_feature_request]: https://github.com/microsoft/ApplicationInsights-Python/issues/new
 [exporter_configuration_docs]: https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/monitor/azure-monitor-opentelemetry-exporter#configuration
 [logging_level]: https://docs.python.org/3/library/logging.html#levels
