@@ -8,7 +8,6 @@ from opentelemetry.sdk.metrics.view import View
 # Create a view matching the counter instrument `my.counter`
 # and configure the new name `my.counter.total` for the result metrics stream
 change_metric_name_view = View(
-    connection_string="<your-connection-string>",
     instrument_type=Counter,
     instrument_name="my.counter",
     name="my.counter.total",
