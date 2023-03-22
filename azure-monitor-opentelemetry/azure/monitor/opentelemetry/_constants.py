@@ -13,7 +13,7 @@ from azure.monitor.opentelemetry.exporter._connection_string_parser import (
     ConnectionStringParser,
 )
 
-# --------------------Configuration------------------------------
+# --------------------Configuration------------------------------------------
 
 CONNECTION_STRING_ARG = "connection_string"
 EXCLUDE_INSTRUMENTATIONS_ARG = "exclude_instrumentations"
@@ -21,7 +21,7 @@ RESOURCE_ARG = "resource"
 DISABLE_LOGGING_ARG = "disable_logging"
 DISABLE_METRICS_ARG = "disable_metrics"
 DISABLE_TRACING_ARG = "disable_tracing"
-# TODO: Consider Log Level to match
+# TODO: Consider Log Level to match env var
 LOGGING_LEVEL_ARG = "logging_level"
 LOGGER_NAME_ARG = "logger_name"
 LOGGING_EXPORT_INTERVAL_MS_ARG = "logging_export_interval_ms"
@@ -30,40 +30,6 @@ VIEWS_ARG = "views"
 SAMPLING_RATIO_ARG = "sampling_ratio"
 TRACING_EXPORT_INTERVAL_MS_ARG = "tracing_export_interval_ms"
 INSTRUMENTATION_CONFIG_ARG = "instrumentation_config"
-
-
-CONFIGURATION_ARGUMENTS = (
-    CONNECTION_STRING_ARG,
-    EXCLUDE_INSTRUMENTATIONS_ARG,
-    RESOURCE_ARG,
-    DISABLE_LOGGING_ARG,
-    DISABLE_METRICS_ARG,
-    DISABLE_TRACING_ARG,
-    LOGGING_LEVEL_ARG,
-    LOGGER_NAME_ARG,
-    LOGGING_EXPORT_INTERVAL_MS_ARG,
-    METRIC_READERS_ARG,
-    VIEWS_ARG,
-    SAMPLING_RATIO_ARG,
-    TRACING_EXPORT_INTERVAL_MS_ARG,
-    INSTRUMENTATION_CONFIG_ARG,
-)
-
-
-# # "connection_string",
-# "exclude_instrumentations",
-# # "resource",
-# "disable_logging",
-# "disable_metrics",
-# "disable_tracing",
-# "logging_level",
-# "logger_name",
-# "logging_export_interval_ms",
-# "metric_readers",
-# "views",
-# "sampling_ratio",
-# "tracing_export_interval_ms",
-# "instrumentation_config",
 
 
 # --------------------Diagnostic/status logging------------------------------

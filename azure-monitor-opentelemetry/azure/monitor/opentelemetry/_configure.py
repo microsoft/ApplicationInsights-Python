@@ -68,7 +68,7 @@ def configure_azure_monitor(**kwargs) -> None:
     end user to configure OpenTelemetry and Azure monitor components. The
     configuration can be done via arguments passed to this function.
     :keyword str connection_string: Connection string for your Application Insights resource.
-    :keyword Sequence[str] exclude_instrumentations: Specifies instrumentations you do not want to enable.
+    :keyword Sequence[str] exclude_instrumentations: Specifies instrumentations you want to disable.
     :keyword Resource resource: Specified the OpenTelemetry [resource][opentelemetry_spec_resource] associated with your application.
     :keyword bool disable_logging: If set to `True`, disables collection and export of logging telemetry. Defaults to `False`.
     :keyword bool disable_metrics: If set to `True`, disables collection and export of metric telemetry. Defaults to `False`.

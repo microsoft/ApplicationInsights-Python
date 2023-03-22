@@ -30,7 +30,6 @@ from opentelemetry.sdk.environment_variables import (
 )
 
 _CONFIGURATION_ENV_VAR_PREFIX = "APPLICATIONINSIGHTS_"
-_OTEL_BLRP_SCHEDULE_DELAY = "OTEL_BLRP_SCHEDULE_DELAY"
 
 
 def _get_env_var_name(arg):
@@ -47,9 +46,10 @@ DISABLE_TRACING_ENV_VAR = _get_env_var_name(DISABLE_TRACING_ARG)
 LOGGING_LEVEL_ENV_VAR = OTEL_LOG_LEVEL
 LOGGER_NAME_ENV_VAR = _get_env_var_name(LOGGER_NAME_ARG)
 # Speced out but unused by OTel SDK as of 1.15.0
-LOGGING_EXPORT_INTERVAL_MS_ENV_VAR = _OTEL_BLRP_SCHEDULE_DELAY
-METRIC_READERS_ENV_VAR = _get_env_var_name(METRIC_READERS_ARG)
-VIEWS_ENV_VAR = _get_env_var_name(VIEWS_ARG)
+LOGGING_EXPORT_INTERVAL_MS_ENV_VAR = "OTEL_BLRP_SCHEDULE_DELAY"
+# TODO: leave as private until env var configuration logic is designed
+_METRIC_READERS_ENV_VAR = _get_env_var_name(METRIC_READERS_ARG)
+_VIEWS_ENV_VAR = _get_env_var_name(VIEWS_ARG)
 # TODO: remove when sampler uses env var instead
 SAMPLING_RATIO_ENV_VAR = OTEL_TRACES_SAMPLER_ARG
 INSTRUMENTATION_CONFIG_ENV_VAR = _get_env_var_name(INSTRUMENTATION_CONFIG_ARG)
@@ -144,8 +144,8 @@ def _default_logging_export_interval_ms(configurations):
 def _default_metric_readers(configurations):
     if METRIC_READERS_ARG not in configurations:
         default = []
-        if METRIC_READERS_ENV_VAR in environ:
-            default = loads(environ[METRIC_READERS_ENV_VAR])
+        if _METRIC_READERS_ENV_VAR in environ:
+            default = loads(environ[_METRIC_READERS_ENV_VAR])
         configurations[METRIC_READERS_ARG] = default
 
 
@@ -154,8 +154,8 @@ def _default_views(configurations):
     if VIEWS_ARG not in configurations:
         # TODO tuple or list
         default = []
-        if VIEWS_ENV_VAR in environ:
-            default = loads(environ[VIEWS_ENV_VAR])
+        if _VIEWS_ENV_VAR in environ:
+            default = loads(environ[_VIEWS_ENV_VAR])
         configurations[VIEWS_ARG] = default
 
 
