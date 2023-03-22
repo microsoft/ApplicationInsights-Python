@@ -6,11 +6,10 @@
 
 from json import loads
 from logging import NOTSET
-from os import environ, getenv
+from os import environ
 from typing import Dict
 
 from azure.monitor.opentelemetry._constants import (
-    CONNECTION_STRING_ARG,
     DISABLE_LOGGING_ARG,
     DISABLE_METRICS_ARG,
     DISABLE_TRACING_ARG,
@@ -20,18 +19,15 @@ from azure.monitor.opentelemetry._constants import (
     LOGGING_EXPORT_INTERVAL_MS_ARG,
     LOGGING_LEVEL_ARG,
     METRIC_READERS_ARG,
-    RESOURCE_ARG,
     SAMPLING_RATIO_ARG,
     TRACING_EXPORT_INTERVAL_MS_ARG,
     VIEWS_ARG,
 )
 from azure.monitor.opentelemetry._types import ConfigurationValue
 from opentelemetry.sdk.environment_variables import (
-    OTEL_BSP_SCHEDULE_DELAY,
     OTEL_LOG_LEVEL,
     OTEL_TRACES_SAMPLER_ARG,
 )
-from opentelemetry.sdk.resources import OTELResourceDetector
 
 """
     This function works as a configuration layer that allows the
