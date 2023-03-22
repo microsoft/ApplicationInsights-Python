@@ -103,7 +103,9 @@ def _get_configurations(**kwargs) -> Dict[str, ConfigurationValue]:
 
     # TODO: remove when validation added to BLRP
     if configurations[LOGGING_EXPORT_INTERVAL_MS_ARG] <= 0:
-        raise ValueError("%s must be positive." % LOGGING_EXPORT_INTERVAL_MS_ARG)
+        raise ValueError(
+            "%s must be positive." % LOGGING_EXPORT_INTERVAL_MS_ARG
+        )
 
     return configurations
 
@@ -175,7 +177,7 @@ def _default_metric_readers(configurations):
 
 def _default_views(configurations):
     if VIEWS_ARG not in configurations:
-        #TODO tuple or list
+        # TODO tuple or list
         default = []
         if VIEWS_ENV_VAR in environ:
             default = loads(environ[VIEWS_ENV_VAR])
@@ -198,7 +200,6 @@ def _default_tracing_export_interval_ms(configurations):
 
 def _default_instrumentation_config(configurations):
     if INSTRUMENTATION_CONFIG_ARG not in configurations:
-        # TODO: list or dict
         default = {}
         if INSTRUMENTATION_CONFIG_ENV_VAR in environ:
             default = loads(environ[INSTRUMENTATION_CONFIG_ENV_VAR])

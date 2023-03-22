@@ -12,24 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from logging import NOTSET, WARN
 from unittest import TestCase
 from unittest.mock import patch
-from logging import NOTSET, WARN
 
 from azure.monitor.opentelemetry.util.configurations import (
-    _get_configurations,
-    EXCLUDE_INSTRUMENTATIONS_ENV_VAR,
     DISABLE_LOGGING_ENV_VAR,
     DISABLE_METRICS_ENV_VAR,
     DISABLE_TRACING_ENV_VAR,
-    LOGGING_LEVEL_ENV_VAR,
+    EXCLUDE_INSTRUMENTATIONS_ENV_VAR,
+    INSTRUMENTATION_CONFIG_ENV_VAR,
     LOGGER_NAME_ENV_VAR,
     LOGGING_EXPORT_INTERVAL_MS_ENV_VAR,
+    LOGGING_LEVEL_ENV_VAR,
     METRIC_READERS_ENV_VAR,
-    VIEWS_ENV_VAR,
     SAMPLING_RATIO_ENV_VAR,
-    INSTRUMENTATION_CONFIG_ENV_VAR,
+    VIEWS_ENV_VAR,
+    _get_configurations,
 )
+
 
 class TestUtil(TestCase):
     def test_get_configurations(self):
@@ -80,7 +81,6 @@ class TestUtil(TestCase):
         )
         self.assertEqual(configurations["credential"], ("test_credential"))
 
-
     @patch.dict("os.environ", {}, clear=True)
     def test_get_configurations_defaults(self):
         configurations = _get_configurations()
@@ -100,32 +100,38 @@ class TestUtil(TestCase):
         self.assertEqual(configurations["views"], [])
         self.assertEqual(configurations["instrumentation_config"], {})
 
-
     def test_get_configurations_validation(self):
-        self.assertRaises(ValueError, _get_configurations, logging_export_interval_ms=-0.5)
-        self.assertRaises(ValueError, _get_configurations, logging_export_interval_ms=-1)
+        self.assertRaises(
+            ValueError, _get_configurations, logging_export_interval_ms=-0.5
+        )
+        self.assertRaises(
+            ValueError, _get_configurations, logging_export_interval_ms=-1
+        )
 
-
-    @patch.dict("os.environ", {
-        EXCLUDE_INSTRUMENTATIONS_ENV_VAR: "[\"flask\"]",
-        DISABLE_LOGGING_ENV_VAR: "True",
-        DISABLE_METRICS_ENV_VAR: "True",
-        DISABLE_TRACING_ENV_VAR: "True",
-        # Speced out but unused by OTel SDK as of 1.15.0
-        LOGGING_LEVEL_ENV_VAR: "30",
-        LOGGER_NAME_ENV_VAR: "opentelemetry",
-        # Speced out but unused by OTel SDK as of 1.15.0
-        LOGGING_EXPORT_INTERVAL_MS_ENV_VAR: "10000",
-        METRIC_READERS_ENV_VAR: "[\"metricReader1\", \"metricReader2\"]",
-        VIEWS_ENV_VAR: "[\"view1\", \"view2\"]",
-        # TODO: remove when sampler uses env var instead
-        SAMPLING_RATIO_ENV_VAR: "0.5",
-        INSTRUMENTATION_CONFIG_ENV_VAR: """{
+    @patch.dict(
+        "os.environ",
+        {
+            EXCLUDE_INSTRUMENTATIONS_ENV_VAR: '["flask"]',
+            DISABLE_LOGGING_ENV_VAR: "True",
+            DISABLE_METRICS_ENV_VAR: "True",
+            DISABLE_TRACING_ENV_VAR: "True",
+            # Speced out but unused by OTel SDK as of 1.15.0
+            LOGGING_LEVEL_ENV_VAR: "30",
+            LOGGER_NAME_ENV_VAR: "opentelemetry",
+            # Speced out but unused by OTel SDK as of 1.15.0
+            LOGGING_EXPORT_INTERVAL_MS_ENV_VAR: "10000",
+            METRIC_READERS_ENV_VAR: '["metricReader1", "metricReader2"]',
+            VIEWS_ENV_VAR: '["view1", "view2"]',
+            # TODO: remove when sampler uses env var instead
+            SAMPLING_RATIO_ENV_VAR: "0.5",
+            INSTRUMENTATION_CONFIG_ENV_VAR: """{
             "flask": {
                 "excluded_urls": "http://localhost:8080/ignore"
             }
-        }"""
-    }, clear=True)
+        }""",
+        },
+        clear=True,
+    )
     def test_get_configurations_env_vars(self):
         configurations = _get_configurations()
 
@@ -140,10 +146,12 @@ class TestUtil(TestCase):
         self.assertEqual(configurations["sampling_ratio"], 0.5)
         self.assertEqual(configurations["tracing_export_interval_ms"], None)
         self.assertEqual(configurations["logging_export_interval_ms"], 10000)
-        self.assertEqual(configurations["metric_readers"], ["metricReader1", "metricReader2"])
+        self.assertEqual(
+            configurations["metric_readers"],
+            ["metricReader1", "metricReader2"],
+        )
         self.assertEqual(configurations["views"], ["view1", "view2"])
-        self.assertEqual(configurations["instrumentation_config"], {
-            "flask": {
-                "excluded_urls": "http://localhost:8080/ignore"
-            }
-        })
+        self.assertEqual(
+            configurations["instrumentation_config"],
+            {"flask": {"excluded_urls": "http://localhost:8080/ignore"}},
+        )
