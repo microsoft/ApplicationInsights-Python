@@ -29,28 +29,6 @@ from opentelemetry.sdk.environment_variables import (
     OTEL_TRACES_SAMPLER_ARG,
 )
 
-"""
-    This function works as a configuration layer that allows the
-    end user to configure OpenTelemetry and Azure monitor components. The
-    configuration can be done via arguments passed to this function.
-    :keyword str connection_string: Connection string for your Application Insights resource.
-    :keyword Sequence[str] connection_string: Specifies the libraries with instrumentations to be enabled.
-    :keyword Resource resource: Specified the OpenTelemetry [resource][opentelemetry_spec_resource] associated with your application.
-    :keyword bool disable_logging: If set to `True`, disables collection and export of logging telemetry. Defaults to `False`.
-    :keyword bool disable_metrics: If set to `True`, disables collection and export of metric telemetry. Defaults to `False`.
-    :keyword bool disable_tracing: If set to `True`, disables collection and export of distributed tracing telemetry. Defaults to `False`.
-    :keyword int logging_level: Specifies the logging of the logs you would like to collect for your logging pipeline.
-    :keyword str logger_name: Specifies the logger name under which logging will be instrumented. Defaults to "" which corresponds to the root logger.
-    :keyword int logging_export_interval_ms: Specifies the logging export interval in milliseconds. Defaults to 5000.
-    :keyword Sequence[MetricReader] metric_readers: Specifies the metric readers that you would like to use for your metric pipeline.
-    :keyword Sequence[View] views: Specifies the list of views to configure for the metric pipeline.
-    :keyword float sampling_ratio: Specifies the ratio of distributed tracing telemetry to be sampled. Accepted values are in the range [0,1]. Defaults to 1.0, meaning no telemetry is sampled out.
-    :keyword int tracing_export_interval_ms: Specifies the distributed tracing export interval in milliseconds. Defaults to 5000.
-    :keyword Dict[str, Any] <instrumentation>_config: Specifies a dictionary of kwargs that will be applied to configuration for instrumentation <instrumentation>.
-    :keyword bool disable_offline_storage: Boolean value to determine whether to disable storing failed telemetry records for retry. Defaults to `False`.
-    :keyword str storage_directory: Storage directory in which to store retry files. Defaults to `<tempfile.gettempdir()>/Microsoft/AzureMonitor/opentelemetry-python-<your-instrumentation-key>`.
-    :rtype: None
-    """
 
 _CONFIGURATION_ENV_VAR_PREFIX = "APPLICATIONINSIGHTS_"
 _OTEL_BLRP_SCHEDULE_DELAY = "OTEL_BLRP_SCHEDULE_DELAY"
