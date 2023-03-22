@@ -90,9 +90,9 @@ def configure_azure_monitor(**kwargs) -> None:
 
     configurations = _get_configurations(**kwargs)
 
-    disable_tracing = configurations.get(DISABLE_TRACING_ARG)
-    disable_logging = configurations.get(DISABLE_LOGGING_ARG)
-    disable_metrics = configurations.get(DISABLE_METRICS_ARG)
+    disable_tracing = configurations[DISABLE_TRACING_ARG]
+    disable_logging = configurations[DISABLE_LOGGING_ARG]
+    disable_metrics = configurations[DISABLE_METRICS_ARG]
 
     resource = None
     if not disable_logging or not disable_tracing or not disable_metrics:
@@ -123,10 +123,8 @@ def _get_resource(configurations: Dict[str, ConfigurationValue]) -> Resource:
 def _setup_tracing(
     resource: Resource, configurations: Dict[str, ConfigurationValue]
 ):
-    sampling_ratio = configurations.get(SAMPLING_RATIO_ARG)
-    tracing_export_interval_ms = configurations.get(
-        TRACING_EXPORT_INTERVAL_MS_ARG
-    )
+    sampling_ratio = configurations[SAMPLING_RATIO_ARG]
+    tracing_export_interval_ms = configurations[TRACING_EXPORT_INTERVAL_MS_ARG]
     tracer_provider = TracerProvider(
         sampler=ApplicationInsightsSampler(sampling_ratio=sampling_ratio),
         resource=resource,
@@ -143,11 +141,9 @@ def _setup_tracing(
 def _setup_logging(
     resource: Resource, configurations: Dict[str, ConfigurationValue]
 ):
-    logger_name = configurations.get(LOGGER_NAME_ARG)
-    logging_level = configurations.get(LOGGING_LEVEL_ARG)
-    logging_export_interval_ms = configurations.get(
-        LOGGING_EXPORT_INTERVAL_MS_ARG
-    )
+    logger_name = configurations[LOGGER_NAME_ARG]
+    logging_level = configurations[LOGGING_LEVEL_ARG]
+    logging_export_interval_ms = configurations[LOGGING_EXPORT_INTERVAL_MS_ARG]
     logger_provider = LoggerProvider(resource=resource)
     set_logger_provider(logger_provider)
     log_exporter = AzureMonitorLogExporter(**configurations)
@@ -165,8 +161,8 @@ def _setup_logging(
 def _setup_metrics(
     resource: Resource, configurations: Dict[str, ConfigurationValue]
 ):
-    views = configurations.get(VIEWS_ARG)
-    metric_readers = configurations.get(METRIC_READERS_ARG)
+    views = configurations[VIEWS_ARG]
+    metric_readers = configurations[METRIC_READERS_ARG]
     metric_exporter = AzureMonitorMetricExporter(**configurations)
     reader = PeriodicExportingMetricReader(metric_exporter)
     meter_provider = MeterProvider(
@@ -178,12 +174,8 @@ def _setup_metrics(
 
 
 def _setup_instrumentations(configurations: Dict[str, ConfigurationValue]):
-    exclude_instrumentations = configurations.get(
-        EXCLUDE_INSTRUMENTATIONS_ARG, []
-    )
-    instrumentation_configs = configurations.get(
-        INSTRUMENTATION_CONFIG_ARG, {}
-    )
+    exclude_instrumentations = configurations[EXCLUDE_INSTRUMENTATIONS_ARG]
+    instrumentation_configs = configurations[INSTRUMENTATION_CONFIG_ARG]
 
     # use pkg_resources for now until https://github.com/open-telemetry/opentelemetry-python/pull/3168 is merged
     for entry_point in iter_entry_points("opentelemetry_instrumentor"):

@@ -417,7 +417,10 @@ class TestConfigure(unittest.TestCase):
         iter_mock,
         dep_mock,
     ):
-        configurations = {}
+        configurations = {
+            "exclude_instrumentations": [],
+            "instrumentation_config": {},
+        }
         ep_mock = Mock()
         iter_mock.return_value = [ep_mock]
         instrumentor_mock = Mock()
@@ -441,7 +444,10 @@ class TestConfigure(unittest.TestCase):
         iter_mock,
         dep_mock,
     ):
-        configurations = {}
+        configurations = {
+            "exclude_instrumentations": [],
+            "instrumentation_config": {},
+        }
         ep_mock = Mock()
         ep2_mock = Mock()
         iter_mock.return_value = (ep_mock, ep2_mock)
@@ -468,7 +474,10 @@ class TestConfigure(unittest.TestCase):
         dep_mock,
     ):
         instr_exclude = _SUPPORTED_INSTRUMENTED_LIBRARIES[0]
-        configurations = {"exclude_instrumentations": [instr_exclude]}
+        configurations = {
+            "exclude_instrumentations": [instr_exclude],
+            "instrumentation_config": {},
+        }
         ep_mock = Mock()
         ep2_mock = Mock()
         iter_mock.return_value = (ep_mock, ep2_mock)
@@ -496,7 +505,10 @@ class TestConfigure(unittest.TestCase):
         dep_mock,
         logger_mock,
     ):
-        configurations = {}
+        configurations = {
+            "exclude_instrumentations": [],
+            "instrumentation_config": {},
+        }
         ep_mock = Mock()
         iter_mock.return_value = (ep_mock,)
         instrumentor_mock = Mock()
@@ -522,7 +534,10 @@ class TestConfigure(unittest.TestCase):
         dep_mock,
         logger_mock,
     ):
-        configurations = {}
+        configurations = {
+            "exclude_instrumentations": [],
+            "instrumentation_config": {},
+        }
         ep_mock = Mock()
         iter_mock.return_value = (ep_mock,)
         instrumentor_mock = Mock()
@@ -548,6 +563,7 @@ class TestConfigure(unittest.TestCase):
     ):
         libr_name = _SUPPORTED_INSTRUMENTED_LIBRARIES[0]
         configurations = {
+            "exclude_instrumentations": [],
             "instrumentation_config": {
                 libr_name: {
                     "test_key": "test_value",
