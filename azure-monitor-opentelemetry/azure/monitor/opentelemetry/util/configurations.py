@@ -163,6 +163,7 @@ def _default_logging_export_interval_ms(configurations):
         configurations[LOGGING_EXPORT_INTERVAL_MS_ARG] = default
 
 
+# TODO: Design metric readers env var usage
 def _default_metric_readers(configurations):
     if METRIC_READERS_ARG not in configurations:
         default = []
@@ -171,6 +172,7 @@ def _default_metric_readers(configurations):
         configurations[METRIC_READERS_ARG] = default
 
 
+# TODO: Design views env var usage
 def _default_views(configurations):
     if VIEWS_ARG not in configurations:
         # TODO tuple or list
