@@ -11,7 +11,7 @@ This distro automatically installs the following libraries:
 
 OpenTelemetry instrumentations allow automatic collection of requests sent from underlying instrumented libraries. The following is a list of OpenTelemetry instrumentations that come bundled in with the Azure monitor distro. If you would like to add support for another OpenTelemetry instrumentation, please submit a feature [request][distro_feature_request]. In the meantime, you can use the OpenTelemetry instrumentation manually via it's own APIs (i.e. `instrument()`) in your code. See [this][samples_manual] for an example.
 
-| Instrumentation                       | Supported library | Supported versions |
+| Instrumentation | Supported library | Supported versions |
 | ------------------------------------- | ----------------- | ------------------ |
 | [OpenTelemetry Django Instrumentation][ot_instrumentation_django] | [django][pypi_django] | [link][ot_instrumentation_django_version]
 | [OpenTelemetry FastApi Instrumentation][ot_instrumentation_fastapi] | [fastapi][pypi_fastapi] | [link][ot_instrumentation_fastapi_version]
@@ -52,22 +52,24 @@ pip install azure-monitor-opentelemetry --pre
 
 You can use `configure_azure_monitor` to set up instrumentation for your app to Azure Monitor. `configure_azure_monitor` supports the following optional arguments:
 
-* connection_string - The [connection string][connection_string_doc] for your Application Insights resource. The connection string will be automatically populated from the `APPLICATIONINSIGHTS_CONNECTION_STRING` environment variable if not explicitly passed in.
-* exclude_instrumentations - By default, all supported [instrumentations](#officially-supported-instrumentations) are enabled to collect telemetry. Specify instrumentations you do not want to enable to collect telemetry by passing in a comma separated list of instrumented library names. Can also be set via the `APPLICATIONINSIGHTS_EXCLUDE_INSTRUMENTATIONS` environment variable. e.g. `["requests", "flask"]`
-* resource - Specified the OpenTelemetry [resource][opentelemetry_spec_resource] associated with your application. See [this][ot_sdk_python_resource] for default behavior. This include configuration via the `OTEL_RESOURCE_ATTRIBUTES` and `OTEL_SERVICE_NAME` environment variables
-* disable_logging - If set to `True`, disables collection and export of logging telemetry. Can also be set via the `APPLICATIONINSIGHTS_DISABLE_LOGGING` environment variable. Defaults to `False`.
-* disable_metrics - If set to `True`, disables collection and export of metric telemetry. Can also be set via the `APPLICATIONINSIGHTS_DISABLE_METRICS` environment variable. Defaults to `False`.
-* disable_tracing - If set to `True`, disables collection and export of distributed tracing telemetry. Can also be set via the `APPLICATIONINSIGHTS_DISABLE_TRACING` environment variable. Defaults to `False`.
-* logging_level - Specifies the [logging level][logging_level] of the logs you would like to collect for your logging pipeline. Can also be set via the `OTEL_LOG_LEVEL` environment variable. This environment variable should be set to the number that represents the log leval, not a string representing that log level's name. Defaults to 0 which is logging.NOTSET.
-* logger_name = Specifies the [logger name][logger_name_hierarchy_doc] under which logging will be instrumented. Can also be set via the `APPLICATIONINSIGHTS_LOGGER_NAME` environment variable. Defaults to "" which corresponds to the root logger.
-* logging_export_interval_ms - Specifies the logging export interval in milliseconds. Can also be set via the `OTEL_BLRP_SCHEDULE_DELAY` environment variable. Defaults to 5000.
-* metric_readers - Specifies the [metric readers][ot_metric_reader] that you would like to use for your metric pipeline. Accepts a list of [metric readers][ot_sdk_python_metric_reader].
-* views - Specifies the list of [views][opentelemetry_spec_view] to configure for the metric pipeline. See [here][ot_sdk_python_view_examples] for example usage.
-* sampling_ratio - Specifies the ratio of distributed tracing telemetry to be [sampled][application_insights_sampling]. Accepted values are in the range [0,1]. Can also be set with the `OTEL_TRACES_SAMPLER_ARG` environment variable. Defaults to 1.0, meaning no telemetry is sampled out.
-* tracing_export_interval_ms - Specifies the distributed tracing export interval in milliseconds. Can also be set via the `OTEL_BSP_SCHEDULE_DELAY` environment variable. Defaults to 5000.
-* instrumentation_config - Specifies a dictionary of kwargs that will be applied to instrumentation configuration. You can specify which instrumentation you want to configure by name in the key field and value as a dictionary representing `kwargs` for the corresponding instrumentation. Can also be set via the `APPLICATIONINSIGHTS_INSTRUMENTATION_CONFIG` environment variable.
-    Refer to the `Supported Library` section [above](#officially-supported-instrumentations) for the list of suppoprted library names.
+| Parameter | Description | Environment Variable |
+|-------------------|----------------------------------------------------|----------------------|
+| `connection_string` | The [connection string][connection_string_doc] for your Application Insights resource. The connection string will be automatically populated from the `APPLICATIONINSIGHTS_CONNECTION_STRING` environment variable if not explicitly passed in. | `APPLICATIONINSIGHTS_CONNECTION_STRING` |
+| `exclude_instrumentations` | By default, all supported [instrumentations](#officially-supported-instrumentations) are enabled to collect telemetry. Specify instrumentations you do not want to enable to collect telemetry by passing in a comma separated list of instrumented library names. Can also be set via the `APPLICATIONINSIGHTS_EXCLUDE_INSTRUMENTATIONS` environment variable. e.g. `["requests", "flask"]` | `APPLICATIONINSIGHTS_EXCLUDE_INSTRUMENTATIONS` |
+| `resource` | Specified the OpenTelemetry [resource][opentelemetry_spec_resource] associated with your application. See [this][ot_sdk_python_resource] for default behavior. This include configuration via the `OTEL_RESOURCE_ATTRIBUTES` and `OTEL_SERVICE_NAME` environment variables. | `OTEL_RESOURCE_ATTRIBUTES` and `OTEL_SERVICE_NAME` |
+| `disable_logging` | If set to `True`, disables collection and export of logging telemetry. Can also be set via the `APPLICATIONINSIGHTS_DISABLE_LOGGING` environment variable. Defaults to `False`. | `APPLICATIONINSIGHTS_DISABLE_LOGGING` |
+| `disable_metrics` | If set to `True`, disables collection and export of metric telemetry. Can also be set via the `APPLICATIONINSIGHTS_DISABLE_METRICS` environment variable. Defaults to `False`. | `APPLICATIONINSIGHTS_DISABLE_METRICS` |
+| `disable_tracing` | If set to `True`, disables collection and export of distributed tracing telemetry. Can also be set via the `APPLICATIONINSIGHTS_DISABLE_TRACING` environment variable. Defaults to `False`. | `APPLICATIONINSIGHTS_DISABLE_TRACING` |
+| `logging_level` | Specifies the [logging level][logging_level] of the logs you would like to collect for your logging pipeline. Can also be set via the `OTEL_LOG_LEVEL` environment variable. This environment variable should be set to the number that represents the log leval, not a string representing that log level's name. Defaults to 0 which is logging.NOTSET. | `OTEL_LOG_LEVEL` |
+| `logger_name` | Specifies the [logger name][logger_name_hierarchy_doc] under which logging will be instrumented. Can also be set via the `APPLICATIONINSIGHTS_LOGGER_NAME` environment variable. Defaults to "" which corresponds to the root logger. | `APPLICATIONINSIGHTS_LOGGER_NAME` |
+| `logging_export_interval_ms`| Specifies the logging export interval in milliseconds. Can also be set via the `OTEL_BLRP_SCHEDULE_DELAY` environment variable. Defaults to 5000. | `OTEL_BLRP_SCHEDULE_DELAY` |
+| `metric_readers` | Specifies the [metric readers][ot_metric_reader] that you would like to use for your metric pipeline. Accepts a list of [metric readers][ot_sdk_python_metric_reader]. | |
+| `views` | Specifies the list of [views][opentelemetry_spec_view] to configure for the metric pipeline. See [here][ot_sdk_python_view_examples] for example usage. | |
+| `sampling_ratio` | Specifies the ratio of distributed tracing telemetry to be [sampled][application_insights_sampling]. Accepted values are in the range [0,1]. Can also be set with the `OTEL_TRACES_SAMPLER_ARG` environment variable. Defaults to 1.0, meaning no telemetry is sampled out. | `OTEL_TRACES_SAMPLER_ARG` |
+| `tracing_export_interval_ms`| Specifies the distributed tracing export interval in milliseconds. Can also be set via the `OTEL_BSP_SCHEDULE_DELAY` environment variable. Defaults to 5000. | `OTEL_BSP_SCHEDULE_DELAY` |
+| `instrumentation_config` | Specifies a dictionary of kwargs that will be applied to instrumentation configuration. You can specify which instrumentation you want to configure by name in the key field and value as a dictionary representing `kwargs` for the corresponding instrumentation. Can also be set via the `APPLICATIONINSIGHTS_INSTRUMENTATION_CONFIG` environment variable. Refer to the `Supported Library` section [above](#officially-supported-instrumentations) for the list of suppoprted library names. | `APPLICATIONINSIGHTS_INSTRUMENTATION_CONFIG` |
 
+Example for use of `instrumentation_config`:
 ```python
 ...
 configure_azure_monitor(
