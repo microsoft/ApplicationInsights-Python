@@ -5,7 +5,7 @@
 # --------------------------------------------------------------------------
 
 from json import loads
-from logging import NOTSET
+from logging import NOTSET, getLogger
 from os import environ
 from typing import Dict
 
@@ -30,6 +30,10 @@ from opentelemetry.sdk.environment_variables import (
 )
 
 _CONFIGURATION_ENV_VAR_PREFIX = "APPLICATIONINSIGHTS_"
+_INVALID_JSON_MESSAGE = "Value of %s must be valid JSON. Defaulting to %s: %s"
+_INVALID_BOOLEAN_MESSAGE = "Value of %s must be a boolean. Defaulting to %s: %s"
+_INVALID_INT_MESSAGE = "Value of %s must be an integer. Defaulting to %s: %s"
+_INVALID_FLOAT_MESSAGE = "Value of %s must be a float. Defaulting to %s: %s"
 
 
 def _get_env_var_name(arg):
@@ -47,12 +51,12 @@ LOGGING_LEVEL_ENV_VAR = OTEL_LOG_LEVEL
 LOGGER_NAME_ENV_VAR = _get_env_var_name(LOGGER_NAME_ARG)
 # Speced out but unused by OTel SDK as of 1.15.0
 LOGGING_EXPORT_INTERVAL_MS_ENV_VAR = "OTEL_BLRP_SCHEDULE_DELAY"
-# TODO: leave as private until env var configuration logic is designed
-_METRIC_READERS_ENV_VAR = _get_env_var_name(METRIC_READERS_ARG)
-_VIEWS_ENV_VAR = _get_env_var_name(VIEWS_ARG)
 # TODO: remove when sampler uses env var instead
 SAMPLING_RATIO_ENV_VAR = OTEL_TRACES_SAMPLER_ARG
 INSTRUMENTATION_CONFIG_ENV_VAR = _get_env_var_name(INSTRUMENTATION_CONFIG_ARG)
+
+
+_logger = getLogger(__name__)
 
 
 def _get_configurations(**kwargs) -> Dict[str, ConfigurationValue]:
@@ -87,7 +91,10 @@ def _default_exclude_instrumentations(configurations):
     if EXCLUDE_INSTRUMENTATIONS_ARG not in configurations:
         default = []
         if EXCLUDE_INSTRUMENTATIONS_ENV_VAR in environ:
-            default = loads(environ[EXCLUDE_INSTRUMENTATIONS_ENV_VAR])
+            try:
+                default = loads(environ[EXCLUDE_INSTRUMENTATIONS_ENV_VAR])
+            except ValueError as e:
+                _logger.error(_INVALID_JSON_MESSAGE % (EXCLUDE_INSTRUMENTATIONS_ENV_VAR, default, e))
         configurations[EXCLUDE_INSTRUMENTATIONS_ARG] = default
 
 
@@ -95,7 +102,10 @@ def _default_disable_logging(configurations):
     if DISABLE_LOGGING_ARG not in configurations:
         default = False
         if DISABLE_LOGGING_ENV_VAR in environ:
-            default = bool(environ[DISABLE_LOGGING_ENV_VAR])
+            try:
+                default = bool(environ[DISABLE_LOGGING_ENV_VAR])
+            except ValueError as e:
+                _logger.error(_INVALID_BOOLEAN_MESSAGE % (DISABLE_LOGGING_ENV_VAR, default, e))
         configurations[DISABLE_LOGGING_ARG] = default
 
 
@@ -103,7 +113,10 @@ def _default_disable_metrics(configurations):
     if DISABLE_METRICS_ARG not in configurations:
         default = False
         if DISABLE_METRICS_ENV_VAR in environ:
-            default = bool(environ[DISABLE_METRICS_ENV_VAR])
+            try:
+                default = bool(environ[DISABLE_METRICS_ENV_VAR])
+            except ValueError as e:
+                _logger.error(_INVALID_BOOLEAN_MESSAGE % (DISABLE_METRICS_ENV_VAR, default, e))
         configurations[DISABLE_METRICS_ARG] = default
 
 
@@ -111,7 +124,10 @@ def _default_disable_tracing(configurations):
     if DISABLE_TRACING_ARG not in configurations:
         default = False
         if DISABLE_TRACING_ENV_VAR in environ:
-            default = bool(environ[DISABLE_TRACING_ENV_VAR])
+            try:
+                default = bool(environ[DISABLE_TRACING_ENV_VAR])
+            except ValueError as e:
+                _logger.error(_INVALID_BOOLEAN_MESSAGE % (DISABLE_TRACING_ENV_VAR, default, e))
         configurations[DISABLE_TRACING_ARG] = default
 
 
@@ -119,8 +135,11 @@ def _default_logging_level(configurations):
     if LOGGING_LEVEL_ARG not in configurations:
         default = NOTSET
         if LOGGING_LEVEL_ENV_VAR in environ:
-            default = int(environ[LOGGING_LEVEL_ENV_VAR])
             # TODO: Match OTel env var usage when it is determined.
+            try:
+                default = int(environ[LOGGING_LEVEL_ENV_VAR])
+            except ValueError as e:
+                _logger.error(_INVALID_INT_MESSAGE % (LOGGING_LEVEL_ENV_VAR, default, e))
         configurations[LOGGING_LEVEL_ARG] = default
 
 
@@ -136,27 +155,21 @@ def _default_logging_export_interval_ms(configurations):
     if LOGGING_EXPORT_INTERVAL_MS_ARG not in configurations:
         default = 5000
         if LOGGING_EXPORT_INTERVAL_MS_ENV_VAR in environ:
-            default = int(environ[LOGGING_EXPORT_INTERVAL_MS_ENV_VAR])
+            try:
+                default = int(environ[LOGGING_EXPORT_INTERVAL_MS_ENV_VAR])
+            except ValueError as e:
+                _logger.error(_INVALID_INT_MESSAGE % (LOGGING_EXPORT_INTERVAL_MS_ENV_VAR, default, e))
         configurations[LOGGING_EXPORT_INTERVAL_MS_ARG] = default
 
 
-# TODO: Design metric readers env var usage
 def _default_metric_readers(configurations):
     if METRIC_READERS_ARG not in configurations:
-        default = []
-        if _METRIC_READERS_ENV_VAR in environ:
-            default = loads(environ[_METRIC_READERS_ENV_VAR])
-        configurations[METRIC_READERS_ARG] = default
+        configurations[METRIC_READERS_ARG] = []
 
 
-# TODO: Design views env var usage
 def _default_views(configurations):
     if VIEWS_ARG not in configurations:
-        # TODO tuple or list
-        default = []
-        if _VIEWS_ENV_VAR in environ:
-            default = loads(environ[_VIEWS_ENV_VAR])
-        configurations[VIEWS_ARG] = default
+        configurations[VIEWS_ARG] = []
 
 
 # TODO: remove when sampler uses env var instead
@@ -164,7 +177,10 @@ def _default_sampling_ratio(configurations):
     if SAMPLING_RATIO_ARG not in configurations:
         default = 1.0
         if SAMPLING_RATIO_ENV_VAR in environ:
-            default = float(environ[SAMPLING_RATIO_ENV_VAR])
+            try:
+                default = float(environ[SAMPLING_RATIO_ENV_VAR])
+            except ValueError as e:
+                _logger.error(_INVALID_FLOAT_MESSAGE % (SAMPLING_RATIO_ENV_VAR, default, e))
         configurations[SAMPLING_RATIO_ARG] = default
 
 
@@ -177,5 +193,8 @@ def _default_instrumentation_config(configurations):
     if INSTRUMENTATION_CONFIG_ARG not in configurations:
         default = {}
         if INSTRUMENTATION_CONFIG_ENV_VAR in environ:
-            default = loads(environ[INSTRUMENTATION_CONFIG_ENV_VAR])
+            try:
+                default = loads(environ[INSTRUMENTATION_CONFIG_ENV_VAR])
+            except ValueError as e:
+                _logger.error(_INVALID_JSON_MESSAGE % (INSTRUMENTATION_CONFIG_ENV_VAR, default, e))
         configurations[INSTRUMENTATION_CONFIG_ARG] = default

@@ -17,8 +17,6 @@ from unittest import TestCase
 from unittest.mock import patch
 
 from azure.monitor.opentelemetry.util.configurations import (
-    _METRIC_READERS_ENV_VAR,
-    _VIEWS_ENV_VAR,
     DISABLE_LOGGING_ENV_VAR,
     DISABLE_METRICS_ENV_VAR,
     DISABLE_TRACING_ENV_VAR,
@@ -118,8 +116,6 @@ class TestUtil(TestCase):
             LOGGING_LEVEL_ENV_VAR: "30",
             LOGGER_NAME_ENV_VAR: "opentelemetry",
             LOGGING_EXPORT_INTERVAL_MS_ENV_VAR: "10000",
-            _METRIC_READERS_ENV_VAR: '["metricReader1", "metricReader2"]',
-            _VIEWS_ENV_VAR: '["view1", "view2"]',
             SAMPLING_RATIO_ENV_VAR: "0.5",
             INSTRUMENTATION_CONFIG_ENV_VAR: """{
                 "flask": {
@@ -143,12 +139,44 @@ class TestUtil(TestCase):
         self.assertEqual(configurations["sampling_ratio"], 0.5)
         self.assertEqual(configurations["tracing_export_interval_ms"], None)
         self.assertEqual(configurations["logging_export_interval_ms"], 10000)
-        self.assertEqual(
-            configurations["metric_readers"],
-            ["metricReader1", "metricReader2"],
-        )
-        self.assertEqual(configurations["views"], ["view1", "view2"])
+        self.assertEqual(configurations["metric_readers"], [])
+        self.assertEqual(configurations["views"], [])
         self.assertEqual(
             configurations["instrumentation_config"],
             {"flask": {"excluded_urls": "http://localhost:8080/ignore"}},
         )
+
+    @patch.dict(
+        "os.environ",
+        {
+            EXCLUDE_INSTRUMENTATIONS_ENV_VAR: '"flask',
+            DISABLE_LOGGING_ENV_VAR: "one",
+            DISABLE_METRICS_ENV_VAR: "",
+            DISABLE_TRACING_ENV_VAR: "0.5",
+            LOGGING_LEVEL_ENV_VAR: "Thirty",
+            LOGGING_EXPORT_INTERVAL_MS_ENV_VAR: "Ten Thousand",
+            SAMPLING_RATIO_ENV_VAR: "Half",
+            INSTRUMENTATION_CONFIG_ENV_VAR: """{
+                "flask":
+                    "excluded_urls": "http://localhost:8080/ignore"
+            }""",
+        },
+        clear=True,
+    )
+    def test_get_configurations_env_vars_validation(self):
+        configurations = _get_configurations()
+
+        self.assertTrue("connection_string" not in configurations)
+        self.assertEqual(configurations["exclude_instrumentations"], [])
+        # self.assertEqual(configurations["disable_logging"], False)
+        self.assertEqual(configurations["disable_metrics"], False)
+        # self.assertEqual(configurations["disable_tracing"], False)
+        self.assertEqual(configurations["logging_level"], NOTSET)
+        self.assertEqual(configurations["logger_name"], "")
+        self.assertTrue("resource" not in configurations)
+        self.assertEqual(configurations["sampling_ratio"], 1.0)
+        self.assertEqual(configurations["tracing_export_interval_ms"], None)
+        self.assertEqual(configurations["logging_export_interval_ms"], 5000)
+        self.assertEqual(configurations["metric_readers"], [])
+        self.assertEqual(configurations["views"], [])
+        self.assertEqual(configurations["instrumentation_config"], {})
