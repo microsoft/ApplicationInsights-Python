@@ -31,7 +31,6 @@ from opentelemetry.sdk.environment_variables import (
 
 _CONFIGURATION_ENV_VAR_PREFIX = "APPLICATIONINSIGHTS_"
 _INVALID_JSON_MESSAGE = "Value of %s must be valid JSON. Defaulting to %s: %s"
-_INVALID_BOOLEAN_MESSAGE = "Value of %s must be a boolean. Defaulting to %s: %s"
 _INVALID_INT_MESSAGE = "Value of %s must be an integer. Defaulting to %s: %s"
 _INVALID_FLOAT_MESSAGE = "Value of %s must be a float. Defaulting to %s: %s"
 
@@ -94,7 +93,10 @@ def _default_exclude_instrumentations(configurations):
             try:
                 default = loads(environ[EXCLUDE_INSTRUMENTATIONS_ENV_VAR])
             except ValueError as e:
-                _logger.error(_INVALID_JSON_MESSAGE % (EXCLUDE_INSTRUMENTATIONS_ENV_VAR, default, e))
+                _logger.error(
+                    _INVALID_JSON_MESSAGE
+                    % (EXCLUDE_INSTRUMENTATIONS_ENV_VAR, default, e)
+                )
         configurations[EXCLUDE_INSTRUMENTATIONS_ARG] = default
 
 
@@ -102,10 +104,9 @@ def _default_disable_logging(configurations):
     if DISABLE_LOGGING_ARG not in configurations:
         default = False
         if DISABLE_LOGGING_ENV_VAR in environ:
-            try:
-                default = bool(environ[DISABLE_LOGGING_ENV_VAR])
-            except ValueError as e:
-                _logger.error(_INVALID_BOOLEAN_MESSAGE % (DISABLE_LOGGING_ENV_VAR, default, e))
+            env_var = environ[DISABLE_LOGGING_ENV_VAR]
+            if env_var.lower() == "true":
+                default = True
         configurations[DISABLE_LOGGING_ARG] = default
 
 
@@ -113,10 +114,9 @@ def _default_disable_metrics(configurations):
     if DISABLE_METRICS_ARG not in configurations:
         default = False
         if DISABLE_METRICS_ENV_VAR in environ:
-            try:
-                default = bool(environ[DISABLE_METRICS_ENV_VAR])
-            except ValueError as e:
-                _logger.error(_INVALID_BOOLEAN_MESSAGE % (DISABLE_METRICS_ENV_VAR, default, e))
+            env_var = environ[DISABLE_METRICS_ENV_VAR]
+            if env_var.lower() == "true":
+                default = True
         configurations[DISABLE_METRICS_ARG] = default
 
 
@@ -124,10 +124,9 @@ def _default_disable_tracing(configurations):
     if DISABLE_TRACING_ARG not in configurations:
         default = False
         if DISABLE_TRACING_ENV_VAR in environ:
-            try:
-                default = bool(environ[DISABLE_TRACING_ENV_VAR])
-            except ValueError as e:
-                _logger.error(_INVALID_BOOLEAN_MESSAGE % (DISABLE_TRACING_ENV_VAR, default, e))
+            env_var = environ[DISABLE_TRACING_ENV_VAR]
+            if env_var.lower() == "true":
+                default = True
         configurations[DISABLE_TRACING_ARG] = default
 
 
@@ -139,7 +138,9 @@ def _default_logging_level(configurations):
             try:
                 default = int(environ[LOGGING_LEVEL_ENV_VAR])
             except ValueError as e:
-                _logger.error(_INVALID_INT_MESSAGE % (LOGGING_LEVEL_ENV_VAR, default, e))
+                _logger.error(
+                    _INVALID_INT_MESSAGE % (LOGGING_LEVEL_ENV_VAR, default, e)
+                )
         configurations[LOGGING_LEVEL_ARG] = default
 
 
@@ -158,7 +159,10 @@ def _default_logging_export_interval_ms(configurations):
             try:
                 default = int(environ[LOGGING_EXPORT_INTERVAL_MS_ENV_VAR])
             except ValueError as e:
-                _logger.error(_INVALID_INT_MESSAGE % (LOGGING_EXPORT_INTERVAL_MS_ENV_VAR, default, e))
+                _logger.error(
+                    _INVALID_INT_MESSAGE
+                    % (LOGGING_EXPORT_INTERVAL_MS_ENV_VAR, default, e)
+                )
         configurations[LOGGING_EXPORT_INTERVAL_MS_ARG] = default
 
 
@@ -180,7 +184,10 @@ def _default_sampling_ratio(configurations):
             try:
                 default = float(environ[SAMPLING_RATIO_ENV_VAR])
             except ValueError as e:
-                _logger.error(_INVALID_FLOAT_MESSAGE % (SAMPLING_RATIO_ENV_VAR, default, e))
+                _logger.error(
+                    _INVALID_FLOAT_MESSAGE
+                    % (SAMPLING_RATIO_ENV_VAR, default, e)
+                )
         configurations[SAMPLING_RATIO_ARG] = default
 
 
@@ -196,5 +203,8 @@ def _default_instrumentation_config(configurations):
             try:
                 default = loads(environ[INSTRUMENTATION_CONFIG_ENV_VAR])
             except ValueError as e:
-                _logger.error(_INVALID_JSON_MESSAGE % (INSTRUMENTATION_CONFIG_ENV_VAR, default, e))
+                _logger.error(
+                    _INVALID_JSON_MESSAGE
+                    % (INSTRUMENTATION_CONFIG_ENV_VAR, default, e)
+                )
         configurations[INSTRUMENTATION_CONFIG_ARG] = default
