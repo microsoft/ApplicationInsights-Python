@@ -190,7 +190,7 @@ class TestUtil(TestCase):
         },
         clear=True,
     )
-    def test_get_configurations_env_vars_false_bools(self):
+    def test_get_configurations_env_vars_false(self):
         configurations = _get_configurations()
 
         self.assertTrue("connection_string" not in configurations)
@@ -217,7 +217,7 @@ class TestUtil(TestCase):
         },
         clear=True,
     )
-    def test_get_configurations_env_vars_false_bools(self):
+    def test_get_configurations_env_vars_true(self):
         configurations = _get_configurations()
 
         self.assertTrue("connection_string" not in configurations)
