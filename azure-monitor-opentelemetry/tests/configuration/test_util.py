@@ -95,7 +95,7 @@ class TestUtil(TestCase):
         self.assertEqual(configurations["tracing_export_interval_ms"], None)
         self.assertEqual(configurations["logging_export_interval_ms"], 5000)
         self.assertEqual(configurations["metric_readers"], [])
-        self.assertEqual(configurations["views"], [])
+        self.assertEqual(configurations["views"], ())
         self.assertEqual(configurations["instrumentation_config"], {})
 
     def test_get_configurations_validation(self):
@@ -140,7 +140,7 @@ class TestUtil(TestCase):
         self.assertEqual(configurations["tracing_export_interval_ms"], None)
         self.assertEqual(configurations["logging_export_interval_ms"], 10000)
         self.assertEqual(configurations["metric_readers"], [])
-        self.assertEqual(configurations["views"], [])
+        self.assertEqual(configurations["views"], ())
         self.assertEqual(
             configurations["instrumentation_config"],
             {"flask": {"excluded_urls": "http://localhost:8080/ignore"}},
@@ -178,7 +178,7 @@ class TestUtil(TestCase):
         self.assertEqual(configurations["tracing_export_interval_ms"], None)
         self.assertEqual(configurations["logging_export_interval_ms"], 5000)
         self.assertEqual(configurations["metric_readers"], [])
-        self.assertEqual(configurations["views"], [])
+        self.assertEqual(configurations["views"], ())
         self.assertEqual(configurations["instrumentation_config"], {})
 
     @patch.dict(
@@ -205,7 +205,7 @@ class TestUtil(TestCase):
         self.assertEqual(configurations["tracing_export_interval_ms"], None)
         self.assertEqual(configurations["logging_export_interval_ms"], 5000)
         self.assertEqual(configurations["metric_readers"], [])
-        self.assertEqual(configurations["views"], [])
+        self.assertEqual(configurations["views"], ())
         self.assertEqual(configurations["instrumentation_config"], {})
 
     @patch.dict(
@@ -232,5 +232,5 @@ class TestUtil(TestCase):
         self.assertEqual(configurations["tracing_export_interval_ms"], None)
         self.assertEqual(configurations["logging_export_interval_ms"], 5000)
         self.assertEqual(configurations["metric_readers"], [])
-        self.assertEqual(configurations["views"], [])
+        self.assertEqual(configurations["views"], ())
         self.assertEqual(configurations["instrumentation_config"], {})

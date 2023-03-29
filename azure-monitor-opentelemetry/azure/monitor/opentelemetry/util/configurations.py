@@ -173,7 +173,7 @@ def _default_metric_readers(configurations):
 
 def _default_views(configurations):
     if VIEWS_ARG not in configurations:
-        configurations[VIEWS_ARG] = []
+        configurations[VIEWS_ARG] = ()
 
 
 # TODO: remove when sampler uses env var instead
