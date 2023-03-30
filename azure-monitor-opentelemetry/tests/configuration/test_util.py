@@ -12,19 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from logging import NOTSET, WARN
+from logging import NOTSET
 from unittest import TestCase
 from unittest.mock import patch
 
 from azure.monitor.opentelemetry.util.configurations import (
-    DISABLE_LOGGING_ENV_VAR,
-    DISABLE_METRICS_ENV_VAR,
-    DISABLE_TRACING_ENV_VAR,
-    EXCLUDE_INSTRUMENTATIONS_ENV_VAR,
-    INSTRUMENTATION_CONFIG_ENV_VAR,
-    LOGGER_NAME_ENV_VAR,
     LOGGING_EXPORT_INTERVAL_MS_ENV_VAR,
-    LOGGING_LEVEL_ENV_VAR,
     SAMPLING_RATIO_ENV_VAR,
     _get_configurations,
 )
@@ -109,19 +102,8 @@ class TestUtil(TestCase):
     @patch.dict(
         "os.environ",
         {
-            EXCLUDE_INSTRUMENTATIONS_ENV_VAR: '["flask"]',
-            DISABLE_LOGGING_ENV_VAR: "True",
-            DISABLE_METRICS_ENV_VAR: "True",
-            DISABLE_TRACING_ENV_VAR: "True",
-            LOGGING_LEVEL_ENV_VAR: "30",
-            LOGGER_NAME_ENV_VAR: "opentelemetry",
             LOGGING_EXPORT_INTERVAL_MS_ENV_VAR: "10000",
             SAMPLING_RATIO_ENV_VAR: "0.5",
-            INSTRUMENTATION_CONFIG_ENV_VAR: """{
-                "flask": {
-                    "excluded_urls": "http://localhost:8080/ignore"
-                }
-            }""",
         },
         clear=True,
     )
@@ -129,37 +111,25 @@ class TestUtil(TestCase):
         configurations = _get_configurations()
 
         self.assertTrue("connection_string" not in configurations)
-        self.assertEqual(configurations["exclude_instrumentations"], ["flask"])
-        self.assertEqual(configurations["disable_logging"], True)
-        self.assertEqual(configurations["disable_metrics"], True)
-        self.assertEqual(configurations["disable_tracing"], True)
-        self.assertEqual(configurations["logging_level"], WARN)
-        self.assertEqual(configurations["logger_name"], "opentelemetry")
+        self.assertEqual(configurations["exclude_instrumentations"], [])
+        self.assertEqual(configurations["disable_logging"], False)
+        self.assertEqual(configurations["disable_metrics"], False)
+        self.assertEqual(configurations["disable_tracing"], False)
+        self.assertEqual(configurations["logging_level"], NOTSET)
+        self.assertEqual(configurations["logger_name"], "")
         self.assertTrue("resource" not in configurations)
         self.assertEqual(configurations["sampling_ratio"], 0.5)
         self.assertEqual(configurations["tracing_export_interval_ms"], None)
-        self.assertEqual(configurations["logging_export_interval_ms"], 10000)
+        self.assertEqual(configurations["logging_export_interval_ms"], 5000)
         self.assertEqual(configurations["metric_readers"], [])
         self.assertEqual(configurations["views"], ())
-        self.assertEqual(
-            configurations["instrumentation_config"],
-            {"flask": {"excluded_urls": "http://localhost:8080/ignore"}},
-        )
+        self.assertEqual(configurations["instrumentation_config"], {})
 
     @patch.dict(
         "os.environ",
         {
-            EXCLUDE_INSTRUMENTATIONS_ENV_VAR: '"flask',
-            DISABLE_LOGGING_ENV_VAR: "one",
-            DISABLE_METRICS_ENV_VAR: "",
-            DISABLE_TRACING_ENV_VAR: "0.5",
-            LOGGING_LEVEL_ENV_VAR: "Thirty",
             LOGGING_EXPORT_INTERVAL_MS_ENV_VAR: "Ten Thousand",
             SAMPLING_RATIO_ENV_VAR: "Half",
-            INSTRUMENTATION_CONFIG_ENV_VAR: """{
-                "flask":
-                    "excluded_urls": "http://localhost:8080/ignore"
-            }""",
         },
         clear=True,
     )
@@ -171,60 +141,6 @@ class TestUtil(TestCase):
         self.assertEqual(configurations["disable_logging"], False)
         self.assertEqual(configurations["disable_metrics"], False)
         self.assertEqual(configurations["disable_tracing"], False)
-        self.assertEqual(configurations["logging_level"], NOTSET)
-        self.assertEqual(configurations["logger_name"], "")
-        self.assertTrue("resource" not in configurations)
-        self.assertEqual(configurations["sampling_ratio"], 1.0)
-        self.assertEqual(configurations["tracing_export_interval_ms"], None)
-        self.assertEqual(configurations["logging_export_interval_ms"], 5000)
-        self.assertEqual(configurations["metric_readers"], [])
-        self.assertEqual(configurations["views"], ())
-        self.assertEqual(configurations["instrumentation_config"], {})
-
-    @patch.dict(
-        "os.environ",
-        {
-            DISABLE_LOGGING_ENV_VAR: "false",
-            DISABLE_METRICS_ENV_VAR: "False",
-            DISABLE_TRACING_ENV_VAR: "FALSE",
-        },
-        clear=True,
-    )
-    def test_get_configurations_env_vars_false(self):
-        configurations = _get_configurations()
-
-        self.assertTrue("connection_string" not in configurations)
-        self.assertEqual(configurations["exclude_instrumentations"], [])
-        self.assertEqual(configurations["disable_logging"], False)
-        self.assertEqual(configurations["disable_metrics"], False)
-        self.assertEqual(configurations["disable_tracing"], False)
-        self.assertEqual(configurations["logging_level"], NOTSET)
-        self.assertEqual(configurations["logger_name"], "")
-        self.assertTrue("resource" not in configurations)
-        self.assertEqual(configurations["sampling_ratio"], 1.0)
-        self.assertEqual(configurations["tracing_export_interval_ms"], None)
-        self.assertEqual(configurations["logging_export_interval_ms"], 5000)
-        self.assertEqual(configurations["metric_readers"], [])
-        self.assertEqual(configurations["views"], ())
-        self.assertEqual(configurations["instrumentation_config"], {})
-
-    @patch.dict(
-        "os.environ",
-        {
-            DISABLE_LOGGING_ENV_VAR: "true",
-            DISABLE_METRICS_ENV_VAR: "True",
-            DISABLE_TRACING_ENV_VAR: "TRUE",
-        },
-        clear=True,
-    )
-    def test_get_configurations_env_vars_true(self):
-        configurations = _get_configurations()
-
-        self.assertTrue("connection_string" not in configurations)
-        self.assertEqual(configurations["exclude_instrumentations"], [])
-        self.assertEqual(configurations["disable_logging"], True)
-        self.assertEqual(configurations["disable_metrics"], True)
-        self.assertEqual(configurations["disable_tracing"], True)
         self.assertEqual(configurations["logging_level"], NOTSET)
         self.assertEqual(configurations["logger_name"], "")
         self.assertTrue("resource" not in configurations)

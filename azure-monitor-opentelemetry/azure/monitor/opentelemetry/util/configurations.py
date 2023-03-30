@@ -4,7 +4,6 @@
 # license information.
 # --------------------------------------------------------------------------
 
-from json import loads
 from logging import NOTSET, getLogger
 from os import environ
 from typing import Dict
@@ -24,35 +23,15 @@ from azure.monitor.opentelemetry._constants import (
     VIEWS_ARG,
 )
 from azure.monitor.opentelemetry._types import ConfigurationValue
-from opentelemetry.sdk.environment_variables import (
-    OTEL_LOG_LEVEL,
-    OTEL_TRACES_SAMPLER_ARG,
-)
+from opentelemetry.sdk.environment_variables import OTEL_TRACES_SAMPLER_ARG
 
-_CONFIGURATION_ENV_VAR_PREFIX = "APPLICATIONINSIGHTS_"
-_INVALID_JSON_MESSAGE = "Value of %s must be valid JSON. Defaulting to %s: %s"
-_INVALID_INT_MESSAGE = "Value of %s must be an integer. Defaulting to %s: %s"
 _INVALID_FLOAT_MESSAGE = "Value of %s must be a float. Defaulting to %s: %s"
 
 
-def _get_env_var_name(arg):
-    return _CONFIGURATION_ENV_VAR_PREFIX + arg.upper()
-
-
-EXCLUDE_INSTRUMENTATIONS_ENV_VAR = _get_env_var_name(
-    EXCLUDE_INSTRUMENTATIONS_ARG
-)
-DISABLE_LOGGING_ENV_VAR = _get_env_var_name(DISABLE_LOGGING_ARG)
-DISABLE_METRICS_ENV_VAR = _get_env_var_name(DISABLE_METRICS_ARG)
-DISABLE_TRACING_ENV_VAR = _get_env_var_name(DISABLE_TRACING_ARG)
-# Speced out but unused by OTel SDK as of 1.15.0
-LOGGING_LEVEL_ENV_VAR = OTEL_LOG_LEVEL
-LOGGER_NAME_ENV_VAR = _get_env_var_name(LOGGER_NAME_ARG)
 # Speced out but unused by OTel SDK as of 1.15.0
 LOGGING_EXPORT_INTERVAL_MS_ENV_VAR = "OTEL_BLRP_SCHEDULE_DELAY"
 # TODO: remove when sampler uses env var instead
 SAMPLING_RATIO_ENV_VAR = OTEL_TRACES_SAMPLER_ARG
-INSTRUMENTATION_CONFIG_ENV_VAR = _get_env_var_name(INSTRUMENTATION_CONFIG_ARG)
 
 
 _logger = getLogger(__name__)
@@ -88,82 +67,37 @@ def _get_configurations(**kwargs) -> Dict[str, ConfigurationValue]:
 
 def _default_exclude_instrumentations(configurations):
     if EXCLUDE_INSTRUMENTATIONS_ARG not in configurations:
-        default = []
-        if EXCLUDE_INSTRUMENTATIONS_ENV_VAR in environ:
-            try:
-                default = loads(environ[EXCLUDE_INSTRUMENTATIONS_ENV_VAR])
-            except ValueError as e:
-                _logger.error(
-                    _INVALID_JSON_MESSAGE
-                    % (EXCLUDE_INSTRUMENTATIONS_ENV_VAR, default, e)
-                )
-        configurations[EXCLUDE_INSTRUMENTATIONS_ARG] = default
+        configurations[EXCLUDE_INSTRUMENTATIONS_ARG] = []
 
 
 def _default_disable_logging(configurations):
     if DISABLE_LOGGING_ARG not in configurations:
-        default = False
-        if DISABLE_LOGGING_ENV_VAR in environ:
-            env_var = environ[DISABLE_LOGGING_ENV_VAR]
-            if env_var.lower() == "true":
-                default = True
-        configurations[DISABLE_LOGGING_ARG] = default
+        configurations[DISABLE_LOGGING_ARG] = False
 
 
 def _default_disable_metrics(configurations):
     if DISABLE_METRICS_ARG not in configurations:
-        default = False
-        if DISABLE_METRICS_ENV_VAR in environ:
-            env_var = environ[DISABLE_METRICS_ENV_VAR]
-            if env_var.lower() == "true":
-                default = True
-        configurations[DISABLE_METRICS_ARG] = default
+        configurations[DISABLE_METRICS_ARG] = False
 
 
 def _default_disable_tracing(configurations):
     if DISABLE_TRACING_ARG not in configurations:
-        default = False
-        if DISABLE_TRACING_ENV_VAR in environ:
-            env_var = environ[DISABLE_TRACING_ENV_VAR]
-            if env_var.lower() == "true":
-                default = True
-        configurations[DISABLE_TRACING_ARG] = default
+        configurations[DISABLE_TRACING_ARG] = False
 
 
 def _default_logging_level(configurations):
     if LOGGING_LEVEL_ARG not in configurations:
-        default = NOTSET
-        if LOGGING_LEVEL_ENV_VAR in environ:
-            # TODO: Match OTel env var usage when it is determined.
-            try:
-                default = int(environ[LOGGING_LEVEL_ENV_VAR])
-            except ValueError as e:
-                _logger.error(
-                    _INVALID_INT_MESSAGE % (LOGGING_LEVEL_ENV_VAR, default, e)
-                )
-        configurations[LOGGING_LEVEL_ARG] = default
+        configurations[LOGGING_LEVEL_ARG] = NOTSET
 
 
 def _default_logger_name(configurations):
     if LOGGER_NAME_ARG not in configurations:
-        default = ""
-        if LOGGER_NAME_ENV_VAR in environ:
-            default = environ[LOGGER_NAME_ENV_VAR]
-        configurations[LOGGER_NAME_ARG] = default
+        configurations[LOGGER_NAME_ARG] = ""
 
 
 def _default_logging_export_interval_ms(configurations):
     if LOGGING_EXPORT_INTERVAL_MS_ARG not in configurations:
-        default = 5000
-        if LOGGING_EXPORT_INTERVAL_MS_ENV_VAR in environ:
-            try:
-                default = int(environ[LOGGING_EXPORT_INTERVAL_MS_ENV_VAR])
-            except ValueError as e:
-                _logger.error(
-                    _INVALID_INT_MESSAGE
-                    % (LOGGING_EXPORT_INTERVAL_MS_ENV_VAR, default, e)
-                )
-        configurations[LOGGING_EXPORT_INTERVAL_MS_ARG] = default
+        configurations[LOGGING_EXPORT_INTERVAL_MS_ARG] = 5000
 
 
 def _default_metric_readers(configurations):
@@ -198,13 +132,4 @@ def _default_tracing_export_interval_ms(configurations):
 
 def _default_instrumentation_config(configurations):
     if INSTRUMENTATION_CONFIG_ARG not in configurations:
-        default = {}
-        if INSTRUMENTATION_CONFIG_ENV_VAR in environ:
-            try:
-                default = loads(environ[INSTRUMENTATION_CONFIG_ENV_VAR])
-            except ValueError as e:
-                _logger.error(
-                    _INVALID_JSON_MESSAGE
-                    % (INSTRUMENTATION_CONFIG_ENV_VAR, default, e)
-                )
-        configurations[INSTRUMENTATION_CONFIG_ARG] = default
+        configurations[INSTRUMENTATION_CONFIG_ARG] = {}

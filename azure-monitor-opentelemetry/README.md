@@ -60,7 +60,7 @@ You can use `configure_azure_monitor` to set up instrumentation for your app to 
 | `disable_logging` | If set to `True`, disables collection and export of logging telemetry. Defaults to `False`. | |
 | `disable_metrics` | If set to `True`, disables collection and export of metric telemetry. Defaults to `False`. | |
 | `disable_tracing` | If set to `True`, disables collection and export of distributed tracing telemetry. Defaults to `False`. | |
-| `logging_level` | Specifies the [logging level][logging_level] of the logs you would like to collect for your logging pipeline. In order to utilize the `OTEL_LOG_LEVEL` environment variable, set it to the number that represents the log leval, not a string representing that log level's name. For example, set to `30` for `logging.WARN`. Defaults to 0 which is `logging.NOTSET`. | `OTEL_LOG_LEVEL` |
+| `logging_level` | Specifies the [logging level][logging_level] of the logs you would like to collect for your logging pipeline. Defaults to 0 which is `logging.NOTSET`. | |
 | `logger_name` | Specifies the [logger name][logger_name_hierarchy_doc] under which logging will be instrumented. Defaults to "" which corresponds to the root logger. | |
 | `logging_export_interval_ms`| Specifies the logging export interval in milliseconds. Defaults to 5000. | `OTEL_BLRP_SCHEDULE_DELAY` |
 | `metric_readers` | Specifies the [metric readers][ot_metric_reader] that you would like to use for your metric pipeline. Accepts a list of [metric readers][ot_sdk_python_metric_reader]. | |
