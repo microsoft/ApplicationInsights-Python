@@ -52,19 +52,19 @@ class TestConfigure(unittest.TestCase):
     ):
         kwargs = {
             "connection_string": "test_cs",
+            "exclude_instrumentations": [],
             "disable_tracing": False,
             "disable_logging": False,
             "disable_metrics": False,
             "logging_export_interval_ms": 10000,
             "logging_level": "test_logging_level",
             "logger_name": "test_logger_name",
-            "metric_readers": "test_metric_readers",
-            "service_name": "test_service_name",
-            "service_namespace": "test_namespace",
-            "service_instance_id": "test_id",
+            "resource": "test_resource",
             "sampling_ratio": 0.5,
             "tracing_export_interval_ms": 15000,
+            "metric_readers": "test_metric_readers",
             "views": "test_views",
+            "instrumentation_config": [],
         }
         resource_init_mock = Mock()
         resource_mock.return_value = resource_init_mock
@@ -100,18 +100,19 @@ class TestConfigure(unittest.TestCase):
     ):
         kwargs = {
             "connection_string": "test_cs",
+            "exclude_instrumentations": [],
             "disable_tracing": True,
             "disable_logging": False,
             "disable_metrics": False,
             "logging_export_interval_ms": 10000,
             "logging_level": "test_logging_level",
             "logger_name": "test_logger_name",
-            "service_name": "test_service_name",
-            "service_namespace": "test_namespace",
-            "service_instance_id": "test_id",
+            "resource": "test_resource",
             "sampling_ratio": 0.5,
             "tracing_export_interval_ms": 15000,
+            "metric_readers": [],
             "views": "test_views",
+            "instrumentation_config": [],
         }
         resource_init_mock = Mock()
         resource_mock.return_value = resource_init_mock
@@ -147,18 +148,19 @@ class TestConfigure(unittest.TestCase):
     ):
         kwargs = {
             "connection_string": "test_cs",
+            "exclude_instrumentations": [],
             "disable_tracing": False,
             "disable_logging": True,
             "disable_metrics": False,
             "logging_export_interval_ms": 10000,
             "logging_level": "test_logging_level",
             "logger_name": "test_logger_name",
-            "service_name": "test_service_name",
-            "service_namespace": "test_namespace",
-            "service_instance_id": "test_id",
+            "resource": "test_resource",
             "sampling_ratio": 0.5,
             "tracing_export_interval_ms": 15000,
+            "metric_readers": [],
             "views": "test_views",
+            "instrumentation_config": [],
         }
         resource_init_mock = Mock()
         resource_mock.return_value = resource_init_mock
@@ -194,17 +196,19 @@ class TestConfigure(unittest.TestCase):
     ):
         kwargs = {
             "connection_string": "test_cs",
+            "exclude_instrumentations": [],
             "disable_tracing": False,
             "disable_logging": False,
             "disable_metrics": True,
             "logging_export_interval_ms": 10000,
             "logging_level": "test_logging_level",
-            "service_name": "test_service_name",
-            "service_namespace": "test_namespace",
-            "service_instance_id": "test_id",
+            "logger_name": "test_logger_name",
+            "resource": "test_resource",
             "sampling_ratio": 0.5,
             "tracing_export_interval_ms": 15000,
+            "metric_readers": [],
             "views": "test_views",
+            "instrumentation_config": [],
         }
         resource_init_mock = Mock()
         resource_mock.return_value = resource_init_mock
@@ -413,7 +417,10 @@ class TestConfigure(unittest.TestCase):
         iter_mock,
         dep_mock,
     ):
-        configurations = {}
+        configurations = {
+            "exclude_instrumentations": [],
+            "instrumentation_config": {},
+        }
         ep_mock = Mock()
         iter_mock.return_value = [ep_mock]
         instrumentor_mock = Mock()
@@ -437,7 +444,10 @@ class TestConfigure(unittest.TestCase):
         iter_mock,
         dep_mock,
     ):
-        configurations = {}
+        configurations = {
+            "exclude_instrumentations": [],
+            "instrumentation_config": {},
+        }
         ep_mock = Mock()
         ep2_mock = Mock()
         iter_mock.return_value = (ep_mock, ep2_mock)
@@ -464,7 +474,10 @@ class TestConfigure(unittest.TestCase):
         dep_mock,
     ):
         instr_exclude = _SUPPORTED_INSTRUMENTED_LIBRARIES[0]
-        configurations = {"exclude_instrumentations": [instr_exclude]}
+        configurations = {
+            "exclude_instrumentations": [instr_exclude],
+            "instrumentation_config": {},
+        }
         ep_mock = Mock()
         ep2_mock = Mock()
         iter_mock.return_value = (ep_mock, ep2_mock)
@@ -492,7 +505,10 @@ class TestConfigure(unittest.TestCase):
         dep_mock,
         logger_mock,
     ):
-        configurations = {}
+        configurations = {
+            "exclude_instrumentations": [],
+            "instrumentation_config": {},
+        }
         ep_mock = Mock()
         iter_mock.return_value = (ep_mock,)
         instrumentor_mock = Mock()
@@ -518,7 +534,10 @@ class TestConfigure(unittest.TestCase):
         dep_mock,
         logger_mock,
     ):
-        configurations = {}
+        configurations = {
+            "exclude_instrumentations": [],
+            "instrumentation_config": {},
+        }
         ep_mock = Mock()
         iter_mock.return_value = (ep_mock,)
         instrumentor_mock = Mock()
@@ -544,6 +563,7 @@ class TestConfigure(unittest.TestCase):
     ):
         libr_name = _SUPPORTED_INSTRUMENTED_LIBRARIES[0]
         configurations = {
+            "exclude_instrumentations": [],
             "instrumentation_config": {
                 libr_name: {
                     "test_key": "test_value",

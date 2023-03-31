@@ -13,6 +13,25 @@ from azure.monitor.opentelemetry.exporter._connection_string_parser import (
     ConnectionStringParser,
 )
 
+# --------------------Configuration------------------------------------------
+
+CONNECTION_STRING_ARG = "connection_string"
+EXCLUDE_INSTRUMENTATIONS_ARG = "exclude_instrumentations"
+RESOURCE_ARG = "resource"
+DISABLE_LOGGING_ARG = "disable_logging"
+DISABLE_METRICS_ARG = "disable_metrics"
+DISABLE_TRACING_ARG = "disable_tracing"
+# TODO: Consider Log Level to match env var
+LOGGING_LEVEL_ARG = "logging_level"
+LOGGER_NAME_ARG = "logger_name"
+LOGGING_EXPORT_INTERVAL_MS_ARG = "logging_export_interval_ms"
+METRIC_READERS_ARG = "metric_readers"
+VIEWS_ARG = "views"
+SAMPLING_RATIO_ARG = "sampling_ratio"
+TRACING_EXPORT_INTERVAL_MS_ARG = "tracing_export_interval_ms"
+INSTRUMENTATION_CONFIG_ARG = "instrumentation_config"
+
+
 # --------------------Diagnostic/status logging------------------------------
 
 _LOG_PATH_LINUX = "/var/log/applicationinsights"
