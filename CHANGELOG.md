@@ -15,7 +15,7 @@
 - Change interval params to use `_ms` as suffix
     ([#260](https://github.com/microsoft/ApplicationInsights-Python/pull/260))
 - Update exporter version to 1.0.0b13 and OTel sdk/api to 1.17
-    ([#260](https://github.com/microsoft/ApplicationInsights-Python/pull/270))
+    ([#270](https://github.com/microsoft/ApplicationInsights-Python/pull/270))
 
 ## [1.0.0b10](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b10) - 2023-02-23
 
