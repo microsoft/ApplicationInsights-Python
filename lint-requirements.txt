@@ -1,4 +1,0 @@
-isort
-black
-pylint
-flake8
