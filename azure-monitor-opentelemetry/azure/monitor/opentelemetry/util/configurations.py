@@ -24,6 +24,7 @@ from azure.monitor.opentelemetry._constants import (
 )
 from azure.monitor.opentelemetry._types import ConfigurationValue
 from opentelemetry.sdk.environment_variables import OTEL_TRACES_SAMPLER_ARG
+from opentelemetry.environment_variables import OTEL_LOGS_EXPORTER, OTEL_METRICS_EXPORTER, OTEL_TRACES_EXPORTER
 
 _INVALID_FLOAT_MESSAGE = "Value of %s must be a float. Defaulting to %s: %s"
 
@@ -72,17 +73,29 @@ def _default_exclude_instrumentations(configurations):
 
 def _default_disable_logging(configurations):
     if DISABLE_LOGGING_ARG not in configurations:
-        configurations[DISABLE_LOGGING_ARG] = False
+        default = False
+        if OTEL_LOGS_EXPORTER in environ:
+            if environ[OTEL_LOGS_EXPORTER].lower().strip() == "none":
+                default = True
+        configurations[DISABLE_LOGGING_ARG] = default
 
 
 def _default_disable_metrics(configurations):
     if DISABLE_METRICS_ARG not in configurations:
-        configurations[DISABLE_METRICS_ARG] = False
+        default = False
+        if OTEL_METRICS_EXPORTER in environ:
+            if environ[OTEL_METRICS_EXPORTER].lower().strip() == "none":
+                default = True
+        configurations[DISABLE_METRICS_ARG] = default
 
 
 def _default_disable_tracing(configurations):
     if DISABLE_TRACING_ARG not in configurations:
-        configurations[DISABLE_TRACING_ARG] = False
+        default = False
+        if OTEL_TRACES_EXPORTER in environ:
+            if environ[OTEL_TRACES_EXPORTER].lower().strip() == "none":
+                default = True
+        configurations[DISABLE_TRACING_ARG] = default
 
 
 def _default_logging_level(configurations):
