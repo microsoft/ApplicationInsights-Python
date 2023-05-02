@@ -21,6 +21,11 @@ from azure.monitor.opentelemetry.util.configurations import (
     SAMPLING_RATIO_ENV_VAR,
     _get_configurations,
 )
+from opentelemetry.environment_variables import (
+    OTEL_LOGS_EXPORTER,
+    OTEL_METRICS_EXPORTER,
+    OTEL_TRACES_EXPORTER,
+)
 
 
 class TestUtil(TestCase):
@@ -31,7 +36,6 @@ class TestUtil(TestCase):
             disable_logging="test_disable_logging",
             disable_metrics="test_disable_metrics",
             disable_tracing="test_disable_tracing",
-            instrumentations=["test_instrumentation"],
             logging_level="test_logging_level",
             logger_name="test_logger_name",
             resource="test_resource",
@@ -104,6 +108,9 @@ class TestUtil(TestCase):
         {
             LOGGING_EXPORT_INTERVAL_MS_ENV_VAR: "10000",
             SAMPLING_RATIO_ENV_VAR: "0.5",
+            OTEL_TRACES_EXPORTER: "None",
+            OTEL_LOGS_EXPORTER: "none",
+            OTEL_METRICS_EXPORTER: "NONE",
         },
         clear=True,
     )
@@ -112,9 +119,9 @@ class TestUtil(TestCase):
 
         self.assertTrue("connection_string" not in configurations)
         self.assertEqual(configurations["exclude_instrumentations"], [])
-        self.assertEqual(configurations["disable_logging"], False)
-        self.assertEqual(configurations["disable_metrics"], False)
-        self.assertEqual(configurations["disable_tracing"], False)
+        self.assertEqual(configurations["disable_logging"], True)
+        self.assertEqual(configurations["disable_metrics"], True)
+        self.assertEqual(configurations["disable_tracing"], True)
         self.assertEqual(configurations["logging_level"], NOTSET)
         self.assertEqual(configurations["logger_name"], "")
         self.assertTrue("resource" not in configurations)
@@ -130,6 +137,9 @@ class TestUtil(TestCase):
         {
             LOGGING_EXPORT_INTERVAL_MS_ENV_VAR: "Ten Thousand",
             SAMPLING_RATIO_ENV_VAR: "Half",
+            OTEL_TRACES_EXPORTER: "False",
+            OTEL_LOGS_EXPORTER: "no",
+            OTEL_METRICS_EXPORTER: "True",
         },
         clear=True,
     )
