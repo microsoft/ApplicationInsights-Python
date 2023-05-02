@@ -10,15 +10,6 @@ from opentelemetry.sdk.resources import Resource, ResourceAttributes
 
 configure_azure_monitor(
     connection_string="<your-connection-string>",
-    resource=Resource.create(
-        {
-            ResourceAttributes.SERVICE_NAME: "simple_service",
-            ResourceAttributes.SERVICE_INSTANCE_ID: "simple_tracing_instance",
-        }
-    ),
-    tracing_export_interval_ms=15000,
-    disable_logging=True,
-    disable_metrics=True,
 )
 
 tracer = trace.get_tracer(__name__)

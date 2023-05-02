@@ -9,9 +9,6 @@ from azure.monitor.opentelemetry import configure_azure_monitor
 # Configure Azure monitor collection telemetry pipeline
 configure_azure_monitor(
     connection_string="<your-connection-string>",
-    disable_logging=True,
-    disable_metrics=True,
-    tracing_export_interval_ms=15000,
 )
 
 # Database calls using the psycopg2 library will be automatically captured

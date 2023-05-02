@@ -9,14 +9,6 @@ from azure.monitor.opentelemetry import configure_azure_monitor
 # Configure Azure monitor collection telemetry pipeline
 configure_azure_monitor(
     connection_string="<your-connection-string>",
-    disable_logging=True,
-    disable_metrics=True,
-    instrumentation_config={
-        "fastapi": {
-            "excluded_urls": "http://127.0.0.1:8000/exclude",
-        }
-    },
-    tracing_export_interval_ms=15000,
 )
 
 app = fastapi.FastAPI()

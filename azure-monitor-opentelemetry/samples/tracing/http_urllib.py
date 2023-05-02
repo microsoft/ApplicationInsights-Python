@@ -14,9 +14,6 @@ logger = logging.getLogger(__name__)
 # Configure Azure monitor collection telemetry pipeline
 configure_azure_monitor(
     connection_string="<your-connection-string>",
-    disable_logging=True,
-    disable_metrics=True,
-    tracing_export_interval_ms=15000,
 )
 
 tracer = trace.get_tracer(__name__)

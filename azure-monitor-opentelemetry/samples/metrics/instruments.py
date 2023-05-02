@@ -10,14 +10,6 @@ from opentelemetry.sdk.resources import Resource, ResourceAttributes
 # Configure Azure monitor collection telemetry pipeline
 configure_azure_monitor(
     connection_string="<your-connection-string>",
-    disable_logging=True,
-    disable_tracing=True,
-    resource=Resource.create(
-        {
-            ResourceAttributes.SERVICE_NAME: "metric_service",
-            ResourceAttributes.SERVICE_INSTANCE_ID: "instrument_instance",
-        }
-    ),
 )
 
 

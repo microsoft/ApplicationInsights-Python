@@ -7,14 +7,12 @@
 from azure.monitor.opentelemetry import configure_azure_monitor
 from opentelemetry import trace
 
+# Set the OTEL_TRACES_SAMPLER_ARG environment variable to 0.1
+# Sampling ratio of between 0 and 1 inclusive
+# 0.1 means approximately 10% of your traces are sent
+
 configure_azure_monitor(
-    connection_string="<your-connection-string>",
-    # Sampling ratio of between 0 and 1 inclusive
-    # 0.1 means approximately 10% of your traces are sent
-    sampling_ratio=0.1,
-    tracing_export_interval_ms=15000,
-    disable_logging=True,
-    disable_metrics=True,
+    # connection_string="<your-connection-string>",
 )
 
 tracer = trace.get_tracer(__name__)

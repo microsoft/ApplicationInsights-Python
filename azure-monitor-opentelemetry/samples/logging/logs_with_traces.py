@@ -11,10 +11,6 @@ from azure.monitor.opentelemetry import configure_azure_monitor
 
 configure_azure_monitor(
     connection_string="<your-connection-string>",
-    logger_name=__name__,
-    logging_level=WARNING,
-    disable_metrics=True,
-    tracing_export_interval_ms=15000,
 )
 
 logger = getLogger(__name__)
