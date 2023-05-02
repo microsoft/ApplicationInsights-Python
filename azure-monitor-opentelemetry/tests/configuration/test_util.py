@@ -22,9 +22,9 @@ from azure.monitor.opentelemetry.util.configurations import (
     _get_configurations,
 )
 from opentelemetry.environment_variables import (
-    OTEL_TRACES_EXPORTER,
     OTEL_LOGS_EXPORTER,
     OTEL_METRICS_EXPORTER,
+    OTEL_TRACES_EXPORTER,
 )
 
 
