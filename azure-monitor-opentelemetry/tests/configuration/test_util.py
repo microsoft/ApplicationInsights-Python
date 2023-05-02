@@ -110,7 +110,7 @@ class TestUtil(TestCase):
             SAMPLING_RATIO_ENV_VAR: "0.5",
             OTEL_TRACES_EXPORTER: "None",
             OTEL_LOGS_EXPORTER: "none",
-            OTEL_METRICS_EXPORTER: "NONE", 
+            OTEL_METRICS_EXPORTER: "NONE",
         },
         clear=True,
     )
@@ -139,7 +139,7 @@ class TestUtil(TestCase):
             SAMPLING_RATIO_ENV_VAR: "Half",
             OTEL_TRACES_EXPORTER: "False",
             OTEL_LOGS_EXPORTER: "no",
-            OTEL_METRICS_EXPORTER: "True", 
+            OTEL_METRICS_EXPORTER: "True",
         },
         clear=True,
     )
