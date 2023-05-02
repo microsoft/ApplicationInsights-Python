@@ -12,7 +12,7 @@ from opentelemetry import trace
 # 0.1 means approximately 10% of your traces are sent
 
 configure_azure_monitor(
-    # connection_string="<your-connection-string>",
+    connection_string="<your-connection-string>",
 )
 
 tracer = trace.get_tracer(__name__)
