@@ -9,9 +9,6 @@ from sqlalchemy import create_engine, text
 
 configure_azure_monitor(
     connection_string="<your-connection-string>",
-    tracing_export_interval_ms=15000,
-    disable_logging=True,
-    disable_metrics=True,
 )
 
 engine = create_engine("sqlite:///:memory:")

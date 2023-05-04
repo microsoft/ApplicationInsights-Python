@@ -2,10 +2,13 @@
 
 ## Unreleased
 
-## [1.0.0b11](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b11) - 2023-04-12
-
+- Remove most configuration for Public Preview
+    ([#277](https://github.com/microsoft/ApplicationInsights-Python/pull/277))
 - Infer telemetry category disablement from exporter environment variables
     ([#278](https://github.com/microsoft/ApplicationInsights-Python/pull/278))
+
+## [1.0.0b11](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b11) - 2023-04-12
+
 - Reverse default behavior of instrumentations and implement configuration for exclusion
     ([#253](https://github.com/microsoft/ApplicationInsights-Python/pull/253))
 - Use entrypoints instead of importlib to load instrumentations

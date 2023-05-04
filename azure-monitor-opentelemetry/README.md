@@ -55,38 +55,20 @@ You can use `configure_azure_monitor` to set up instrumentation for your app to 
 | Parameter | Description | Environment Variable |
 |-------------------|----------------------------------------------------|----------------------|
 | `connection_string` | The [connection string][connection_string_doc] for your Application Insights resource. The connection string will be automatically populated from the `APPLICATIONINSIGHTS_CONNECTION_STRING` environment variable if not explicitly passed in. | `APPLICATIONINSIGHTS_CONNECTION_STRING` |
-| `exclude_instrumentations` | By default, all supported [instrumentations](#officially-supported-instrumentations) are enabled to collect telemetry. Specify instrumentations you do not want to enable to collect telemetry by passing in a comma separated list of instrumented library names. e.g. `["requests", "flask"]` | |
-| `resource` | Specifies the OpenTelemetry [resource][opentelemetry_spec_resource] associated with your application. See [this][ot_sdk_python_resource] for default behavior. | [OTEL_SERVICE_NAME][opentelemetry_spec_service_name], [OTEL_RESOURCE_ATTRIBUTES][opentelemetry_spec_resource_attributes] |
-| `disable_logging` | If set to `True`, disables collection and export of logging telemetry. Defaults to `False`. | |
-| `disable_metrics` | If set to `True`, disables collection and export of metric telemetry. Defaults to `False`. | |
-| `disable_tracing` | If set to `True`, disables collection and export of distributed tracing telemetry. Defaults to `False`. | |
-| `logging_level` | Specifies the [logging level][logging_level] of the logs you would like to collect for your logging pipeline. Defaults to 0 which is `logging.NOTSET`. | |
-| `logger_name` | Specifies the [logger name][logger_name_hierarchy_doc] under which logging will be instrumented. Defaults to "" which corresponds to the root logger. | |
-| `logging_export_interval_ms`| Specifies the logging export interval in milliseconds. Defaults to 5000. | `OTEL_BLRP_SCHEDULE_DELAY` |
-| `metric_readers` | Specifies the [metric readers][ot_metric_reader] that you would like to use for your metric pipeline. Accepts a list of [metric readers][ot_sdk_python_metric_reader]. | |
-| `views` | Specifies the list of [views][opentelemetry_spec_view] to configure for the metric pipeline. See [here][ot_sdk_python_view_examples] for example usage. | |
-| `sampling_ratio` | Specifies the ratio of distributed tracing telemetry to be [sampled][application_insights_sampling]. Accepted values are in the range [0,1]. Defaults to 1.0, meaning no telemetry is sampled out. | `OTEL_TRACES_SAMPLER_ARG` |
-| `tracing_export_interval_ms`| Specifies the distributed tracing export interval in milliseconds. Defaults to 5000. | `OTEL_BSP_SCHEDULE_DELAY` |
-| `instrumentation_config` | Specifies a dictionary of kwargs that will be applied to instrumentation configuration. You can specify which instrumentation you want to configure by name in the key field and value as a dictionary representing `kwargs` for the corresponding instrumentation. Refer to the `Supported Library` section [above](#officially-supported-instrumentations) for the list of supported library names. | |
 
-Example for use of `instrumentation_config`:
-```python
-...
-configure_azure_monitor(
-    connection_string="<your-connection-string>",
-    instrumentation_config={
-        "flask": {
-            "excluded_urls": "http://localhost:8080/ignore",
-        },
-        "requests": {
-            "excluded_urls": "http://example.com"
-        }
-    }
-)
-...
-```
 
-Take a look at the specific [instrumenation][ot_instrumentations] documentation for available configurations.
+You can configure further with [OpenTelemetry environment variables][ot_env_vars] such as:
+| Environment Variable | Description |
+|-------------|----------------------|
+| [OTEL_SERVICE_NAME][opentelemetry_spec_service_name], [OTEL_RESOURCE_ATTRIBUTES][opentelemetry_spec_resource_attributes] | Specifies the OpenTelemetry [resource][opentelemetry_spec_resource] associated with your application. |
+| `OTEL_LOGS_EXPORTER` | If set to `None`, disables collection and export of logging telemetry. |
+| `OTEL_METRICS_EXPORTER` | If set to `None`, disables collection and export of metric telemetry. |
+| `OTEL_TRACES_EXPORTER` | If set to `None`, disables collection and export of distributed tracing telemetry. |
+| `OTEL_BLRP_SCHEDULE_DELAY` | Specifies the logging export interval in milliseconds. Defaults to 5000. |
+| `OTEL_BSP_SCHEDULE_DELAY` | Specifies the distributed tracing export interval in milliseconds. Defaults to 5000. |
+| `OTEL_TRACES_SAMPLER_ARG` | Specifies the ratio of distributed tracing telemetry to be [sampled][application_insights_sampling]. Accepted values are in the range [0,1]. Defaults to 1.0, meaning no telemetry is sampled out. |
+<!-- TODO: add once OTEL_LOG_LEVEL is supported in sdk -->
+<!-- Specifies the [logging level][logging_level] of the logs you would like to collect for your logging pipeline. Defaults to 0 which is `logging.NOTSET`. | OTEL_LOG_LEVEL | -->
 
 #### Azure monitor OpenTelemetry Exporter configurations
 
@@ -123,12 +105,12 @@ Samples are available [here][samples] to demonstrate how to utilize the above co
 [exporter_configuration_docs]: https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/monitor/azure-monitor-opentelemetry-exporter#configuration
 [logging_level]: https://docs.python.org/3/library/logging.html#levels
 [logger_name_hierarchy_doc]: https://docs.python.org/3/library/logging.html#logger-objects
+[ot_env_vars]: https://opentelemetry.io/docs/reference/specification/sdk-environment-variables/
 [ot_instrumentations]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation
 [ot_metric_reader]: https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/metrics/sdk.md#metricreader
 [ot_python_docs]: https://opentelemetry.io/docs/instrumentation/python/
 [ot_sdk_python]: https://github.com/open-telemetry/opentelemetry-python
 [ot_sdk_python_metric_reader]: https://opentelemetry-python.readthedocs.io/en/stable/sdk/metrics.export.html#opentelemetry.sdk.metrics.export.MetricReader
-[ot_sdk_python_resource]: https://github.com/open-telemetry/opentelemetry-python/blob/main/opentelemetry-sdk/src/opentelemetry/sdk/resources/__init__.py#L153
 [ot_sdk_python_view_examples]: https://github.com/open-telemetry/opentelemetry-python/tree/main/docs/examples/metrics/views
 [ot_instrumentation_django]: https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-django
 [ot_instrumentation_django_version]: https://github.com/open-telemetry/opentelemetry-python-contrib/blob/main/instrumentation/opentelemetry-instrumentation-django/src/opentelemetry/instrumentation/django/package.py#L16

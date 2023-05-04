@@ -4,20 +4,17 @@
 # license information.
 # --------------------------------------------------------------------------
 
-from logging import WARNING, getLogger
+from logging import INFO, getLogger
 
 import flask
 from azure.monitor.opentelemetry import configure_azure_monitor
 
 configure_azure_monitor(
     connection_string="<your-connection-string>",
-    logger_name=__name__,
-    logging_level=WARNING,
-    disable_metrics=True,
-    tracing_export_interval_ms=15000,
 )
 
 logger = getLogger(__name__)
+logger.setLevel(INFO)
 
 app = flask.Flask(__name__)
 
@@ -36,16 +33,5 @@ def error_log():
     return message
 
 
-@app.route("/error_log")
-def error_log():
-    message = "Correlated error log"
-    logger.error(message)
-    return message
-
-
 if __name__ == "__main__":
     app.run(host="localhost", port=8080)
-
-    logger.info("Correlated info log")
-    logger.warning("Correlated warning log")
-    logger.error("Correlated error log")
