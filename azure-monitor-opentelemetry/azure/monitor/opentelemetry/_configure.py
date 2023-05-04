@@ -4,7 +4,7 @@
 # license information.
 # --------------------------------------------------------------------------
 from logging import getLogger
-from typing import Any, Dict
+from typing import Dict
 
 from azure.monitor.opentelemetry._constants import (
     DISABLE_LOGGING_ARG,
@@ -48,9 +48,6 @@ _SUPPORTED_INSTRUMENTED_LIBRARIES = (
     "urllib",
     "urllib3",
 )
-
-
-InstrumentationConfig = Dict[str, Dict[str, Any]]
 
 
 def configure_azure_monitor(**kwargs) -> None:
@@ -103,7 +100,7 @@ def _setup_tracing(configurations: Dict[str, ConfigurationValue]):
 
 
 def _setup_logging(configurations: Dict[str, ConfigurationValue]):
-    # TODO: Remove after upgrading to 1.18
+    # TODO: Remove after upgrading to OTel SDK 1.18
     logging_export_interval_ms = configurations[LOGGING_EXPORT_INTERVAL_MS_ARG]
     logger_provider = LoggerProvider()
     set_logger_provider(logger_provider)
