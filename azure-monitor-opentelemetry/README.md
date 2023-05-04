@@ -63,7 +63,7 @@ You can configure further with [OpenTelemetry environment variables][ot_env_vars
 | [OTEL_SERVICE_NAME][opentelemetry_spec_service_name], [OTEL_RESOURCE_ATTRIBUTES][opentelemetry_spec_resource_attributes] | Specifies the OpenTelemetry [resource][opentelemetry_spec_resource] associated with your application. |
 | `OTEL_TRACES_EXPORTER` | If set to `None`, disables collection and export of logging telemetry. |
 | `OTEL_METRICS_EXPORTER` | If set to `None`, disables collection and export of metric telemetry. |
-| `OTEL_LOGS_EXPORTER` | If set to `None`, disables collection and export of distributed tracing telemetry. |
+| `OTEL_LOGS_EXPORTER` | If set to `None`, disables collection and export of logging telemetry. |
 | `OTEL_BLRP_SCHEDULE_DELAY` | Specifies the logging export interval in milliseconds. Defaults to 5000. |
 | `OTEL_TRACES_SAMPLER_ARG` | Specifies the ratio of distributed tracing telemetry to be [sampled][application_insights_sampling]. Accepted values are in the range [0,1]. Defaults to 1.0, meaning no telemetry is sampled out. |
 | `OTEL_BSP_SCHEDULE_DELAY` | Specifies the distributed tracing export interval in milliseconds. Defaults to 5000. |
