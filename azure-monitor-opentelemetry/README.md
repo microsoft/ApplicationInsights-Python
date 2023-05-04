@@ -61,7 +61,7 @@ You can configure further with [OpenTelemetry environment variables][ot_env_vars
 | Environment Variable | Description |
 |-------------|----------------------|
 | [OTEL_SERVICE_NAME][opentelemetry_spec_service_name], [OTEL_RESOURCE_ATTRIBUTES][opentelemetry_spec_resource_attributes] | Specifies the OpenTelemetry [resource][opentelemetry_spec_resource] associated with your application. |
-| `OTEL_TRACES_EXPORTER` | If set to `None`, disables collection and export of logging telemetry. |
+| `OTEL_TRACES_EXPORTER` | If set to `None`, disables collection and export of distributed tracingtelemetry. |
 | `OTEL_METRICS_EXPORTER` | If set to `None`, disables collection and export of metric telemetry. |
 | `OTEL_LOGS_EXPORTER` | If set to `None`, disables collection and export of logging telemetry. |
 | `OTEL_BLRP_SCHEDULE_DELAY` | Specifies the logging export interval in milliseconds. Defaults to 5000. |
