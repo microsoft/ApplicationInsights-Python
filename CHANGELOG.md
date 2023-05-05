@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## [1.0.0b12](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b12) - 2023-05-05
+
 - Remove most configuration for Public Preview
     ([#277](https://github.com/microsoft/ApplicationInsights-Python/pull/277))
 - Infer telemetry category disablement from exporter environment variables
