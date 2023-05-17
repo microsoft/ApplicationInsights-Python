@@ -9,9 +9,7 @@ from logging import WARNING, getLogger
 from azure.monitor.opentelemetry import configure_azure_monitor
 from opentelemetry.sdk.resources import Resource, ResourceAttributes
 
-configure_azure_monitor(
-    connection_string="<your-connection-string>",
-)
+configure_azure_monitor()
 
 logger = getLogger(__name__)
 

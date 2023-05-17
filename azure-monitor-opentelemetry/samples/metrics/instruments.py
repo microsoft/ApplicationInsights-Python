@@ -8,9 +8,7 @@ from opentelemetry.metrics import CallbackOptions, Observation
 from opentelemetry.sdk.resources import Resource, ResourceAttributes
 
 # Configure Azure monitor collection telemetry pipeline
-configure_azure_monitor(
-    connection_string="<your-connection-string>",
-)
+configure_azure_monitor()
 
 
 # Callback functions for observable instruments

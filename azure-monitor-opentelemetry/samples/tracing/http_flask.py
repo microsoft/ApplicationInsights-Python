@@ -8,7 +8,7 @@ from azure.monitor.opentelemetry import configure_azure_monitor
 
 # Configure Azure monitor collection telemetry pipeline
 configure_azure_monitor(
-    connection_string="<your-connection-string>",
+    # connection_string="<your-connection-string>",
 )
 
 app = flask.Flask(__name__)

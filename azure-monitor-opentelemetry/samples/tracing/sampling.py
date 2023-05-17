@@ -11,9 +11,7 @@ from opentelemetry import trace
 # Sampling ratio of between 0 and 1 inclusive
 # 0.1 means approximately 10% of your traces are sent
 
-configure_azure_monitor(
-    connection_string="<your-connection-string>",
-)
+configure_azure_monitor()
 
 tracer = trace.get_tracer(__name__)
 

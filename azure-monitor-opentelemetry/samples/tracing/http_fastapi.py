@@ -7,9 +7,7 @@ import fastapi
 from azure.monitor.opentelemetry import configure_azure_monitor
 
 # Configure Azure monitor collection telemetry pipeline
-configure_azure_monitor(
-    connection_string="<your-connection-string>",
-)
+configure_azure_monitor()
 
 app = fastapi.FastAPI()
 
@@ -26,6 +24,7 @@ async def exception():
     raise Exception("Hit an exception")
 
 
+# Set the OTEL_PYTHON_EXCLUDE_URLS environment variable to "http://127.0.0.1:8000/exclude"
 # Telemetry from this endpoint will not be captured due to excluded_urls config above
 @app.get("/exclude")
 async def exclude():

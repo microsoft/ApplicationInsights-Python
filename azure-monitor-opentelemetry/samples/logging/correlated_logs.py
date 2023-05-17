@@ -10,7 +10,7 @@ from azure.monitor.opentelemetry import configure_azure_monitor
 from opentelemetry import trace
 
 configure_azure_monitor(
-    connection_string="<your-connection-string>",
+    # connection_string="<your-connection-string>",
 )
 
 logger = getLogger(__name__)

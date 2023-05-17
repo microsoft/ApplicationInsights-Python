@@ -12,9 +12,7 @@ from opentelemetry import trace
 logger = logging.getLogger(__name__)
 
 # Configure Azure monitor collection telemetry pipeline
-configure_azure_monitor(
-    connection_string="<your-connection-string>",
-)
+configure_azure_monitor()
 
 tracer = trace.get_tracer(__name__)
 with tracer.start_as_current_span("Request parent span") as span:
