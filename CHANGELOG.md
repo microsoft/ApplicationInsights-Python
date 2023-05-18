@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Update samples
+    ([#281](https://github.com/microsoft/ApplicationInsights-Python/pull/281))
+
 ## [1.0.0b12](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b12) - 2023-05-05
 
 - Remove most configuration for Public Preview
