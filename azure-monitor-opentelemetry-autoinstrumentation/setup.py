@@ -13,8 +13,10 @@ import re
 from setuptools import find_packages, setup
 
 # Change the PACKAGE_NAME only to change folder and different name
-PACKAGE_NAME = "azure-monitor-opentelemetry"
-PACKAGE_PPRINT_NAME = "Azure Monitor Opentelemetry Distro"
+PACKAGE_NAME = "azure-monitor-opentelemetry-autoinstrumentation"
+PACKAGE_PPRINT_NAME = (
+    "Azure Monitor Opentelemetry Distro for Auto-Instrumentation"
+)
 
 # a-b-c => a/b/c
 package_folder_path = PACKAGE_NAME.replace("-", "/")
@@ -76,6 +78,7 @@ setup(
             # Exclude packages that will be covered by PEP420 or nspkg
             "azure",
             "azure.monitor",
+            "azure.monitor.opentelemetry",
         ]
     ),
     include_package_data=True,
@@ -84,16 +87,14 @@ setup(
     },
     python_requires=">=3.7",
     install_requires=[
-        "azure-monitor-opentelemetry-exporter>=1.0.0b13",
-        "opentelemetry-instrumentation~=0.38b0",
-        "opentelemetry-instrumentation-django~=0.38b0",
-        "opentelemetry-instrumentation-fastapi~=0.38b0",
-        "opentelemetry-instrumentation-flask~=0.38b0",
-        "opentelemetry-instrumentation-psycopg2~=0.38b0",
-        "opentelemetry-instrumentation-requests~=0.38b0",
-        "opentelemetry-instrumentation-urllib~=0.38b0",
-        "opentelemetry-instrumentation-urllib3~=0.38b0",
-        "opentelemetry-api==1.17.0",
-        "opentelemetry-sdk==1.17.0",
+        "azure-monitor-opentelemetry>=1.0.0b12",
     ],
+    entry_points={
+        "opentelemetry_distro": [
+            "azure_monitor_opentelemetry_distro = azure.monitor.opentelemetry.autoinstrumentation._distro:AzureMonitorDistro"
+        ],
+        "opentelemetry_configurator": [
+            "azure_monitor_opentelemetry_configurator = azure.monitor.opentelemetry.autoinstrumentation._configurator:AzureMonitorConfigurator"
+        ],
+    },
 )
