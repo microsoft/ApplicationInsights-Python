@@ -123,7 +123,9 @@ def _setup_metrics(configurations: Dict[str, ConfigurationValue]):
 
 def _setup_instrumentations():
     # use pkg_resources for now until https://github.com/open-telemetry/opentelemetry-python/pull/3168 is merged
-    for entry_point in iter_entry_points("azure_monitor_opentelemetry_instrumentor"):
+    for entry_point in iter_entry_points(
+        "azure_monitor_opentelemetry_instrumentor"
+    ):
         lib_name = entry_point.name
         if (
             lib_name
