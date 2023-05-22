@@ -15,7 +15,7 @@
 from unittest import TestCase
 from unittest.mock import patch
 
-from azure.monitor.opentelemetry.util.configurations import (
+from azure.monitor.opentelemetry.util._configurations import (
     LOGGING_EXPORT_INTERVAL_MS_ENV_VAR,
     SAMPLING_RATIO_ENV_VAR,
     _get_configurations,
