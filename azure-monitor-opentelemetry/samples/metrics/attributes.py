@@ -5,9 +5,7 @@ from azure.monitor.opentelemetry import configure_azure_monitor
 from opentelemetry import metrics
 
 # Configure Azure monitor collection telemetry pipeline
-configure_azure_monitor(
-    connection_string="<your-connection-string>",
-)
+configure_azure_monitor()
 
 attribute_set1 = {"key1": "val1"}
 attribute_set2 = {"key2": "val2"}

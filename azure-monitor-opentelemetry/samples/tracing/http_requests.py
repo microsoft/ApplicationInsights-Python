@@ -12,15 +12,14 @@ from opentelemetry import trace
 logger = logging.getLogger(__name__)
 
 # Configure Azure monitor collection telemetry pipeline
-configure_azure_monitor(
-    connection_string="<your-connection-string>",
-)
+configure_azure_monitor()
 
 tracer = trace.get_tracer(__name__)
 with tracer.start_as_current_span("Request parent span") as span:
     try:
         # Requests made using the requests library will be automatically captured
         response = requests.get("https://azure.microsoft.com/", timeout=5)
+        # Set the OTEL_PYTHON_EXCLUDE_URLS environment variable to "http://example.com"
         # This request will not be tracked due to the excluded_urls configuration
         response = requests.get("http://example.com", timeout=5)
         logger.warning("Request sent")
