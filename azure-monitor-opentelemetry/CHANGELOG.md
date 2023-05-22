@@ -1,15 +1,27 @@
-# Changelog
+# Release History
 
-## Unreleased
+## 1.0.0b13 (Unreleased)
 
-## [1.0.0b12](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b12) - 2023-05-05
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0b12(2023-05-05)
+
+### Features Added
 
 - Remove most configuration for Public Preview
     ([#277](https://github.com/microsoft/ApplicationInsights-Python/pull/277))
 - Infer telemetry category disablement from exporter environment variables
     ([#278](https://github.com/microsoft/ApplicationInsights-Python/pull/278))
 
-## [1.0.0b11](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b11) - 2023-04-12
+## 1.0.0b11 (2023-04-12)
+
+### Features Added
 
 - Reverse default behavior of instrumentations and implement configuration for exclusion
     ([#253](https://github.com/microsoft/ApplicationInsights-Python/pull/253))
@@ -26,12 +38,16 @@
 - Update exporter version to 1.0.0b13 and OTel sdk/api to 1.17
     ([#270](https://github.com/microsoft/ApplicationInsights-Python/pull/270))
 
-## [1.0.0b10](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b10) - 2023-02-23
+## 1.0.0b10 (2023-02-23)
+
+### Features Added
 
 - Fix source and wheel distribution, include MANIFEST.in and use `pkgutils` style `__init__.py`
     ([#250](https://github.com/microsoft/ApplicationInsights-Python/pull/250))
 
-## [1.0.0b9](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b9) - 2023-02-22
+## 1.0.0b9 (2023-02-22)
+
+### Features Added
 
 - Made build.sh script executable from publish workflow
     ([#213](https://github.com/microsoft/ApplicationInsights-Python/pull/213))
@@ -82,12 +98,16 @@
 - Configuration via env vars and argument validation.
     ([#262](https://github.com/microsoft/ApplicationInsights-Python/pull/262))
 
-## [1.0.0b8](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b8) - 2022-09-26
+## 1.0.0b8 (2022-09-26)
+
+### Features Added
 
 - Changing instrumentation dependencies to ~=0.33b0
     ([#203](https://github.com/microsoft/ApplicationInsights-Python/pull/203))
 
-## [1.0.0b7](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b7) - 2022-09-26
+## 1.0.0b7 (2022-09-26)
+
+### Features Added
 
 - Moved and updated README
     ([#201](https://github.com/microsoft/ApplicationInsights-Python/pull/201))
@@ -96,7 +116,9 @@
 - Added publishing action
     ([#193](https://github.com/microsoft/ApplicationInsights-Python/pull/193))
 
-## [1.0.0b6](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b6) - 2022-08-30
+## 1.0.0b6 (2022-08-30)
+
+### Features Added
 
 - Drop support for Python 3.6
     ([#190](https://github.com/microsoft/ApplicationInsights-Python/pull/190))
