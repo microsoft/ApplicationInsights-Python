@@ -6,7 +6,9 @@
 
 import unittest
 
-from opentelemetry.instrumentation.django import DjangoInstrumentor
+from azure.monitor.opentelemetry.vendor.opentelemetry.instrumentation.django import (
+    DjangoInstrumentor,
+)
 
 
 class TestDjangoInstrumentation(unittest.TestCase):

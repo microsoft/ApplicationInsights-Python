@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Vendor Instrumentations
+    ([#280](https://github.com/microsoft/ApplicationInsights-Python/pull/280))
 - Update samples
     ([#281](https://github.com/microsoft/ApplicationInsights-Python/pull/281))
 

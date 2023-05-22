@@ -6,7 +6,9 @@
 
 import unittest
 
-from opentelemetry.instrumentation.urllib import URLLibInstrumentor
+from azure.monitor.opentelemetry.vendor.opentelemetry.instrumentation.urllib import (
+    URLLibInstrumentor,
+)
 
 
 class TestUrllibInstrumentation(unittest.TestCase):

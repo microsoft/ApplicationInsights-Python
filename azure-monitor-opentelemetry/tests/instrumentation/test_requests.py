@@ -6,7 +6,9 @@
 
 import unittest
 
-from opentelemetry.instrumentation.requests import RequestsInstrumentor
+from azure.monitor.opentelemetry.vendor.opentelemetry.instrumentation.requests import (
+    RequestsInstrumentor,
+)
 
 
 class TestRequestsInstrumentation(unittest.TestCase):
