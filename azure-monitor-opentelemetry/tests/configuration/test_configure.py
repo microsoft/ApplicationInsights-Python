@@ -22,6 +22,7 @@ from azure.monitor.opentelemetry._configure import (
     _setup_metrics,
     _setup_tracing,
     configure_azure_monitor,
+    _get_extra_exporters,
 )
 
 
@@ -163,6 +164,9 @@ class TestConfigure(unittest.TestCase):
         instrumentation_mock.assert_called_once_with()
 
     @patch(
+        "azure.monitor.opentelemetry._configure._get_extra_exporters",
+    )
+    @patch(
         "azure.monitor.opentelemetry._configure.BatchSpanProcessor",
     )
     @patch(
@@ -189,6 +193,7 @@ class TestConfigure(unittest.TestCase):
         get_tracer_provider_mock,
         trace_exporter_mock,
         bsp_mock,
+        extra_exporters_mock,
     ):
         sampler_init_mock = Mock()
         sampler_mock.return_value = sampler_init_mock
@@ -199,6 +204,7 @@ class TestConfigure(unittest.TestCase):
         trace_exporter_mock.return_value = trace_exp_init_mock
         bsp_init_mock = Mock()
         bsp_mock.return_value = bsp_init_mock
+        extra_exporters_mock.return_value = []
 
         configurations = {
             "connection_string": "test_cs",
@@ -215,6 +221,9 @@ class TestConfigure(unittest.TestCase):
         bsp_mock.assert_called_once_with(trace_exp_init_mock)
         tp_init_mock.add_span_processor.assert_called_once_with(bsp_init_mock)
 
+    @patch(
+        "azure.monitor.opentelemetry._configure._get_extra_exporters",
+    )
     @patch(
         "azure.monitor.opentelemetry._configure.getLogger",
     )
@@ -246,6 +255,7 @@ class TestConfigure(unittest.TestCase):
         blrp_mock,
         logging_handler_mock,
         get_logger_mock,
+        extra_exporters_mock,
     ):
         lp_init_mock = Mock()
         lp_mock.return_value = lp_init_mock
@@ -258,6 +268,7 @@ class TestConfigure(unittest.TestCase):
         logging_handler_mock.return_value = logging_handler_init_mock
         logger_mock = Mock()
         get_logger_mock.return_value = logger_mock
+        extra_exporters_mock.return_value = []
 
         configurations = {
             "connection_string": "test_cs",
@@ -284,6 +295,9 @@ class TestConfigure(unittest.TestCase):
         )
 
     @patch(
+        "azure.monitor.opentelemetry._configure._get_extra_exporters",
+    )
+    @patch(
         "azure.monitor.opentelemetry._configure.PeriodicExportingMetricReader",
     )
     @patch(
@@ -302,6 +316,7 @@ class TestConfigure(unittest.TestCase):
         set_meter_provider_mock,
         metric_exporter_mock,
         reader_mock,
+        extra_exporters_mock,
     ):
         mp_init_mock = Mock()
         mp_mock.return_value = mp_init_mock
@@ -309,6 +324,7 @@ class TestConfigure(unittest.TestCase):
         metric_exporter_mock.return_value = metric_exp_init_mock
         reader_init_mock = Mock()
         reader_mock.return_value = reader_init_mock
+        extra_exporters_mock.return_value = []
 
         configurations = {
             "connection_string": "test_cs",
@@ -395,3 +411,29 @@ class TestConfigure(unittest.TestCase):
         ep_mock.load.assert_called_once()
         instrumentor_mock.instrument.assert_not_called()
         logger_mock.warning.assert_called_once()
+
+    @patch.dict("os.environ", {
+        "EXPORTER_ENV_VAR": "custom_exporter1,azure_monitor_opentelemetry_exporter,custom_exporter2"
+    })
+    @patch("azure.monitor.opentelemetry._configure.iter_entry_points")
+    def test_extra_exporters(self, iter_mock):
+
+        ep_mock1 = Mock()
+        ep_mock1.name = "custom_exporter1"
+        exp_mock1 = Mock()
+        ep_mock1.load.return_value = exp_mock1
+        
+        ep_mock_azmon = Mock()
+        ep_mock_azmon.name = "azure_monitor_opentelemetry_exporter"
+        exp_mock_azmon = Mock()
+        ep_mock_azmon.load.return_value = exp_mock_azmon
+        
+        ep_mock2 = Mock()
+        ep_mock2.name = "custom_exporter2"
+        exp_mock2 = Mock()
+        ep_mock2.load.return_value = exp_mock2
+        
+        iter_mock.return_value = (ep_mock_azmon, ep_mock2, ep_mock1)
+
+        exporter_entry_point_group = "exporter_entry_point_group"
+        self.assertEquals(_get_extra_exporters(exporter_entry_point_group, "EXPORTER_ENV_VAR"), [exp_mock2(), exp_mock1()])
