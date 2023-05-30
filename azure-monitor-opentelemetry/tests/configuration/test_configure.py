@@ -412,9 +412,12 @@ class TestConfigure(unittest.TestCase):
         instrumentor_mock.instrument.assert_not_called()
         logger_mock.warning.assert_called_once()
 
-    @patch.dict("os.environ", {
-        "EXPORTER_ENV_VAR": "custom_exporter1,azure_monitor_opentelemetry_exporter,custom_exporter2"
-    })
+    @patch.dict(
+        "os.environ",
+        {
+            "EXPORTER_ENV_VAR": "custom_exporter1,azure_monitor_opentelemetry_exporter,custom_exporter2"
+        },
+    )
     @patch("azure.monitor.opentelemetry._configure.iter_entry_points")
     def test_extra_exporters(self, iter_mock):
 
@@ -422,18 +425,23 @@ class TestConfigure(unittest.TestCase):
         ep_mock1.name = "custom_exporter1"
         exp_mock1 = Mock()
         ep_mock1.load.return_value = exp_mock1
-        
+
         ep_mock_azmon = Mock()
         ep_mock_azmon.name = "azure_monitor_opentelemetry_exporter"
         exp_mock_azmon = Mock()
         ep_mock_azmon.load.return_value = exp_mock_azmon
-        
+
         ep_mock2 = Mock()
         ep_mock2.name = "custom_exporter2"
         exp_mock2 = Mock()
         ep_mock2.load.return_value = exp_mock2
-        
+
         iter_mock.return_value = (ep_mock_azmon, ep_mock2, ep_mock1)
 
         exporter_entry_point_group = "exporter_entry_point_group"
-        self.assertEquals(_get_extra_exporters(exporter_entry_point_group, "EXPORTER_ENV_VAR"), [exp_mock2(), exp_mock1()])
+        self.assertEquals(
+            _get_extra_exporters(
+                exporter_entry_point_group, "EXPORTER_ENV_VAR"
+            ),
+            [exp_mock2(), exp_mock1()],
+        )

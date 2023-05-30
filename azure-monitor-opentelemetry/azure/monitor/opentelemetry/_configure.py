@@ -33,7 +33,10 @@ from opentelemetry.instrumentation.dependencies import (
 )
 from opentelemetry.instrumentation.instrumentor import BaseInstrumentor
 from opentelemetry.metrics import set_meter_provider
-from opentelemetry.sdk._configuration import _get_exporter_names, _import_config_components
+from opentelemetry.sdk._configuration import (
+    _get_exporter_names,
+    _import_config_components,
+)
 from opentelemetry.sdk._logs import LoggerProvider, LoggingHandler
 from opentelemetry.sdk._logs.export import BatchLogRecordProcessor
 from opentelemetry.sdk.metrics import MeterProvider
@@ -104,10 +107,10 @@ def _setup_tracing(configurations: Dict[str, ConfigurationValue]):
         trace_exporter,
     )
     get_tracer_provider().add_span_processor(span_processor)
-    for traces_exporter in _get_extra_exporters("opentelemetry_traces_exporter", OTEL_TRACES_EXPORTER):
-        span_processor = BatchSpanProcessor(
-            traces_exporter
-        )
+    for traces_exporter in _get_extra_exporters(
+        "opentelemetry_traces_exporter", OTEL_TRACES_EXPORTER
+    ):
+        span_processor = BatchSpanProcessor(traces_exporter)
         get_tracer_provider().add_span_processor(span_processor)
 
 
@@ -122,10 +125,10 @@ def _setup_logging(configurations: Dict[str, ConfigurationValue]):
         schedule_delay_millis=logging_export_interval_ms,
     )
     get_logger_provider().add_log_record_processor(log_record_processor)
-    for logs_exporter in _get_extra_exporters("opentelemetry_logs_exporter", OTEL_LOGS_EXPORTER):
-        log_record_processor = BatchLogRecordProcessor(
-            logs_exporter
-        )
+    for logs_exporter in _get_extra_exporters(
+        "opentelemetry_logs_exporter", OTEL_LOGS_EXPORTER
+    ):
+        log_record_processor = BatchLogRecordProcessor(logs_exporter)
         get_logger_provider().add_log_record_processor(log_record_processor)
     handler = LoggingHandler(logger_provider=get_logger_provider())
     getLogger().addHandler(handler)
@@ -137,12 +140,10 @@ def _setup_metrics(configurations: Dict[str, ConfigurationValue]):
             AzureMonitorMetricExporter(**configurations)
         )
     ]
-    for metrics_exporter in _get_extra_exporters("opentelemetry_metrics_exporter", OTEL_METRICS_EXPORTER):
-        metric_readers.append(
-            PeriodicExportingMetricReader(
-                metrics_exporter
-            )
-        )
+    for metrics_exporter in _get_extra_exporters(
+        "opentelemetry_metrics_exporter", OTEL_METRICS_EXPORTER
+    ):
+        metric_readers.append(PeriodicExportingMetricReader(metrics_exporter))
     meter_provider = MeterProvider(
         metric_readers=metric_readers,
     )
@@ -175,12 +176,12 @@ def _setup_instrumentations():
                 lib_name,
                 exc_info=ex,
             )
-    
+
 
 def _get_extra_exporters(entry_point_group, env_var):
     exporter_entry_points = iter_entry_points(entry_point_group)
     selected_exporter_names_env_var = getenv(env_var, "").lower().strip()
-    selected_exporter_names = selected_exporter_names_env_var.split(',')
+    selected_exporter_names = selected_exporter_names_env_var.split(",")
     exporters = []
     for ep in exporter_entry_points:
         if ep.name == "azure_monitor_opentelemetry_exporter":
