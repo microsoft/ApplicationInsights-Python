@@ -22,8 +22,12 @@ from azure.monitor.opentelemetry.exporter import (
 )
 from azure.monitor.opentelemetry.util.configurations import _get_configurations
 from opentelemetry._logs import get_logger_provider, set_logger_provider
-from opentelemetry.instrumentation.dependencies import get_dependency_conflicts
-from opentelemetry.instrumentation.instrumentor import BaseInstrumentor
+from azure.monitor.opentelemetry._vendor.opentelemetry.instrumentation.dependencies import (
+    get_dependency_conflicts,
+)
+from azure.monitor.opentelemetry._vendor.opentelemetry.instrumentation.instrumentor import (
+    BaseInstrumentor,
+)
 from opentelemetry.metrics import set_meter_provider
 from opentelemetry.sdk._logs import LoggerProvider, LoggingHandler
 from opentelemetry.sdk._logs.export import BatchLogRecordProcessor
@@ -37,7 +41,7 @@ from pkg_resources import iter_entry_points
 _logger = getLogger(__name__)
 
 
-_SUPPORTED_INSTRUMENTED_LIBRARIES_TO_INSTRUMENTS_MAP = {
+_SUPPORTED_INSTRUMENTED_LIBRARIES_DEPENDENCIES_MAP = {
     "django": ("django >= 1.10",),
     "fastapi": ("fastapi ~= 0.58",),
     "flask": ("flask >= 1.0, < 3.0",),
@@ -127,14 +131,11 @@ def _setup_instrumentations():
         "azure_monitor_opentelemetry_instrumentor"
     ):
         lib_name = entry_point.name
-        if (
-            lib_name
-            not in _SUPPORTED_INSTRUMENTED_LIBRARIES_TO_INSTRUMENTS_MAP
-        ):
+        if lib_name not in _SUPPORTED_INSTRUMENTED_LIBRARIES_DEPENDENCIES_MAP:
             continue
         try:
             # Check if dependent libraries/version are installed
-            instruments = _SUPPORTED_INSTRUMENTED_LIBRARIES_TO_INSTRUMENTS_MAP[
+            instruments = _SUPPORTED_INSTRUMENTED_LIBRARIES_DEPENDENCIES_MAP[
                 lib_name
             ]
             conflict = get_dependency_conflicts(instruments)
