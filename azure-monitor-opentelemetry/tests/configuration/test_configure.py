@@ -16,7 +16,7 @@ import unittest
 from unittest.mock import Mock, patch
 
 from azure.monitor.opentelemetry._configure import (
-    _SUPPORTED_INSTRUMENTED_LIBRARIES_TO_INSTRUMENTS_MAP,
+    _SUPPORTED_INSTRUMENTED_LIBRARIES_DEPENDENCIES_MAP,
     _setup_instrumentations,
     _setup_logging,
     _setup_metrics,
@@ -336,13 +336,13 @@ class TestConfigure(unittest.TestCase):
         instr_class_mock.return_value = instrumentor_mock
         ep_mock.name = "test_instr"
         ep2_mock.name = list(
-            _SUPPORTED_INSTRUMENTED_LIBRARIES_TO_INSTRUMENTS_MAP.keys()
+            _SUPPORTED_INSTRUMENTED_LIBRARIES_DEPENDENCIES_MAP.keys()
         )[0]
         ep2_mock.load.return_value = instr_class_mock
         dep_mock.return_value = None
         _setup_instrumentations()
         dep_mock.assert_called_with(
-            _SUPPORTED_INSTRUMENTED_LIBRARIES_TO_INSTRUMENTS_MAP[ep2_mock.name]
+            _SUPPORTED_INSTRUMENTED_LIBRARIES_DEPENDENCIES_MAP[ep2_mock.name]
         )
         ep_mock.load.assert_not_called()
         ep2_mock.load.assert_called_once()
@@ -363,13 +363,13 @@ class TestConfigure(unittest.TestCase):
         instr_class_mock = Mock()
         instr_class_mock.return_value = instrumentor_mock
         ep_mock.name = list(
-            _SUPPORTED_INSTRUMENTED_LIBRARIES_TO_INSTRUMENTS_MAP.keys()
+            _SUPPORTED_INSTRUMENTED_LIBRARIES_DEPENDENCIES_MAP.keys()
         )[0]
         ep_mock.load.return_value = instr_class_mock
         dep_mock.return_value = True
         _setup_instrumentations()
         dep_mock.assert_called_with(
-            _SUPPORTED_INSTRUMENTED_LIBRARIES_TO_INSTRUMENTS_MAP[ep_mock.name]
+            _SUPPORTED_INSTRUMENTED_LIBRARIES_DEPENDENCIES_MAP[ep_mock.name]
         )
         ep_mock.load.assert_not_called()
         instrumentor_mock.instrument.assert_not_called()
@@ -390,13 +390,13 @@ class TestConfigure(unittest.TestCase):
         instr_class_mock = Mock()
         instr_class_mock.return_value = instrumentor_mock
         ep_mock.name = list(
-            _SUPPORTED_INSTRUMENTED_LIBRARIES_TO_INSTRUMENTS_MAP.keys()
+            _SUPPORTED_INSTRUMENTED_LIBRARIES_DEPENDENCIES_MAP.keys()
         )[0]
         ep_mock.load.side_effect = Exception()
         dep_mock.return_value = None
         _setup_instrumentations()
         dep_mock.assert_called_with(
-            _SUPPORTED_INSTRUMENTED_LIBRARIES_TO_INSTRUMENTS_MAP[ep_mock.name]
+            _SUPPORTED_INSTRUMENTED_LIBRARIES_DEPENDENCIES_MAP[ep_mock.name]
         )
         ep_mock.load.assert_called_once()
         instrumentor_mock.instrument.assert_not_called()
