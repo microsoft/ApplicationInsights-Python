@@ -4,8 +4,8 @@
 # license information.
 # --------------------------------------------------------------------------
 from logging import getLogger
-from typing import Dict
 from os import environ, getenv
+from typing import Dict
 
 from azure.monitor.opentelemetry._constants import (
     DISABLE_LOGGING_ARG,

@@ -13,7 +13,7 @@
 # limitations under the License.
 
 import unittest
-from unittest.mock import Mock, patch, call
+from unittest.mock import Mock, call, patch
 
 from azure.monitor.opentelemetry._configure import (
     _SUPPORTED_INSTRUMENTED_LIBRARIES,
