@@ -20,7 +20,6 @@ meter = metrics.get_meter_provider().get_meter("sample")
 # Counter
 counter = meter.create_counter("attr1_counter")
 counter.add(1, attribute_set1)
-
 # Counter2
 counter2 = meter.create_counter("attr2_counter")
 counter2.add(10, attribute_set1)

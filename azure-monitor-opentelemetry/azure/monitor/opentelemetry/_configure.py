@@ -128,7 +128,10 @@ def _setup_logging(configurations: Dict[str, ConfigurationValue]):
     for logs_exporter in _get_extra_exporters(
         "opentelemetry_logs_exporter", OTEL_LOGS_EXPORTER
     ):
-        log_record_processor = BatchLogRecordProcessor(logs_exporter)
+        log_record_processor = BatchLogRecordProcessor(
+            logs_exporter,
+            schedule_delay_millis=logging_export_interval_ms,
+        )
         get_logger_provider().add_log_record_processor(log_record_processor)
     handler = LoggingHandler(logger_provider=get_logger_provider())
     getLogger().addHandler(handler)
