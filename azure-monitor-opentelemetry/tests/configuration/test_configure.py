@@ -17,12 +17,12 @@ from unittest.mock import Mock, patch, call
 
 from azure.monitor.opentelemetry._configure import (
     _SUPPORTED_INSTRUMENTED_LIBRARIES,
+    _get_extra_exporters,
     _setup_instrumentations,
     _setup_logging,
     _setup_metrics,
     _setup_tracing,
     configure_azure_monitor,
-    _get_extra_exporters,
 )
 
 
