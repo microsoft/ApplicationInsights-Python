@@ -4,7 +4,7 @@
 # license information.
 # --------------------------------------------------------------------------
 from logging import getLogger
-from os import environ, getenv
+from os import getenv
 from typing import Dict
 
 from azure.monitor.opentelemetry._constants import (
@@ -33,10 +33,6 @@ from opentelemetry.instrumentation.dependencies import (
 )
 from opentelemetry.instrumentation.instrumentor import BaseInstrumentor
 from opentelemetry.metrics import set_meter_provider
-from opentelemetry.sdk._configuration import (
-    _get_exporter_names,
-    _import_config_components,
-)
 from opentelemetry.sdk._logs import LoggerProvider, LoggingHandler
 from opentelemetry.sdk._logs.export import BatchLogRecordProcessor
 from opentelemetry.sdk.metrics import MeterProvider
