@@ -4,7 +4,9 @@
 # license information.
 # --------------------------------------------------------------------------
 from azure.monitor.opentelemetry import configure_azure_monitor
-from azure.monitor.opentelemetry._vendor.opentelemetry.instrumentation.sqlalchemy import SQLAlchemyInstrumentor
+from azure.monitor.opentelemetry._vendor.opentelemetry.instrumentation.sqlalchemy import (
+    SQLAlchemyInstrumentor,
+)
 from sqlalchemy import create_engine, text
 
 configure_azure_monitor()
