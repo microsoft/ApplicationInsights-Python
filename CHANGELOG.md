@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Enable custom exporters
+    ([#288](https://github.com/microsoft/ApplicationInsights-Python/pull/288))
 - Update samples
     ([#281](https://github.com/microsoft/ApplicationInsights-Python/pull/281))
 

@@ -13,10 +13,11 @@
 # limitations under the License.
 
 import unittest
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, call, patch
 
 from azure.monitor.opentelemetry._configure import (
     _SUPPORTED_INSTRUMENTED_LIBRARIES,
+    _get_extra_exporters,
     _setup_instrumentations,
     _setup_logging,
     _setup_metrics,
@@ -163,6 +164,9 @@ class TestConfigure(unittest.TestCase):
         instrumentation_mock.assert_called_once_with()
 
     @patch(
+        "azure.monitor.opentelemetry._configure._get_extra_exporters",
+    )
+    @patch(
         "azure.monitor.opentelemetry._configure.BatchSpanProcessor",
     )
     @patch(
@@ -189,6 +193,7 @@ class TestConfigure(unittest.TestCase):
         get_tracer_provider_mock,
         trace_exporter_mock,
         bsp_mock,
+        extra_exporters_mock,
     ):
         sampler_init_mock = Mock()
         sampler_mock.return_value = sampler_init_mock
@@ -199,6 +204,12 @@ class TestConfigure(unittest.TestCase):
         trace_exporter_mock.return_value = trace_exp_init_mock
         bsp_init_mock = Mock()
         bsp_mock.return_value = bsp_init_mock
+        custom_exporter_mock1 = Mock()
+        custom_exporter_mock2 = Mock()
+        extra_exporters_mock.return_value = [
+            custom_exporter_mock1,
+            custom_exporter_mock2,
+        ]
 
         configurations = {
             "connection_string": "test_cs",
@@ -212,9 +223,20 @@ class TestConfigure(unittest.TestCase):
         set_tracer_provider_mock.assert_called_once_with(tp_init_mock)
         get_tracer_provider_mock.assert_called()
         trace_exporter_mock.assert_called_once_with(**configurations)
-        bsp_mock.assert_called_once_with(trace_exp_init_mock)
-        tp_init_mock.add_span_processor.assert_called_once_with(bsp_init_mock)
+        bsp_mock.assert_has_calls(
+            [
+                call(trace_exp_init_mock),
+                call(custom_exporter_mock1),
+                call(custom_exporter_mock2),
+            ]
+        )
+        tp_init_mock.add_span_processor.assert_has_calls(
+            [call(bsp_init_mock), call(bsp_init_mock), call(bsp_init_mock)]
+        )
 
+    @patch(
+        "azure.monitor.opentelemetry._configure._get_extra_exporters",
+    )
     @patch(
         "azure.monitor.opentelemetry._configure.getLogger",
     )
@@ -246,6 +268,7 @@ class TestConfigure(unittest.TestCase):
         blrp_mock,
         logging_handler_mock,
         get_logger_mock,
+        extra_exporters_mock,
     ):
         lp_init_mock = Mock()
         lp_mock.return_value = lp_init_mock
@@ -258,6 +281,12 @@ class TestConfigure(unittest.TestCase):
         logging_handler_mock.return_value = logging_handler_init_mock
         logger_mock = Mock()
         get_logger_mock.return_value = logger_mock
+        custom_exporter_mock1 = Mock()
+        custom_exporter_mock2 = Mock()
+        extra_exporters_mock.return_value = [
+            custom_exporter_mock1,
+            custom_exporter_mock2,
+        ]
 
         configurations = {
             "connection_string": "test_cs",
@@ -269,11 +298,15 @@ class TestConfigure(unittest.TestCase):
         set_logger_provider_mock.assert_called_once_with(lp_init_mock)
         get_logger_provider_mock.assert_called()
         log_exporter_mock.assert_called_once_with(**configurations)
-        blrp_mock.assert_called_once_with(
-            log_exp_init_mock, schedule_delay_millis=10000
+        blrp_mock.assert_has_calls(
+            [
+                call(log_exp_init_mock, schedule_delay_millis=10000),
+                call(custom_exporter_mock1, schedule_delay_millis=10000),
+                call(custom_exporter_mock2, schedule_delay_millis=10000),
+            ]
         )
-        lp_init_mock.add_log_record_processor.assert_called_once_with(
-            blrp_init_mock
+        lp_init_mock.add_log_record_processor.assert_has_calls(
+            [call(blrp_init_mock), call(blrp_init_mock), call(blrp_init_mock)]
         )
         logging_handler_mock.assert_called_once_with(
             logger_provider=lp_init_mock
@@ -283,6 +316,9 @@ class TestConfigure(unittest.TestCase):
             logging_handler_init_mock
         )
 
+    @patch(
+        "azure.monitor.opentelemetry._configure._get_extra_exporters",
+    )
     @patch(
         "azure.monitor.opentelemetry._configure.PeriodicExportingMetricReader",
     )
@@ -302,6 +338,7 @@ class TestConfigure(unittest.TestCase):
         set_meter_provider_mock,
         metric_exporter_mock,
         reader_mock,
+        extra_exporters_mock,
     ):
         mp_init_mock = Mock()
         mp_mock.return_value = mp_init_mock
@@ -309,17 +346,33 @@ class TestConfigure(unittest.TestCase):
         metric_exporter_mock.return_value = metric_exp_init_mock
         reader_init_mock = Mock()
         reader_mock.return_value = reader_init_mock
+        custom_exporter_mock1 = Mock()
+        custom_exporter_mock2 = Mock()
+        extra_exporters_mock.return_value = [
+            custom_exporter_mock1,
+            custom_exporter_mock2,
+        ]
 
         configurations = {
             "connection_string": "test_cs",
         }
         _setup_metrics(configurations)
         mp_mock.assert_called_once_with(
-            metric_readers=[reader_init_mock],
+            metric_readers=[
+                reader_init_mock,
+                reader_init_mock,
+                reader_init_mock,
+            ],
         )
         set_meter_provider_mock.assert_called_once_with(mp_init_mock)
         metric_exporter_mock.assert_called_once_with(**configurations)
-        reader_mock.assert_called_once_with(metric_exp_init_mock)
+        reader_mock.assert_has_calls(
+            [
+                call(metric_exp_init_mock),
+                call(custom_exporter_mock1),
+                call(custom_exporter_mock2),
+            ]
+        )
 
     @patch(
         "azure.monitor.opentelemetry._configure.get_dist_dependency_conflicts"
@@ -395,3 +448,32 @@ class TestConfigure(unittest.TestCase):
         ep_mock.load.assert_called_once()
         instrumentor_mock.instrument.assert_not_called()
         logger_mock.warning.assert_called_once()
+
+    @patch.dict(
+        "os.environ",
+        {
+            "EXPORTER_ENV_VAR": "custom_exporter1,azure_monitor_opentelemetry_exporter,custom_exporter2"
+        },
+    )
+    @patch("azure.monitor.opentelemetry._configure.iter_entry_points")
+    def test_extra_exporters(self, iter_mock):
+        ep_mock1 = Mock()
+        ep_mock1.name = "custom_exporter1"
+        exp_mock1 = Mock()
+        ep_mock1.load.return_value = exp_mock1
+        ep_mock_azmon = Mock()
+        ep_mock_azmon.name = "azure_monitor_opentelemetry_exporter"
+        exp_mock_azmon = Mock()
+        ep_mock_azmon.load.return_value = exp_mock_azmon
+        ep_mock2 = Mock()
+        ep_mock2.name = "custom_exporter2"
+        exp_mock2 = Mock()
+        ep_mock2.load.return_value = exp_mock2
+        iter_mock.return_value = (ep_mock_azmon, ep_mock2, ep_mock1)
+        exporter_entry_point_group = "exporter_entry_point_group"
+        self.assertEquals(
+            _get_extra_exporters(
+                exporter_entry_point_group, "EXPORTER_ENV_VAR"
+            ),
+            [exp_mock2(), exp_mock1()],
+        )
