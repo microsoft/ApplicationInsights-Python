@@ -6,7 +6,7 @@
 
 import unittest
 
-from azure.monitor.opentelemetry._vendor.opentelemetry.instrumentation.django import (
+from azure.monitor.opentelemetry._vendor.v0_38b0.opentelemetry.instrumentation.django import (
     DjangoInstrumentor,
 )
 

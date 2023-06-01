@@ -6,7 +6,7 @@
 
 import unittest
 
-from azure.monitor.opentelemetry._vendor.opentelemetry.instrumentation.requests import (
+from azure.monitor.opentelemetry._vendor.v0_38b0.opentelemetry.instrumentation.requests import (
     RequestsInstrumentor,
 )
 
