@@ -47,7 +47,7 @@ class TestConstants(TestCase):
         reload(_constants)
         self.assertEqual(_constants._CUSTOMER_IKEY, "unknown")
 
-    # TODO: Enabled when duplciate logging issue is solved
+    # TODO: Enabled when duplicate logging issue is solved
     # @patch.dict(
     #     "os.environ",
     #     {"AZURE_MONITOR_OPENTELEMETRY_DISTRO_ENABLE_EXPORTER_DIAGNOSTICS": "True"},

@@ -145,7 +145,7 @@ def _setup_instrumentations():
             instrumentor().instrument(skip_dep_check=True)
         except Exception as ex:
             _logger.warning(
-                "Exception occured when instrumenting: %s.",
+                "Exception occurred when instrumenting: %s.",
                 lib_name,
                 exc_info=ex,
             )

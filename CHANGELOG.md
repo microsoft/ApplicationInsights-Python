@@ -4,6 +4,8 @@
 
 - Update samples
     ([#281](https://github.com/microsoft/ApplicationInsights-Python/pull/281))
+- Fixed spelling
+    ([#291](https://github.com/microsoft/ApplicationInsights-Python/pull/291))
 
 ## [1.0.0b12](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b12) - 2023-05-05
 
