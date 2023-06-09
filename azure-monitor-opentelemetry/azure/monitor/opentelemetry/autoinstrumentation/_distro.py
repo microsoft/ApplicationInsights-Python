@@ -34,7 +34,7 @@ class AzureMonitorDistro(BaseDistro):
             _configure_auto_instrumentation()
         except Exception as ex:
             _logger.exception(
-                ("Error occured auto-instrumenting AzureMonitorDistro")
+                ("Error occurred auto-instrumenting AzureMonitorDistro")
             )
             raise ex
 

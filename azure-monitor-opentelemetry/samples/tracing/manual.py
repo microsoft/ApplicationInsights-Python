@@ -11,7 +11,7 @@ configure_azure_monitor()
 
 engine = create_engine("sqlite:///:memory:")
 # SQLAlchemy instrumentation is not officially supported by this package
-# However, you can use the OpenTelemetry instument method manually in
+# However, you can use the OpenTelemetry instrument method manually in
 # conjunction with configure_azure_monitor
 SQLAlchemyInstrumentor().instrument(
     engine=engine,

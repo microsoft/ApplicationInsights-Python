@@ -4,6 +4,8 @@
 
 - Update samples
     ([#281](https://github.com/microsoft/ApplicationInsights-Python/pull/281))
+- Fixed spelling
+    ([#291](https://github.com/microsoft/ApplicationInsights-Python/pull/291))
 
 ## [1.0.0b12](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b12) - 2023-05-05
 
@@ -74,11 +76,11 @@
     ([#242](https://github.com/microsoft/ApplicationInsights-Python/pull/242))
 - Update to azure-monitor-opentelemetry-exporter 1.0.0b12
     ([#243](https://github.com/microsoft/ApplicationInsights-Python/pull/243))
-- Move symbols to protected, add docstring for api, pin opentelemtry-api/sdk versions
+- Move symbols to protected, add docstring for api, pin opentelemetry-api/sdk versions
     ([#244](https://github.com/microsoft/ApplicationInsights-Python/pull/244))
 - Replace service.X configurations with Resource
     ([#246](https://github.com/microsoft/ApplicationInsights-Python/pull/246))
-- Change namespace to `azure.monitor.opentelemtry`
+- Change namespace to `azure.monitor.opentelemetry`
     ([#247](https://github.com/microsoft/ApplicationInsights-Python/pull/247))
 - Updating documents for new namespace
     ([#249](https://github.com/microsoft/ApplicationInsights-Python/pull/249))

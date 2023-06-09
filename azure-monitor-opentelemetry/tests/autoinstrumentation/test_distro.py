@@ -10,7 +10,7 @@ class TestDistro(TestCase):
     @patch(
         "azure.monitor.opentelemetry.autoinstrumentation._distro.AzureDiagnosticLogging.enable"
     )
-    # TODO: Enabled when duplciate logging issue is solved
+    # TODO: Enabled when duplicate logging issue is solved
     # @patch(
     #     "azure.monitor.opentelemetry.autoinstrumentation._diagnostic_logging._EXPORTER_DIAGNOSTICS_ENABLED",
     #     False,
