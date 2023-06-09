@@ -88,8 +88,10 @@ def _default_logging_export_interval_ms(configurations):
             default = int(environ[LOGGING_EXPORT_INTERVAL_MS_ENV_VAR])
         except ValueError as e:
             _logger.error(
-                _INVALID_INT_MESSAGE
-                % (LOGGING_EXPORT_INTERVAL_MS_ENV_VAR, default, e)
+                _INVALID_INT_MESSAGE,
+                LOGGING_EXPORT_INTERVAL_MS_ENV_VAR,
+                default,
+                e,
             )
     configurations[LOGGING_EXPORT_INTERVAL_MS_ARG] = default
 
@@ -102,6 +104,6 @@ def _default_sampling_ratio(configurations):
             default = float(environ[SAMPLING_RATIO_ENV_VAR])
         except ValueError as e:
             _logger.error(
-                _INVALID_FLOAT_MESSAGE % (SAMPLING_RATIO_ENV_VAR, default, e)
+                _INVALID_FLOAT_MESSAGE, SAMPLING_RATIO_ENV_VAR, default, e
             )
     configurations[SAMPLING_RATIO_ARG] = default

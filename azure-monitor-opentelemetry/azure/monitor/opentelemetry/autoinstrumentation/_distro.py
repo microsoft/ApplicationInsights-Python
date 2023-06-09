@@ -70,6 +70,7 @@ def _configure_auto_instrumentation() -> None:
         AzureStatusLogger.log_status(False, reason=exc)
         _logger.error(
             "Azure Monitor OpenTelemetry Distro failed during "
-            + f"configuration: {exc}"
+            + "configuration: %s",
+            exc,
         )
         raise exc

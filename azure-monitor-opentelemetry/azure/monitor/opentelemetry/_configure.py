@@ -56,9 +56,13 @@ def configure_azure_monitor(**kwargs) -> None:
     end user to configure OpenTelemetry and Azure monitor components. The
     configuration can be done via arguments passed to this function.
     :keyword str connection_string: Connection string for your Application Insights resource.
-    :keyword ManagedIdentityCredential/ClientSecretCredential credential: Token credential, such as ManagedIdentityCredential or ClientSecretCredential, used for Azure Active Directory (AAD) authentication. Defaults to None.
-    :keyword bool disable_offline_storage: Boolean value to determine whether to disable storing failed telemetry records for retry. Defaults to `False`.
-    :keyword str storage_directory: Storage directory in which to store retry files. Defaults to `<tempfile.gettempdir()>/Microsoft/AzureMonitor/opentelemetry-python-<your-instrumentation-key>`.
+    :keyword ManagedIdentityCredential/ClientSecretCredential credential: Token credential, such as
+    ManagedIdentityCredential or ClientSecretCredential, used for Azure Active Directory (AAD) authentication. Defaults
+    to None.
+    :keyword bool disable_offline_storage: Boolean value to determine whether to disable storing failed telemetry
+    records for retry. Defaults to `False`.
+    :keyword str storage_directory: Storage directory in which to store retry files. Defaults to
+    `<tempfile.gettempdir()>/Microsoft/AzureMonitor/opentelemetry-python-<your-instrumentation-key>`.
     :rtype: None
     """
 
@@ -143,7 +147,7 @@ def _setup_instrumentations():
             instrumentor: BaseInstrumentor = entry_point.load()
             # tell instrumentation to not run dep checks again as we already did it above
             instrumentor().instrument(skip_dep_check=True)
-        except Exception as ex:
+        except Exception as ex:  # pylint: disable=broad-except
             _logger.warning(
                 "Exception occurred when instrumenting: %s.",
                 lib_name,
