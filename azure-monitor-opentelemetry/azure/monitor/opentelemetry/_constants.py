@@ -39,21 +39,20 @@ _CUSTOMER_IKEY = "unknown"
 try:
     _CUSTOMER_IKEY = ConnectionStringParser().instrumentation_key
 except ValueError as e:
-    logger.error("Failed to parse Instrumentation Key: %s" % e)
+    logger.error("Failed to parse Instrumentation Key: %s", e)
 
 
 def _get_log_path(status_log_path=False):
     system = platform.system()
     if system == "Linux":
         return _LOG_PATH_LINUX
-    elif system == "Windows":
+    if system == "Windows":
         log_path = str(Path.home()) + _LOG_PATH_WINDOWS
         if status_log_path:
             return log_path + "\\status"
         else:
             return log_path
-    else:
-        return None
+    return None
 
 
 def _env_var_or_default(var_name, default_val=""):
