@@ -22,7 +22,10 @@ _STATUS_LOG_PATH = _get_log_path(status_log_path=True)
 
 
 class AzureStatusLogger:
-    def _get_status_json(agent_initialized_successfully, pid, reason=None):
+    @classmethod
+    def _get_status_json(
+        cls, agent_initialized_successfully, pid, reason=None
+    ):
         status_json = {
             "AgentInitializedSuccessfully": agent_initialized_successfully,
             "AppType": "python",
@@ -36,7 +39,8 @@ class AzureStatusLogger:
             status_json["Reason"] = reason
         return status_json
 
-    def log_status(agent_initialized_successfully, reason=None):
+    @classmethod
+    def log_status(cls, agent_initialized_successfully, reason=None):
         if _IS_DIAGNOSTICS_ENABLED and _STATUS_LOG_PATH:
             pid = getpid()
             status_json = AzureStatusLogger._get_status_json(

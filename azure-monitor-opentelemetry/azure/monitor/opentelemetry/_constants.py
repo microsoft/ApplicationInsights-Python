@@ -30,7 +30,7 @@ _LOG_PATH_WINDOWS = "\\LogFiles\\ApplicationInsights"
 _IS_ON_APP_SERVICE = "WEBSITE_SITE_NAME" in environ
 # TODO: Add environment variable to enabled diagnostics off of App Service
 _IS_DIAGNOSTICS_ENABLED = _IS_ON_APP_SERVICE
-# TODO: Enabled when duplciate logging issue is solved
+# TODO: Enabled when duplicate logging issue is solved
 # _EXPORTER_DIAGNOSTICS_ENABLED_ENV_VAR = (
 #     "AZURE_MONITOR_OPENTELEMETRY_DISTRO_ENABLE_EXPORTER_DIAGNOSTICS"
 # )
@@ -39,21 +39,20 @@ _CUSTOMER_IKEY = "unknown"
 try:
     _CUSTOMER_IKEY = ConnectionStringParser().instrumentation_key
 except ValueError as e:
-    logger.error("Failed to parse Instrumentation Key: %s" % e)
+    logger.error("Failed to parse Instrumentation Key: %s", e)
 
 
 def _get_log_path(status_log_path=False):
     system = platform.system()
     if system == "Linux":
         return _LOG_PATH_LINUX
-    elif system == "Windows":
+    if system == "Windows":
         log_path = str(Path.home()) + _LOG_PATH_WINDOWS
         if status_log_path:
             return log_path + "\\status"
         else:
             return log_path
-    else:
-        return None
+    return None
 
 
 def _env_var_or_default(var_name, default_val=""):
@@ -63,7 +62,7 @@ def _env_var_or_default(var_name, default_val=""):
         return default_val
 
 
-# TODO: Enabled when duplciate logging issue is solved
+# TODO: Enabled when duplicate logging issue is solved
 # def _is_exporter_diagnostics_enabled():
 #     return (
 #         _EXPORTER_DIAGNOSTICS_ENABLED_ENV_VAR in environ
@@ -74,5 +73,5 @@ def _env_var_or_default(var_name, default_val=""):
 _EXTENSION_VERSION = _env_var_or_default(
     "ApplicationInsightsAgent_EXTENSION_VERSION", "disabled"
 )
-# TODO: Enabled when duplciate logging issue is solved
+# TODO: Enabled when duplicate logging issue is solved
 # _EXPORTER_DIAGNOSTICS_ENABLED = _is_exporter_diagnostics_enabled()

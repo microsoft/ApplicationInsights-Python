@@ -35,11 +35,12 @@ class AzureDiagnosticLogging:
     _lock = threading.Lock()
     _f_handler = None
 
-    def _initialize():
+    @classmethod
+    def _initialize(cls):
         with AzureDiagnosticLogging._lock:
             if not AzureDiagnosticLogging._initialized:
                 if _IS_DIAGNOSTICS_ENABLED and _DIAGNOSTIC_LOG_PATH:
-                    format = (
+                    log_format = (
                         "{"
                         + '"time":"%(asctime)s.%(msecs)03d", '
                         + '"level":"%(levelname)s", '
@@ -64,16 +65,15 @@ class AzureDiagnosticLogging:
                         )
                     )
                     formatter = logging.Formatter(
-                        fmt=format, datefmt="%Y-%m-%dT%H:%M:%S"
+                        fmt=log_format, datefmt="%Y-%m-%dT%H:%M:%S"
                     )
                     AzureDiagnosticLogging._f_handler.setFormatter(formatter)
                     AzureDiagnosticLogging._initialized = True
                     _logger.info("Initialized Azure Diagnostic Logger.")
 
-    def enable(logger: logging.Logger):
+    @classmethod
+    def enable(cls, logger: logging.Logger):
         AzureDiagnosticLogging._initialize()
         if AzureDiagnosticLogging._initialized:
             logger.addHandler(AzureDiagnosticLogging._f_handler)
-            _logger.info(
-                "Added Azure diagnostics logging to %s." % logger.name
-            )
+            _logger.info("Added Azure diagnostics logging to %s.", logger.name)

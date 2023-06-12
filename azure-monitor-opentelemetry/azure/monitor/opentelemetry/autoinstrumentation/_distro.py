@@ -36,7 +36,7 @@ class AzureMonitorDistro(BaseDistro):
             _configure_auto_instrumentation()
         except Exception as ex:
             _logger.exception(
-                ("Error occured auto-instrumenting AzureMonitorDistro")
+                ("Error occurred auto-instrumenting AzureMonitorDistro")
             )
             raise ex
 
@@ -72,6 +72,7 @@ def _configure_auto_instrumentation() -> None:
         AzureStatusLogger.log_status(False, reason=exc)
         _logger.error(
             "Azure Monitor OpenTelemetry Distro failed during "
-            + f"configuration: {exc}"
+            + "configuration: %s",
+            exc,
         )
         raise exc
