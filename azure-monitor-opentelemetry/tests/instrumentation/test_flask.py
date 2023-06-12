@@ -6,7 +6,9 @@
 
 import unittest
 
-from opentelemetry.instrumentation.flask import FlaskInstrumentor
+from azure.monitor.opentelemetry._vendor.v0_38b0.opentelemetry.instrumentation.flask import (
+    FlaskInstrumentor,
+)
 
 
 class TestFlaskInstrumentation(unittest.TestCase):

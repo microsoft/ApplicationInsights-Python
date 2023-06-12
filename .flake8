@@ -25,3 +25,4 @@ exclude =
   target
   __pycache__
   */build/lib/*
+  azure-monitor-opentelemetry/azure/monitor/opentelemetry/_vendor/*

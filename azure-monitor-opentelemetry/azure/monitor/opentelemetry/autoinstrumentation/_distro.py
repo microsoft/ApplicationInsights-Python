@@ -6,6 +6,9 @@
 import logging
 from os import environ
 
+from azure.monitor.opentelemetry._vendor.v0_38b0.opentelemetry.instrumentation.distro import (
+    BaseDistro,
+)
 from azure.monitor.opentelemetry.diagnostics._diagnostic_logging import (
     AzureDiagnosticLogging,
 )
@@ -17,7 +20,6 @@ from opentelemetry.environment_variables import (
     OTEL_METRICS_EXPORTER,
     OTEL_TRACES_EXPORTER,
 )
-from opentelemetry.instrumentation.distro import BaseDistro
 from opentelemetry.sdk.environment_variables import (
     _OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED,
 )

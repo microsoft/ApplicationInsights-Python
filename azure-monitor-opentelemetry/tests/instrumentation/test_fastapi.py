@@ -6,7 +6,9 @@
 
 import unittest
 
-from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+from azure.monitor.opentelemetry._vendor.v0_38b0.opentelemetry.instrumentation.fastapi import (
+    FastAPIInstrumentor,
+)
 
 
 class TestFastApiInstrumentation(unittest.TestCase):

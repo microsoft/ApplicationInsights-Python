@@ -6,7 +6,9 @@
 
 import unittest
 
-from opentelemetry.instrumentation.psycopg2 import Psycopg2Instrumentor
+from azure.monitor.opentelemetry._vendor.v0_38b0.opentelemetry.instrumentation.psycopg2 import (
+    Psycopg2Instrumentor,
+)
 
 
 class TestPsycopg2Instrumentation(unittest.TestCase):
