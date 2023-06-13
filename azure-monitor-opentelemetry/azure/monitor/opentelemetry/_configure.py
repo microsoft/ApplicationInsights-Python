@@ -18,9 +18,6 @@ from azure.monitor.opentelemetry._types import ConfigurationValue
 from azure.monitor.opentelemetry._vendor.v0_38b0.opentelemetry.instrumentation.dependencies import (
     get_dependency_conflicts,
 )
-from azure.monitor.opentelemetry._vendor.v0_38b0.opentelemetry.instrumentation.environment_variables import (
-    OTEL_PYTHON_DISABLED_INSTRUMENTATIONS,
-)
 from azure.monitor.opentelemetry._vendor.v0_38b0.opentelemetry.instrumentation.instrumentor import (
     BaseInstrumentor,
 )
