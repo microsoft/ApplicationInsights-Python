@@ -19,6 +19,7 @@ CONNECTION_STRING_ARG = "connection_string"
 DISABLE_LOGGING_ARG = "disable_logging"
 DISABLE_METRICS_ARG = "disable_metrics"
 DISABLE_TRACING_ARG = "disable_tracing"
+DISABLED_INSTRUMENTATIONS_ARG = "disabled_instrumentations"
 LOGGING_EXPORT_INTERVAL_MS_ARG = "logging_export_interval_ms"
 SAMPLING_RATIO_ARG = "sampling_ratio"
 
