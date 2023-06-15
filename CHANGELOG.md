@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## [1.0.0b13](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b13) - 2023-06-14
+
 - Vendor Instrumentations
     ([#280](https://github.com/microsoft/ApplicationInsights-Python/pull/280))
 - Update samples
