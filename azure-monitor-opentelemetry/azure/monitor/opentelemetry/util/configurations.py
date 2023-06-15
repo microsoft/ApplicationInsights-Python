@@ -12,10 +12,14 @@ from azure.monitor.opentelemetry._constants import (
     DISABLE_LOGGING_ARG,
     DISABLE_METRICS_ARG,
     DISABLE_TRACING_ARG,
+    DISABLED_INSTRUMENTATIONS_ARG,
     LOGGING_EXPORT_INTERVAL_MS_ARG,
     SAMPLING_RATIO_ARG,
 )
 from azure.monitor.opentelemetry._types import ConfigurationValue
+from azure.monitor.opentelemetry._vendor.v0_38b0.opentelemetry.instrumentation.environment_variables import (
+    OTEL_PYTHON_DISABLED_INSTRUMENTATIONS,
+)
 from opentelemetry.environment_variables import (
     OTEL_LOGS_EXPORTER,
     OTEL_METRICS_EXPORTER,
@@ -45,6 +49,7 @@ def _get_configurations(**kwargs) -> Dict[str, ConfigurationValue]:
     _default_disable_logging(configurations)
     _default_disable_metrics(configurations)
     _default_disable_tracing(configurations)
+    _default_disabled_instrumentations(configurations)
     _default_logging_export_interval_ms(configurations)
     _default_sampling_ratio(configurations)
 
@@ -79,6 +84,19 @@ def _default_disable_tracing(configurations):
         if environ[OTEL_TRACES_EXPORTER].lower().strip() == "none":
             default = True
     configurations[DISABLE_TRACING_ARG] = default
+
+
+def _default_disabled_instrumentations(configurations):
+    disabled_instrumentation = environ.get(
+        OTEL_PYTHON_DISABLED_INSTRUMENTATIONS, []
+    )
+    if isinstance(disabled_instrumentation, str):
+        disabled_instrumentation = disabled_instrumentation.split(",")
+        # to handle users entering "requests , flask" or "requests, flask" with spaces
+        disabled_instrumentation = [
+            x.strip() for x in disabled_instrumentation
+        ]
+    configurations[DISABLED_INSTRUMENTATIONS_ARG] = disabled_instrumentation
 
 
 def _default_logging_export_interval_ms(configurations):

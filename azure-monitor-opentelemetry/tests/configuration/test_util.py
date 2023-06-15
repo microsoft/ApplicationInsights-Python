@@ -15,6 +15,9 @@
 from unittest import TestCase
 from unittest.mock import patch
 
+from azure.monitor.opentelemetry._vendor.v0_38b0.opentelemetry.instrumentation.environment_variables import (
+    OTEL_PYTHON_DISABLED_INSTRUMENTATIONS,
+)
 from azure.monitor.opentelemetry.util.configurations import (
     LOGGING_EXPORT_INTERVAL_MS_ENV_VAR,
     SAMPLING_RATIO_ENV_VAR,
@@ -38,6 +41,7 @@ class TestUtil(TestCase):
         self.assertEqual(configurations["disable_logging"], False)
         self.assertEqual(configurations["disable_metrics"], False)
         self.assertEqual(configurations["disable_tracing"], False)
+        self.assertEqual(configurations["disabled_instrumentations"], [])
         self.assertEqual(configurations["sampling_ratio"], 1.0)
         self.assertEqual(configurations["logging_export_interval_ms"], 5000)
         self.assertEqual(configurations["credential"], ("test_credential"))
@@ -51,6 +55,7 @@ class TestUtil(TestCase):
         self.assertEqual(configurations["disable_logging"], False)
         self.assertEqual(configurations["disable_metrics"], False)
         self.assertEqual(configurations["disable_tracing"], False)
+        self.assertEqual(configurations["disabled_instrumentations"], [])
         self.assertEqual(configurations["sampling_ratio"], 1.0)
         self.assertEqual(configurations["logging_export_interval_ms"], 5000)
         self.assertTrue("credential" not in configurations)
@@ -69,6 +74,7 @@ class TestUtil(TestCase):
     @patch.dict(
         "os.environ",
         {
+            OTEL_PYTHON_DISABLED_INSTRUMENTATIONS: "flask , requests,fastapi",
             LOGGING_EXPORT_INTERVAL_MS_ENV_VAR: "10000",
             SAMPLING_RATIO_ENV_VAR: "0.5",
             OTEL_TRACES_EXPORTER: "None",
@@ -84,6 +90,10 @@ class TestUtil(TestCase):
         self.assertEqual(configurations["disable_logging"], True)
         self.assertEqual(configurations["disable_metrics"], True)
         self.assertEqual(configurations["disable_tracing"], True)
+        self.assertEqual(
+            configurations["disabled_instrumentations"],
+            ["flask", "requests", "fastapi"],
+        )
         self.assertEqual(configurations["sampling_ratio"], 0.5)
         self.assertEqual(configurations["logging_export_interval_ms"], 10000)
 

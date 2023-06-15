@@ -10,6 +10,8 @@
     ([#291](https://github.com/microsoft/ApplicationInsights-Python/pull/291))
 - Fixing formatting issues for azure sdk
     ([#292](https://github.com/microsoft/ApplicationInsights-Python/pull/292))
+- Support OTEL_PYTHON_DISABLED_INSTRUMENTATIONS
+    ([#XXX](https://github.com/microsoft/ApplicationInsights-Python/pull/XXX))
 
 ## [1.0.0b12](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b12) - 2023-05-05
 

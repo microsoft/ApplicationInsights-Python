@@ -10,6 +10,7 @@ from azure.monitor.opentelemetry._constants import (
     DISABLE_LOGGING_ARG,
     DISABLE_METRICS_ARG,
     DISABLE_TRACING_ARG,
+    DISABLED_INSTRUMENTATIONS_ARG,
     LOGGING_EXPORT_INTERVAL_MS_ARG,
     SAMPLING_RATIO_ARG,
 )
@@ -89,7 +90,7 @@ def configure_azure_monitor(**kwargs) -> None:
     # Setup instrumentations
     # Instrumentations need to be setup last so to use the global providers
     # instanstiated in the other setup steps
-    _setup_instrumentations()
+    _setup_instrumentations(configurations)
 
 
 def _setup_tracing(configurations: Dict[str, ConfigurationValue]):
@@ -129,13 +130,20 @@ def _setup_metrics(configurations: Dict[str, ConfigurationValue]):
     set_meter_provider(meter_provider)
 
 
-def _setup_instrumentations():
+def _setup_instrumentations(configurations: Dict[str, ConfigurationValue]):
+    disabled_instrumentations = configurations[DISABLED_INSTRUMENTATIONS_ARG]
+
     # use pkg_resources for now until https://github.com/open-telemetry/opentelemetry-python/pull/3168 is merged
     for entry_point in iter_entry_points(
         "azure_monitor_opentelemetry_instrumentor"
     ):
         lib_name = entry_point.name
         if lib_name not in _SUPPORTED_INSTRUMENTED_LIBRARIES_DEPENDENCIES_MAP:
+            continue
+        if entry_point.name in disabled_instrumentations:
+            _logger.debug(
+                "Instrumentation skipped for library %s", entry_point.name
+            )
             continue
         try:
             # Check if dependent libraries/version are installed
