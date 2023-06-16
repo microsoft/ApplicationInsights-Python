@@ -15,7 +15,6 @@
 import unittest
 from unittest.mock import Mock, patch
 
-from azure.core.settings import settings
 from azure.core.tracing.ext.opentelemetry_span import OpenTelemetrySpan
 from azure.monitor.opentelemetry._configure import (
     _SUPPORTED_INSTRUMENTED_LIBRARIES_DEPENDENCIES_MAP,
