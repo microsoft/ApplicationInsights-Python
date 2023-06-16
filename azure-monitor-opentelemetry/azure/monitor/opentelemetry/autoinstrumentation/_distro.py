@@ -6,7 +6,7 @@
 import logging
 from os import environ
 
-from azure.monitor.opentelemetry._vendor.v0_38b0.opentelemetry.instrumentation.distro import (
+from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.distro import (
     BaseDistro,
 )
 from azure.monitor.opentelemetry.diagnostics._diagnostic_logging import (
