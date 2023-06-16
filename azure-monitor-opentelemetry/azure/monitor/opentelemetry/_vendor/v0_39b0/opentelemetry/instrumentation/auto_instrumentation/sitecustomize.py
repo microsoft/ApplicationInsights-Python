@@ -21,12 +21,19 @@ from pkg_resources import iter_entry_points
 from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.dependencies import (
     get_dist_dependency_conflicts,
 )
-from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.distro import BaseDistro, DefaultDistro
+from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.distro import (
+    BaseDistro,
+    DefaultDistro
+)
 from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.environment_variables import (
     OTEL_PYTHON_DISABLED_INSTRUMENTATIONS,
 )
-from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.utils import _python_path_without_directory
-from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.version import __version__
+from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.utils import (
+    _python_path_without_directory
+)
+from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.version import (
+    __version__
+) 
 
 logger = getLogger(__name__)
 

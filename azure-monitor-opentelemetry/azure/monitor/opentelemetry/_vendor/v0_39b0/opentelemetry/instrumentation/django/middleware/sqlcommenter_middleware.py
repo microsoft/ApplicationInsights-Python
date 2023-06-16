@@ -22,8 +22,12 @@ from django import conf, get_version
 from django.db import connections
 from django.db.backends.utils import CursorDebugWrapper
 
-from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.sqlcommenter_utils import _add_sql_comment
-from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.utils import _get_opentelemetry_values
+from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.sqlcommenter_utils import (
+    _add_sql_comment
+)
+from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.utils import (
+    _get_opentelemetry_values
+)
 from opentelemetry.trace.propagation.tracecontext import (
     TraceContextTextMapPropagator,
 )

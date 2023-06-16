@@ -25,7 +25,9 @@ from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.b
     default_instrumentations,
     libraries,
 )
-from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.version import __version__
+from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.version import (
+    __version__
+)
 
 logger = logging.getLogger(__name__)
 

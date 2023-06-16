@@ -23,7 +23,9 @@ from shutil import which
 
 from pkg_resources import iter_entry_points
 
-from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.version import __version__
+from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.version import (
+    __version__
+)
 
 _logger = getLogger(__name__)
 

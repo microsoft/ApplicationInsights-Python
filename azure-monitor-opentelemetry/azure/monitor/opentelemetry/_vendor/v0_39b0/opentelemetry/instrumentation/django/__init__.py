@@ -27,9 +27,15 @@ from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.d
 from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.django.middleware.otel_middleware import (
     _DjangoMiddleware,
 )
-from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.django.package import _instruments
-from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.django.version import __version__
-from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.instrumentor import BaseInstrumentor
+from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.django.package import (
+    _instruments
+)
+from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.django.version import (
+    __version__
+)
+from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.instrumentor import (
+    BaseInstrumentor
+)
 from opentelemetry.metrics import get_meter
 from opentelemetry.semconv.metrics import MetricInstruments
 from opentelemetry.trace import get_tracer
@@ -60,7 +66,7 @@ class DjangoInstrumentor(BaseInstrumentor):
         [_DjangoMiddleware.__module__, _DjangoMiddleware.__qualname__]
     )
 
-    _sql_commenter_middleware = "opentelemetry.instrumentation.django.middleware.sqlcommenter_middleware.SqlCommenter"
+    _sql_commenter_middleware = "azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.django.middleware.sqlcommenter_middleware.SqlCommenter"
 
     def instrumentation_dependencies(self) -> Collection[str]:
         return _instruments

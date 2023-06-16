@@ -23,7 +23,9 @@ from typing import Tuple
 from asgiref.compatibility import guarantee_single_callable
 
 from opentelemetry import context, trace
-from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.asgi.version import __version__  # noqa
+from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.asgi.version import (
+    __version__
+)  # noqa
 from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.propagators import (
     get_global_response_propagator,
 )
