@@ -1,12 +1,7 @@
 from os import environ
 
-from azure.core.settings import settings
-from azure.core.tracing.ext.opentelemetry_span import OpenTelemetrySpan
 from azure.monitor.opentelemetry import configure_azure_monitor
 from opentelemetry.sdk import trace
-
-# Declare OpenTelemetry as enabled tracing plugin for Azure SDKs
-settings.tracing_implementation = OpenTelemetrySpan
 
 # Set up exporting to Azure Monitor
 configure_azure_monitor()

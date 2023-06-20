@@ -21,6 +21,10 @@ OpenTelemetry instrumentations allow automatic collection of requests sent from 
 | [OpenTelemetry UrlLib Instrumentation][ot_instrumentation_urllib] | [urllib][pypi_urllib] | All
 | [OpenTelemetry UrlLib3 Instrumentation][ot_instrumentation_urllib3] | [urllib3][pypi_urllib3] | [link][ot_instrumentation_urllib3_version]
 
+## Azure Core Distributed Tracing
+
+Using the [Azure Core Tracing OpenTelemetry][azure_core_tracing_opentelemetry_plugin] library, you can automatically catch the distributed tracing created from use of the Azure Core libraries. See the associated [samples][azure_core_tracing_opentelemetry_plugin_samples] for more information. This feature is enabled automatically.
+
 ## Getting started
 
 ### Key Concepts
@@ -55,7 +59,7 @@ You can use `configure_azure_monitor` to set up instrumentation for your app to 
 | Parameter | Description | Environment Variable |
 |-------------------|----------------------------------------------------|----------------------|
 | `connection_string` | The [connection string][connection_string_doc] for your Application Insights resource. The connection string will be automatically populated from the `APPLICATIONINSIGHTS_CONNECTION_STRING` environment variable if not explicitly passed in. | `APPLICATIONINSIGHTS_CONNECTION_STRING` |
-<!-- * disable_azure_core_tracing - If set to `True`, disables the [Azure Core Tracing OpenTelemetry Plugin][azure_core_tracing_opentelemetry_plugin]. This plug in instruments Azure Core functionality to produce OpenTelemetry distributed tracing telemetry. See [plugin samples][azure_core_tracing_opentelemetry_plugin_samples] for more. -->
+<!-- * disable_azure_core_tracing - If set to `True`, disables the [Azure Core Tracing OpenTelemetry Plugin][azure_core_tracing_opentelemetry_plugin]. This feature instruments Azure Core functionality to produce OpenTelemetry distributed tracing telemetry. See [samples][azure_core_tracing_opentelemetry_plugin_samples] for more. -->
 
 
 You can configure further with [OpenTelemetry environment variables][ot_env_vars] such as:
