@@ -17,7 +17,7 @@ from azure.monitor.opentelemetry._constants import (
     SAMPLING_RATIO_ARG,
 )
 from azure.monitor.opentelemetry._types import ConfigurationValue
-from azure.monitor.opentelemetry._vendor.v0_38b0.opentelemetry.instrumentation.environment_variables import (
+from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.environment_variables import (
     OTEL_PYTHON_DISABLED_INSTRUMENTATIONS,
 )
 from opentelemetry.environment_variables import (
