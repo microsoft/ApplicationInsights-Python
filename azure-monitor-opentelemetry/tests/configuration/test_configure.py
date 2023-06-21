@@ -15,6 +15,8 @@
 import unittest
 from unittest.mock import Mock, patch
 
+from azure.core.settings import settings
+from azure.core.tracing.ext.opentelemetry_span import OpenTelemetrySpan
 from azure.monitor.opentelemetry._configure import (
     _SUPPORTED_INSTRUMENTED_LIBRARIES_DEPENDENCIES_MAP,
     _setup_instrumentations,
@@ -163,6 +165,9 @@ class TestConfigure(unittest.TestCase):
         instrumentation_mock.assert_called_once_with(configurations)
 
     @patch(
+        "azure.core.settings",
+    )
+    @patch(
         "azure.monitor.opentelemetry._configure.BatchSpanProcessor",
     )
     @patch(
@@ -189,6 +194,7 @@ class TestConfigure(unittest.TestCase):
         get_tracer_provider_mock,
         trace_exporter_mock,
         bsp_mock,
+        azure_core_mock,
     ):
         sampler_init_mock = Mock()
         sampler_mock.return_value = sampler_init_mock
@@ -202,6 +208,7 @@ class TestConfigure(unittest.TestCase):
 
         configurations = {
             "connection_string": "test_cs",
+            "disable_azure_core_tracing": False,
             "sampling_ratio": 0.5,
         }
         _setup_tracing(configurations)
@@ -214,6 +221,7 @@ class TestConfigure(unittest.TestCase):
         trace_exporter_mock.assert_called_once_with(**configurations)
         bsp_mock.assert_called_once_with(trace_exp_init_mock)
         tp_init_mock.add_span_processor.assert_called_once_with(bsp_init_mock)
+        azure_core_mock.tracing_implementation = OpenTelemetrySpan
 
     @patch(
         "azure.monitor.opentelemetry._configure.getLogger",

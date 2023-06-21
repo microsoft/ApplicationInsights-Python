@@ -16,6 +16,7 @@ from azure.monitor.opentelemetry.exporter._connection_string_parser import (
 # --------------------Configuration------------------------------------------
 
 CONNECTION_STRING_ARG = "connection_string"
+DISABLE_AZURE_CORE_TRACING_ARG = "disable_azure_core_tracing"
 DISABLE_LOGGING_ARG = "disable_logging"
 DISABLE_METRICS_ARG = "disable_metrics"
 DISABLE_TRACING_ARG = "disable_tracing"

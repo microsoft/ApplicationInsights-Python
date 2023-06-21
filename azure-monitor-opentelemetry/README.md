@@ -55,6 +55,7 @@ You can use `configure_azure_monitor` to set up instrumentation for your app to 
 | Parameter | Description | Environment Variable |
 |-------------------|----------------------------------------------------|----------------------|
 | `connection_string` | The [connection string][connection_string_doc] for your Application Insights resource. The connection string will be automatically populated from the `APPLICATIONINSIGHTS_CONNECTION_STRING` environment variable if not explicitly passed in. | `APPLICATIONINSIGHTS_CONNECTION_STRING` |
+<!-- * disable_azure_core_tracing - If set to `True`, disables the [Azure Core Tracing OpenTelemetry Plugin][azure_core_tracing_opentelemetry_plugin]. This plug in instruments Azure Core functionality to produce OpenTelemetry distributed tracing telemetry. See [plugin samples][azure_core_tracing_opentelemetry_plugin_samples] for more. -->
 
 
 You can configure further with [OpenTelemetry environment variables][ot_env_vars] such as:
@@ -95,6 +96,8 @@ Samples are available [here][samples] to demonstrate how to utilize the above co
 * [OpenTelemetry Python Official Docs][ot_python_docs]
 
 <!-- LINKS -->
+[azure_core_tracing_opentelemetry_plugin]:https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/core/azure-core-tracing-opentelemetry
+[azure_core_tracing_opentelemetry_plugin_samples]: https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/core/azure-core-tracing-opentelemetry/samples
 [azure_monitor_opentelemetry]: https://learn.microsoft.com/azure/azure-monitor/app/opentelemetry-enable?tabs=python
 [azure_monitor_opentelemetry_exporters]: https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/monitor/azure-monitor-opentelemetry-exporter#microsoft-opentelemetry-exporter-for-azure-monitor
 [azure_portal]: https://portal.azure.com

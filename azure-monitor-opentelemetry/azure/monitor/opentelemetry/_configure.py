@@ -6,7 +6,10 @@
 from logging import getLogger
 from typing import Dict
 
+from azure.core.settings import settings
+from azure.core.tracing.ext.opentelemetry_span import OpenTelemetrySpan
 from azure.monitor.opentelemetry._constants import (
+    DISABLE_AZURE_CORE_TRACING_ARG,
     DISABLE_LOGGING_ARG,
     DISABLE_METRICS_ARG,
     DISABLE_TRACING_ARG,
@@ -104,6 +107,9 @@ def _setup_tracing(configurations: Dict[str, ConfigurationValue]):
         trace_exporter,
     )
     get_tracer_provider().add_span_processor(span_processor)
+    disable_azure_core_tracing = configurations[DISABLE_AZURE_CORE_TRACING_ARG]
+    if not disable_azure_core_tracing:
+        settings.tracing_implementation = OpenTelemetrySpan
 
 
 def _setup_logging(configurations: Dict[str, ConfigurationValue]):
