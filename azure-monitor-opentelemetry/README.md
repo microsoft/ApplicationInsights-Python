@@ -23,7 +23,7 @@ OpenTelemetry instrumentations allow automatic collection of requests sent from 
 
 ## Azure Core Distributed Tracing
 
-Using the [Azure Core Tracing OpenTelemetry][azure_core_tracing_opentelemetry_plugin] library, you can automatically catch the distributed tracing created from use of the Azure Core libraries. See the associated [samples][azure_core_tracing_opentelemetry_plugin_samples] for more information. This feature is enabled automatically.
+Using the [Azure Core Tracing OpenTelemetry][azure_core_tracing_opentelemetry_plugin] library, you can automatically capture the distributed tracing from Azure Core libraries. See the associated [samples][azure_core_tracing_opentelemetry_plugin_samples] for more information. This feature is enabled automatically.
 
 ## Getting started
 
@@ -59,7 +59,7 @@ You can use `configure_azure_monitor` to set up instrumentation for your app to 
 | Parameter | Description | Environment Variable |
 |-------------------|----------------------------------------------------|----------------------|
 | `connection_string` | The [connection string][connection_string_doc] for your Application Insights resource. The connection string will be automatically populated from the `APPLICATIONINSIGHTS_CONNECTION_STRING` environment variable if not explicitly passed in. | `APPLICATIONINSIGHTS_CONNECTION_STRING` |
-<!-- * disable_azure_core_tracing - If set to `True`, disables the [Azure Core Tracing OpenTelemetry Plugin][azure_core_tracing_opentelemetry_plugin]. This feature instruments Azure Core functionality to produce OpenTelemetry distributed tracing telemetry. See [samples][azure_core_tracing_opentelemetry_plugin_samples] for more. -->
+<!-- Placeholder for azure core tracing configuration | `disable_azure_core_tracing` | If set to `True`, disables the [Azure Core Tracing OpenTelemetry Plugin][azure_core_tracing_opentelemetry_plugin]. This feature instruments Azure Core functionality to produce OpenTelemetry distributed tracing telemetry. See [samples][azure_core_tracing_opentelemetry_plugin_samples] for more | | -->
 
 
 You can configure further with [OpenTelemetry environment variables][ot_env_vars] such as:
@@ -73,8 +73,7 @@ You can configure further with [OpenTelemetry environment variables][ot_env_vars
 | `OTEL_BSP_SCHEDULE_DELAY` | Specifies the distributed tracing export interval in milliseconds. Defaults to 5000. |
 | `OTEL_TRACES_SAMPLER_ARG` | Specifies the ratio of distributed tracing telemetry to be [sampled][application_insights_sampling]. Accepted values are in the range [0,1]. Defaults to 1.0, meaning no telemetry is sampled out. |
 | `OTEL_PYTHON_DISABLED_INSTRUMENTATIONS` | Specifies which of the supported instrumentations to disable. Disabled instrumentations will not be instrumented as part of `configure_azure_monitor`. However, they can still be manually instrumented by users after the fact. Accepts a comma-separated list of lowercase entry point names for instrumentations. For example, set to `"psycopg2,fastapi"` to disable the Psycopg2 and FastAPI instrumentations. Defaults to an empty list, enabling all supported instrumentations. |
-<!-- TODO: add once OTEL_LOG_LEVEL is supported in sdk -->
-<!-- Specifies the [logging level][logging_level] of the logs you would like to collect for your logging pipeline. Defaults to 0 which is `logging.NOTSET`. | OTEL_LOG_LEVEL | -->
+
 
 #### Azure monitor OpenTelemetry Exporter configurations
 
