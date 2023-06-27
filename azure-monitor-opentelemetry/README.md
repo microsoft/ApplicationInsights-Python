@@ -23,7 +23,7 @@ OpenTelemetry instrumentations allow automatic collection of requests sent from 
 
 ## Azure Core Distributed Tracing
 
-Using the [Azure Core Tracing OpenTelemetry][azure_core_tracing_opentelemetry_plugin] library, you can automatically capture the distributed tracing from Azure Core libraries. See the associated [samples][azure_core_tracing_opentelemetry_plugin_samples] for more information. This feature is enabled automatically.
+Using the [Azure Core Tracing OpenTelemetry][azure_core_tracing_opentelemetry_plugin] library, you can automatically capture the distributed tracing from Azure Core libraries. See the associated [sample][azure_core_tracing_opentelemetry_plugin_sample] for more information. This feature is enabled automatically.
 
 ## Getting started
 
@@ -59,7 +59,7 @@ You can use `configure_azure_monitor` to set up instrumentation for your app to 
 | Parameter | Description | Environment Variable |
 |-------------------|----------------------------------------------------|----------------------|
 | `connection_string` | The [connection string][connection_string_doc] for your Application Insights resource. The connection string will be automatically populated from the `APPLICATIONINSIGHTS_CONNECTION_STRING` environment variable if not explicitly passed in. | `APPLICATIONINSIGHTS_CONNECTION_STRING` |
-<!-- Placeholder for azure core tracing configuration | `disable_azure_core_tracing` | If set to `True`, disables the [Azure Core Tracing OpenTelemetry Plugin][azure_core_tracing_opentelemetry_plugin]. This feature instruments Azure Core functionality to produce OpenTelemetry distributed tracing telemetry. See [samples][azure_core_tracing_opentelemetry_plugin_samples] for more | | -->
+<!-- Placeholder for azure core tracing configuration | `disable_azure_core_tracing` | If set to `True`, disables the [Azure Core Tracing OpenTelemetry Plugin][azure_core_tracing_opentelemetry_plugin]. This feature instruments Azure Core functionality to produce OpenTelemetry distributed tracing telemetry. | | -->
 
 
 You can configure further with [OpenTelemetry environment variables][ot_env_vars] such as:
@@ -100,7 +100,7 @@ Samples are available [here][samples] to demonstrate how to utilize the above co
 
 <!-- LINKS -->
 [azure_core_tracing_opentelemetry_plugin]:https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/core/azure-core-tracing-opentelemetry
-[azure_core_tracing_opentelemetry_plugin_samples]: https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/core/azure-core-tracing-opentelemetry/samples
+[azure_core_tracing_opentelemetry_plugin_sample]: https://github.com/microsoft/ApplicationInsights-Python/tree/main/azure-monitor-opentelemetry/samples/tracing/azure_core.py
 [azure_monitor_opentelemetry]: https://learn.microsoft.com/azure/azure-monitor/app/opentelemetry-enable?tabs=python
 [azure_monitor_opentelemetry_exporters]: https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/monitor/azure-monitor-opentelemetry-exporter#microsoft-opentelemetry-exporter-for-azure-monitor
 [azure_portal]: https://portal.azure.com
