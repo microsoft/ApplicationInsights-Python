@@ -8,9 +8,7 @@ from azure.monitor.opentelemetry.autoinstrumentation._distro import (
 
 
 class TestDistro(TestCase):
-    @patch(
-        "azure.monitor.opentelemetry.autoinstrumentation._distro.settings"
-    )
+    @patch("azure.monitor.opentelemetry.autoinstrumentation._distro.settings")
     @patch(
         "azure.monitor.opentelemetry.autoinstrumentation._distro.AzureDiagnosticLogging.enable"
     )
@@ -18,4 +16,6 @@ class TestDistro(TestCase):
         distro = AzureMonitorDistro()
         distro.configure()
         self.assertEqual(mock_diagnostics.call_count, 2)
-        self.assertEqual(azure_core_mock.tracing_implementation, OpenTelemetrySpan)
+        self.assertEqual(
+            azure_core_mock.tracing_implementation, OpenTelemetrySpan
+        )

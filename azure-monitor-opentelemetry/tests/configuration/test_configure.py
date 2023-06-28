@@ -220,7 +220,9 @@ class TestConfigure(unittest.TestCase):
         trace_exporter_mock.assert_called_once_with(**configurations)
         bsp_mock.assert_called_once_with(trace_exp_init_mock)
         tp_init_mock.add_span_processor.assert_called_once_with(bsp_init_mock)
-        self.assertEqual(azure_core_mock.tracing_implementation, OpenTelemetrySpan)
+        self.assertEqual(
+            azure_core_mock.tracing_implementation, OpenTelemetrySpan
+        )
 
     @patch(
         "azure.monitor.opentelemetry._configure.getLogger",
