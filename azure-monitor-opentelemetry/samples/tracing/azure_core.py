@@ -1,7 +1,7 @@
 from os import environ
 
 from azure.monitor.opentelemetry import configure_azure_monitor
-from opentelemetry.sdk import trace
+from opentelemetry import trace
 
 # Set up exporting to Azure Monitor
 configure_azure_monitor()

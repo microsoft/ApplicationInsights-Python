@@ -1,6 +1,7 @@
 from unittest import TestCase
 from unittest.mock import patch
 
+from azure.core.tracing.ext.opentelemetry_span import OpenTelemetrySpan
 from azure.monitor.opentelemetry.autoinstrumentation._distro import (
     AzureMonitorDistro,
 )
@@ -8,27 +9,13 @@ from azure.monitor.opentelemetry.autoinstrumentation._distro import (
 
 class TestDistro(TestCase):
     @patch(
+        "azure.monitor.opentelemetry.autoinstrumentation._distro.settings"
+    )
+    @patch(
         "azure.monitor.opentelemetry.autoinstrumentation._distro.AzureDiagnosticLogging.enable"
     )
-    # TODO: Enabled when duplicate logging issue is solved
-    # @patch(
-    #     "azure.monitor.opentelemetry.autoinstrumentation._diagnostic_logging._EXPORTER_DIAGNOSTICS_ENABLED",
-    #     False,
-    # )
-    def test_configure(self, mock_diagnostics):
+    def test_configure(self, mock_diagnostics, azure_core_mock):
         distro = AzureMonitorDistro()
         distro.configure()
         self.assertEqual(mock_diagnostics.call_count, 2)
-
-    # TODO: Enabled when duplicate logging issue is solved
-    # @patch(
-    #     "azure.monitor.opentelemetry.autoinstrumentation._distro.AzureDiagnosticLogging.enable"
-    # )
-    # @patch(
-    #     "azure.monitor.opentelemetry.autoinstrumentation._diagnostic_logging._EXPORTER_DIAGNOSTICS_ENABLED",
-    #     True,
-    # )
-    # def test_configure_exporter_diagnostics(self, mock_diagnostics):
-    #     distro = AzureMonitorDistro()
-    #     distro.configure()
-    #     self.assertEqual(mock_diagnostics.call_count, 3)
+        self.assertEqual(azure_core_mock.tracing_implementation, OpenTelemetrySpan)
