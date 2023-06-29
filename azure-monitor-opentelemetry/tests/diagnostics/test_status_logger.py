@@ -129,7 +129,9 @@ class TestStatusLogger(TestCase):
         "azure.monitor.opentelemetry.diagnostics._status_logger._MACHINE_NAME",
         TEST_MACHINE_NAME,
     )
-    def test_log_status_failed_initialization(self, mock_getpid, mock_get_ikey):
+    def test_log_status_failed_initialization(
+        self, mock_getpid, mock_get_ikey
+    ):
         AzureStatusLogger.log_status(True, MESSAGE1)
         AzureStatusLogger.log_status(False, MESSAGE2)
         check_file_for_messages(False, MESSAGE2)
@@ -228,7 +230,9 @@ class TestStatusLogger(TestCase):
         "azure.monitor.opentelemetry.diagnostics._status_logger._MACHINE_NAME",
         TEST_MACHINE_NAME,
     )
-    def test_disabled_log_status_failed_initialization(self, mock_getpid, mock_get_ikey):
+    def test_disabled_log_status_failed_initialization(
+        self, mock_getpid, mock_get_ikey
+    ):
         AzureStatusLogger.log_status(True, MESSAGE1)
         AzureStatusLogger.log_status(False, MESSAGE2)
         check_file_is_empty()

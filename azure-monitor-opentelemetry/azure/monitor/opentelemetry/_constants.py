@@ -45,7 +45,9 @@ def _get_customer_ikey_from_env_var():
     if not _CUSTOMER_IKEY_ENV_VAR:
         _CUSTOMER_IKEY_ENV_VAR = "unknown"
         try:
-            _CUSTOMER_IKEY_ENV_VAR = ConnectionStringParser().instrumentation_key
+            _CUSTOMER_IKEY_ENV_VAR = (
+                ConnectionStringParser().instrumentation_key
+            )
         except ValueError as e:
             logger.error("Failed to parse Instrumentation Key: %s", e)
     return _CUSTOMER_IKEY_ENV_VAR
