@@ -38,6 +38,7 @@ class TestUtil(TestCase):
         )
 
         self.assertEqual(configurations["connection_string"], "test_cs")
+        self.assertEqual(configurations["disable_azure_core_tracing"], False)
         self.assertEqual(configurations["disable_logging"], False)
         self.assertEqual(configurations["disable_metrics"], False)
         self.assertEqual(configurations["disable_tracing"], False)
@@ -52,6 +53,7 @@ class TestUtil(TestCase):
         configurations = _get_configurations()
 
         self.assertTrue("connection_string" not in configurations)
+        self.assertEqual(configurations["disable_azure_core_tracing"], False)
         self.assertEqual(configurations["disable_logging"], False)
         self.assertEqual(configurations["disable_metrics"], False)
         self.assertEqual(configurations["disable_tracing"], False)
@@ -87,6 +89,7 @@ class TestUtil(TestCase):
         configurations = _get_configurations()
 
         self.assertTrue("connection_string" not in configurations)
+        self.assertEqual(configurations["disable_azure_core_tracing"], False)
         self.assertEqual(configurations["disable_logging"], True)
         self.assertEqual(configurations["disable_metrics"], True)
         self.assertEqual(configurations["disable_tracing"], True)
@@ -112,6 +115,7 @@ class TestUtil(TestCase):
         configurations = _get_configurations()
 
         self.assertTrue("connection_string" not in configurations)
+        self.assertEqual(configurations["disable_azure_core_tracing"], False)
         self.assertEqual(configurations["disable_logging"], False)
         self.assertEqual(configurations["disable_metrics"], False)
         self.assertEqual(configurations["disable_tracing"], False)

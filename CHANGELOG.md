@@ -4,6 +4,8 @@
 
 - Upgrade to exporter 1.0.0b14 and OTel 1.18
     ([#295](https://github.com/microsoft/ApplicationInsights-Python/pull/295))
+- Enable Azure Core Tracing OpenTelemetry plugin
+    ([#269](https://github.com/microsoft/ApplicationInsights-Python/pull/269))
 
 ## [1.0.0b13](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b13) - 2023-06-14
 

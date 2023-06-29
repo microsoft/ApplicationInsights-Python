@@ -21,6 +21,10 @@ OpenTelemetry instrumentations allow automatic collection of requests sent from 
 | [OpenTelemetry UrlLib Instrumentation][ot_instrumentation_urllib] | [urllib][pypi_urllib] | All
 | [OpenTelemetry UrlLib3 Instrumentation][ot_instrumentation_urllib3] | [urllib3][pypi_urllib3] | [link][ot_instrumentation_urllib3_version]
 
+## Azure Core Distributed Tracing
+
+Using the [Azure Core Tracing OpenTelemetry][azure_core_tracing_opentelemetry_plugin] library, you can automatically capture the distributed tracing from Azure Core libraries. See the associated [sample][azure_core_tracing_opentelemetry_plugin_sample] for more information. This feature is enabled automatically.
+
 ## Getting started
 
 ### Key Concepts
@@ -68,8 +72,7 @@ You can configure further with [OpenTelemetry environment variables][ot_env_vars
 | `OTEL_BSP_SCHEDULE_DELAY` | Specifies the distributed tracing export interval in milliseconds. Defaults to 5000. |
 | `OTEL_TRACES_SAMPLER_ARG` | Specifies the ratio of distributed tracing telemetry to be [sampled][application_insights_sampling]. Accepted values are in the range [0,1]. Defaults to 1.0, meaning no telemetry is sampled out. |
 | `OTEL_PYTHON_DISABLED_INSTRUMENTATIONS` | Specifies which of the supported instrumentations to disable. Disabled instrumentations will not be instrumented as part of `configure_azure_monitor`. However, they can still be manually instrumented by users after the fact. Accepts a comma-separated list of lowercase entry point names for instrumentations. For example, set to `"psycopg2,fastapi"` to disable the Psycopg2 and FastAPI instrumentations. Defaults to an empty list, enabling all supported instrumentations. |
-<!-- TODO: add once OTEL_LOG_LEVEL is supported in sdk -->
-<!-- Specifies the [logging level][logging_level] of the logs you would like to collect for your logging pipeline. Defaults to 0 which is `logging.NOTSET`. | OTEL_LOG_LEVEL | -->
+
 
 #### Azure monitor OpenTelemetry Exporter configurations
 
@@ -95,6 +98,8 @@ Samples are available [here][samples] to demonstrate how to utilize the above co
 * [OpenTelemetry Python Official Docs][ot_python_docs]
 
 <!-- LINKS -->
+[azure_core_tracing_opentelemetry_plugin]:https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/core/azure-core-tracing-opentelemetry
+[azure_core_tracing_opentelemetry_plugin_sample]: https://github.com/microsoft/ApplicationInsights-Python/tree/main/azure-monitor-opentelemetry/samples/tracing/azure_core.py
 [azure_monitor_opentelemetry]: https://learn.microsoft.com/azure/azure-monitor/app/opentelemetry-enable?tabs=python
 [azure_monitor_opentelemetry_exporters]: https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/monitor/azure-monitor-opentelemetry-exporter#microsoft-opentelemetry-exporter-for-azure-monitor
 [azure_portal]: https://portal.azure.com
