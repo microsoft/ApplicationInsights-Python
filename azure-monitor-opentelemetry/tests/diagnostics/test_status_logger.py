@@ -73,8 +73,8 @@ class TestStatusLogger(TestCase):
         TEST_LOGGER_PATH,
     )
     @patch(
-        "azure.monitor.opentelemetry.diagnostics._status_logger._CUSTOMER_IKEY",
-        TEST_CUSTOMER_IKEY,
+        "azure.monitor.opentelemetry.diagnostics._status_logger._get_customer_ikey_from_env_var",
+        return_value=TEST_CUSTOMER_IKEY,
     )
     @patch(
         "azure.monitor.opentelemetry.diagnostics._status_logger._EXTENSION_VERSION",
@@ -96,7 +96,7 @@ class TestStatusLogger(TestCase):
         "azure.monitor.opentelemetry.diagnostics._status_logger._MACHINE_NAME",
         TEST_MACHINE_NAME,
     )
-    def test_log_status_success(self, mock_getpid):
+    def test_log_status_success(self, mock_getpid, mock_get_ikey):
         AzureStatusLogger.log_status(False, MESSAGE1)
         AzureStatusLogger.log_status(True, MESSAGE2)
         check_file_for_messages(True, MESSAGE2)
@@ -106,8 +106,8 @@ class TestStatusLogger(TestCase):
         TEST_LOGGER_PATH,
     )
     @patch(
-        "azure.monitor.opentelemetry.diagnostics._status_logger._CUSTOMER_IKEY",
-        TEST_CUSTOMER_IKEY,
+        "azure.monitor.opentelemetry.diagnostics._status_logger._get_customer_ikey_from_env_var",
+        return_value=TEST_CUSTOMER_IKEY,
     )
     @patch(
         "azure.monitor.opentelemetry.diagnostics._status_logger._EXTENSION_VERSION",
@@ -129,7 +129,7 @@ class TestStatusLogger(TestCase):
         "azure.monitor.opentelemetry.diagnostics._status_logger._MACHINE_NAME",
         TEST_MACHINE_NAME,
     )
-    def test_log_status_failed_initialization(self, mock_getpid):
+    def test_log_status_failed_initialization(self, mock_getpid, mock_get_ikey):
         AzureStatusLogger.log_status(True, MESSAGE1)
         AzureStatusLogger.log_status(False, MESSAGE2)
         check_file_for_messages(False, MESSAGE2)
@@ -139,8 +139,8 @@ class TestStatusLogger(TestCase):
         TEST_LOGGER_PATH,
     )
     @patch(
-        "azure.monitor.opentelemetry.diagnostics._status_logger._CUSTOMER_IKEY",
-        TEST_CUSTOMER_IKEY,
+        "azure.monitor.opentelemetry.diagnostics._status_logger._get_customer_ikey_from_env_var",
+        return_value=TEST_CUSTOMER_IKEY,
     )
     @patch(
         "azure.monitor.opentelemetry.diagnostics._status_logger._EXTENSION_VERSION",
@@ -162,7 +162,7 @@ class TestStatusLogger(TestCase):
         "azure.monitor.opentelemetry.diagnostics._status_logger._MACHINE_NAME",
         TEST_MACHINE_NAME,
     )
-    def test_log_status_no_reason(self, mock_getpid):
+    def test_log_status_no_reason(self, mock_getpid, mock_get_ikey):
         AzureStatusLogger.log_status(False, MESSAGE1)
         AzureStatusLogger.log_status(True)
         check_file_for_messages(True)
@@ -172,8 +172,8 @@ class TestStatusLogger(TestCase):
         TEST_LOGGER_PATH,
     )
     @patch(
-        "azure.monitor.opentelemetry.diagnostics._status_logger._CUSTOMER_IKEY",
-        TEST_CUSTOMER_IKEY,
+        "azure.monitor.opentelemetry.diagnostics._status_logger._get_customer_ikey_from_env_var",
+        return_value=TEST_CUSTOMER_IKEY,
     )
     @patch(
         "azure.monitor.opentelemetry.diagnostics._status_logger._EXTENSION_VERSION",
@@ -195,7 +195,7 @@ class TestStatusLogger(TestCase):
         "azure.monitor.opentelemetry.diagnostics._status_logger._MACHINE_NAME",
         TEST_MACHINE_NAME,
     )
-    def test_disabled_log_status_success(self, mock_getpid):
+    def test_disabled_log_status_success(self, mock_getpid, mock_get_ikey):
         AzureStatusLogger.log_status(False, MESSAGE1)
         AzureStatusLogger.log_status(True, MESSAGE2)
         check_file_is_empty()
@@ -205,8 +205,8 @@ class TestStatusLogger(TestCase):
         TEST_LOGGER_PATH,
     )
     @patch(
-        "azure.monitor.opentelemetry.diagnostics._status_logger._CUSTOMER_IKEY",
-        TEST_CUSTOMER_IKEY,
+        "azure.monitor.opentelemetry.diagnostics._status_logger._get_customer_ikey_from_env_var",
+        return_value=TEST_CUSTOMER_IKEY,
     )
     @patch(
         "azure.monitor.opentelemetry.diagnostics._status_logger._EXTENSION_VERSION",
@@ -228,7 +228,7 @@ class TestStatusLogger(TestCase):
         "azure.monitor.opentelemetry.diagnostics._status_logger._MACHINE_NAME",
         TEST_MACHINE_NAME,
     )
-    def test_disabled_log_status_failed_initialization(self, mock_getpid):
+    def test_disabled_log_status_failed_initialization(self, mock_getpid, mock_get_ikey):
         AzureStatusLogger.log_status(True, MESSAGE1)
         AzureStatusLogger.log_status(False, MESSAGE2)
         check_file_is_empty()
@@ -238,8 +238,8 @@ class TestStatusLogger(TestCase):
         TEST_LOGGER_PATH,
     )
     @patch(
-        "azure.monitor.opentelemetry.diagnostics._status_logger._CUSTOMER_IKEY",
-        TEST_CUSTOMER_IKEY,
+        "azure.monitor.opentelemetry.diagnostics._status_logger._get_customer_ikey_from_env_var",
+        return_value=TEST_CUSTOMER_IKEY,
     )
     @patch(
         "azure.monitor.opentelemetry.diagnostics._status_logger._EXTENSION_VERSION",
@@ -261,7 +261,7 @@ class TestStatusLogger(TestCase):
         "azure.monitor.opentelemetry.diagnostics._status_logger._MACHINE_NAME",
         TEST_MACHINE_NAME,
     )
-    def test_disabled_log_status_no_reason(self, mock_getpid):
+    def test_disabled_log_status_no_reason(self, mock_getpid, mock_get_ikey):
         AzureStatusLogger.log_status(False, MESSAGE1)
         AzureStatusLogger.log_status(True)
         check_file_is_empty()

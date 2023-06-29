@@ -10,10 +10,10 @@ from os import makedirs
 from os.path import exists, join
 
 from azure.monitor.opentelemetry._constants import (
-    _CUSTOMER_IKEY,
     _EXTENSION_VERSION,
     _IS_DIAGNOSTICS_ENABLED,
     _env_var_or_default,
+    _get_customer_ikey_from_env_var,
     _get_log_path,
 )
 from azure.monitor.opentelemetry._version import VERSION
@@ -49,7 +49,7 @@ class AzureDiagnosticLogging:
                         + '"properties":{'
                         + '"operation":"Startup", '
                         + f'"sitename":"{_SITE_NAME}", '
-                        + f'"ikey":"{_CUSTOMER_IKEY}", '
+                        + f'"ikey":"{_get_customer_ikey_from_env_var()}", '
                         + f'"extensionVersion":"{_EXTENSION_VERSION}", '
                         + f'"sdkVersion":"{VERSION}", '
                         + f'"subscriptionId":"{_SUBSCRIPTION_ID}", '

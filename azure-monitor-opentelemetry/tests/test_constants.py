@@ -40,12 +40,12 @@ class TestConstants(TestCase):
     )
     def test_ikey(self):
         reload(_constants)
-        self.assertEqual(_constants._CUSTOMER_IKEY, TEST_IKEY)
+        self.assertEqual(_constants._get_customer_ikey_from_env_var(), TEST_IKEY)
 
     def test_ikey_defaults(self):
         clear_env_var("APPLICATIONINSIGHTS_CONNECTION_STRING")
         reload(_constants)
-        self.assertEqual(_constants._CUSTOMER_IKEY, "unknown")
+        self.assertEqual(_constants._get_customer_ikey_from_env_var(), "unknown")
 
     # TODO: Enabled when duplicate logging issue is solved
     # @patch.dict(
