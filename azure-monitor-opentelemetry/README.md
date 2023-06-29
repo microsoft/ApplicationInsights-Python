@@ -59,7 +59,6 @@ You can use `configure_azure_monitor` to set up instrumentation for your app to 
 | Parameter | Description | Environment Variable |
 |-------------------|----------------------------------------------------|----------------------|
 | `connection_string` | The [connection string][connection_string_doc] for your Application Insights resource. The connection string will be automatically populated from the `APPLICATIONINSIGHTS_CONNECTION_STRING` environment variable if not explicitly passed in. | `APPLICATIONINSIGHTS_CONNECTION_STRING` |
-<!-- Placeholder for azure core tracing configuration | `disable_azure_core_tracing` | If set to `True`, disables the [Azure Core Tracing OpenTelemetry Plugin][azure_core_tracing_opentelemetry_plugin]. This feature instruments Azure Core functionality to produce OpenTelemetry distributed tracing telemetry. | | -->
 
 
 You can configure further with [OpenTelemetry environment variables][ot_env_vars] such as:
