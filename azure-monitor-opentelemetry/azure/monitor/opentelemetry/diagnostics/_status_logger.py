@@ -10,9 +10,9 @@ from os.path import exists, join
 from platform import node
 
 from azure.monitor.opentelemetry._constants import (
-    _CUSTOMER_IKEY,
     _EXTENSION_VERSION,
     _IS_DIAGNOSTICS_ENABLED,
+    _get_customer_ikey_from_env_var,
     _get_log_path,
 )
 from azure.monitor.opentelemetry._version import VERSION
@@ -32,7 +32,7 @@ class AzureStatusLogger:
             "MachineName": _MACHINE_NAME,
             "PID": pid,
             "SdkVersion": VERSION,
-            "Ikey": _CUSTOMER_IKEY,
+            "Ikey": _get_customer_ikey_from_env_var(),
             "ExtensionVersion": _EXTENSION_VERSION,
         }
         if reason:
