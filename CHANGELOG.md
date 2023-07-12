@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-## [1.0.0b14](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b14) - 2023-07-06
+## [1.0.0b14](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b14) - 2023-07-12
 
 - Upgrade to exporter 1.0.0b14 and OTel 1.18
     ([#295](https://github.com/microsoft/ApplicationInsights-Python/pull/295))
