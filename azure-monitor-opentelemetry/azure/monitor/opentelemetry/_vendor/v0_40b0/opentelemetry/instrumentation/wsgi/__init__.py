@@ -21,7 +21,7 @@ Usage (Flask)
 .. code-block:: python
 
     from flask import Flask
-    from opentelemetry.instrumentation.wsgi import OpenTelemetryMiddleware
+    from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.wsgi import OpenTelemetryMiddleware
 
     app = Flask(__name__)
     app.wsgi_app = OpenTelemetryMiddleware(app.wsgi_app)
@@ -42,7 +42,7 @@ Modify the application's ``wsgi.py`` file as shown below.
 .. code-block:: python
 
     import os
-    from opentelemetry.instrumentation.wsgi import OpenTelemetryMiddleware
+    from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.wsgi import OpenTelemetryMiddleware
     from django.core.wsgi import get_wsgi_application
 
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'application.settings')
@@ -56,7 +56,7 @@ Usage (Web.py)
 .. code-block:: python
 
     import web
-    from opentelemetry.instrumentation.wsgi import OpenTelemetryMiddleware
+    from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.wsgi import OpenTelemetryMiddleware
     from cheroot import wsgi
 
     urls = ('/', 'index')
@@ -207,17 +207,17 @@ import wsgiref.util as wsgiref_util
 from timeit import default_timer
 
 from opentelemetry import context, trace
-from opentelemetry.instrumentation.utils import (
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.utils import (
     _start_internal_or_server_span,
     http_status_to_status_code,
 )
-from opentelemetry.instrumentation.wsgi.version import __version__
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.wsgi.version import __version__
 from opentelemetry.metrics import get_meter
 from opentelemetry.propagators.textmap import Getter
 from opentelemetry.semconv.metrics import MetricInstruments
 from opentelemetry.semconv.trace import SpanAttributes
 from opentelemetry.trace.status import Status, StatusCode
-from opentelemetry.util.http import (
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.util.http import (
     OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_SANITIZE_FIELDS,
     OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_SERVER_REQUEST,
     OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_SERVER_RESPONSE,
@@ -594,7 +594,7 @@ def _end_span_after_iterating(iterable, span, token):
             context.detach(token)
 
 
-# TODO: inherit from opentelemetry.instrumentation.propagators.Setter
+# TODO: inherit from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.propagators.Setter
 
 
 class ResponsePropagationSetter:

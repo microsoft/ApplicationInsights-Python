@@ -22,7 +22,7 @@ from logging import getLogger
 
 from pkg_resources import EntryPoint
 
-from opentelemetry.instrumentation.instrumentor import BaseInstrumentor
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.instrumentor import BaseInstrumentor
 
 _LOG = getLogger(__name__)
 

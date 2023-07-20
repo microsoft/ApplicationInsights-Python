@@ -34,7 +34,7 @@ Usage
 
 .. code:: python
 
-    from opentelemetry.instrumentation.flask import FlaskInstrumentor
+    from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.flask import FlaskInstrumentor
 
     FlaskInstrumentor().instrument(enable_commenter=True, commenter_options={})
 
@@ -82,7 +82,7 @@ Usage
 .. code-block:: python
 
     from flask import Flask
-    from opentelemetry.instrumentation.flask import FlaskInstrumentor
+    from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.flask import FlaskInstrumentor
 
     app = Flask(__name__)
 
@@ -247,19 +247,19 @@ from typing import Collection
 import flask
 from packaging import version as package_version
 
-import opentelemetry.instrumentation.wsgi as otel_wsgi
+import azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.wsgi as otel_wsgi
 from opentelemetry import context, trace
-from opentelemetry.instrumentation.flask.package import _instruments
-from opentelemetry.instrumentation.flask.version import __version__
-from opentelemetry.instrumentation.instrumentor import BaseInstrumentor
-from opentelemetry.instrumentation.propagators import (
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.flask.package import _instruments
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.flask.version import __version__
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.instrumentor import BaseInstrumentor
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.propagators import (
     get_global_response_propagator,
 )
-from opentelemetry.instrumentation.utils import _start_internal_or_server_span
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.utils import _start_internal_or_server_span
 from opentelemetry.metrics import get_meter
 from opentelemetry.semconv.metrics import MetricInstruments
 from opentelemetry.semconv.trace import SpanAttributes
-from opentelemetry.util.http import get_excluded_urls, parse_excluded_urls
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.util.http import get_excluded_urls, parse_excluded_urls
 
 _logger = getLogger(__name__)
 

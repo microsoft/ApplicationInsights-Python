@@ -16,12 +16,12 @@ from logging import getLogger
 from os import environ
 from os.path import abspath, dirname, pathsep
 
-from opentelemetry.instrumentation.auto_instrumentation._load import (
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.auto_instrumentation._load import (
     _load_configurators,
     _load_distro,
     _load_instrumentors,
 )
-from opentelemetry.instrumentation.utils import _python_path_without_directory
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.utils import _python_path_without_directory
 
 logger = getLogger(__name__)
 

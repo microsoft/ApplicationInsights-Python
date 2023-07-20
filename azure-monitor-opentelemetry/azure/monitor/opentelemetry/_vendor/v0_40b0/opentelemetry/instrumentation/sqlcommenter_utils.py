@@ -13,7 +13,7 @@
 # limitations under the License.
 
 from opentelemetry import context
-from opentelemetry.instrumentation.utils import _url_quote
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.utils import _url_quote
 
 
 def _add_sql_comment(sql, **meta) -> str:

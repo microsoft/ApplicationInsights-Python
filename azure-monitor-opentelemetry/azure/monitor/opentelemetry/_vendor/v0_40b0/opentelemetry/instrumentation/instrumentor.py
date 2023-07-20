@@ -21,7 +21,7 @@ from abc import ABC, abstractmethod
 from logging import getLogger
 from typing import Collection, Optional
 
-from opentelemetry.instrumentation.dependencies import (
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.dependencies import (
     DependencyConflict,
     get_dependency_conflicts,
 )

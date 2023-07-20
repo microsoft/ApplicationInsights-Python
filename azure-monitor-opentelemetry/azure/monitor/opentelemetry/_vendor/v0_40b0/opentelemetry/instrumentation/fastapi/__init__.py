@@ -19,7 +19,7 @@ Usage
 .. code-block:: python
 
     import fastapi
-    from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+    from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 
     app = fastapi.FastAPI()
 
@@ -178,14 +178,14 @@ from typing import Collection
 import fastapi
 from starlette.routing import Match
 
-from opentelemetry.instrumentation.asgi import OpenTelemetryMiddleware
-from opentelemetry.instrumentation.fastapi.package import _instruments
-from opentelemetry.instrumentation.fastapi.version import __version__
-from opentelemetry.instrumentation.instrumentor import BaseInstrumentor
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.asgi import OpenTelemetryMiddleware
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.fastapi.package import _instruments
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.fastapi.version import __version__
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.instrumentor import BaseInstrumentor
 from opentelemetry.metrics import get_meter
 from opentelemetry.semconv.trace import SpanAttributes
 from opentelemetry.trace import Span
-from opentelemetry.util.http import get_excluded_urls, parse_excluded_urls
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.util.http import get_excluded_urls, parse_excluded_urls
 
 _excluded_urls_from_env = get_excluded_urls("FASTAPI")
 _logger = logging.getLogger(__name__)

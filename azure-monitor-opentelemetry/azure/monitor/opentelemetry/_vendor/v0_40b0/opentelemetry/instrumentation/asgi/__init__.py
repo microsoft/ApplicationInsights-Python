@@ -23,7 +23,7 @@ Usage (Quart)
 .. code-block:: python
 
     from quart import Quart
-    from opentelemetry.instrumentation.asgi import OpenTelemetryMiddleware
+    from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.asgi import OpenTelemetryMiddleware
 
     app = Quart(__name__)
     app.asgi_app = OpenTelemetryMiddleware(app.asgi_app)
@@ -45,7 +45,7 @@ Modify the application's ``asgi.py`` file as shown below.
 
     import os
     from django.core.asgi import get_asgi_application
-    from opentelemetry.instrumentation.asgi import OpenTelemetryMiddleware
+    from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.asgi import OpenTelemetryMiddleware
 
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'asgi_example.settings')
 
@@ -58,7 +58,7 @@ Usage (Raw ASGI)
 
 .. code-block:: python
 
-    from opentelemetry.instrumentation.asgi import OpenTelemetryMiddleware
+    from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.asgi import OpenTelemetryMiddleware
 
     app = ...  # An ASGI application.
     app = OpenTelemetryMiddleware(app)
@@ -198,11 +198,11 @@ from typing import Tuple
 from asgiref.compatibility import guarantee_single_callable
 
 from opentelemetry import context, trace
-from opentelemetry.instrumentation.asgi.version import __version__  # noqa
-from opentelemetry.instrumentation.propagators import (
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.asgi.version import __version__  # noqa
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.propagators import (
     get_global_response_propagator,
 )
-from opentelemetry.instrumentation.utils import (
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.utils import (
     _start_internal_or_server_span,
     http_status_to_status_code,
 )
@@ -212,7 +212,7 @@ from opentelemetry.semconv.metrics import MetricInstruments
 from opentelemetry.semconv.trace import SpanAttributes
 from opentelemetry.trace import Span, set_span_in_context
 from opentelemetry.trace.status import Status, StatusCode
-from opentelemetry.util.http import (
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.util.http import (
     OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_SANITIZE_FIELDS,
     OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_SERVER_REQUEST,
     OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_SERVER_RESPONSE,

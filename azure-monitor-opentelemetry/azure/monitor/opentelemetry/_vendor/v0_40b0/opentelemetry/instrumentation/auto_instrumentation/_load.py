@@ -17,16 +17,16 @@ from os import environ
 
 from pkg_resources import iter_entry_points
 
-from opentelemetry.instrumentation.dependencies import (
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.dependencies import (
     get_dist_dependency_conflicts,
 )
-from opentelemetry.instrumentation.distro import BaseDistro, DefaultDistro
-from opentelemetry.instrumentation.environment_variables import (
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.distro import BaseDistro, DefaultDistro
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.environment_variables import (
     OTEL_PYTHON_CONFIGURATOR,
     OTEL_PYTHON_DISABLED_INSTRUMENTATIONS,
     OTEL_PYTHON_DISTRO,
 )
-from opentelemetry.instrumentation.version import __version__
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.version import __version__
 
 _logger = getLogger(__name__)
 

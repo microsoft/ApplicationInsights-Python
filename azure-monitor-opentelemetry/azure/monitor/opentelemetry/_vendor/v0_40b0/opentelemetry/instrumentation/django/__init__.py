@@ -27,7 +27,7 @@ Usage
 
 .. code:: python
 
-    from opentelemetry.instrumentation.django import DjangoInstrumentor
+    from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.django import DjangoInstrumentor
 
     DjangoInstrumentor().instrument(is_sql_commentor_enabled=True)
 
@@ -84,7 +84,7 @@ Usage
 
 .. code:: python
 
-    from opentelemetry.instrumentation.django import DjangoInstrumentor
+    from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.django import DjangoInstrumentor
 
     DjangoInstrumentor().instrument()
 
@@ -243,19 +243,19 @@ from django import VERSION as django_version
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
-from opentelemetry.instrumentation.django.environment_variables import (
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.django.environment_variables import (
     OTEL_PYTHON_DJANGO_INSTRUMENT,
 )
-from opentelemetry.instrumentation.django.middleware.otel_middleware import (
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.django.middleware.otel_middleware import (
     _DjangoMiddleware,
 )
-from opentelemetry.instrumentation.django.package import _instruments
-from opentelemetry.instrumentation.django.version import __version__
-from opentelemetry.instrumentation.instrumentor import BaseInstrumentor
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.django.package import _instruments
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.django.version import __version__
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.instrumentor import BaseInstrumentor
 from opentelemetry.metrics import get_meter
 from opentelemetry.semconv.metrics import MetricInstruments
 from opentelemetry.trace import get_tracer
-from opentelemetry.util.http import get_excluded_urls, parse_excluded_urls
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.util.http import get_excluded_urls, parse_excluded_urls
 
 DJANGO_2_0 = django_version >= (2, 0)
 
