@@ -25,7 +25,7 @@ Usage
     import mysql.connector
     import pyodbc
 
-    from opentelemetry.instrumentation.dbapi import trace_integration
+    from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.dbapi import trace_integration
 
 
     # Ex: mysql.connector
@@ -45,9 +45,9 @@ import typing
 import wrapt
 
 from opentelemetry import trace as trace_api
-from opentelemetry.instrumentation.dbapi.version import __version__
-from opentelemetry.instrumentation.sqlcommenter_utils import _add_sql_comment
-from opentelemetry.instrumentation.utils import (
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.dbapi.version import __version__
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.sqlcommenter_utils import _add_sql_comment
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.utils import (
     _get_opentelemetry_values,
     unwrap,
 )

@@ -21,7 +21,7 @@ Usage
 .. code-block:: python
 
     from urllib import request
-    from opentelemetry.instrumentation.urllib import URLLibInstrumentor
+    from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.urllib import URLLibInstrumentor
 
     # You can optionally pass a custom TracerProvider to
     # URLLibInstrumentor().instrument()
@@ -89,10 +89,10 @@ from opentelemetry import context
 
 # FIXME: fix the importing of this private attribute when the location of the _SUPPRESS_HTTP_INSTRUMENTATION_KEY is defined.
 from opentelemetry.context import _SUPPRESS_HTTP_INSTRUMENTATION_KEY
-from opentelemetry.instrumentation.instrumentor import BaseInstrumentor
-from opentelemetry.instrumentation.urllib.package import _instruments
-from opentelemetry.instrumentation.urllib.version import __version__
-from opentelemetry.instrumentation.utils import (
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.instrumentor import BaseInstrumentor
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.urllib.package import _instruments
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.urllib.version import __version__
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.utils import (
     _SUPPRESS_INSTRUMENTATION_KEY,
     http_status_to_status_code,
 )
@@ -102,7 +102,7 @@ from opentelemetry.semconv.metrics import MetricInstruments
 from opentelemetry.semconv.trace import SpanAttributes
 from opentelemetry.trace import Span, SpanKind, get_tracer
 from opentelemetry.trace.status import Status
-from opentelemetry.util.http import (
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.util.http import (
     ExcludeList,
     get_excluded_urls,
     parse_excluded_urls,

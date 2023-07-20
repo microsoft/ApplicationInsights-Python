@@ -21,11 +21,11 @@ import sys
 
 import pkg_resources
 
-from opentelemetry.instrumentation.bootstrap_gen import (
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.bootstrap_gen import (
     default_instrumentations,
     libraries,
 )
-from opentelemetry.instrumentation.version import __version__
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.version import __version__
 
 logger = logging.getLogger(__name__)
 

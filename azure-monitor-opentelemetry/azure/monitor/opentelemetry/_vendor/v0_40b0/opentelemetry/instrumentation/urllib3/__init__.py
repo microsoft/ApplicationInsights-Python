@@ -21,7 +21,7 @@ Usage
 .. code-block:: python
 
     import urllib3
-    from opentelemetry.instrumentation.urllib3 import URLLib3Instrumentor
+    from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.urllib3 import URLLib3Instrumentor
 
     def strip_query_params(url: str) -> str:
         return url.split("?")[0]
@@ -92,10 +92,10 @@ from opentelemetry import context
 
 # FIXME: fix the importing of this private attribute when the location of the _SUPPRESS_HTTP_INSTRUMENTATION_KEY is defined.
 from opentelemetry.context import _SUPPRESS_HTTP_INSTRUMENTATION_KEY
-from opentelemetry.instrumentation.instrumentor import BaseInstrumentor
-from opentelemetry.instrumentation.urllib3.package import _instruments
-from opentelemetry.instrumentation.urllib3.version import __version__
-from opentelemetry.instrumentation.utils import (
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.instrumentor import BaseInstrumentor
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.urllib3.package import _instruments
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.urllib3.version import __version__
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.utils import (
     _SUPPRESS_INSTRUMENTATION_KEY,
     http_status_to_status_code,
     unwrap,
@@ -106,12 +106,12 @@ from opentelemetry.semconv.metrics import MetricInstruments
 from opentelemetry.semconv.trace import SpanAttributes
 from opentelemetry.trace import Span, SpanKind, Tracer, get_tracer
 from opentelemetry.trace.status import Status
-from opentelemetry.util.http import (
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.util.http import (
     ExcludeList,
     get_excluded_urls,
     parse_excluded_urls,
 )
-from opentelemetry.util.http.httplib import set_ip_on_next_http_connection
+from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.util.http.httplib import set_ip_on_next_http_connection
 
 _excluded_urls_from_env = get_excluded_urls("URLLIB3")
 
