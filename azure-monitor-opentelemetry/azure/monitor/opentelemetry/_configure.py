@@ -52,7 +52,7 @@ _SUPPORTED_INSTRUMENTED_LIBRARIES_DEPENDENCIES_MAP = {
     "psycopg2": ("psycopg2 >= 2.7.3.1",),
     "requests": ("requests ~= 2.0",),
     "urllib": tuple(),
-    "urllib3": ("urllib3 >= 1.0.0, < 2.0.0",),
+    "urllib3": ("urllib3 >= 1.0.0, < 3.0.0",),
 }
 
 
