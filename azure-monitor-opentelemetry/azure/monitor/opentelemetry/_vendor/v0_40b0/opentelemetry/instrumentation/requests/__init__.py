@@ -12,41 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
-This library allows tracing HTTP requests made by the
-`requests <https://requests.readthedocs.io/en/master/>`_ library.
-
-Usage
------
-
-.. code-block:: python
-
-    import requests
-    from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.requests import RequestsInstrumentor
-
-    # You can optionally pass a custom TracerProvider to instrument().
-    RequestsInstrumentor().instrument()
-    response = requests.get(url="https://www.example.org/")
-
-Configuration
--------------
-
-Exclude lists
-*************
-To exclude certain URLs from being tracked, set the environment variable ``OTEL_PYTHON_REQUESTS_EXCLUDED_URLS``
-(or ``OTEL_PYTHON_EXCLUDED_URLS`` as fallback) with comma delimited regexes representing which URLs to exclude.
-
-For example,
-
-::
-
-    export OTEL_PYTHON_REQUESTS_EXCLUDED_URLS="client/.*/info,healthcheck"
-
-will exclude requests such as ``https://site/client/123/info`` and ``https://site/xyz/healthcheck``.
-
-API
----
-"""
 
 import functools
 import types

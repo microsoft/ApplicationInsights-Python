@@ -12,30 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""
-The trace integration with Database API supports libraries that follow the
-Python Database API Specification v2.0.
-`<https://www.python.org/dev/peps/pep-0249/>`_
-
-Usage
------
-
-.. code-block:: python
-
-    import mysql.connector
-    import pyodbc
-
-    from azure.monitor.opentelemetry._vendor.v0_40b0.opentelemetry.instrumentation.dbapi import trace_integration
-
-
-    # Ex: mysql.connector
-    trace_integration(mysql.connector, "connect", "mysql")
-    # Ex: pyodbc
-    trace_integration(pyodbc, "Connection", "odbc")
-
-API
----
-"""
 
 import functools
 import logging
