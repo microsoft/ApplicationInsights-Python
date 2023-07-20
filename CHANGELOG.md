@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Update vendored instrumentations to 0.40b0
+    ([#309](https://github.com/microsoft/ApplicationInsights-Python/pull/309))
+
 ## [1.0.0b15](https://github.com/microsoft/ApplicationInsights-Python/releases/tag/v1.0.0b15) - 2023-07-17
 
 - Upgrade to exporter 1.0.0b15 and OTel 1.19
