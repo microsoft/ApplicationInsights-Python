@@ -85,7 +85,7 @@ setup(
     python_requires=">=3.7",
     install_requires=[
         "azure-core-tracing-opentelemetry~=1.0.0b10",
-        "azure-monitor-opentelemetry-exporter>=1.0.0b15",
+        "azure-monitor-opentelemetry-exporter~=1.0.0b15",
         "opentelemetry-api~=1.19.0",
         "opentelemetry-sdk~=1.19.0",
         "wrapt >= 1.0.0, < 2.0.0",
