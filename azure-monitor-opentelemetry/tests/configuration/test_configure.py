@@ -277,7 +277,9 @@ class TestConfigure(unittest.TestCase):
         set_logger_provider_mock.assert_called_once_with(lp_init_mock)
         get_logger_provider_mock.assert_called()
         log_exporter_mock.assert_called_once_with(**configurations)
-        blrp_mock.assert_called_once_with(log_exp_init_mock,)
+        blrp_mock.assert_called_once_with(
+            log_exp_init_mock,
+        )
         lp_init_mock.add_log_record_processor.assert_called_once_with(
             blrp_init_mock
         )
