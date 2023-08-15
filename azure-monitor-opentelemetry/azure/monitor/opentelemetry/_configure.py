@@ -14,7 +14,6 @@ from azure.monitor.opentelemetry._constants import (
     DISABLE_METRICS_ARG,
     DISABLE_TRACING_ARG,
     DISABLED_INSTRUMENTATIONS_ARG,
-    LOGGING_EXPORT_INTERVAL_MS_ARG,
     SAMPLING_RATIO_ARG,
 )
 from azure.monitor.opentelemetry._types import ConfigurationValue
