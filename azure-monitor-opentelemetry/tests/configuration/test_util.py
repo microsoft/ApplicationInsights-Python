@@ -19,7 +19,6 @@ from azure.monitor.opentelemetry._vendor.v0_39b0.opentelemetry.instrumentation.e
     OTEL_PYTHON_DISABLED_INSTRUMENTATIONS,
 )
 from azure.monitor.opentelemetry.util.configurations import (
-    LOGGING_EXPORT_INTERVAL_MS_ENV_VAR,
     SAMPLING_RATIO_ENV_VAR,
     _get_configurations,
 )
@@ -66,18 +65,7 @@ class TestUtil(TestCase):
     @patch.dict(
         "os.environ",
         {
-            LOGGING_EXPORT_INTERVAL_MS_ENV_VAR: "-1",
-        },
-        clear=True,
-    )
-    def test_get_configurations_logging_export_validation(self):
-        self.assertRaises(ValueError, _get_configurations)
-
-    @patch.dict(
-        "os.environ",
-        {
             OTEL_PYTHON_DISABLED_INSTRUMENTATIONS: "flask , requests,fastapi",
-            LOGGING_EXPORT_INTERVAL_MS_ENV_VAR: "10000",
             SAMPLING_RATIO_ENV_VAR: "0.5",
             OTEL_TRACES_EXPORTER: "None",
             OTEL_LOGS_EXPORTER: "none",
@@ -98,12 +86,10 @@ class TestUtil(TestCase):
             ["flask", "requests", "fastapi"],
         )
         self.assertEqual(configurations["sampling_ratio"], 0.5)
-        self.assertEqual(configurations["logging_export_interval_ms"], 10000)
 
     @patch.dict(
         "os.environ",
         {
-            LOGGING_EXPORT_INTERVAL_MS_ENV_VAR: "Ten Thousand",
             SAMPLING_RATIO_ENV_VAR: "Half",
             OTEL_TRACES_EXPORTER: "False",
             OTEL_LOGS_EXPORTER: "no",
@@ -120,4 +106,3 @@ class TestUtil(TestCase):
         self.assertEqual(configurations["disable_metrics"], False)
         self.assertEqual(configurations["disable_tracing"], False)
         self.assertEqual(configurations["sampling_ratio"], 1.0)
-        self.assertEqual(configurations["logging_export_interval_ms"], 5000)
