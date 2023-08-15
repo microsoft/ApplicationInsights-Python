@@ -43,7 +43,6 @@ class TestUtil(TestCase):
         self.assertEqual(configurations["disable_tracing"], False)
         self.assertEqual(configurations["disabled_instrumentations"], [])
         self.assertEqual(configurations["sampling_ratio"], 1.0)
-        self.assertEqual(configurations["logging_export_interval_ms"], 5000)
         self.assertEqual(configurations["credential"], ("test_credential"))
         self.assertTrue("storage_directory" not in configurations)
 
@@ -58,7 +57,6 @@ class TestUtil(TestCase):
         self.assertEqual(configurations["disable_tracing"], False)
         self.assertEqual(configurations["disabled_instrumentations"], [])
         self.assertEqual(configurations["sampling_ratio"], 1.0)
-        self.assertEqual(configurations["logging_export_interval_ms"], 5000)
         self.assertTrue("credential" not in configurations)
         self.assertTrue("storage_directory" not in configurations)
 

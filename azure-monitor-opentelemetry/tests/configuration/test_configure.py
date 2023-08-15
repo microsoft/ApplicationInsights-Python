@@ -270,7 +270,6 @@ class TestConfigure(unittest.TestCase):
 
         configurations = {
             "connection_string": "test_cs",
-            "logging_export_interval_ms": 10000,
         }
         _setup_logging(configurations)
 
