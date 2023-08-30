@@ -3,13 +3,15 @@
 # Licensed under the MIT License. See License in the project root for
 # license information.
 # --------------------------------------------------------------------------
-import flask
 from azure.monitor.opentelemetry import configure_azure_monitor
 
 # Configure Azure monitor collection telemetry pipeline
 configure_azure_monitor()
 
-app = flask.Flask(__name__)
+# Import Flask after running configure_azure_monitor()
+from flask import Flask
+
+app = Flask(__name__)
 
 
 # Requests sent to the flask application will be automatically captured
