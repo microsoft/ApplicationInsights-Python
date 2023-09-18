@@ -1,11 +1,10 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
-from typing import Dict, Optional
 from logging import LogRecord, getLogger, INFO
+from typing import Dict, Optional
 
 from opentelemetry.sdk._logs import LoggingHandler
 from opentelemetry.util.types import Attributes
-
 
 _APPLICATION_INSIGHTS_EVENT_MARKER_ATTRIBUTE = (
     "APPLICATION_INSIGHTS_EVENT_MARKER_ATTRIBUTE"
