@@ -10,6 +10,6 @@ configure_azure_monitor()
 
 # Use the track_event() api to send custom event telemetry
 # Takes event name and custom dimensions
-track_event("Test event", {"key1":"value1", "key2":"value2"})
+track_event("Test event", {"key1": "value1", "key2": "value2"})
 
 input()

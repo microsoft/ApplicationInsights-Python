@@ -31,9 +31,7 @@ if not version:
 setup(
     name=PACKAGE_NAME,
     version=version,
-    description="Microsoft {} for Python".format(
-        PACKAGE_PPRINT_NAME
-    ),
+    description="Microsoft {} for Python".format(PACKAGE_PPRINT_NAME),
     long_description=open("README.md", "r").read(),
     long_description_content_type="text/markdown",
     license="MIT License",
