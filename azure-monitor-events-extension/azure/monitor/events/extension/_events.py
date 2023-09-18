@@ -1,6 +1,6 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
-from logging import LogRecord, getLogger, INFO
+from logging import INFO, LogRecord, getLogger
 from typing import Dict, Optional
 
 from opentelemetry.sdk._logs import LoggingHandler
