@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Support for Python 3.12
+    ([#318](https://github.com/microsoft/ApplicationInsights-Python/pull/318))
 - Unpin OTel SDK/API version
     ([#310](https://github.com/microsoft/ApplicationInsights-Python/pull/310))
 - Replace explicit log processor exporter interval env var with OT SDK env var
