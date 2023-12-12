@@ -5,7 +5,7 @@ This distro automatically installs the following libraries:
 
 ## Install the package
 
-Install the `Azure Monitor OpenTelemetry Distro` and `Azure Monitor Events Extension` with [pip][pip]:
+Install the `Azure Monitor OpenTelemetry Distro` and `Azure Monitor Events Extension`:
 
 ```Bash
 pip install azure-monitor-opentelemetry
