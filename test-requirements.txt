@@ -1,7 +1,1 @@
 pytest
-django
-fastapi
-flask
-psycopg2
-requests
-urllib3
